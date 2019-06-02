@@ -16,11 +16,14 @@ bl_info = {
     "category": "Node",
     }
 
-#---------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # MODULES IMPORT
-#---------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+
 try:
     print( 'import vtk begin, please wait')
+    import sys
+    sys.path.append("/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages")
     import vtk
     #from .vtk_patch import vtk
     print( 'import vtk done')
