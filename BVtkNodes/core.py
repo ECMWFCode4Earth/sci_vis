@@ -137,6 +137,21 @@ def check_cache():
                 if get_vtkobj(n) == None or n.node_id == 0:
                     node_created(n)
 
+# ---------------------------------------------------------------------------------
+# Add-on preferences
+# ---------------------------------------------------------------------------------
+
+
+class VTKAddonPreferences(bpy.types.AddonPreferences):
+    # this must match the addon name, use '__package__'
+    # when defining this in a submodule of a python package.
+    bl_idname = __package__
+
+    verbose = bpy.props.BoolProperty(default=True)
+
+    def draw(self, context):
+        layout = self.layout
+        layout.prop(self, "verbose", text="Verbose mode")
 
 # ---------------------------------------------------------------------------------
 # VTKTree
@@ -339,7 +354,7 @@ UI_CLASSES = []
 
 
 def add_class(obj):
-    CLASSES[obj.bl_idname]=obj
+    CLASSES[obj.bl_idname] = obj
 
 
 def add_ui_class(obj):
@@ -357,6 +372,7 @@ def check_b_properties():
 
 
 add_class(VTKTree)
+add_class(VTKAddonPreferences)
 add_class(VTKSocket)
 add_ui_class(VTKNodeWrite)
 
@@ -440,3 +456,15 @@ def node_path(node):
 
 def node_prop_path(node, propname):
     return node_path(node)+'.'+propname
+
+
+def addon_pref(pref_name):
+    pref = bpy.context.user_preferences.addons[__package__].preferences
+    if hasattr(pref, pref_name):
+        return getattr(pref, pref_name)
+    return None
+
+
+def verbose(to_print):
+    if addon_pref("verbose"):
+        print(to_print)
