@@ -4,10 +4,12 @@ import bmesh
 TYPENAMES = []
 
 # ----------------------------------------------------------------
+
+
 class VTK2Blender(Node, VTKNode):
 
-    bl_idname = 'VTK2BlenderType' # type name
-    bl_label  = 'ToBlender'       # label for nice name display
+    bl_idname = 'VTK2BlenderType'  # type name
+    bl_label = 'ToBlender'        # label for nice name display
 
     def start_scan(self, context):
         if context:
@@ -30,7 +32,7 @@ class VTK2Blender(Node, VTKNode):
         layout.prop(self, 'm_Name')
         layout.prop(self, 'auto_update', text='Auto update')
         layout.prop(self, 'smooth', text='Smooth')
-        #layout.box().prop(self, "auto_center", text='auto center', expand=True)
+        # layout.box().prop(self, "auto_center", text='auto center', expand=True)
         layout.separator()
         layout.operator("node.update", text="update").node_path = node_path(self)
 
@@ -202,6 +204,16 @@ add_ui_class(VTKAutoUpdateScan)
 # ---------------------------------------------------------------------------------
 
 
+def cut_excess(original_seq, new_len):
+    # Takes a blender BMElemSeq (basically an array)
+    # and removes all items that exceed the new length
+    original_len = len(original_seq)
+    if original_len > new_len:
+        for i, el in enumerate(original_seq):
+            if i > (new_len-1):
+                original_seq.remove(el)
+
+
 def vtkdata_to_blender(data, name, ramp=None, smooth=False):
     """ convert the given vtkdata
     creating or overwriting a blender object named 'name' """
@@ -216,23 +228,56 @@ def vtkdata_to_blender(data, name, ramp=None, smooth=False):
         bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
     err = 0
     bm = bmesh.new()
-    # bm.from_mesh(me) # fill it in from a Mesh
-
-    # set vertices and faces:
+    bm.from_mesh(me)  # fill it in from a Mesh
+    # Create vertices
     data_p = data.GetPoints()
-    verts = [bm.verts.new(data_p.GetPoint(i)) for i in range(data.GetNumberOfPoints())]
+    bm.verts.ensure_lookup_table()
+    verts = []
+    verbose("Creating vertices")
+    for i in range(data.GetNumberOfPoints()):
+        if i < len(bm.verts):
+            bm.verts[i].co = data_p.GetPoint(i)
+            vert = bm.verts[i]
+        else:
+            vert = bm.verts.new(data_p.GetPoint(i))
+        verts.append(vert)
+    # Remove surplus vertices
+    verbose("Removing surplus vertices")
+    cut_excess(bm.verts, data.GetNumberOfPoints())
+    # Creating faces and edges
+    bm.faces.ensure_lookup_table()
+    verbose("Creating faces")
     for i in range(data.GetNumberOfCells()):
         data_pi = data.GetCell(i).GetPointIds()
         try:
-            # it complains if a face is already existing
             face_verts = [verts[data_pi.GetId(x)] for x in range(data_pi.GetNumberOfIds())]
             if len(face_verts) == 2:
-                e = bm.edges.new(face_verts)
+                e = bm.edges.get(face_verts)
+                if not e:
+                    e = bm.edges.new(face_verts)
+                e.index = -10
             else:
-                f = bm.faces.new(face_verts)
-                f.smooth = smooth
+                f = bm.faces.get(face_verts)
+                if not f:
+                    f = bm.faces.new(face_verts)
+                    f.smooth = smooth
+                f.index = -10
+                for e in f.edges:
+                    e.index = -10
         except:
             err += 1
+    # Removing surplus faces and edges
+    verbose("Removing excess faces")
+    for f in bm.faces:
+        if f.index == -10:
+            continue
+        bm.faces.remove(f)
+    verbose("Removing excess edges")
+    for e in bm.edges:
+        if e.index == -10:
+            continue
+        bm.edges.remove(e)
+
     if err:
         print('num err', err)
 
@@ -354,10 +399,10 @@ def face_unwrap(bm, data, array_index, Range):
     return bm
 
 
-def point_unwrap(bm, data, array_index, Range):
-    scalars=data.GetPointData().GetArray(array_index)
+def point_unwrap(bm, data, array_index, range):
+    scalars = data.GetPointData().GetArray(array_index)
     if scalars is not None:
-        min, max = Range
+        min, max = range
         if max == min:
             print("can't unwrap -- values are constant -- range(",min,",",max,")!")
             return bm
