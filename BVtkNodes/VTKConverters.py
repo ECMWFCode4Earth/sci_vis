@@ -38,14 +38,15 @@ class VTK2Blender(Node, VTKNode):
 
     def update_cb(self):
         input_node, vtkobj = self.get_input_node('input')
-        ramp = None
-        if input_node and input_node.bl_idname == 'VTKColorMapperType':
-            ramp = input_node
-            ramp.update()    # setting auto range
+        color_node = None
+        if input_node and (input_node.bl_idname == 'VTKColorMapperType' or
+                           input_node.bl_idname == 'VTKColorToImageType'):
+            color_node = input_node
+            color_node.update()    # setting auto range
             input_node, vtkobj = input_node.get_input_node('input')
         if vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
-            vtkdata_to_blender(vtkobj, self.m_Name, ramp, self.smooth)
+            vtkdata_to_blender(vtkobj, self.m_Name, color_node, self.smooth)
             update_3d_view()
 
     def apply_properties(self, vtkobj):
@@ -214,7 +215,7 @@ def cut_excess(original_seq, new_len):
                 original_seq.remove(el)
 
 
-def vtkdata_to_blender(data, name, ramp=None, smooth=False):
+def vtkdata_to_blender(data, name, color_node=None, smooth=False):
     """ convert the given vtkdata
     creating or overwriting a blender object named 'name' """
     if not data:
@@ -292,24 +293,9 @@ def vtkdata_to_blender(data, name, ramp=None, smooth=False):
         for i in range(len(verts)):
             verts[i].normal = point_normals.GetTuple(i)
 
-    # set colors and lut
-    if ramp and ramp.color_by:
-        texture = ramp.get_texture()
-        if ramp.texture_type == 'IMAGE':
-            img = image_from_ramp(texture.color_ramp, texture.name+'IMAGE', 1000)
-            texture = get_item(bpy.data.textures, texture.name+'IMAGE', 'IMAGE')
-            texture.image = img
-        texture_material(me, 'VTK'+name, texture)
-        color_by = ramp.color_by
-        Range = (ramp.min, ramp.max)
-        if ramp.lut:
-            create_lut(name, Range, 6, texture, font=ramp.font, h=ramp.height)
-        bm.verts.index_update()
-        bm.faces.index_update()
-        if color_by[0] == 'P':
-            bm = point_unwrap(bm, data, int(color_by[1:]), Range)
-        else:
-            bm = face_unwrap(bm, data, int(color_by[1:]), Range)
+    # apply colors and create lut
+    if color_node:
+        bm = apply_colors(color_node, bm, me, data)
 
     bm.to_mesh(me)  # store bmesh to mesh
 
@@ -349,6 +335,39 @@ def get_object(name, data):
     set_link(bpy.context.scene.objects, ob)
     return ob
 
+# ---------------------------------------------------------------------------------
+# Colors
+# ---------------------------------------------------------------------------------
+
+
+def apply_colors(color_node, bm, me, data):
+    if color_node.color_by:
+        texture = color_node.get_texture()
+        color_by = color_node.color_by
+        uv_layer = ""
+        if color_node.bl_idname == 'VTKColorToImageType':  # todo: move color logic inside node classes
+            img = color_node.image
+            uv_layer = color_node.uv_layer
+            if not img:
+                print("Image not selected in {} node".format(color_node.name))
+            else:
+                ramp_to_image(texture.color_ramp, image=img)
+        else:
+            if color_node.texture_type == 'IMAGE':
+                img = ramp_to_image(texture.color_ramp, name=texture.name + 'IMAGE')
+                texture = get_item(bpy.data.textures, texture.name + 'IMAGE', 'IMAGE')
+                texture.image = img
+            texture_material(me, 'VTK' + me.name, texture)
+
+        s_range = (color_node.min, color_node.max)
+        if color_node.lut:
+            create_lut(me.name, s_range, 6, texture, font=color_node.font, h=color_node.height)
+        if color_by[0] == 'P':
+            bm = point_unwrap(bm, data, int(color_by[1:]), s_range, uv_layer)
+        else:
+            bm = face_unwrap(bm, data, int(color_by[1:]), s_range, uv_layer)
+    return bm
+
 
 def texture_material(me, name, texture = None, texturetype = 'IMAGE'):
     """ method gets/creates a material and link to it the given texture,
@@ -364,7 +383,7 @@ def texture_material(me, name, texture = None, texturetype = 'IMAGE'):
         if ts:
             ts.use = False
     if texture.name not in mat.texture_slots:
-        ts=mat.texture_slots.add()
+        ts = mat.texture_slots.add()
         ts.texture = texture
         ts.texture_coords = 'UV'
     else:
@@ -372,41 +391,52 @@ def texture_material(me, name, texture = None, texturetype = 'IMAGE'):
     ts.use = True
     return texture, mat
 
-def image_from_ramp(ramp, name, l):
-    """ takes a color ramp and creates a blender image 1 pixel
-    tall and l pixels wide
-    """
-    img = get_item(bpy.data.images, name, l, 1)
+
+def ramp_to_image(ramp, name=None, image=None, w=1000, h=1):
+    """ takes a color ramp and creates a blender image h pixel tall
+    and w pixels wide. """
+    if not image:
+        image = get_item(bpy.data.images, name, w, h)
+    else:
+        w = image.generated_width
+        h = image.generated_height
     p = []
-    for j in range(l):
-        p.extend(ramp.evaluate(j/l))
-    img.pixels = p
-    return img
+    for y in range(h):
+        for x in range(w):
+            p.extend(ramp.evaluate(x/w))
+    image.pixels = p
+    return image
 
 
-def face_unwrap(bm, data, array_index, Range):
-    scalars=data.GetCellData().GetArray(array_index)
+def face_unwrap(bm, data, array_index, s_range, uv_layer_key=""):
+    scalars = data.GetCellData().GetArray(array_index)
     if scalars is not None:
-        min, max = Range
-        if max==min:
-            print("can't unwrap -- values are constant -- range(",min,",",max,")!")
+        min, max = s_range
+        if max == min:
+            print("Can't unwrap, values are constant: range({},{})!".format(min, max))
             return bm
-        uv_layer = bm.loops.layers.uv.verify()
+        uv_layer = bm.loops.layers.uv.get(uv_layer_key)
+        if not uv_layer:
+            uv_layer = bm.loops.layers.uv.verify()
+        bm.faces.index_update()
         for face in bm.faces:
             for loop in face.loops:
-                v=(scalars.GetValue(face.index)-min)/(max-min)
+                v = (scalars.GetValue(face.index)-min)/(max-min)
                 loop[uv_layer].uv = (v, 0.5)
     return bm
 
 
-def point_unwrap(bm, data, array_index, range):
+def point_unwrap(bm, data, array_index, s_range, uv_layer_key=""):
     scalars = data.GetPointData().GetArray(array_index)
     if scalars is not None:
-        min, max = range
+        min, max = s_range
         if max == min:
-            print("can't unwrap -- values are constant -- range(",min,",",max,")!")
+            print("Can't unwrap, values are constant: range({},{})!".format(min, max))
             return bm
-        uv_layer = bm.loops.layers.uv.verify()
+        uv_layer = bm.loops.layers.uv.get(uv_layer_key)
+        if not uv_layer:
+            uv_layer = bm.loops.layers.uv.verify()
+        bm.verts.index_update()
         for face in bm.faces:
             for loop in face.loops:
                 v = (scalars.GetValue(loop.vert.index)-min)/(max-min)
