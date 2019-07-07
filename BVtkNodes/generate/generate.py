@@ -91,7 +91,7 @@ def get_classes( group ):
 
 
 
-node_template = '''from .core import *    
+node_template = """from .core import *    
 TYPENAMES = []
 {% for C in CLASSES %}
 #--------------------------------------------------------------
@@ -116,7 +116,7 @@ TYPENAMES.append('VTK{{C.NAME}}Type' )
 #--------------------------------------------------------------
 menu_items = [ NodeItem(x) for x in TYPENAMES ]
 CATEGORIES.append( VTKNodeCategory( '{{MENU}}', '{{MENU}}', items=menu_items) )
-'''
+"""
 template = Template(node_template)
 
 

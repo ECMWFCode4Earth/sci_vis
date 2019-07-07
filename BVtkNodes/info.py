@@ -1,12 +1,11 @@
-from  .core import *
-TYPENAMES = []
+from .utils import resolve_algorithm_output, node_path, log
+from .core import *
 
 
-# ----------------------------------------------------------------
-class VTKInfoNode(Node, VTKNode):
-
-    bl_idname = 'VTKInfoNodeType'
-    bl_label  = 'Info'
+class BVTK_NT_Info(Node, BVTK_Node):
+    """BVTK Info Node"""
+    bl_idname = 'BVTK_NT_Info'
+    bl_label = 'Info'
 
     def m_properties(self):
         return []
@@ -15,9 +14,14 @@ class VTKInfoNode(Node, VTKNode):
         return (['input'],[],[],['output'])
 
     def update_cb(self):
-        print('tree updated')
+        log.debug('tree updated')
+
+    def setup(self):
+        # Make info node wider to show all text
+        self.width = 300
 
     def draw_buttons(self, context, layout):
+        fs="{:.5g}" # Format string
         in_node, vtkobj = self.get_input_node('input')
         if not in_node:
             layout.label('Connect a node')
@@ -28,22 +32,25 @@ class VTKInfoNode(Node, VTKNode):
             if not vtkobj:
                 return
 
-            layout.label(vtkobj.__class__.__name__)
+            layout.label(text='Type: ' + vtkobj.__class__.__name__)
 
-            layout.label('num pts: ' + str(vtkobj.GetNumberOfPoints()))
+            layout.label(text='Points: ' + str(vtkobj.GetNumberOfPoints()))
             if hasattr(vtkobj, 'GetNumberOfCells'):
-                layout.label('num cells: ' + str(vtkobj.GetNumberOfCells()))
+                layout.label(text='Cells: ' + str(vtkobj.GetNumberOfCells()))
             if hasattr(vtkobj, 'GetBounds'):
-                layout.label('x range: ' + str(vtkobj.GetBounds()[0])+' - '+str(vtkobj.GetBounds()[1]))
-                layout.label('y range: ' + str(vtkobj.GetBounds()[2])+' - '+str(vtkobj.GetBounds()[3]))
-                layout.label('z range: ' + str(vtkobj.GetBounds()[4])+' - '+str(vtkobj.GetBounds()[5]))
+                layout.label(text='X range: ' + fs.format(vtkobj.GetBounds()[0]) +
+                             ' - ' + fs.format(vtkobj.GetBounds()[1]))
+                layout.label(text='Y range: ' + fs.format(vtkobj.GetBounds()[2]) +
+                             ' - ' + fs.format(vtkobj.GetBounds()[3]))
+                layout.label(text='Z range: ' + fs.format(vtkobj.GetBounds()[4]) +
+                             ' - ' + fs.format(vtkobj.GetBounds()[5]))
             data = {}
             if hasattr(vtkobj, 'GetPointData'):
-                data['Point data'] = vtkobj.GetPointData()
+                data['Point data '] = vtkobj.GetPointData()
             if hasattr(vtkobj, 'GetCellData'):
-                data['Cell data'] = vtkobj.GetCellData()
+                data['Cell data '] = vtkobj.GetCellData()
             if hasattr(vtkobj, 'GetFieldData'):
-                data['Field data'] = vtkobj.GetFieldData()
+                data['Field data '] = vtkobj.GetFieldData()
             for k in data:
                 d = data[k]
                 for i in range(d.GetNumberOfArrays()):
@@ -51,7 +58,8 @@ class VTKInfoNode(Node, VTKNode):
                     r = arr.GetRange()
                     name = arr.GetName()
                     row = layout.row()
-                    row.label(k+':'+str(i)+': '+name+' max:'+str(r[0])+' min:'+str(r[1]))
+                    row.label(text = k + '[' + str(i) + ']: \'' + name + '\': '
+                              + fs.format(r[0]) + ' - ' + fs.format(r[1]))
 
         layout.separator()
         row = layout.row()
@@ -59,7 +67,7 @@ class VTKInfoNode(Node, VTKNode):
         row.separator()
         row.separator()
         row.separator()
-        row.operator("node.update", text="update").node_path = node_path(self)
+        row.operator("bvtk.node_update", text="update").node_path = node_path(self)
         row.separator()
         row.separator()
         row.separator()
@@ -71,9 +79,10 @@ class VTKInfoNode(Node, VTKNode):
     def get_output(self, socketname):
         return self.get_input_node('input')[1]
 
-add_class(VTKInfoNode)
-TYPENAMES.append('VTKInfoNodeType')
-# ----------------------------------------------------------------
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append( VTKNodeCategory("debug", "debug", items=menu_items) )
-# ----------------------------------------------------------------
+
+TYPENAMES = []
+add_class(BVTK_NT_Info)
+TYPENAMES.append('BVTK_NT_Info')
+
+menu_items = [NodeItem(x) for x in TYPENAMES]
+CATEGORIES.append(BVTK_NodeCategory("Debug", "Debug", items=menu_items))

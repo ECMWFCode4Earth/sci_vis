@@ -1,12 +1,22 @@
-from  .core import *
-TYPENAMES = []
+# -----------------------------------------------------------------------------
+# Color map nodes and functions
+# -----------------------------------------------------------------------------
+from .utils import resolve_algorithm_output
+from .core import *
 
 
-def default_texture(name):
-    """ create and return a new texture """
-    tex_name = name
-    tex = bpy.data.textures.new(tex_name, 'BLEND')
+def get_default_texture(name):
+    """Create and return a new color ramp BLEND type brush texture"""
+    if name not in bpy.data.textures:
+        tex = bpy.data.textures.new(name, 'BLEND')
+    else:
+        tex = bpy.data.textures[name]
     tex.use_color_ramp = True
+
+    # Force saving of blend texture, so that ramp is correct when
+    # blend file is loaded. TODO: Is there better way to fix this?
+    tex.use_fake_user = True
+
     elements = tex.color_ramp.elements
     elements[0].color = (10 / 255, 10 / 255, 180 / 255, 1)
     elements[0].position = 0.05
@@ -20,13 +30,11 @@ def default_texture(name):
     e.color = (243 / 255, 148 / 255, 117 / 255, 1)
     return tex
 
-# ----------------------------------------------------------------
 
-
-class VTKColorMapper(Node, VTKNode):
-
-    bl_idname = 'VTKColorMapperType'
-    bl_label  = 'ColorMapper'
+class BVTK_NT_ColorMapper(Node, BVTK_Node):
+    """BVTK Color Mapper Node"""
+    bl_idname = 'BVTK_NT_ColorMapper'
+    bl_label = 'Color Mapper'
 
     def array_change(self, context):
         vtkobj = self.get_input_node('input')[1]
@@ -82,7 +90,7 @@ class VTKColorMapper(Node, VTKNode):
         return (['input'],[],[],['output'])
 
     def setup(self):
-        self.inputs.new('VTKSocketType', 'lookuptable')
+        self.inputs.new('BVTK_NS_Standard', 'lookuptable')
 
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
@@ -96,7 +104,7 @@ class VTKColorMapper(Node, VTKNode):
         if self.default_texture:
             if self.default_texture in bpy.data.textures:
                 return bpy.data.textures[self.default_texture]
-        new_texture = default_texture(self.name)
+        new_texture = get_default_texture(self.name)
         self.default_texture = new_texture.name
         return new_texture
 
@@ -131,12 +139,10 @@ class VTKColorMapper(Node, VTKNode):
                 layout.label('Input has no associated data (try updating)')
 
 
-add_class(VTKColorMapper)
-TYPENAMES.append('VTKColorMapperType')
 # ----------------------------------------------------------------
 
 
-class VTKColorToImage(Node, VTKNode):
+class BVTK_NT_ColorToImage(Node, BVTK_Node):
     """ This node creates a color ramp using an image selected by the user
     and unwraps the mesh using a specific UV map, also selected by the user.
     The difference with the normal colorMapper node is that this doesn't
@@ -144,7 +150,7 @@ class VTKColorToImage(Node, VTKNode):
     cycles, where you can use the color map image and uv as you like.
     """
 
-    bl_idname = 'VTKColorToImageType'
+    bl_idname = 'BVTK_NT_ColorToImage'
     bl_label = 'ColorToImage'
 
     def array_change(self, context):
@@ -198,10 +204,10 @@ class VTKColorToImage(Node, VTKNode):
                 'lut', 'min', 'max', 'height']
 
     def m_connections(self):
-        return (['input'],[],[],['output'])
+        return ['input'], [], [], ['output']
 
     def setup(self):
-        self.inputs.new('VTKSocketType', 'lookuptable')
+        self.inputs.new('BVTK_NS_Standard', 'lookuptable')
 
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
@@ -235,7 +241,7 @@ class VTKColorToImage(Node, VTKNode):
                 m_flag = False
                 for link in out_links:
                     node = link.to_node
-                    if node.bl_idname == 'VTK2BlenderType':
+                    if node.bl_idname == 'BVTK_NT_ToBlender':
                         flag = True
                         if self.mesh and node.m_Name == self.mesh.name:
                             m_flag = True
@@ -250,7 +256,7 @@ class VTKColorToImage(Node, VTKNode):
                 if self.mesh: box1.prop_search(self, "uv_layer", self.mesh, "uv_textures", text="")
                 if not m_flag and self.mesh:
                     box1.box().label("The selected mesh won't be unwrapped if it doesn't match "
-                                       "the ToBlender's mesh name", icon="QUESTION")
+                                     "the ToBlender's mesh name", icon="QUESTION")
                 layout.separator()
                 # Coloring layout
                 box1 = layout.box()
@@ -277,7 +283,7 @@ class VTKColorToImage(Node, VTKNode):
         if self.default_texture:
             if self.default_texture in bpy.data.textures:
                 return bpy.data.textures[self.default_texture]
-        new_texture = default_texture(self.name)
+        new_texture = get_default_texture(self.name)
         self.default_texture = new_texture.name
         return new_texture
 
@@ -287,16 +293,11 @@ class VTKColorToImage(Node, VTKNode):
     def get_output(self, socketname):
         return self.get_input_node('input')[1]
 
-add_class(VTKColorToImage)
-TYPENAMES.append('VTKColorToImageType')
 
-# ----------------------------------------------------------------
-
-
-class VTKColorMap(Node, VTKNode):
-
-    bl_idname = 'VTKColorMapType'  # type name
-    bl_label = 'ColorMap'          # label for nice name display
+class BVTK_NT_ColorRamp(Node, BVTK_Node):
+    """BVTK Color Ramp Node"""
+    bl_idname = 'BVTK_NT_ColorRamp'
+    bl_label = 'ColorRamp'
 
     my_texture = bpy.props.StringProperty()
 
@@ -307,7 +308,7 @@ class VTKColorMap(Node, VTKNode):
         return ([],[],[],['lookupTable'])
 
     def copy_setup(self, node):
-        new_texture = default_texture(self.name)
+        new_texture = get_default_texture(self.name)
         self.my_texture = new_texture.name
         old_texture = node.get_texture()
         if old_texture:
@@ -324,7 +325,7 @@ class VTKColorMap(Node, VTKNode):
                     e.color = new_el.color
 
     def setup(self):
-        new_texture = default_texture(self.name)
+        new_texture = get_default_texture(self.name)
         self.my_texture = new_texture.name
 
     def get_texture(self):
@@ -350,12 +351,11 @@ class VTKColorMap(Node, VTKNode):
         return lut
 
     def special_properties(self):
-        """ needed to make auto_update scanner notice
-         changes in the color ramp """
+        """Make auto_update scanner notice changes in the color ramp"""
         return self.export_properties()['elements']
 
     def export_properties(self):
-        """ called by export operator """
+        """Export colormap properties. Called by export operator"""
         t = self.get_texture()
         if t:
             elements = t.color_ramp.elements
@@ -365,7 +365,8 @@ class VTKColorMap(Node, VTKNode):
         return {'elements': e}
 
     def import_properties(self, dict):
-        """ called by import operator """
+        """Import colormap properties. Called by import operator"""
+        log.debug("importing colormap " + str(self.name))
         t = self.get_texture()
         new_elements = dict['elements']
         if t:
@@ -381,9 +382,14 @@ class VTKColorMap(Node, VTKNode):
                     e.color = new_el[0]
 
 
-add_class(VTKColorMap)
-TYPENAMES.append('VTKColorMapType')
-# ----------------------------------------------------------------
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append( VTKNodeCategory("color", "color", items=menu_items) )
-# ----------------------------------------------------------------
+# Add classes and menu items
+TYPENAMES = []
+add_class(BVTK_NT_ColorMapper)
+TYPENAMES.append('BVTK_NT_ColorMapper')
+add_class(BVTK_NT_ColorRamp)
+TYPENAMES.append('BVTK_NT_ColorRamp')
+add_class(BVTK_NT_ColorToImage)
+TYPENAMES.append('BVTK_NT_ColorToImage')
+
+menu_items = [NodeItem(x) for x in TYPENAMES]
+CATEGORIES.append(BVTK_NodeCategory("Colour", "Colour", items=menu_items))

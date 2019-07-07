@@ -2,13 +2,13 @@ from .core import *
 TYPENAMES = []
 
 #--------------------------------------------------------------
-class VTKRungeKutta2(Node, VTKNode):
+class VTKRungeKutta2(Node, BVTK_Node):
 
     bl_idname = 'VTKRungeKutta2Type'
     bl_label  = 'vtkRungeKutta2'
     
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return []
@@ -19,13 +19,13 @@ add_class( VTKRungeKutta2 )
 TYPENAMES.append('VTKRungeKutta2Type' )
 
 #--------------------------------------------------------------
-class VTKRungeKutta4(Node, VTKNode):
+class VTKRungeKutta4(Node, BVTK_Node):
 
     bl_idname = 'VTKRungeKutta4Type'
     bl_label  = 'vtkRungeKutta4'
     
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return []
@@ -36,13 +36,13 @@ add_class( VTKRungeKutta4 )
 TYPENAMES.append('VTKRungeKutta4Type' )
 
 #--------------------------------------------------------------
-class VTKRungeKutta45(Node, VTKNode):
+class VTKRungeKutta45(Node, BVTK_Node):
 
     bl_idname = 'VTKRungeKutta45Type'
     bl_label  = 'vtkRungeKutta45'
     
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return []
@@ -54,4 +54,4 @@ TYPENAMES.append('VTKRungeKutta45Type' )
 
 #--------------------------------------------------------------
 menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append( VTKNodeCategory( 'integrator', 'integrator', items=menu_items) )
+CATEGORIES.append( BVTK_NodeCategory( 'VTKIntegrator', 'Integrator', items=menu_items) )

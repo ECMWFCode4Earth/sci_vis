@@ -1,12 +1,12 @@
+from .utils import resolve_algorithm_output, log
 from .core import *
-TYPENAMES = []
 
-# ----------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Custom filter
-# ----------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
-class VTKCustomFilter(Node, VTKNode):
+class BVTK_NT_CustomFilter(Node, BVTK_Node):
     """# This file is used for vtk custom filter.
     # On update all of this file will be executed.
     # To the chosen function will be passed:
@@ -15,7 +15,7 @@ class VTKCustomFilter(Node, VTKNode):
     # Your function must return a variable which can be set as input of the
     # node following custom filter.
     """
-    bl_idname = 'VTKCustomFilterType'
+    bl_idname = 'BVTK_NT_CustomFilter'
     bl_label = 'CustomFilter'
 
     def texts(self, context):
@@ -27,7 +27,6 @@ class VTKCustomFilter(Node, VTKNode):
         if not t:
             t.append(('No texts found', 'No texts found', 'No texts found', 'TEXT', i))
         return t
-
 
     def functions(self, context=None):
         f = []
@@ -51,9 +50,15 @@ class VTKCustomFilter(Node, VTKNode):
     def draw_buttons(self, context, layout):
         row = layout.row(align=True)
         row.prop(self, 'text')
-        op = row.operator('vtk.new_text', icon='ZOOMIN', text='')
+        op = row.operator('bvtk.new_text', icon='ZOOMIN', text='')
         op.name = 'customfilter.py'
-        op.body = self.__doc__.replace("    ","")
+        op.body = ('# This file is used for vtk custom filter.'
+                   '# On update all of this file will be executed.'
+                   '# To the chosen function will be passed:'
+                   '# - A list of objects, if custom filter node has multiple links in input.'
+                   '# - A single object, if custom filter node has a single link in input.'
+                   '# Your function must return a variable which can be set as input of the'
+                   '# node following custom filter.')
         if len(self.functions()):
             layout.prop(self, 'func')
         else:
@@ -66,10 +71,9 @@ class VTKCustomFilter(Node, VTKNode):
         pass
 
     def get_output(self, socketname):
-        """ execute user defined function.
-         If something goes wrong print the error and
-        return the input object.
-         """
+        """Execute user defined function. If something goes wrong,
+        print the error and return the input object.
+        """
         input_objects = [x[1] for x in self.get_input_nodes('input')]
         if len(input_objects) == 1:
             input_objects = input_objects[0]
@@ -78,24 +82,24 @@ class VTKCustomFilter(Node, VTKNode):
             try:
                 exec(t, globals(), locals())
             except Exception as e:
-                print('VTKCustomFilter - error while parsing user defined text:',
-                      str(e).replace('<string>', self.text))
+                log.error('error while parsing user defined text: ' +
+                          str(e).replace('<string>', self.text))
                 return self.get_input_node('input')[1]
             if self.func not in locals():
-                print('VTKCustomFilter - function not found')
+                log.error('function not found')
             else:
                 try:
                     user_output = eval(self.func+'(input_objects)')
                     return user_output
                 except Exception as e:
-                    print('VTKCustomFilter - error while executing user defined function:',str(e))
+                    log.error('error while executing user defined function:' + str(e))
         return self.get_input_node('input')[1]
 
     def setup(self):
         self.inputs['input'].link_limit = 300
 
     def export_properties(self):
-        """ called on export """
+        """Export node properties"""
         dict = {}
         if self.text in bpy.data.texts:
             t = bpy.data.texts[self.text].as_string()
@@ -104,19 +108,13 @@ class VTKCustomFilter(Node, VTKNode):
         return dict
 
     def import_properties(self, dict):
-        """ called on import """
-        bpy.ops.vtk.new_text(body=dict['text_as_string'], name=dict['text_name'])
-
-add_class(VTKCustomFilter)
-TYPENAMES.append('VTKCustomFilterType')
-
-# ----------------------------------------------------------------
-# New text operator
-# ----------------------------------------------------------------
+        """Import node properties"""
+        bpy.ops.bvtk.new_text(body=dict['text_as_string'], name=dict['text_name'])
 
 
-class VTKNewText(bpy.types.Operator):
-    bl_idname = 'vtk.new_text'
+class BVTK_OT_NewText(bpy.types.Operator):
+    """New text operator"""
+    bl_idname = 'bvtk.new_text'
     bl_label = 'Create a new text'
 
     name = bpy.props.StringProperty(default='New text')
@@ -136,23 +134,19 @@ class VTKNewText(bpy.types.Operator):
                             space.top = 0
                             flag = False
         if flag:
-            self.report({'INFO'}, "See '"+text.name+"' in the text editor")
+            self.report({'INFO'}, "See '" + text.name + "' in the text editor")
         return {'FINISHED'}
-
-
-add_ui_class(VTKNewText)
 
 
 # ----------------------------------------------------------------
 # MultiBlockLeaf
 # ----------------------------------------------------------------
 
-
-class VTKMultiBlockLeaf(Node, VTKNode):
-    """ This node is useful to break down a vtkMultiBlock
-    into the blocks of which it is composed.
+class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
+    """This node breaks down vtkMultiBlock data and outputs one
+    user selected block.
     """
-    bl_idname = 'VTKMultiBlockLeafType'
+    bl_idname = 'BVTK_NT_MultiBlockLeaf'
     bl_label = 'MultiBlockLeaf'
 
     def blocks(self, context):
@@ -182,10 +176,12 @@ class VTKMultiBlockLeaf(Node, VTKNode):
                 meta_data = vtkobj.GetMetaData(i) if meta_flag else None
                 if meta_data:
                     custom_name = meta_data.Get(vtk.vtkCompositeDataSet.NAME())
-                    if not custom_name: custom_name = ""
+                    if not custom_name:
+                        custom_name = ""
                 else:
                     custom_name = ""
-                name = str(i) + " " + (block.__class__.__name__ if block else "Empty block") + custom_name
+                name = "[" + str(i) + "]: " + custom_name + " (" + \
+                       (block.__class__.__name__ if block else "Empty Block") + ")"
                 items.append((str(i), name, ""))
             return items
 
@@ -210,7 +206,7 @@ class VTKMultiBlockLeaf(Node, VTKNode):
             class_name = vtkobj.__class__.__name__
             layout.label("Input: "+class_name)
             if not hasattr(vtkobj, "GetNumberOfBlocks") or not hasattr(vtkobj, "GetBlock"):
-                layout.label("Input object does not contain multiple blocks of data (can't find 'GetBlock' method)")
+                layout.label("Input object does not contain multiple blocks of data")
                 return
             layout.prop(self, "block")
 
@@ -221,8 +217,8 @@ class VTKMultiBlockLeaf(Node, VTKNode):
         pass
 
     def get_output(self, socketname):
-        """ The function checks if the specified block can be retrieved from the input vtk object,
-        in case it's possible the said block is returned.
+        """The function checks if the specified block can be retrieved from
+        the input vtk object, in case it's possible the said block is returned.
         """
         in_node, vtkobj = self.get_input_node('input')
         if in_node:
@@ -234,20 +230,16 @@ class VTKMultiBlockLeaf(Node, VTKNode):
         return None
 
 
-add_class(VTKMultiBlockLeaf)
-TYPENAMES.append('VTKMultiBlockLeafType')
-
 # ----------------------------------------------------------------
-# MultiBlockLeaf
+# TimeSelector
 # ----------------------------------------------------------------
 
-
-class VTKTimeSetter(Node, VTKNode):
-    """ This node provides the possibility o managing time.
-    It displays time sets, time values and shows a property to set them.
+class BVTK_NT_TimeSelector(Node, BVTK_Node):
+    """VTK time management node for time variant data. Display time sets,
+    time values and set time.
     """
-    bl_idname = 'VTKTimeSetterType'
-    bl_label = 'TimeSetter'
+    bl_idname = 'BVTK_NT_TimeSelector'
+    bl_label = 'TimeSelector'
 
     def check_range(self, context):
         in_node, out_port = self.get_input_node('input')
@@ -280,28 +272,27 @@ class VTKTimeSetter(Node, VTKNode):
             layout.label('Connect a node')
         elif not out_port:
             layout.label('Input has not vtkobj (try updating)')
+        elif not out_port.IsA('vtkAlgorithmOutput'):
+            layout.label('Input is not a vtkAlgorithm.')
         else:
-            if out_port.IsA('vtkAlgorithmOutput'):
-                prod = out_port.GetProducer()
-                executive = prod.GetExecutive()
-                out_info = prod.GetOutputInformation(out_port.GetIndex())
-                if hasattr(executive, "TIME_STEPS"):
-                    time_steps = out_info.Get(executive.TIME_STEPS())
-                    if time_steps:
-                        row = layout.row()
-                        row.prop(self, 'time_step', text="Time step")
-                        size = len(time_steps)
-                        row.label("Max: "+str(size-1))
-                        if -size <= self.time_step < size:
-                            layout.label("Time: "+str(time_steps[self.time_step]))
-                        else:
-                            layout.label('Index out of time steps range', icon='ERROR')
+            prod = out_port.GetProducer()
+            executive = prod.GetExecutive()
+            out_info = prod.GetOutputInformation(out_port.GetIndex())
+            if hasattr(executive, "TIME_STEPS"):
+                time_steps = out_info.Get(executive.TIME_STEPS())
+                if time_steps:
+                    row = layout.row()
+                    row.prop(self, 'time_step', text="Time step")
+                    size = len(time_steps)
+                    row.label("Max: "+str(size-1))
+                    if -size <= self.time_step < size:
+                        layout.label("Time: "+str(time_steps[self.time_step]))
                     else:
-                        layout.label('Input executive contains a time steps array but it\'s empty.')
+                        layout.label('Index out of time steps range', icon='ERROR')
                 else:
-                    layout.label('Input executive does not contain any information about time steps.')
+                    layout.label('Input executive contains a time steps array but it\'s empty.')
             else:
-                layout.label('Input is not a vtkAlgorithm. Executive cannot be retrieved and time cannot be set.')
+                layout.label('Input executive does not contain any information about time steps.')
 
     def apply_properties(self, vtkobj):
         pass
@@ -310,7 +301,7 @@ class VTKTimeSetter(Node, VTKNode):
         pass
 
     def get_output(self, socketname):
-        """ Checks if the input is valid and if the time step can be set.
+        """ Check if the input is valid and if the time step can be set.
         If tests pass the time step is updated and the input object is returned,
         otherwise None is returned.
         """
@@ -337,10 +328,15 @@ class VTKTimeSetter(Node, VTKNode):
         return None
 
 
-add_class(VTKTimeSetter)
-TYPENAMES.append('VTKTimeSetterType')
+# Add classes and menu items
+TYPENAMES = []
+add_class(BVTK_NT_CustomFilter)
+TYPENAMES.append('BVTK_NT_CustomFilter')
+add_ui_class(BVTK_OT_NewText)
+add_class(BVTK_NT_MultiBlockLeaf)
+TYPENAMES.append('BVTK_NT_MultiBlockLeaf')
+add_class(BVTK_NT_TimeSelector)
+TYPENAMES.append('BVTK_NT_TimeSelector')
 
-# ----------------------------------------------------------------
 menu_items = [NodeItem(x) for x in TYPENAMES]
-CATEGORIES.append(VTKNodeCategory("custom", "custom", items=menu_items))
-# ----------------------------------------------------------------
+CATEGORIES.append(BVTK_NodeCategory("Custom", "Custom", items=menu_items))

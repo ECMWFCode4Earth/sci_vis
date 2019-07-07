@@ -2,129 +2,140 @@ import bpy
 from mathutils import *
 from math import *
 from . import core
+from . utils import log
 from bpy_extras.io_utils import ExportHelper
 import json
 import os
 
+# -----------------------------------------------------------------------------
+# Node tree JSON import/export, node arranging operator and node tree examples
+# -----------------------------------------------------------------------------
+
 examples_dir = os.path.realpath(__file__).replace('examples.py', 'examples/')
 examples_data_dir = os.path.realpath(__file__).replace('examples.py', 'examples_data/')
 
-# ---------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Functions to save node state into a dictionary
-# ---------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
-class IEPanel(bpy.types.Panel):
-    '''Import and export vtk node trees as jsons'''
-    bl_label = 'Import export'
-    bl_idname = 'vtk_utilities_importexport'
+class BVTK_PT_TreeIE(bpy.types.Panel):
+    """Import and export VTK node tree as json"""
+    bl_label = 'Import/Export Tree'
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'TOOLS'
-    bl_category = 'examples'
+    bl_category = 'Examples'
     bl_options = {'DEFAULT_CLOSED'}
 
     @classmethod
     def poll(cls, context):
         space = context.space_data
-        return space.tree_type == 'VTKTreeType'
+        return space.tree_type == 'BVTK_NodeTree'
 
     def draw(self, context):
         layout = self.layout
         scene = context.scene
 
         row = layout.row()
-        row.operator('vtk_node_tree.export', text='Save as json', icon='FILE_TEXT')
+        row.operator('bvtk.tree_export', text='Export JSON', icon='FILE_TEXT')
 
         row = layout.row()
-        row.operator('vtk_node_tree.import', text='Import from json', icon='FILESEL')
+        row.operator('bvtk.tree_import', text='Import JSON', icon='FILE')
 
 
-core.add_ui_class(IEPanel)
+core.add_ui_class(BVTK_PT_TreeIE)
 
 
-class ArrangePanel(bpy.types.Panel):
+class BVTK_PT_ArrangeTree(bpy.types.Panel):
     """ Arrange node tree """
-    bl_label = 'Arrange tree'
-    bl_idname = 'vtk_utilities_arrangetree'
+    bl_label = 'Arrange Tree'
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'TOOLS'
-    bl_category = 'examples'
-    bl_options = {'DEFAULT_CLOSED'}
+    bl_category = 'Examples'
+    # bl_options = {'DEFAULT_CLOSED'}
 
     @classmethod
     def poll(cls, context):
         space = context.space_data
-        return space.tree_type == 'VTKTreeType'
+        return space.tree_type == 'BVTK_NodeTree'
 
     def draw(self, context):
         layout = self.layout
         scene = context.scene
-
+        layout.label("Arrangement depends on the selected nodes!", icon="INFO")
         col = layout.column(align=True)
-        op = col.operator('vtk.arrange_tree', text='arrange', icon='NODETREE')
-        col.prop(scene, 'vtk_arrange_x_spacing', text='x spacing')
-        col.prop(scene, 'vtk_arrange_y_spacing', text='y spacing')
+        col.operator('bvtk.arrange_tree', text='arrange', icon='NODETREE')
+        col.prop(scene, 'bvtk_arrange_x_spacing', text='x spacing')
+        col.prop(scene, 'bvtk_arrange_y_spacing', text='y spacing')
+        layout.prop(scene, 'bvtk_arrange_collapse_x', text='collapse x')
+
 
 def arrange(scene, context):
-    bpy.ops.vtk.arrange_tree()
-
-bpy.types.Scene.vtk_arrange_x_spacing = bpy.props.IntProperty(default=10, update=arrange)
-bpy.types.Scene.vtk_arrange_y_spacing = bpy.props.IntProperty(default=10, update=arrange)
-core.add_ui_class(ArrangePanel)
+    bpy.ops.bvtk.arrange_tree()
 
 
-class ExamplesPanel(bpy.types.Panel):
-    '''Example pipelines'''
+bpy.types.Scene.bvtk_arrange_x_spacing = bpy.props.IntProperty(default=10, update=arrange)
+bpy.types.Scene.bvtk_arrange_y_spacing = bpy.props.IntProperty(default=10, update=arrange)
+bpy.types.Scene.bvtk_arrange_collapse_x = bpy.props.BoolProperty(default=False, update=arrange)
+
+core.add_ui_class(BVTK_PT_ArrangeTree)
+
+
+class BVTK_PT_Examples(bpy.types.Panel):
+    """Examples Panel"""
     bl_label = 'Examples'
-    bl_idname = 'vtk_utilities_examples'
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'TOOLS'
-    bl_category = 'examples'
+    bl_category = 'Examples'
 
     @classmethod
     def poll(cls, context):
         space = context.space_data
-        return space.tree_type == 'VTKTreeType'
+        return space.tree_type == 'BVTK_NodeTree'
 
     def draw(self, context):
         layout = self.layout
         row = layout.row()
-        layout.menu('ExamplesMenu')
+        layout.menu('BVTK_MT_Examples')
 
 
+core.add_ui_class(BVTK_PT_Examples)
 
-core.add_ui_class(ExamplesPanel)
 
-
-class ExamplesMenu(bpy.types.Menu):
+class BVTK_MT_Examples(bpy.types.Menu):
+    """Examples Menu"""
     bl_label = "Examples"
-    bl_idname = 'ExamplesMenu'
 
     def draw(self, context):
         layout = self.layout
         for i in os.listdir(examples_dir):
             if i.endswith('.json'):
-                layout.operator('vtk_node_tree.import', text=i.replace('.json', '')).filepath = examples_dir + i
+                layout.operator('bvtk.tree_import',
+                                text = i.replace('.json', '')
+                                ).filepath = examples_dir + i
 
         for em in ExamplesMenus:
             layout.menu(em.bl_idname)
 
 
-core.add_ui_class(ExamplesMenu)
-ExamplesMenus = []
+core.add_ui_class(BVTK_MT_Examples)
 
-for name in [name for name in os.listdir(examples_dir) if os.path.isdir(os.path.join(examples_dir, name))]:
+
+# Populate examples from example directory to Examples menu
+ExamplesMenus = []
+for name in [name for name in os.listdir(examples_dir)
+             if os.path.isdir(os.path.join(examples_dir, name))]:
     def menu_draw(self, context):
         layout = self.layout
         for i in os.listdir(self.filepath):
             if i.endswith('.json'):
-                layout.operator('vtk_node_tree.import', text=i.replace('.json', '')).filepath = os.path.join(
-                    self.filepath, i)
+                layout.operator('bvtk.tree_import',
+                                text=i.replace('.json', '')).filepath = \
+                                os.path.join(self.filepath, i)
 
-
-    menu_type = type("ExamplesCategory_" + name, (bpy.types.Menu,), {
+    menu_type = type("BVTK_MT_" + name, (bpy.types.Menu,), {
         "bl_label": name,
-        "bl_idname": "ExamplesCategory_" + name,
+        # "bl_idname": "ExamplesCategory_" + name,
         "draw": menu_draw,
         "filepath": os.path.join(examples_dir, name)
     })
@@ -133,10 +144,12 @@ for name in [name for name in os.listdir(examples_dir) if os.path.isdir(os.path.
     core.add_ui_class(menu_type)
 
 
-# ---------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Import export functions
-# ---------------------------------------------------------------------------------
-def gisbi(node, identifier):  # get input socket by identifier
+# -----------------------------------------------------------------------------
+
+def gisbi(node, identifier):
+    """Get input socket by identifier"""
     inputs = node.inputs
     for input in inputs:
         if input.identifier == identifier:
@@ -144,7 +157,8 @@ def gisbi(node, identifier):  # get input socket by identifier
     return None
 
 
-def gosbi(node, identifier):  # get output socket by identifier
+def gosbi(node, identifier):
+    """Get output socket by identifier"""
     outputs = node.outputs
     for output in outputs:
         if output.identifier == identifier:
@@ -152,7 +166,8 @@ def gosbi(node, identifier):  # get output socket by identifier
     return None
 
 
-def gnbn(nodes, name):  # get node by name
+def gnbn(nodes, name):
+    """Get node by name"""
     for node in nodes:
         if node.name == name:
             return node
@@ -160,6 +175,7 @@ def gnbn(nodes, name):  # get node by name
 
 
 def node_tree_from_dict(context, node_tree_dict):
+    """Create node tree from dictionary"""
     space = context.space_data
     nodes = space.node_tree.nodes
     links = space.node_tree.links
@@ -172,25 +188,29 @@ def node_tree_from_dict(context, node_tree_dict):
 
 
 def node_from_dict(nodes, node_dict):
+    """Create a node using data from node dictionary"""
     idname = node_dict['bl_idname']
-    if not hasattr(bpy.types, idname):
-        print('Node type not found:', idname)
-    else:
-        new_node = nodes.new(type=idname)
-        for prop in node_dict:
-            value = node_dict[prop]
-            if prop == 'additional_properties':
-                if hasattr(new_node, 'import_properties'):
-                    new_node.import_properties(value)
-            else:
-                if 'FileName' in prop and value.startswith('$/'):
-                    value = value.replace('$/', examples_data_dir)
-                try:
-                    setattr(new_node, prop, value)
-                except:
-                    pass
+    # Removed this check, hasattr does not find idname correctly. OK to remove?
+    #if not hasattr(bpy.types, idname):
+    #    log.error('Node type not found ' + idname)
+    #else:
+    new_node = nodes.new(type=idname)
+    for prop in node_dict:
+        value = node_dict[prop]
+        if prop == 'additional_properties':
+            if hasattr(new_node, 'import_properties'):
+                new_node.import_properties(value)
+        else:
+            if 'FileName' in prop and value.startswith('$/'):
+                value = value.replace('$/', examples_data_dir)
+            try:
+                setattr(new_node, prop, value)
+            except:
+                log.error("setattr failed for " + str(prop) + " " + str(value))
+
 
 def link_from_dict(nodes, links, new_link_dict):
+    """Create link between nodes using data from node dictionary"""
     to_node = gnbn(nodes, new_link_dict['to_node_name'])
     from_node = gnbn(nodes, new_link_dict['from_node_name'])
     if from_node and to_node:
@@ -201,6 +221,7 @@ def link_from_dict(nodes, links, new_link_dict):
 
 
 def node_tree_to_dict(node_tree):
+    """Create node dictionary from node tree"""
     nodes = node_tree.nodes
     links = node_tree.links
     n = []
@@ -213,6 +234,7 @@ def node_tree_to_dict(node_tree):
 
 
 def link_to_dict(link):
+    """Create a link dictionary entry from link"""
     dict = {}
     dict['from_node_name'] = link.from_node.name
     dict['to_node_name'] = link.to_node.name
@@ -220,7 +242,9 @@ def link_to_dict(link):
     dict['to_socket_identifier'] = link.to_socket.identifier
     return dict
 
+
 def node_to_dict(node):
+    """Create a node dictionary entry from node"""
     dict = {}
     props = [k for k in node.m_properties()]
     props.extend(['bl_idname',
@@ -238,11 +262,11 @@ def node_to_dict(node):
     for prop in props:
         attr = getattr(node, prop)
         classname = attr.__class__.__name__
-        if classname in ['Vector','Color','bpy_prop_array']:
+        if classname in ['Vector', 'Color', 'bpy_prop_array']:
             attr = [i for i in attr]
         if 'FileName' in prop and issubclass(attr.__class__, str):
             attr = os.path.realpath(bpy.path.abspath(attr)).replace(examples_data_dir, '$/')
-        print(prop.ljust(20), classname.ljust(20), str(attr))
+        log.debug(prop.ljust(20) + classname.ljust(20) + str(attr))
         dict[prop] = attr
     if hasattr(node, 'export_properties'):
         ep = node.export_properties()
@@ -253,24 +277,24 @@ def node_to_dict(node):
     return dict
 
 
-# ---------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Import export operators
-# ---------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
-class ImportVtkNodeTree(bpy.types.Operator):
-    bl_idname = "vtk_node_tree.import"
+class BVTK_OT_TreeImport(bpy.types.Operator):
+    """Import VTK Node Tree"""
+    bl_idname = "bvtk.tree_import"
     bl_label = "choose file"
 
     filepath = bpy.props.StringProperty(subtype='FILE_PATH', default='')
-
     confirm = bpy.props.BoolProperty(default=True)
 
     def invoke(self, context, event):
         node_tree = context.space_data.node_tree
 
         if node_tree is None:
-            node_tree = bpy.data.node_groups.new('NodeTree', 'VTKTreeType')
+            node_tree = bpy.data.node_groups.new('NodeTree', 'BVTK_NodeTree')
             context.space_data.node_tree = node_tree
 
         if self.confirm and node_tree.nodes:
@@ -303,12 +327,12 @@ class ImportVtkNodeTree(bpy.types.Operator):
         return {'FINISHED'}
 
 
-core.add_ui_class(ImportVtkNodeTree)
+core.add_ui_class(BVTK_OT_TreeImport)
 
 
-class ExportVtkNodeTree(bpy.types.Operator, ExportHelper):
-    '''Save vtk node tree into a json file'''
-    bl_idname = "vtk_node_tree.export"
+class BVTK_OT_TreeExport(bpy.types.Operator, ExportHelper):
+    """Save VTK node tree into a json file"""
+    bl_idname = "bvtk.tree_export"
     bl_label = "Export Vtk Node Tree"
     filename_ext = ".json"
 
@@ -325,15 +349,18 @@ class ExportVtkNodeTree(bpy.types.Operator, ExportHelper):
         return {'FINISHED'}
 
 
-core.add_ui_class(ExportVtkNodeTree)
+core.add_ui_class(BVTK_OT_TreeExport)
 
 
-class ImportVtkNodeTreeFromPy(bpy.types.Operator):
-    bl_idname = "vtk_node_tree.import_py"
+class BVTK_OT_TreeImportFromPy(bpy.types.Operator):
+    """Import VTK node tree from Python file"""
+    # Note: This class and node_tree_from_py are currently not used.
+    # This was an attempt to generate node tree from VTK examples.
+    # TODO: Continue attempt at some point? It's a nice idea.
+    bl_idname = "bvtk.tree_import_py"
     bl_label = "choose file"
 
     filepath = bpy.props.StringProperty(subtype='FILE_PATH', default='')
-
     confirm = bpy.props.BoolProperty(default=True)
 
     def invoke(self, context, event):
@@ -369,11 +396,14 @@ class ImportVtkNodeTreeFromPy(bpy.types.Operator):
 
 
 def node_tree_from_py(context, py):
+    """Experimental idea to convert an existing vtk-python-example to a
+    node-network. It is not completed, do not use it.
+    """
     space = context.space_data
     nodes = space.node_tree.nodes
     links = space.node_tree.links
     lines = py.split('\n')
-    vtkObjs = {}
+    vtk_objs = {}
     linked = []  # [input,output]
 
     for line in lines:
@@ -385,39 +415,39 @@ def node_tree_from_py(context, py):
                 a = line.split('=vtk.')
                 type = a[1].replace('()', '').replace('vtk', 'VTK') + 'Type'
                 if type in core.CLASSES:
-                    vtkObjs[a[0]] = nodes.new(type)
-                    linked.append(vtkObjs[a[0]])
+                    vtk_objs[a[0]] = nodes.new(type)
+                    linked.append(vtk_objs[a[0]])
                 else:
-                    print(a[1] + " can't be converted to node")
+                    log.error(a[1] + " can't be converted to node")
             elif '=' not in line and '.' in line:
                 if '.SetInputConnection' in line:
                     n1 = line.split('.SetInputConnection')[0]
                     n2 = line.split('(', 1)[1][:-1]
-                    if ('.GetOutputPort()' in n2):
+                    if '.GetOutputPort()' in n2:
                         n2 = n2.replace('.GetOutputPort()', '')
-                        if n2 in vtkObjs.keys() and n1 in vtkObjs.keys():
-                            links.new(vtkObjs[n1].inputs[0], vtkObjs[n2].outputs[0])
+                        if n2 in vtk_objs.keys() and n1 in vtk_objs.keys():
+                            links.new(vtk_objs[n1].inputs[0], vtk_objs[n2].outputs[0])
                 elif '.Set' in line:
                     if line.count('(') > 1:
-                        print(line + ": I'm too stupid to handle more than 2 brackets")
+                        log.error(line + ": I'm too stupid to handle more than 2 brackets")
                     else:
                         n1 = line.split('.Set')[0]
-                        if n1 in vtkObjs.keys():
+                        if n1 in vtk_objs.keys():
                             toSet = line.split('.Set')[1]
 
                             def set(objname, attr, val):
-                                if objname in vtkObjs.keys():
-                                    obj = vtkObjs[objname]
+                                if objname in vtk_objs.keys():
+                                    obj = vtk_objs[objname]
                                     if attr in obj.m_properties():
                                         setattr(obj, attr, val)
                                     else:
-                                        print(obj.bl_idname + ' non ha nessun attributo ' + attr + ' in questo addon')
+                                        log.error(obj.bl_idname + ' got no attributes ' + attr + ' in this addon')
                                 else:
-                                    print(objname + ', nodo corrispondente mai creato')
+                                    log.error(objname + ', missing corresponding node')
 
                             if 'To' in toSet:
                                 if toSet.count('To') > 1:
-                                    print('Eccezione "To" non gestita')
+                                    log.error('"To" is not handled yet')
                                 else:
                                     set(n1, 'e_' + toSet.split('To')[0],
                                         toSet.split('To')[1].replace('(', '').replace(')', ''))
@@ -429,99 +459,247 @@ def node_tree_from_py(context, py):
                                 try:
                                     set(n1, 'm_' + toSet.split('(')[0], eval(toSet.split('(')[1].replace(')', '')))
                                 except:
-                                    print(toSet + ' argomento non definito')
+                                    log.error(toSet + ' argument not defined')
                             else:
-                                print('Il seguente set non è stato interpretato: ' + line)
+                                log.error('This "Set" has not been interpreted: ' + line)
     for i in range(len(linked)):
         linked[i].location = (i * 300, 0)
 
-    tb = nodes.new('VTK2BlenderType')
+    tb = nodes.new('BVTK_NT_ToBlender')
     tb.location = (len(linked) * 300, 0)
     links.new(tb.inputs[0], linked[len(linked) - 1].outputs[0])
 
 # ---------------------------------------------------------------------------------
-# Arrage tree operator
+# Arrange tree operator
 # ---------------------------------------------------------------------------------
 
 
-def x_behind_nodes(node):
-    max_behind = 0
-    for input in node.inputs:
-        for link in input.links:
-            in_node = link.from_node
-            behind_in_node = x_behind_nodes(in_node)
-            if behind_in_node + 1 > max_behind:
-                max_behind = behind_in_node + 1
-    return max_behind
+def node_height(node):
+    """ 'height' property of blender nodes seems not working: it's set to the same value for all nodes,
+    regardless of the real height. Since 'width' and 'dimensions' properties work, this method
+    uses a proportion between real width and absolute x dimension to retrieve real height.
+    """
+    k = node.dimensions[0] / node.width
+    return node.dimensions[1] / k
 
 
-def arrange_height(node, x_spacing, y_spacing, initial_y=0, initial_x=0):
-    total_height = 0
-    for output in node.outputs:
-        for link in output.links:
-            out_node = link.to_node
-            out_block_height = arrange_height(out_node,
-                                              x_spacing,
-                                              y_spacing,
-                                              initial_y-total_height,
-                                              initial_x+node.width+x_spacing)
-            total_height += out_block_height
-    k = node.dimensions[0] / node.width  # node.height doesnt work
-    height = node.dimensions[1] / k  # node height
-    if height > total_height:
-        total_height = height + y_spacing
-    node.location = initial_x, initial_y - total_height/2 + height/2
-    return total_height
+def outgoing(node, seen):
+    """ Return the number of nodes before the given one on an horizontal line, without considering
+    nodes in the analyzed list. Remember not to pass the list of analyzed nodes as a reference
+    (unless you need to do it). Outgoing and ingoing methods are used in the arranger to define
+    the horizontal units occupied by a subpart of node tree.
+    """
+    for out in node.outputs:
+        for link in out.links:
+            if link.to_node not in seen:
+                seen.append(node)
+                return outgoing(link.to_node, seen) + 1
+    return 1
 
 
-class NodeBlock:
+def ingoing(node, seen):
+    """ Return the number of nodes next to the given one on an horizontal line, without considering
+    nodes in the analyzed list. Remember not to pass the list of analyzed nodes as a reference
+    (unless you need to do it). Outgoing and ingoing methods are used in the arranger to define
+    the horizontal units occupied by a subpart of node tree.
+    """
+    for socket in node.inputs:
+        for link in socket.links:
+            if link.from_node not in seen:
+                seen.append(node)
+                return ingoing(link.from_node, seen) + 1
+    return 1
 
-    def __init__(self, node_start):
+
+def linked_nodes(node, array=None):
+    """ Return all nodes (recursively) linked to the one given """
+    if not array: array = [node]
+    for socket in node.outputs:
+        for link in socket.links:
+            output = link.to_node
+            if output not in array:
+                array.append(output)
+                linked_nodes(output, array)
+    for socket in node.inputs:
+        for link in socket.links:
+            input = link.from_node
+            if input not in array:
+                array.insert(0, input)
+                linked_nodes(input, array)
+    return array
+
+
+def outputs(node):
+    """ Return all nodes going out from the one given, not recursively """
+    out = []
+    for socket in node.outputs:
+        for link in socket.links:
+            out.append(link.to_node)
+    return out
+
+
+def inputs(node):
+    """ Return all nodes going in to the one given, not recursively """
+    inp = []
+    for socket in node.inputs:
+        for link in socket.links:
+            inp.append(link.from_node)
+    return inp
+
+
+def collapse_tree(node, x_spacing, w=0, analyzed=None):
+    """ Collapse nodes horizontally starting from the one given.
+    Not always useful.
+    """
+    if not analyzed: analyzed = []
+    node.location[0] = w
+    analyzed.append(node)
+    for socket in node.outputs:
+        for link in socket.links:
+            output = link.to_node
+            if output not in analyzed:
+                collapse_tree(output, x_spacing, w+node.width+x_spacing, analyzed)
+    for socket in node.inputs:
+        for link in socket.links:
+            input = link.from_node
+            if input not in analyzed:
+                collapse_tree(input, x_spacing, w-input.width-x_spacing, analyzed)
+
+
+class NodesColumn:
+    """ Used by the node table as a node array to store
+     current height and max width
+     """
+    def __init__(self, y_spacing, first_node=None):
         self.nodes = []
-        self.start = node_start
-        self.add_from(node_start)
+        self.y_spacing = y_spacing
+        self.max_w = 0
+        self.height = 0
+        if first_node:
+            self.nodes.append(first_node)
+            self.max_w = first_node.width
+            self.height = node_height(first_node) + y_spacing
 
-    def add_from(self, node):
+    def add_node(self, node):
         self.nodes.append(node)
-        for output in node.outputs:
-            for i, link in enumerate(output.links):
-                if link.to_node not in self.nodes:
-                    self.add_from(link.to_node)
-        for input in node.inputs:
-            for i, link in enumerate(input.links):
-                if link.from_node not in self.nodes:
-                    self.add_from(link.from_node)
+        self.height += node_height(node) + self.y_spacing
+        if node.width > self.max_w:
+            self.max_w = node.width
 
 
-class VTKArrangeTree(bpy.types.Operator):
-    bl_idname = "vtk.arrange_tree"
-    bl_label = "arrange_tree"
+class NodesTable:
+    """A class used to manage the arrangement of the tree."""
+    def __init__(self, favorites=None, x_spacing=0, y_spacing=0, start=None,):
+        self.columns = {}
+        self.analyzed = []
+        self.favorites = favorites if favorites else []
+        self.x_spacing = x_spacing
+        self.y_spacing = y_spacing
+        if start:
+            self.analyze(start, y_spacing)
 
-    def has_input(self, node):
-        """ true if node has at least one input linked """
-        for input in node.inputs:
-            if len(input.links) > 0:
-                return True
-        return False
+    def analyze(self, node, column=0, x=True):
+        self.analyzed.append(node)
+        n_after = outgoing(node, self.analyzed[:])  # nodes after
+        max_h = 0
+
+        for j in range(n_after):
+            i = column + j
+            if i in self.columns:
+                col = self.columns[i]
+                if col.height > max_h:
+                    max_h = col.height
+        for j in range(n_after):
+            i = column + j
+            if i not in self.columns:
+                self.columns[i] = NodesColumn(self.y_spacing)
+            col = self.columns[i]
+            col.height = max_h
+
+        node.location[1] = -max_h
+
+        if column not in self.columns:
+            self.columns[column] = NodesColumn(self.y_spacing, node)
+        else:
+            self.columns[column].add_node(node)
+
+        n_before = ingoing(node, self.analyzed[:])  # nodes before
+        max_h = 0
+
+        for j in range(n_before):
+            if j != 0:
+                i = column - j
+                if i in self.columns:
+                    col = self.columns[i]
+                    if col.height > max_h:
+                        max_h = col.height
+        for j in range(n_before):
+            if j != 0:
+                i = column - j
+                if i not in self.columns:
+                    self.columns[i] = NodesColumn(self.y_spacing)
+                col = self.columns[i]
+                col.height = max_h
+
+        out = outputs(node)
+        inp = inputs(node)
+        for n in self.favorites:
+            if n not in self.analyzed:
+                if n in out:
+                    self.analyze(n, column + 1, False)
+                elif n in inp:
+                    self.analyze(n, column - 1, False)
+        for n in out:
+            if n not in self.analyzed:
+                self.analyze(n, column + 1, False)
+        for n in inp:
+            if n not in self.analyzed:
+                self.analyze(n, column - 1, False)
+
+        if x:
+            spacing = 0
+            for i in sorted(self.columns):
+                column = self.columns[i]
+                for node in column.nodes:
+                    node.location[0] = spacing + self.x_spacing
+                spacing += column.max_w + self.x_spacing
+
+
+class BVTK_OT_ArrangeTree(bpy.types.Operator):
+
+    bl_idname = "bvtk.arrange_tree"
+    bl_label = "Arrange Tree"
 
     def execute(self, context):
         tree = context.space_data.node_tree
-        node_blocks = []   # nodes with no connections in input
-        x_spacing = context.scene.vtk_arrange_x_spacing
-        y_spacing = context.scene.vtk_arrange_y_spacing
-        i = 0
-        for node in tree.nodes:
-            if not self.has_input(node):
+        if tree.nodes:
+            node_blocks = [linked_nodes(tree.nodes[0])]
+            for node in tree.nodes:
                 flag = True
-                for nb in node_blocks:
-                    if node in nb.nodes:
+                for block in node_blocks:
+                    if node in block:
                         flag = False
-                        break
-                if flag: node_blocks.append(NodeBlock(node))
-        h = 0
-        for nb in node_blocks:
-            h -= arrange_height(nb.start, x_spacing, y_spacing, h)
+                if flag:
+                    node_blocks.append(linked_nodes(node))
+            table = NodesTable(context.selected_nodes, context.scene.bvtk_arrange_x_spacing,
+                               context.scene.bvtk_arrange_y_spacing)
+            not_analyzed = []
+            for block in node_blocks:
+                start = None
+                for node in context.selected_nodes:
+                    if node in block:
+                        start = node
+                if start:
+                    table.analyze(start)
+                else:
+                    not_analyzed.append(block)
+            for block in not_analyzed:
+                table.analyze(block[0])
+            if context.scene.bvtk_arrange_collapse_x:
+                for block in node_blocks:
+                    collapse_tree(block[0], context.scene.bvtk_arrange_x_spacing)
+
         return {'FINISHED'}
 
 
-core.add_ui_class(VTKArrangeTree)
+core.add_ui_class(BVTK_OT_ArrangeTree)

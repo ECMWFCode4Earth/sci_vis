@@ -1,31 +1,38 @@
+from .gen_VTKIntegrator import *
 from .gen_VTKTransform import *
 from .gen_VTKImplicitFunc import *
 from .gen_VTKParametricFunc import *
-from .gen_VTKIntegrator import *
+from .utils import node_path
 import mathutils
-import math
+
 
 # --------------------------------------------------------------
 # ImplicitFunctions base class
 # --------------------------------------------------------------
 
 
-class VTKImplicitFunction:
-    """ Base class for all implicit functions which is useful to
-    link an object to. Inherited classes must have:
+class BVTK_ImplicitFunction:
+    """ Base class for implicit functions, which supports
+    linking an object to. Inherited classes must implement:
 
-    - new_object(self)                                      must creates a new object that
-                                                            can be linked
-    - objects_list(self, context)                           must return an enum list of acceptable
-                                                            objects
-    - object = bpy.props.EnumProperty(items=objects_list)   just copy&paste, it's the enum property
-                                                            that shows linkable objects
-    - properties_from_obj(self, ob)                         called by operator every 0.1 sec.
-                                                            Used to update node m_props based on
-                                                            object position/rotation/ecc..
+    - new_object(self): Create a new object that can be linked
+    - objects_list(self, context): Return an enum list of acceptable objects
+    - object = bpy.props.EnumProperty(items=objects_list)
+    Enum property that shows linkable objects (just copy&paste this)
+    - properties_from_obj(self, ob): Update node m_props based on object
+    position/rotation/etc. Called every second.
+
+    If you set a 'use_wire' variable in the inherited class a checkbox
+    will appear next to the object selection. If the checkbox is checked
+    only the outline of the object will be displayed, so the user can
+    see through it.
     """
 
+    # TODO: Seems to contain stuff similar to core.py BVTK_Node, check
+    # if can be inherited.
+
     def set_wire(self, value):
+        """Set drawing style to wire mode"""
         if self.object in bpy.data.objects:
             if value:
                 bpy.data.objects[self.object].draw_type = 'WIRE'
@@ -33,13 +40,12 @@ class VTKImplicitFunction:
                 bpy.data.objects[self.object].draw_type = 'SOLID'
 
     def is_wire(self):
+        """Check if drawing style is wire mode"""
         if self.object in bpy.data.objects:
             return bpy.data.objects[self.object].draw_type == 'WIRE'
         return False
 
-    draw_wire = bpy.props.BoolProperty(set = set_wire, get = is_wire)  # useful for not transparent objects,
-    #                                                                  # set max draw type to wire. Set a variable
-    #                                                                  # 'use_wire' in inherited class to use this.
+    draw_wire = bpy.props.BoolProperty(set = set_wire, get = is_wire)
 
     def unlink_object(self):
         """ called by the operator """
@@ -52,13 +58,14 @@ class VTKImplicitFunction:
     using_object = bpy.props.BoolProperty(default=False, update=update_object)
 
     def link_object(self):
+        """Link object to node"""
         name = self.object
         if name in bpy.data.objects:
             ob = bpy.data.objects[name]
         else:
             self.new_object()
             ob = bpy.context.active_object
-        bpy.ops.vtk.link_object(object_name=ob.name, node_path=node_path(self))
+        bpy.ops.bvtk.link_object(object_name=ob.name, node_path=node_path(self))
         self.object = ob.name
 
     def draw_buttons(self, context, layout):
@@ -83,30 +90,87 @@ class VTKImplicitFunction:
             self.properties_from_obj(bpy.data.objects[self.object])
         m_properties=self.m_properties()
         for x in [m_properties[i] for i in range(len(m_properties)) if self.b_properties[i]]:
+            # SetXFileName(Y)
             if 'FileName' in x:
                 value = os.path.realpath(bpy.path.abspath(getattr(self, x)))
                 cmd = 'vtkobj.Set' + x[2:] + '(value)'
+            # SetXToY()
             elif x.startswith('e_'):
-                value = getattr( self, x )
+                value = getattr(self, x)
                 cmd = 'vtkobj.Set'+x[2:]+'To'+value+'()'
+             # SetX(self.Y)
             else:
                 cmd = 'vtkobj.Set'+x[2:]+'(self.'+x+')'
-            exec(  cmd, globals(), locals() )
+            exec(cmd, globals(), locals())
+
+
+# --------------------------------------------------------------
+# ImplicitFunctions operator
+# --------------------------------------------------------------
+
+
+class BVTK_OT_LinkObject(bpy.types.Operator):
+    """Operator to assign properties from linked object at 1 s interval"""
+
+    # Usage example: Connect a VTKPlane node with a plane object
+    # or an empty. Sets m_Normal and m_Origin of the node
+    # using location and rotation of the plane
+
+    bl_idname = "bvtk.link_object"
+    bl_label = "Connect object and node"
+
+    _timer = None
+    object_name = bpy.props.StringProperty()        # name of the object to connect
+    node_path = bpy.props.StringProperty()          # path of the node to connect
+
+    def node_is_valid(self):
+        """return false if node has been deleted or link has been turned off"""
+        return self.node.name and self.node.using_object
+
+    def ob_is_valid(self):
+        """return false if object has been deleted"""
+        return self.object.name in bpy.data.objects
+
+    def modal(self, context, event):
+        if event.type == 'TIMER':
+            node_is_valid = self.node_is_valid()
+            if self.ob_is_valid():
+                if node_is_valid:
+                    self.node.properties_from_obj(self.object)
+                    return {'PASS_THROUGH'}
+            else:
+                if node_is_valid:
+                    self.node.unlink_object()
+            return self.cancel(context)
+        return {'PASS_THROUGH'}
+
+    def execute(self, context):
+        self.object = bpy.data.objects[self.object_name]
+        self.node = eval(self.node_path)
+        wm = context.window_manager
+        self._timer = wm.event_timer_add(1, window=context.window)
+        wm.modal_handler_add(self)
+        return {'RUNNING_MODAL'}
+
+    def cancel(self, context):
+        wm = context.window_manager
+        wm.event_timer_remove(self._timer)
+        return {'CANCELLED'}
+
+
+add_ui_class(BVTK_OT_LinkObject)
 
 # --------------------------------------------------------------
 
-useless_list = {}  # needed for dinamic enum. Blender doc: "Warning: There is a known bug with using a callback,
-#                  # Python must keep a reference to the strings returned or Blender will misbehave or even crash."
 
-
-class VTKPlane(VTKImplicitFunction, Node, VTKNode):
+class BVTK_Plane(BVTK_ImplicitFunction, Node, BVTK_Node):
     bl_idname = 'VTKPlaneType'
     bl_label = 'vtkPlane'
 
     m_Normal = bpy.props.FloatVectorProperty(name='Normal', default=[0.0, 0.0, 1.0], size=3)
     m_Origin = bpy.props.FloatVectorProperty(name='Origin', default=[0.0, 0.0, 0.0], size=3)
 
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
         return ['m_Normal', 'm_Origin', ]
@@ -131,7 +195,6 @@ class VTKPlane(VTKImplicitFunction, Node, VTKNode):
                 items.append((ob.name, ob.name, ob.name, 'MESH_PLANE', i))
                 i += 1
         items.append(('New plane', 'New plane', 'New plane', '', i))
-        useless_list[self.name] = items
         return items
 
     object = bpy.props.EnumProperty(items=objects_list)
@@ -152,19 +215,19 @@ class VTKPlane(VTKImplicitFunction, Node, VTKNode):
             self.m_Origin = ob.location
 
 
-add_class(VTKPlane)
+add_class(BVTK_Plane)
 
 # --------------------------------------------------------------
 
 
-class VTKSphere(VTKImplicitFunction, Node, VTKNode):
+class BVTK_Sphere(BVTK_ImplicitFunction, Node, BVTK_Node):
     bl_idname = 'VTKSphereType'
     bl_label = 'vtkSphere'
 
     m_Radius = bpy.props.FloatProperty(name='Radius', default=0.5)
     m_Center = bpy.props.FloatVectorProperty(name='Center', default=[0.0, 0.0, 0.0], size=3)
 
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
         return ['m_Radius', 'm_Center', ]
@@ -195,54 +258,5 @@ class VTKSphere(VTKImplicitFunction, Node, VTKNode):
         self.m_Radius = ob.empty_draw_size*ob.scale[0]  # assuming scale x = y = z
         self.m_Center = ob.location
 
-add_class(VTKSphere)
 
-# --------------------------------------------------------------
-# ImplicitFunctions operator
-# --------------------------------------------------------------
-
-
-class VTKLinkObject(bpy.types.Operator):
-    """ Connects a VTKPlane node with a plane object
-    or an empty. Sets every 0.1s m_Normal and m_Origin of the node
-    using location and rotation of the plane"""
-    bl_idname = "vtk.link_object"
-    bl_label = "Connect object and node"
-    _timer = None
-    object_name = bpy.props.StringProperty()        # name of the object to connect
-    node_path = bpy.props.StringProperty()          # path of the node to connect
-
-    def node_is_valid(self):    # return false if node has been deleted or link has been turned off
-        return self.node.name and self.node.using_object
-
-    def ob_is_valid(self):      # return false if object has been deleted
-        return self.object.name in bpy.data.objects
-
-    def modal(self, context, event):
-        if event.type == 'TIMER':
-            node_is_valid = self.node_is_valid()
-            if self.ob_is_valid():
-                if node_is_valid:
-                    self.node.properties_from_obj(self.object)
-                    return {'PASS_THROUGH'}
-            else:
-                if node_is_valid:
-                    self.node.unlink_object()
-            return self.cancel(context)
-        return {'PASS_THROUGH'}
-
-    def execute(self, context):
-        self.object = bpy.data.objects[self.object_name]
-        self.node = eval(self.node_path)
-        wm = context.window_manager
-        self._timer = wm.event_timer_add(1, context.window)
-        wm.modal_handler_add(self)
-        return {'RUNNING_MODAL'}
-
-    def cancel(self, context):
-        wm = context.window_manager
-        wm.event_timer_remove(self._timer)
-        return {'CANCELLED'}
-
-
-add_ui_class(VTKLinkObject)
+add_class(BVTK_Sphere)

@@ -2,13 +2,13 @@ from .core import *
 TYPENAMES = []
 
 #--------------------------------------------------------------
-class VTKBox(Node, VTKNode):
+class VTKBox(Node, BVTK_Node):
 
     bl_idname = 'VTKBoxType'
     bl_label  = 'vtkBox'
     
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return []
@@ -19,14 +19,14 @@ add_class( VTKBox )
 TYPENAMES.append('VTKBoxType' )
 
 #--------------------------------------------------------------
-class VTKCone(Node, VTKNode):
+class VTKCone(Node, BVTK_Node):
 
     bl_idname = 'VTKConeType'
     bl_label  = 'vtkCone'
     
     m_Angle = bpy.props.FloatProperty( name='Angle', default=45.0 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_Angle',]
@@ -37,7 +37,7 @@ add_class( VTKCone )
 TYPENAMES.append('VTKConeType' )
 
 #--------------------------------------------------------------
-class VTKCylinder(Node, VTKNode):
+class VTKCylinder(Node, BVTK_Node):
 
     bl_idname = 'VTKCylinderType'
     bl_label  = 'vtkCylinder'
@@ -46,7 +46,7 @@ class VTKCylinder(Node, VTKNode):
     m_Axis   = bpy.props.FloatVectorProperty( name='Axis',   default=[0.0, 1.0, 0.0], size=3 )
     m_Center = bpy.props.FloatVectorProperty( name='Center', default=[0.0, 0.0, 0.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_Radius','m_Axis','m_Center',]
@@ -57,7 +57,7 @@ add_class( VTKCylinder )
 TYPENAMES.append('VTKCylinderType' )
 
 #--------------------------------------------------------------
-class VTKImplicitBoolean(Node, VTKNode):
+class VTKImplicitBoolean(Node, BVTK_Node):
 
     bl_idname = 'VTKImplicitBooleanType'
     bl_label  = 'vtkImplicitBoolean'
@@ -65,7 +65,7 @@ class VTKImplicitBoolean(Node, VTKNode):
     
     e_OperationType = bpy.props.EnumProperty( name='OperationType', default="Union", items=e_OperationType_items )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['e_OperationType',]
@@ -76,7 +76,7 @@ add_class( VTKImplicitBoolean )
 TYPENAMES.append('VTKImplicitBooleanType' )
 
 #--------------------------------------------------------------
-class VTKImplicitDataSet(Node, VTKNode):
+class VTKImplicitDataSet(Node, BVTK_Node):
 
     bl_idname = 'VTKImplicitDataSetType'
     bl_label  = 'vtkImplicitDataSet'
@@ -84,7 +84,7 @@ class VTKImplicitDataSet(Node, VTKNode):
     m_OutValue    = bpy.props.FloatProperty      ( name='OutValue',    default=-1e+30 )
     m_OutGradient = bpy.props.FloatVectorProperty( name='OutGradient', default=[0.0, 0.0, 1.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_OutValue','m_OutGradient',]
@@ -95,7 +95,7 @@ add_class( VTKImplicitDataSet )
 TYPENAMES.append('VTKImplicitDataSetType' )
 
 #--------------------------------------------------------------
-class VTKImplicitHalo(Node, VTKNode):
+class VTKImplicitHalo(Node, BVTK_Node):
 
     bl_idname = 'VTKImplicitHaloType'
     bl_label  = 'vtkImplicitHalo'
@@ -104,7 +104,7 @@ class VTKImplicitHalo(Node, VTKNode):
     m_Radius  = bpy.props.FloatProperty      ( name='Radius',  default=1.0 )
     m_Center  = bpy.props.FloatVectorProperty( name='Center',  default=[0.0, 0.0, 0.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_FadeOut','m_Radius','m_Center',]
@@ -115,7 +115,7 @@ add_class( VTKImplicitHalo )
 TYPENAMES.append('VTKImplicitHaloType' )
 
 #--------------------------------------------------------------
-class VTKImplicitPolyDataDistance(Node, VTKNode):
+class VTKImplicitPolyDataDistance(Node, BVTK_Node):
 
     bl_idname = 'VTKImplicitPolyDataDistanceType'
     bl_label  = 'vtkImplicitPolyDataDistance'
@@ -125,7 +125,7 @@ class VTKImplicitPolyDataDistance(Node, VTKNode):
     m_NoClosestPoint = bpy.props.FloatVectorProperty( name='NoClosestPoint', default=[0.0, 0.0, 0.0], size=3 )
     m_NoGradient     = bpy.props.FloatVectorProperty( name='NoGradient',     default=[0.0, 0.0, 1.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=4, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=4, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_NoValue','m_Tolerance','m_NoClosestPoint','m_NoGradient',]
@@ -136,7 +136,7 @@ add_class( VTKImplicitPolyDataDistance )
 TYPENAMES.append('VTKImplicitPolyDataDistanceType' )
 
 #--------------------------------------------------------------
-class VTKImplicitSelectionLoop(Node, VTKNode):
+class VTKImplicitSelectionLoop(Node, BVTK_Node):
 
     bl_idname = 'VTKImplicitSelectionLoopType'
     bl_label  = 'vtkImplicitSelectionLoop'
@@ -144,7 +144,7 @@ class VTKImplicitSelectionLoop(Node, VTKNode):
     m_AutomaticNormalGeneration = bpy.props.BoolProperty       ( name='AutomaticNormalGeneration', default=True )
     m_Normal                    = bpy.props.FloatVectorProperty( name='Normal',                    default=[0.0, 0.0, 1.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_AutomaticNormalGeneration','m_Normal',]
@@ -155,14 +155,14 @@ add_class( VTKImplicitSelectionLoop )
 TYPENAMES.append('VTKImplicitSelectionLoopType' )
 
 #--------------------------------------------------------------
-class VTKImplicitSum(Node, VTKNode):
+class VTKImplicitSum(Node, BVTK_Node):
 
     bl_idname = 'VTKImplicitSumType'
     bl_label  = 'vtkImplicitSum'
     
     m_NormalizeByWeight = bpy.props.BoolProperty( name='NormalizeByWeight', default=True )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_NormalizeByWeight',]
@@ -173,7 +173,7 @@ add_class( VTKImplicitSum )
 TYPENAMES.append('VTKImplicitSumType' )
 
 #--------------------------------------------------------------
-class VTKImplicitVolume(Node, VTKNode):
+class VTKImplicitVolume(Node, BVTK_Node):
 
     bl_idname = 'VTKImplicitVolumeType'
     bl_label  = 'vtkImplicitVolume'
@@ -181,7 +181,7 @@ class VTKImplicitVolume(Node, VTKNode):
     m_OutValue    = bpy.props.FloatProperty      ( name='OutValue',    default=-1e+30 )
     m_OutGradient = bpy.props.FloatVectorProperty( name='OutGradient', default=[0.0, 0.0, 1.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_OutValue','m_OutGradient',]
@@ -192,7 +192,7 @@ add_class( VTKImplicitVolume )
 TYPENAMES.append('VTKImplicitVolumeType' )
 
 #--------------------------------------------------------------
-class VTKImplicitWindowFunction(Node, VTKNode):
+class VTKImplicitWindowFunction(Node, BVTK_Node):
 
     bl_idname = 'VTKImplicitWindowFunctionType'
     bl_label  = 'vtkImplicitWindowFunction'
@@ -200,7 +200,7 @@ class VTKImplicitWindowFunction(Node, VTKNode):
     m_WindowRange  = bpy.props.FloatVectorProperty( name='WindowRange',  default=[0.0, 1.0], size=2 )
     m_WindowValues = bpy.props.FloatVectorProperty( name='WindowValues', default=[0.0, 1.0], size=2 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_WindowRange','m_WindowValues',]
@@ -211,7 +211,7 @@ add_class( VTKImplicitWindowFunction )
 TYPENAMES.append('VTKImplicitWindowFunctionType' )
 
 #--------------------------------------------------------------
-class VTKPerlinNoise(Node, VTKNode):
+class VTKPerlinNoise(Node, BVTK_Node):
 
     bl_idname = 'VTKPerlinNoiseType'
     bl_label  = 'vtkPerlinNoise'
@@ -220,7 +220,7 @@ class VTKPerlinNoise(Node, VTKNode):
     m_Frequency = bpy.props.FloatVectorProperty( name='Frequency', default=[1.0, 1.0, 1.0], size=3 )
     m_Phase     = bpy.props.FloatVectorProperty( name='Phase',     default=[0.0, 0.0, 0.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_Amplitude','m_Frequency','m_Phase',]
@@ -231,7 +231,7 @@ add_class( VTKPerlinNoise )
 TYPENAMES.append('VTKPerlinNoiseType' )
 
 #--------------------------------------------------------------
-class VTKPlane(Node, VTKNode):
+class VTKPlane(Node, BVTK_Node):
 
     bl_idname = 'VTKPlaneType'
     bl_label  = 'vtkPlane'
@@ -239,7 +239,7 @@ class VTKPlane(Node, VTKNode):
     m_Normal = bpy.props.FloatVectorProperty( name='Normal', default=[0.0, 0.0, 1.0], size=3 )
     m_Origin = bpy.props.FloatVectorProperty( name='Origin', default=[0.0, 0.0, 0.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_Normal','m_Origin',]
@@ -250,13 +250,13 @@ add_class( VTKPlane )
 TYPENAMES.append('VTKPlaneType' )
 
 #--------------------------------------------------------------
-class VTKPlanes(Node, VTKNode):
+class VTKPlanes(Node, BVTK_Node):
 
     bl_idname = 'VTKPlanesType'
     bl_label  = 'vtkPlanes'
     
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return []
@@ -267,13 +267,13 @@ add_class( VTKPlanes )
 TYPENAMES.append('VTKPlanesType' )
 
 #--------------------------------------------------------------
-class VTKPlanesIntersection(Node, VTKNode):
+class VTKPlanesIntersection(Node, BVTK_Node):
 
     bl_idname = 'VTKPlanesIntersectionType'
     bl_label  = 'vtkPlanesIntersection'
     
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return []
@@ -284,13 +284,13 @@ add_class( VTKPlanesIntersection )
 TYPENAMES.append('VTKPlanesIntersectionType' )
 
 #--------------------------------------------------------------
-class VTKPolyPlane(Node, VTKNode):
+class VTKPolyPlane(Node, BVTK_Node):
 
     bl_idname = 'VTKPolyPlaneType'
     bl_label  = 'vtkPolyPlane'
     
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return []
@@ -301,13 +301,13 @@ add_class( VTKPolyPlane )
 TYPENAMES.append('VTKPolyPlaneType' )
 
 #--------------------------------------------------------------
-class VTKQuadric(Node, VTKNode):
+class VTKQuadric(Node, BVTK_Node):
 
     bl_idname = 'VTKQuadricType'
     bl_label  = 'vtkQuadric'
     
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return []
@@ -318,7 +318,7 @@ add_class( VTKQuadric )
 TYPENAMES.append('VTKQuadricType' )
 
 #--------------------------------------------------------------
-class VTKSphere(Node, VTKNode):
+class VTKSphere(Node, BVTK_Node):
 
     bl_idname = 'VTKSphereType'
     bl_label  = 'vtkSphere'
@@ -326,7 +326,7 @@ class VTKSphere(Node, VTKNode):
     m_Radius = bpy.props.FloatProperty      ( name='Radius', default=0.5 )
     m_Center = bpy.props.FloatVectorProperty( name='Center', default=[0.0, 0.0, 0.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_Radius','m_Center',]
@@ -337,7 +337,7 @@ add_class( VTKSphere )
 TYPENAMES.append('VTKSphereType' )
 
 #--------------------------------------------------------------
-class VTKSuperquadric(Node, VTKNode):
+class VTKSuperquadric(Node, BVTK_Node):
 
     bl_idname = 'VTKSuperquadricType'
     bl_label  = 'vtkSuperquadric'
@@ -350,7 +350,7 @@ class VTKSuperquadric(Node, VTKNode):
     m_Center         = bpy.props.FloatVectorProperty( name='Center',         default=[0.0, 0.0, 0.0], size=3 )
     m_Scale          = bpy.props.FloatVectorProperty( name='Scale',          default=[1.0, 1.0, 1.0], size=3 )
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=7, get=VTKNode.get_b, set=VTKNode.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=7, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
     
     def m_properties( self ):
         return ['m_Toroidal','m_PhiRoundness','m_Size','m_ThetaRoundness','m_Thickness','m_Center','m_Scale',]
@@ -362,4 +362,4 @@ TYPENAMES.append('VTKSuperquadricType' )
 
 #--------------------------------------------------------------
 menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append( VTKNodeCategory( 'implicitfunc', 'implicitfunc', items=menu_items) )
+CATEGORIES.append( BVTK_NodeCategory( 'VTKImplicitFunc', 'Implicit Function', items=menu_items) )

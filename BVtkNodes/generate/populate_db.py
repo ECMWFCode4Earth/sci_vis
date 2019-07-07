@@ -62,7 +62,7 @@ c.execute("insert into PType(name) values('FloatVector');")
 c.execute("insert into PType(name) values('Object-in');")  #9
 c.execute("insert into PType(name) values('Object-out');") #10
 
-c.execute('''CREATE TABLE Class
+c.execute("""CREATE TABLE Class
 ( 
 id      INTEGER PRIMARY KEY,
 banned  INTEGER, 
@@ -77,11 +77,11 @@ doc     TEXT,
 FOREIGN KEY(type)   REFERENCES CType(id),
 FOREIGN KEY(grp)    REFERENCES CGroup(id),
 FOREIGN KEY(status) REFERENCES CStatus(id)
-);''')
+);""")
 
 #c.execute("insert into Class(name,doc,num_in,num_out,type,banned,grp,status,note) values('name','doc',0,0,1,1,1,1,'note');")
 
-c.execute('''CREATE TABLE Property
+c.execute("""CREATE TABLE Property
 ( 
 id       INTEGER PRIMARY KEY,
 class    INTEGER, 
@@ -96,7 +96,7 @@ items    TEXT,
 note     TEXT,
 FOREIGN KEY(class) REFERENCES Class(id), 
 FOREIGN KEY(type)  REFERENCES PType(id)
-);''')
+);""")
 
 #c.execute("insert into Property(name) values('Pollo');")
 
