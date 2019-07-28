@@ -1,5 +1,5 @@
-from .utils import resolve_algorithm_output, log
-from .core import *
+from . utils import resolve_algorithm_output, log, node_path, header_box
+from . core import *
 
 # -----------------------------------------------------------------------------
 # Custom filter
@@ -70,7 +70,7 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
     def apply_inputs(self, vtkobj):
         pass
 
-    def get_output(self, socketname):
+    def get_output(self, socket):
         """Execute user defined function. If something goes wrong,
         print the error and return the input object.
         """
@@ -216,9 +216,9 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
     def apply_inputs(self, vtkobj):
         pass
 
-    def get_output(self, socketname):
-        """The function checks if the specified block can be retrieved from
-        the input vtk object, in case it's possible the said block is returned.
+    def get_output(self, socket):
+        """Check if the specified block can be retrieved from the input vtk object,
+        in case it's possible the said block is returned.
         """
         in_node, vtkobj = self.get_input_node('input')
         if in_node:
@@ -233,6 +233,7 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
 # ----------------------------------------------------------------
 # TimeSelector
 # ----------------------------------------------------------------
+
 
 class BVTK_NT_TimeSelector(Node, BVTK_Node):
     """VTK time management node for time variant data. Display time sets,
@@ -300,7 +301,7 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
     def apply_inputs(self, vtkobj):
         pass
 
-    def get_output(self, socketname):
+    def get_output(self, socket):
         """ Check if the input is valid and if the time step can be set.
         If tests pass the time step is updated and the input object is returned,
         otherwise None is returned.
@@ -320,23 +321,123 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
                                 if hasattr(prod, "UpdateTimeStep"):
                                     prod.UpdateTimeStep(time_steps[self.time_step])
                                 else:
-                                    print("ERROR: "+prod.__class__.__name__+" does not have 'UpdateTimeStep' method.")
-                                    print("If you can, please document this case and report it to the developers.")
+                                    log.warning("ERROR: {} does not have 'UpdateTimeStep' method."
+                                                .format(prod.__class__.__name__))
+                                    log.warning("If you can, please document this case and report it to the developers.")
                             else:
-                                print('ERROR: Index out of time steps range')
+                                log.warning('ERROR: Index out of time steps range')
                 return resolve_algorithm_output(out_port)
         return None
 
 
-# Add classes and menu items
+# ----------------------------------------------------------------
+# Baker
+# ----------------------------------------------------------------
+
+
+class BVTK_NT_Baker(Node, BVTK_Node):
+    """VTK time management node for time variant data. Display time sets,
+    time values and set time.
+    """
+    bl_idname = 'BVTK_NT_Baker'
+    bl_label = 'Baker'
+
+    def m_properties(self):
+        return []
+
+    def m_connections(self):
+        return (['Input'], [], [], ['Output'])
+
+    def draw_buttons(self, context, layout):
+        baked_obj = self.get_vtkobj()
+        operator, label, icon = ("bvtk.node_update", "Bake", "MESH_CUBE") if baked_obj is None \
+            else ("bvtk.free_bake", "Rebake", "OBJECT_DATA")
+        op = layout.operator(operator, text=label, icon=icon)
+        op.node_path = node_path(self)
+        if baked_obj:
+            box = layout.box()
+            box.label(type(baked_obj).__name__)
+
+    def apply_properties(self, vtkobj):
+        pass
+
+    def apply_inputs(self, vtkobj):
+        pass
+
+    def update_cb(self):
+        in_node, in_obj = self.get_input_node('Input')
+        if in_obj:
+            self.set_vtkobj(in_obj)
+        else:
+            log.warning("Input object is invalid and it hasn't been baked.")
+
+    def input_nodes(self):
+        """Return input nodes"""
+        # When this method is called by the update function,
+        # if the baker node has a baked object it will
+        # pretend to be the last node of the pipeline, and the
+        # the rest of the tree won't be updated.
+        if self.get_vtkobj():
+            return []
+        else:
+            # If the node hasn't a valid baked object the
+            # pipeline will be executed as normal.
+            nodes = []
+            for input in self.inputs:
+                for link in input.links:
+                    nodes.append(link.from_node)
+            return nodes
+
+    def get_output(self, socket):
+        """Return the baked object, if there is one,
+        otherwise return the input object."""
+        baked_obj = self.get_vtkobj()
+        if baked_obj:
+            return baked_obj
+
+        in_node, in_obj = self.get_input_node('Input')
+        if in_obj:
+            return in_obj
+
+        return None
+
+
+# ---------------------------------------------------------------------------------
+# Operator free bake
+# ---------------------------------------------------------------------------------
+
+
+class BVTK_OT_FreeBake(bpy.types.Operator):
+    bl_idname = "bvtk.free_bake"
+    bl_label = "Free Bake"
+    node_path = bpy.props.StringProperty()
+    use_queue = bpy.props.BoolProperty(default=True)
+
+    def execute(self, context):
+        check_cache()
+        node = eval(self.node_path)
+        if node:
+            node.set_vtkobj(None)  # Remove baked object
+            bpy.ops.bvtk.node_update(node_path=self.node_path)
+        self.use_queue = True
+        return {'FINISHED'}
+
+
+# ----------------------------------------------------------------
+
+
 TYPENAMES = []
 add_class(BVTK_NT_CustomFilter)
 TYPENAMES.append('BVTK_NT_CustomFilter')
-add_ui_class(BVTK_OT_NewText)
 add_class(BVTK_NT_MultiBlockLeaf)
 TYPENAMES.append('BVTK_NT_MultiBlockLeaf')
 add_class(BVTK_NT_TimeSelector)
 TYPENAMES.append('BVTK_NT_TimeSelector')
+add_class(BVTK_NT_Baker)
+TYPENAMES.append('BVTK_NT_Baker')
+add_ui_class(BVTK_OT_NewText)
+add_ui_class(BVTK_OT_FreeBake)
+
 
 menu_items = [NodeItem(x) for x in TYPENAMES]
 CATEGORIES.append(BVTK_NodeCategory("Custom", "Custom", items=menu_items))
