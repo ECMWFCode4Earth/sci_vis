@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # Color map nodes and functions
 # -----------------------------------------------------------------------------
-from .utils import resolve_algorithm_output
-from .core import *
+from . utils import *
+from . core import *
 
 
 def get_default_texture(name):
@@ -12,9 +12,6 @@ def get_default_texture(name):
     else:
         tex = bpy.data.textures[name]
     tex.use_color_ramp = True
-
-    # Force saving of blend texture, so that ramp is correct when
-    # blend file is loaded. TODO: Is there better way to fix this?
     tex.use_fake_user = True
 
     elements = tex.color_ramp.elements
@@ -31,12 +28,17 @@ def get_default_texture(name):
     return tex
 
 
+# ----------------------------------------------------------------
+
+
 class BVTK_NT_ColorMapper(Node, BVTK_Node):
     """BVTK Color Mapper Node"""
     bl_idname = 'BVTK_NT_ColorMapper'
     bl_label = 'Color Mapper'
 
-    def array_change(self, context):
+    def update_range(self, context):
+        if not self.auto_range:
+            return
         vtkobj = self.get_input_node('input')[1]
         if self.color_by and vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
@@ -46,8 +48,8 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
                 d = vtkobj.GetCellData()
             if d:
                 range = d.GetArray(int(self.color_by[1:])).GetRange()
-                self.max = range[1]
-                self.min = range[0]
+                self.range_max = range[1]
+                self.range_min = range[0]
 
     def color_arrays(self, context):
         items = []
@@ -56,7 +58,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
             vtkobj = resolve_algorithm_output(vtkobj)
             if hasattr(vtkobj, 'GetCellData'):
                 c_data = vtkobj.GetCellData()
-                p_data =  vtkobj.GetPointData()
+                p_data = vtkobj.GetPointData()
                 c_descr = 'Color by cell data using '
                 p_descr = 'Color by point data using '
                 for i in range(p_data.GetNumberOfArrays()):
@@ -69,17 +71,18 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
             items.append(('', '', ''))
         return items
 
-    color_by = bpy.props.EnumProperty(items=color_arrays, name="color by", update=array_change)
-    texture_type = bpy.props.EnumProperty(name="texture type",
-                                          items=[('BLEND','BLEND','BLEND','TEXTURE_DATA',0),('IMAGE','IMAGE','IMAGE','FILE_IMAGE',1)],
-                                          default='BLEND')
-    auto_range = bpy.props.BoolProperty(default=True, update=array_change)
+    color_by = bpy.props.EnumProperty(items=color_arrays, name="Color by", update=update_range)
+    texture_type = bpy.props.EnumProperty(name="Texture",
+                                          items=[('BLEND', 'BLEND', 'BLEND', 'TEXTURE_DATA', 0),
+                                                 ('IMAGE', 'IMAGE', 'IMAGE', 'FILE_IMAGE', 1)],
+                                          default='IMAGE')
+    auto_range = bpy.props.BoolProperty(default=True, update=update_range)
     default_texture = bpy.props.StringProperty(default="")
     last_color_by = bpy.props.StringProperty(default='')
     lut = bpy.props.BoolProperty(default=False)
     height = bpy.props.FloatProperty(default=5.5)
-    max = bpy.props.FloatProperty(default=0)
-    min = bpy.props.FloatProperty(default=0)
+    range_max = bpy.props.FloatProperty(default=1)
+    range_min = bpy.props.FloatProperty(default=0)
     font = bpy.props.PointerProperty(type=bpy.types.VectorFont)
 
     def m_properties(self):
@@ -95,7 +98,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
             self.last_color_by = self.color_by
-            self.array_change(None)
+            self.update_range(None)
 
     def get_texture(self):
         in_links = self.inputs['lookuptable'].links
@@ -132,8 +135,8 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
                 layout.prop(self, 'auto_range', text='automatic range')
                 row = layout.row(align=True)
                 row.enabled = not self.auto_range
-                row.prop(self, 'min')
-                row.prop(self, 'max')
+                row.prop(self, 'range_min')
+                row.prop(self, 'range_max')
                 layout.separator()
             else:
                 layout.label('Input has no associated data (try updating)')
@@ -153,7 +156,9 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
     bl_idname = 'BVTK_NT_ColorToImage'
     bl_label = 'ColorToImage'
 
-    def array_change(self, context):
+    def update_range(self, context):
+        if not self.auto_range:
+            return
         vtkobj = self.get_input_node('input')[1]
         if self.color_by and vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
@@ -163,8 +168,8 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
                 d = vtkobj.GetCellData()
             if d:
                 range = d.GetArray(int(self.color_by[1:])).GetRange()
-                self.max = range[1]
-                self.min = range[0]
+                self.range_max = range[1]
+                self.range_min = range[0]
 
     def color_arrays(self, context):
         items = []
@@ -186,14 +191,14 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
             items.append(('', '', ''))
         return items
 
-    color_by = bpy.props.EnumProperty(items=color_arrays, name="color by", update=array_change)
-    auto_range = bpy.props.BoolProperty(default=True, update=array_change)
+    color_by = bpy.props.EnumProperty(items=color_arrays, name="color by", update=update_range)
+    auto_range = bpy.props.BoolProperty(default=True, update=update_range)
     default_texture = bpy.props.StringProperty(default="")
     last_color_by = bpy.props.StringProperty(default='')
     lut = bpy.props.BoolProperty(default=False)
     height = bpy.props.FloatProperty(default=5.5)
-    max = bpy.props.FloatProperty(default=0)
-    min = bpy.props.FloatProperty(default=0)
+    range_max = bpy.props.FloatProperty(default=0, name="Min")
+    range_min = bpy.props.FloatProperty(default=0, name="Max")
     font = bpy.props.PointerProperty(type=bpy.types.VectorFont)
     image = bpy.props.PointerProperty(type=bpy.types.Image)
     mesh = bpy.props.PointerProperty(type=bpy.types.Mesh)
@@ -201,7 +206,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
 
     def m_properties(self):
         return ['color_by', 'auto_range',
-                'lut', 'min', 'max', 'height']
+                'lut', 'range_min', 'range_max', 'height']
 
     def m_connections(self):
         return ['input'], [], [], ['output']
@@ -212,7 +217,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
             self.last_color_by = self.color_by
-            self.array_change(None)
+            self.update_range(None)
 
     def free(self):
         if self.default_texture:
@@ -265,8 +270,8 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
                 box1.prop(self, 'auto_range', text='Automatic range')
                 row = box1.row(align=True)
                 row.enabled = not self.auto_range
-                row.prop(self, 'min')
-                row.prop(self, 'max')
+                row.prop(self, 'range_min')
+                row.prop(self, 'range_max')
                 layout.separator()
                 # Scalar bar
                 box1 = layout.box()
@@ -290,8 +295,23 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
     def apply_properties(self, vtkobj):
         pass
 
-    def get_output(self, socketname):
+    def get_output(self, socket):
         return self.get_input_node('input')[1]
+
+
+# ----------------------------------------------------------------
+
+
+class BVTK_PG_ColorSettings(bpy.types.PropertyGroup):
+    """Property used by the color ramp node to allow
+    the user to choose the arrangement criteria.
+    """
+    # Each color has an associated value inside the range
+    value = bpy.props.FloatProperty()
+    # When the locked property is true the value property
+    # is significant and the color ramp element won't move
+    # during arrangement.
+    locked = bpy.props.BoolProperty(default=False)
 
 
 class BVTK_NT_ColorRamp(Node, BVTK_Node):
@@ -300,12 +320,13 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
     bl_label = 'ColorRamp'
 
     my_texture = bpy.props.StringProperty()
+    color_settings = bpy.props.CollectionProperty(type=BVTK_PG_ColorSettings)
 
     def m_properties(self):
         return []
 
     def m_connections(self):
-        return ([],[],[],['lookupTable'])
+        return [], [], [], ['ColorRamp']
 
     def copy_setup(self, node):
         new_texture = get_default_texture(self.name)
@@ -327,6 +348,9 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
     def setup(self):
         new_texture = get_default_texture(self.name)
         self.my_texture = new_texture.name
+        for i in range(30):
+            # Initially add 30 color settings
+            self.color_settings.add()
 
     def get_texture(self):
         if self.my_texture not in bpy.data.textures.keys():
@@ -338,14 +362,106 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
             bpy.data.textures.remove(bpy.data.textures[self.my_texture])
         node_deleted(self)
 
+    def get_range_set(self):
+        """Retrieve a set with all the ranges retrieved from the
+        nodes in output, return an empty set if no range could be found
+        """
+        ranges = set()
+        for link in self.outputs[0].links:
+            node = link.to_node
+            if hasattr(node, "range_max") and hasattr(node, "range_min"):
+                ranges.add((node.range_min, node.range_max))
+        return ranges
+
+    def get_range(self):
+        """Check if a valid range exist and return it, otherwise return none"""
+        ranges = self.get_range_set()
+        if not ranges:
+            return None
+        if len(ranges) > 1:
+            return None
+        return ranges.pop()
+
     def draw_buttons(self, context, layout):
         if self.my_texture in bpy.data.textures.keys():
-            layout.template_color_ramp(bpy.data.textures[self.my_texture], "color_ramp", expand=False)
+            texture = bpy.data.textures[self.my_texture]
+            layout.template_color_ramp(texture, "color_ramp", expand=False)
+
+            path = node_path(self)
+            errors = set()
+            ramp = texture.color_ramp
+
+            ranges = self.get_range_set()
+            if not ranges:
+                question_box(layout, "Connect a node with a valid range.")
+                return
+            elif len(ranges) > 1:
+                question_box(layout, "Input ranges differ, connect nodes with the same range to edit color values.")
+                return
+
+            range_min, range_max = ranges.pop()  # Get the single range item
+
+            box = layout.box()
+            header_box(box, "Color values")
+            row = box.row(align=True)
+            row.label(text="Range: {}, {}".format(round(range_min, 1), round(range_max, 1)))
+
+            if range_min == range_max:
+                error_icon(row)
+                errors.add("Range max and min can't be equal!")
+            elif range_min > range_max:
+                error_icon(row)
+                errors.add("Range max must be grater than min!")
+
+            color_settings = self.color_settings
+            n_settings = len(color_settings)
+            split = box.split()
+            color_col = split.column()
+            settings_col = split.column()
+            last_val = None
+            for i, element in enumerate(ramp.elements):
+                row = settings_col.row()
+                color_col.prop(element, "color", text="")
+                if i >= n_settings:
+                    # If the settings aren't enough to match any color ramp elements, the operator will
+                    # notice it and add more settings. It's done with an operator because blender doesn't
+                    # allow to modify data during draw.
+                    op = row.operator("bvtk.update_color_settings", text="", icon="RADIOBUT_OFF", emboss=False)
+                    op.el_index = i
+                    op.node_path = path
+                else:
+                    settings = color_settings[i]
+                    op = row.operator("bvtk.update_color_settings", text="",
+                                      icon="RADIOBUT_ON" if settings.locked else "RADIOBUT_OFF",
+                                      emboss=False)
+                    op.el_index = i
+                    op.node_path = path
+                    if settings.locked:
+                        prop_row = row.row(align=True)
+                        prop_row.prop(settings, "value", text="")
+                        op = prop_row.operator("bvtk.apply_ramp_position", text="",
+                                               icon="PASTEDOWN")
+                        op.el_index = i
+                        op.node_path = path
+                        if settings.value > range_max or settings.value < range_min:
+                            row.label(text="", icon="ERROR")
+                            errors.add("Values must be inside range!")
+                        if last_val is not None and settings.value < last_val:
+                            errors.add("Values must be in ascending order!")
+                        last_val = settings.value
+
+            for error in errors:
+                error_box(box, error)
+
+            row = box.row()
+            row.enabled = len(errors) == 0
+            op = row.operator("bvtk.arrange_color_ramp", text="Arrange", icon="ALIGN")
+            op.node_path = path
 
     def apply_properties(self, vtkobj):
         pass
 
-    def get_output(self, socketname):
+    def get_output(self, socket):
         lut = vtk.vtkLookupTable()
         lut.Build()
         return lut
@@ -382,6 +498,151 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
                     e.color = new_el[0]
 
 
+# ----------------------------------------------------------------
+
+
+class BVTK_OT_UpdateColorSetting(bpy.types.Operator):
+    """Lock a color ramp element to a certain value
+    during the arrangement."""
+    bl_idname = "bvtk.update_color_settings"
+    bl_label = "Lock or unlock a color ramp element."
+    node_path = bpy.props.StringProperty()
+    el_index = bpy.props.IntProperty()
+
+    def execute(self, context):
+        node = eval(self.node_path)
+        if not node:
+            return {'CANCELLED'}
+        texture = node.get_texture()
+        if not texture:
+            return {'CANCELLED'}
+        ramp = texture.color_ramp
+        color_settings = node.color_settings
+        el_index = self.el_index
+        if el_index >= len(ramp.elements):
+            return {'CANCELLED'}
+        elif el_index >= len(color_settings):
+            m_settings = el_index-len(color_settings)+1  # Number of missing settings
+            for i in range(m_settings):
+                color_settings.add()
+
+        color_setting = color_settings[el_index]
+        if color_setting.locked:
+            color_setting.locked = False
+        else:
+            bpy.ops.bvtk.apply_ramp_position(node_path=self.node_path, el_index=self.el_index)
+            color_setting.locked = True
+        return {'FINISHED'}
+
+
+# ----------------------------------------------------------------
+
+
+class BVTK_OT_ApplyRampPosition(bpy.types.Operator):
+    """Retrieve the element position in the color ramp
+    and find the corresponding value within the range."""
+    bl_idname = "bvtk.apply_ramp_position"
+    bl_label = "Apply ramp position"
+    node_path = bpy.props.StringProperty()
+    el_index = bpy.props.IntProperty()
+
+    def execute(self, context):
+        node = eval(self.node_path)
+        if not node:
+            return {'CANCELLED'}
+        texture = node.get_texture()
+        if not texture:
+            return {'CANCELLED'}
+        r = node.get_range()
+        if not r:
+            return {"CANCELLED"}
+        r_min, r_max = r
+        r_delta = r_max - r_min  # Range delta
+        ramp = texture.color_ramp
+        color_settings = node.color_settings
+        el_index = self.el_index
+        if el_index >= len(ramp.elements) or el_index >= len(color_settings):
+            return {'CANCELLED'}
+        else:
+            el = ramp.elements[el_index]
+            color_settings[el_index].value = r_min + el.position * r_delta
+        return {'FINISHED'}
+
+
+# ----------------------------------------------------------------
+
+
+class ColorRampSubset:
+    """Represent a part of a color ramp, delimited
+    in two fixed values. For internal use."""
+    # Helper class used to arrange the color ramp
+
+    def __init__(self, first_value):
+        self.first_value = first_value
+        self.last_value = None
+        self.last_element = None
+        self.elements = []
+
+    def append(self, element):
+        self.elements.append(element)
+
+    def close(self, last_element, last_value):
+        self.last_element = last_element
+        self.last_value = last_value
+        return ColorRampSubset(last_value)
+
+
+class BVTK_OT_ArrangeColorRamp(bpy.types.Operator):
+    """Arrange the color ramp, distributing the elements
+    based on the color settings."""
+    bl_idname = "bvtk.arrange_color_ramp"
+    bl_label = "Arrange color ramp elements"
+    node_path = bpy.props.StringProperty()
+
+    def execute(self, context):
+        node = eval(self.node_path)
+        if not node:
+            return {'CANCELLED'}
+        texture = node.get_texture()
+        if not texture:
+            return {'CANCELLED'}
+        r = node.get_range()
+        if not r:
+            return {"CANCELLED"}
+        r_min, r_max = r
+        r_delta = r_max-r_min  # Range delta
+        ramp = texture.color_ramp
+        color_settings = node.color_settings
+
+        # Find the values defined by the user
+        subsets = [ColorRampSubset(r_min)]
+        subset_i = 0
+        for i, el in enumerate(ramp.elements):
+            if i < len(color_settings):
+                subset = subsets[subset_i]
+                setting = color_settings[i]
+                if setting.locked:
+                    subsets.append(subset.close(el, setting.value))
+                    subset_i += 1
+                else:
+                    subset.append(el)
+        subsets[subset_i].close(None, r_max)
+
+        # Arrange the elements
+        for subset in subsets:
+            abs_start = (subset.first_value - r_min)/r_delta
+            n_elements = len(subset.elements)
+            abs_step = (subset.last_value - subset.first_value)/r_delta/(n_elements+1)
+            for i, el in enumerate(subset.elements):
+                el.position = abs_start+abs_step*(i+1)
+            if subset.last_element:
+                subset.last_element.position = (subset.last_value - r_min)/r_delta
+        return {'FINISHED'}
+
+
+# ----------------------------------------------------------------
+
+
 # Add classes and menu items
 TYPENAMES = []
 add_class(BVTK_NT_ColorMapper)
@@ -390,6 +651,10 @@ add_class(BVTK_NT_ColorRamp)
 TYPENAMES.append('BVTK_NT_ColorRamp')
 add_class(BVTK_NT_ColorToImage)
 TYPENAMES.append('BVTK_NT_ColorToImage')
+add_ui_class(BVTK_PG_ColorSettings)
+add_ui_class(BVTK_OT_ArrangeColorRamp)
+add_ui_class(BVTK_OT_UpdateColorSetting)
+add_ui_class(BVTK_OT_ApplyRampPosition)
 
 menu_items = [NodeItem(x) for x in TYPENAMES]
 CATEGORIES.append(BVTK_NodeCategory("Colour", "Colour", items=menu_items))
