@@ -56,3 +56,31 @@ def addon_pref(pref_name):
     if hasattr(pref, pref_name):
         return getattr(pref, pref_name)
     return None
+
+
+# -----------------------------------------------------------------------------
+# Layout elements
+# -----------------------------------------------------------------------------
+
+
+def question_box(layout, text):
+    """Create a box inside the given layout,
+    with the given text and an error icon."""
+    layout.box().label(text=str(text), icon="QUESTION")
+
+
+def error_box(layout, text):
+    """Create a box inside the given layout,
+    with the given text and an error icon."""
+    layout.box().label(text=str(text), icon="ERROR")
+
+
+def header_box(layout, text):
+    """Create a box inside the given layout,
+    with the given text."""
+    layout.box().label(text=str(text))
+
+
+def error_icon(layout):
+    """Create an error icon inside the given layout."""
+    layout.label(text="", icon="ERROR")
