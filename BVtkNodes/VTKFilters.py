@@ -1,7 +1,7 @@
-from .utils import node_prop_path
-from .gen_VTKFilters1 import *
-from .gen_VTKFilters2 import *
-from .gen_VTKFilters import *
+from . utils import node_prop_path
+from . gen_VTKFilters1 import *
+from . gen_VTKFilters2 import *
+from . gen_VTKFilters import *
 
 # ---------------------------------------------------------------------------------
 # Contour classes
@@ -31,13 +31,13 @@ class BVTK_ContourHelper:
                     prop = getattr(self, prop)
                     prop_path = node_prop_path(self, 'm_ContourValues')
                     row = layout.row()
-                    op = row.operator('bvtk.update_collection', text='', icon='ZOOM_IN')
+                    op = row.operator('bvtk.update_collection', text='', icon='ZOOMIN')
                     op.prop_path = prop_path
                     op.add = True
                     row.label(text='Contour values')
                     for i, item in enumerate(self.m_ContourValues):
                         row = layout.row(align=True)
-                        op = row.operator('bvtk.update_collection', text='', icon='ZOOM_OUT')
+                        op = row.operator('bvtk.update_collection', text='', icon='ZOOMOUT')
                         op.prop_path = prop_path
                         op.add = False
                         op.index = i
@@ -97,8 +97,8 @@ class BVTK_OT_UpdateCollection(bpy.types.Operator):
 add_ui_class(BVTK_OT_UpdateCollection)
 
 
-class BVTK_ContourFilter(BVTK_ContourHelper, Node, BVTK_Node):
-    bl_idname = 'VTKContourFilterType'
+class BVTK_NT_ContourFilter(BVTK_ContourHelper, Node, BVTK_Node):
+    bl_idname = 'BVTK_NT_ContourFilter'
     bl_label = 'vtkContourFilter'
 
     m_ComputeGradients = bpy.props.BoolProperty(name='ComputeGradients', default=True)
@@ -118,13 +118,13 @@ class BVTK_ContourFilter(BVTK_ContourHelper, Node, BVTK_Node):
         return (['input'], ['output'], [], [])
 
 
-add_class(BVTK_ContourFilter)
+add_class(BVTK_NT_ContourFilter)
 
 # --------------------------------------------------------------
 
 
-class BVTK_MarchingCubes(BVTK_ContourHelper, Node, BVTK_Node):
-    bl_idname = 'VTKMarchingCubesType'
+class BVTK_NT_MarchingCubes(BVTK_ContourHelper, Node, BVTK_Node):
+    bl_idname = 'BVTK_NT_MarchingCubes'
     bl_label = 'vtkMarchingCubes'
 
     m_ComputeGradients = bpy.props.BoolProperty(name='ComputeGradients', default=True)
@@ -142,13 +142,13 @@ class BVTK_MarchingCubes(BVTK_ContourHelper, Node, BVTK_Node):
         return (['input'], ['output'], [], [])
 
 
-add_class(BVTK_MarchingCubes)
+add_class(BVTK_NT_MarchingCubes)
 
 # --------------------------------------------------------------
 
 
-class BVTK_AppendFilter(Node, BVTK_Node):
-    bl_idname = 'VTKAppendFilterType'
+class BVTK_NT_AppendFilter(Node, BVTK_Node):
+    bl_idname = 'BVTK_NT_AppendFilter'
     bl_label = 'vtkAppendFilter'
 
     m_MergePoints = bpy.props.BoolProperty(name='MergePoints', default=True)
@@ -177,6 +177,5 @@ class BVTK_AppendFilter(Node, BVTK_Node):
                 vtkobj.RemoveInputConnection(0, obj)
 
 
-add_class(BVTK_AppendFilter)
-TYPENAMES.append('VTKAppendFilterType')
+add_class(BVTK_NT_AppendFilter)
 

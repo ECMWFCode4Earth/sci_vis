@@ -1,8 +1,8 @@
-from .gen_VTKIntegrator import *
-from .gen_VTKTransform import *
-from .gen_VTKImplicitFunc import *
-from .gen_VTKParametricFunc import *
-from .utils import node_path
+from . gen_VTKIntegrator import *
+from . gen_VTKTransform import *
+from . gen_VTKImplicitFunc import *
+from . gen_VTKParametricFunc import *
+from . utils import node_path
 import mathutils
 
 
@@ -163,8 +163,8 @@ add_ui_class(BVTK_OT_LinkObject)
 # --------------------------------------------------------------
 
 
-class BVTK_Plane(BVTK_ImplicitFunction, Node, BVTK_Node):
-    bl_idname = 'VTKPlaneType'
+class BVTK_NT_Plane(BVTK_ImplicitFunction, Node, BVTK_Node):
+    bl_idname = 'BVTK_NT_Plane'
     bl_label = 'vtkPlane'
 
     m_Normal = bpy.props.FloatVectorProperty(name='Normal', default=[0.0, 0.0, 1.0], size=3)
@@ -215,13 +215,13 @@ class BVTK_Plane(BVTK_ImplicitFunction, Node, BVTK_Node):
             self.m_Origin = ob.location
 
 
-add_class(BVTK_Plane)
+add_class(BVTK_NT_Plane)
 
 # --------------------------------------------------------------
 
 
-class BVTK_Sphere(BVTK_ImplicitFunction, Node, BVTK_Node):
-    bl_idname = 'VTKSphereType'
+class BVTK_NT_Sphere(BVTK_ImplicitFunction, Node, BVTK_Node):
+    bl_idname = 'BVTK_NT_Sphere'
     bl_label = 'vtkSphere'
 
     m_Radius = bpy.props.FloatProperty(name='Radius', default=0.5)
@@ -259,4 +259,4 @@ class BVTK_Sphere(BVTK_ImplicitFunction, Node, BVTK_Node):
         self.m_Center = ob.location
 
 
-add_class(BVTK_Sphere)
+add_class(BVTK_NT_Sphere)
