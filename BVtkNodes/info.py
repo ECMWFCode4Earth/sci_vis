@@ -1,5 +1,5 @@
-from .utils import resolve_algorithm_output, node_path, log
-from .core import *
+from . utils import resolve_algorithm_output, node_path, log
+from . core import *
 
 
 class BVTK_NT_Info(Node, BVTK_Node):
@@ -76,7 +76,7 @@ class BVTK_NT_Info(Node, BVTK_Node):
     def apply_properties(self, vtkobj):
         pass
 
-    def get_output(self, socketname):
+    def get_output(self, socket):
         return self.get_input_node('input')[1]
 
 

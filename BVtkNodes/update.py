@@ -1,6 +1,6 @@
 import time
-from .core import *
-from .utils import log, node_path
+from . core import *
+from . utils import log, node_path
 
 # -----------------------------------------------------------------------------
 #  Functions and classes for running BVTK_Nodes internal function queue and
@@ -37,7 +37,7 @@ def set_input_obj(vtkobj, name, input_obj):
     exec(cmd, globals(), locals())
 
 
-def update(node, cb, x=True, queue=None):
+def update(node, cb=None, x=True, queue=None):
     """Update the input functions of this node using the function queue.
     Sets color of node to reflect node run status. Finally updates this
     node and queues argument function cb() if argument x is True.

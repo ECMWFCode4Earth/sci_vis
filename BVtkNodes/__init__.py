@@ -92,8 +92,9 @@ else:
     import importlib
 
     importlib.reload(utils)
-    importlib.reload(update)
     importlib.reload(core)
+    importlib.reload(update)
+    importlib.reload(converters)
     importlib.reload(b_properties)
     importlib.reload(showhide_properties)
     importlib.reload(examples)
@@ -103,7 +104,6 @@ else:
     importlib.reload(info)
     importlib.reload(favorites_data)
     importlib.reload(favorites)
-    importlib.reload(converters)
 
     importlib.reload(gen_VTKSources)
     importlib.reload(VTKSources)
@@ -146,7 +146,7 @@ def on_frame_change(scene):
     """Update nodes after frame changes by updating all VTK to Blender nodes"""
     for node_group in bpy.data.node_groups:
         for node in node_group.nodes:
-            if node.bl_idname == 'BVTK_Node_VTKToBlenderType':
+            if node.bl_idname == 'BVTK_NT_ToBlender':
                 log.debug("calling no_queue_update")
                 update.no_queue_update(node, node.update_cb)
 

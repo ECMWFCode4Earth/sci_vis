@@ -1,6 +1,6 @@
 import bpy
 import bpy.utils.previews
-from .core import *
+from . core import *
 
 # -----------------------------------------------------------------------------
 # Dubug panel and node documentation panel (information about
@@ -40,6 +40,7 @@ class BVTK_PT_Inspect(bpy.types.Panel):
             o.href = 'https://www.vtk.org/doc/nightly/html/class{}.html'.format(active_node.bl_label)
         else:
             layout.label(text='Not a VTK node')
+
 
 # -----------------------------------------------------------------------------
 # Add button to console header

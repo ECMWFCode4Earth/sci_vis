@@ -1,4 +1,4 @@
-from .core import *
+from . core import *
 from . import favorites_data
 
 # -----------------------------------------------------------------------------

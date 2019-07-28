@@ -1,5 +1,5 @@
-from .utils import resolve_algorithm_output, update_3d_view
-from .update import *
+from . utils import resolve_algorithm_output, update_3d_view
+from . update import *
 import bmesh
 
 # -----------------------------------------------------------------------------
@@ -15,7 +15,7 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
     def start_scan(self, context):
         if context:
             if self.auto_update:
-                bpy.ops.node.bvtk_auto_update_scan(
+                bpy.ops.bvtk.auto_update_scan(
                     node_name=self.name,
                     tree_name=context.space_data.node_tree.name)
 
@@ -58,23 +58,28 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
 # Operator Update
 # ---------------------------------------------------------------------------------
 
+
 class BVTK_OT_NodeUpdate(bpy.types.Operator):
     bl_idname = "bvtk.node_update"
     bl_label = "update"
     node_path = bpy.props.StringProperty()
-    use_queue = bpy.props.BoolProperty(default = True)
+    use_queue = bpy.props.BoolProperty(default=True)
 
     def execute(self, context):
         check_cache()
         node = eval(self.node_path)
         if node:
             log.info('Updating from {}'.format(node.name))
+            cb = None
+            if hasattr(node, "update_cb"):
+                cb = node.update_cb
             if self.use_queue:
-                update(node, node.update_cb)
+                update(node, cb)
             else:
-                no_queue_update(node, node.update_cb)
+                no_queue_update(node, cb)
         self.use_queue = True
         return {'FINISHED'}
+
 
 # -----------------------------------------------------------------------------
 # Operator Write
@@ -378,7 +383,7 @@ def apply_colors(color_node, bm, me, data):
                 texture.image = img
             texture_material(me, 'VTK' + me.name, texture)
 
-        s_range = (color_node.min, color_node.max)
+        s_range = (color_node.range_min, color_node.range_max)
         if color_node.lut:
             create_lut(me.name, s_range, 6, texture, font=color_node.font, h=color_node.height)
         if color_by[0] == 'P':
@@ -452,7 +457,6 @@ def face_unwrap(bm, data, array_index, s_range, uv_layer_key=""):
             for loop in face.loops:
                 v = (scalars.GetValue(face.index) - minr)/(maxr - minr)
                 # Force value inside range.
-                # todo: let the user select a color for values out of range
                 v = min(0.999, max(0.001, v))
                 loop[uv_layer].uv = (v, 0.5)
     return bm
@@ -473,7 +477,6 @@ def point_unwrap(bm, data, array_index, s_range, uv_layer_key=""):
             for loop in face.loops:
                 v = (scalars.GetValue(loop.vert.index) - minr)/(maxr - minr)
                 # Force value inside range.
-                # todo: let the user select a color for values out of range
                 v = min(0.999, max(0.001, v))
                 loop[uv_layer].uv = (v, 0.5)
     return bm

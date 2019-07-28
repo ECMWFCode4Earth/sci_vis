@@ -2,7 +2,6 @@
 # -----------------------------------------------------------------------------
 # MODULES IMPORT 
 # -----------------------------------------------------------------------------
-
 import bpy
 import vtk
 from bpy.types import NodeTree, Node, NodeSocket, Operator, AddonPreferences
@@ -11,6 +10,7 @@ import os
 from . utils import log
 from . import b_properties  # Boolean properties
 b_path = b_properties.__file__  # Boolean properties config file path
+
 
 # -----------------------------------------------------------------------------
 # Node Cache and related functions
@@ -41,8 +41,7 @@ def node_created(node):
         if vtk_class is None:
             log.error("bad classname " + node.bl_label)
             return
-        VTKCache[node.node_id] = vtk_class() # make an instance of node.vtk_class
-        # todo: set properties tips
+        VTKCache[node.node_id] = vtk_class()  # make an instance of node.vtk_class
     
     log.debug("node_created " + node.bl_label + " " + str(node.node_id))
 
@@ -72,16 +71,25 @@ def get_node(node_id):
 
 
 def get_vtkobj(node):
-    """Get the VTK object associated to a node"""
+    """Get the VTK object associated with a node"""
     if node is None:
-        log.error("bad node " + str(node))
+        log.error("Bad node " + str(node))
         return None
 
-    if not node.node_id in VTKCache:
+    if node.node_id not in VTKCache:
         log.debug("node_id not in cache " + str(node.node_id))
         return None
 
     return VTKCache[node.node_id]
+
+
+def set_vtkobj(node, obj):
+    """Set the VTK object associated with a node"""
+    if node is None:
+        log.error("Bad node " + str(node))
+        return
+
+    VTKCache[node.node_id] = obj
 
 
 def init_cache():
@@ -137,7 +145,7 @@ class BVTKAddonPreferences(AddonPreferences):
 
 
 # ---------------------------------------------------------------------------------
-# cloNodeTree
+# NodeTree
 # ---------------------------------------------------------------------------------
 
 
@@ -147,13 +155,27 @@ class BVTK_NodeTree(NodeTree):
     bl_label = 'BVTK Node Tree'
     bl_icon = 'COLOR_RED'
 
+
 # ---------------------------------------------------------------------------------
-# Custom socket type
+# Custom socket types
 # ---------------------------------------------------------------------------------
+
+
+class BVTK_NodeSocket():
+    """Base class for all generated node sockets, for future use."""
+
+    def draw(self, context, layout, node, text):
+        layout.label(text)
+        a_properties = self.a_properties()
+        for arg in a_properties:
+            layout.prop(self, arg)
+
+    def draw_color(self, context, node):
+        return 0.02, 0.46, 0.64, 0.5
 
 
 class BVTK_NS_Standard(NodeSocket):
-    """BVTK Node Socket"""
+    """BVTK Standard Node Socket"""
     bl_idname = 'BVTK_NS_Standard'
     bl_label  = 'BVTK Node Socket'
     
@@ -161,12 +183,13 @@ class BVTK_NS_Standard(NodeSocket):
         layout.label(text)
 
     def draw_color(self, context, node):
-        return (1.0, 0.4, 0.216, 0.5)
+        return 1.0, 0.4, 0.216, 0.5
 
 
 # -----------------------------------------------------------------------------
-# base class for all BVTK_Nodes
+# Base class for all BVTK_Nodes
 # -----------------------------------------------------------------------------
+
 
 class BVTK_Node:
     """Base class for VTK Nodes"""
@@ -180,24 +203,33 @@ class BVTK_Node:
     def free(self):
         node_deleted(self)
 
-    def get_output(self, socketname):
+    def get_output(self, socket):
         """Get output object. Return an object depending on socket
         name. Used to simplify custom node usage such as info
         node and custom filter.
         """
         vtkobj = self.get_vtkobj()
-        if not vtkobj:
-            return None
-        if socketname == 'self':
-            return vtkobj
-        if socketname == 'output' or socketname == 'output 0':
-            return vtkobj.GetOutputPort()
-        if socketname == 'output 1':
-            return vtkobj.GetOutputPort(1)
+        if socket.bl_idname == "BVTK_NS_Standard":  # socket is not generated
+            socketname = socket.name
+            if not vtkobj:
+                return None
+            if socketname == 'Self':
+                return vtkobj
+            if socketname == 'Output' or socketname == 'Output 0':
+                return vtkobj.GetOutputPort()
+            if socketname == 'Output 1':
+                return vtkobj.GetOutputPort(1)
+            else:
+                log.critical('Bad output link name:', '"' + socketname + '"')
+                return None
+            # TODO: handle output 2,3,....
         else:
-            print('bad output link name:', '"' + socketname + '"')
-            return None
-        # TODO: handle output 2,3,....
+            function_name = socket.bl_label  # function to call
+            if not hasattr(vtkobj, function_name):
+                log.critical("Socket function {} not found!".format(function_name))
+                return None
+            args = [getattr(socket, prop) for prop in socket.a_properties()]
+            return getattr(vtkobj, function_name)(*args)
 
     def get_input_nodes(self, name):
         """Return inputs of a node. Name argument specifies the type of inputs:
@@ -213,10 +245,10 @@ class BVTK_Node:
         nodes = []
         for link in input.links:
             input_node = link.from_node
-            socket_name = link.from_socket.name
+            input_socket = link.from_socket
             if not input_node:
                 continue
-            nodes.append((input_node, input_node.get_output(socket_name)))
+            nodes.append((input_node, input_node.get_output(input_socket)))
         return nodes
 
     def get_input_node(self, *args):
@@ -224,11 +256,23 @@ class BVTK_Node:
         nodes = self.get_input_nodes(*args)
         if nodes:
             return nodes[0]
-        return (0,0)
+        return 0, 0
+
+    def input_nodes(self):
+        """Return input nodes"""
+        nodes = []
+        for input in self.inputs:
+            for link in input.links:
+                nodes.append(link.from_node)
+        return nodes
 
     def get_vtkobj(self):
         """Shortcut to get vtkobj"""
         return get_vtkobj(self)
+
+    def set_vtkobj(self, obj):
+        """Shortcut to set vtkobj"""
+        set_vtkobj(self, obj)
 
     def draw_buttons(self, context, layout):
         m_properties=self.m_properties()
@@ -249,7 +293,7 @@ class BVTK_Node:
 
     def apply_properties(self, vtkobj):
         """Sets properties from node to vtkobj based on property name"""
-        m_properties=self.m_properties()
+        m_properties = self.m_properties()
         for x in [m_properties[i] for i in range(len(m_properties)) if self.b_properties[i]]:
             # SetXFileName(Y)
             if 'FileName' in x:
@@ -257,20 +301,12 @@ class BVTK_Node:
                 cmd = 'vtkobj.Set' + x[2:] + '(value)'
             # SetXToY()
             elif x.startswith('e_'):
-                value = getattr( self, x )
+                value = getattr(self, x)
                 cmd = 'vtkobj.Set'+x[2:]+'To'+value+'()'
             # SetX(self.Y)
             else:
                 cmd = 'vtkobj.Set'+x[2:]+'(self.'+x+')'
             exec(cmd, globals(), locals())
-
-    def input_nodes(self):
-        """Return input nodes"""
-        nodes = []
-        for input in self.inputs:
-            for link in input.links:
-                nodes.append(link.from_node)
-        return nodes
 
     def apply_inputs(self, vtkobj):
         """Set node inputs/connections to vtkobj"""
@@ -295,7 +331,7 @@ class BVTK_Node:
         """Initialize node"""
         self.width = 200
         self.use_custom_color = True
-        self.color = 0.5,0.5,0.5
+        self.color = 0.5, 0.5, 0.5
         check_cache()
         input_ports, output_ports, extra_input, extra_output = self.m_connections()
         input_ports.extend(extra_input)
@@ -331,12 +367,13 @@ class BVTK_Node:
 # Registering
 # -----------------------------------------------------------------------------
 
-CLASSES = {}  # dictionary of classes is used to allow class overriding
+
+CLASSES = {}  # dictionary of classes, used to allow class overriding
 UI_CLASSES = []
 
 
 def add_class(obj):
-    CLASSES[obj.bl_idname]=obj
+    CLASSES[obj.bl_idname] = obj
 
 
 def add_ui_class(obj):
@@ -360,6 +397,7 @@ def check_b_properties():
 add_class(BVTK_NodeTree)
 add_class(BVTK_NS_Standard)
 
+
 # -----------------------------------------------------------------------------
 # VTK Node Category
 # -----------------------------------------------------------------------------
@@ -378,14 +416,15 @@ CATEGORIES = []
 # Debug utilities
 # -----------------------------------------------------------------------------
 
+
 def ls(o):
     log.debug('\n'.join(sorted(dir(o))))
 
 
 def print_cls(obj):
-    log.debug( "------------------------------" )
-    log.debug( "Class = " + obj.__class__.__name__ )
-    log.debug( "------------------------------" )
+    log.debug("------------------------------")
+    log.debug("Class = " + obj.__class__.__name__)
+    log.debug("------------------------------")
     for m in sorted(dir(obj)):
         if not m.startswith('__'):
             attr = getattr(obj,m)

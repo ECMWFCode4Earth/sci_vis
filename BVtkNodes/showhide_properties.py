@@ -1,10 +1,9 @@
-from .utils import log
 from . import core
 import bpy
 
 
 class BVTK_PT_ShowHideProperties(bpy.types.Panel):
-    """BVTK Show/hide properties panel"""
+    """BVTK show/hide properties panel"""
     bl_label = 'Show/Hide Properties'
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'TOOLS'
@@ -23,13 +22,10 @@ class BVTK_PT_ShowHideProperties(bpy.types.Panel):
         for i in range(len(m_properties)):
             row = layout.row()
             row.prop(active_node, 'b_properties', index=i)
-            prop_dict = getattr(core.CLASSES[active_node.bl_idname], m_properties[i])[1]
-            if 'name' in prop_dict:  # collection properties don't have name
-                row.label(text=prop_dict['name'])
-            elif 'attr' in prop_dict:
-                row.label(text=prop_dict['attr'][2:])  # removing first chars 'm_'
-            else:
-                log.error("Broken dict " + str(prop_dict))
+            row.label(m_properties[i][2:])
 
+
+# ----------------------------------------------------------------
 
 core.add_ui_class(BVTK_PT_ShowHideProperties)
+

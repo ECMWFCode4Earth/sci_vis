@@ -1,3 +1,3 @@
-from .gen_VTKWriters import *
+from . gen_VTKWriters import *
 
 
