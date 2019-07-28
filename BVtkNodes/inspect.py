@@ -1,6 +1,6 @@
 import bpy
 import bpy.utils.previews
-from . core import *
+from . update import *
 
 # -----------------------------------------------------------------------------
 # Dubug panel and node documentation panel (information about
@@ -96,10 +96,10 @@ class BVTK_OT_SetTextEditor(bpy.types.Operator):
             output_ports = active_node.m_connections()[1]
             inner = ''
             for o in output_ports:
-                if o == 'output' or o == 'output 0':
-                    inner += self.text_block('output', str(vtkobj.GetOutput(0)))
-                if o == 'output 1':
-                    inner += self.text_block('output 1', str(vtkobj.GetOutput(1)))
+                if o == 'Output' or o == 'Output 0':
+                    inner += self.text_block('Output', str(vtkobj.GetOutput(0)))
+                if o == 'Output 1':
+                    inner += self.text_block('Output 1', str(vtkobj.GetOutput(1)))
                 # TODO: handle output 2,3,....
 
         text = self.get_text('BVTK', inner)
