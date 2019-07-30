@@ -1,10 +1,10 @@
 import bpy
+import os
 import logging
 
 # -----------------------------------------------------------------------------
 # Logging
 # -----------------------------------------------------------------------------
-
 # Set up logging of messages using Python logging
 # Logging is nicely explained in:
 # https://code.blender.org/2016/05/logging-from-python-code-in-blender/
@@ -14,6 +14,13 @@ import logging
 # import logging
 # logging.basicConfig(format='%(funcName)s: %(message)s', level=logging.DEBUG)
 log = logging.getLogger(__name__)
+
+
+# -----------------------------------------------------------------------------
+# Useful variables
+# -----------------------------------------------------------------------------
+addon_path = os.path.realpath(__file__).replace('utils.py', '')
+
 
 # -----------------------------------------------------------------------------
 # Useful functions
@@ -84,3 +91,68 @@ def header_box(layout, text):
 def error_icon(layout):
     """Create an error icon inside the given layout."""
     layout.label(text="", icon="ERROR")
+
+
+# -----------------------------------------------------------------------------
+# Cpt file reader
+# -----------------------------------------------------------------------------
+
+
+def read_cpt(file_path=None):
+    # Adapted from James Boyle's script
+    # https://scipy-cookbook.readthedocs.io/items/Matplotlib_Loading_a_colormap_dynamically.html
+    import colorsys
+    try:
+        f = open(file_path)
+    except:
+        print("File not found: '{}'".format(file_path))
+        return None
+
+    lines = f.readlines()
+    f.close()
+
+    rgb = []
+    color_model = "RGB"
+    last_color = None
+
+    for l in lines:
+        ls = l.split()
+        if not ls:
+            continue
+        if l[0] == "#":
+            if ls[-1] == "HSV":
+                color_model = "HSV"
+                continue
+            else:
+                continue
+        if ls[0] == "B" or ls[0] == "F" or ls[0] == "N":
+            pass
+        else:
+
+            color1 = (float(ls[1]),
+                      float(ls[2]),
+                      float(ls[3]))
+
+            if color1 != last_color:
+                rgb.append(color1)
+                last_color = color1
+
+            color2 = (float(ls[5]),
+                      float(ls[6]),
+                      float(ls[7]))
+
+            if color2 != last_color:
+                rgb.append(color2)
+                last_color = color2
+
+    if color_model == "HSV":
+        for i in range(len(rgb)):
+            color = rgb[i]
+            rr, gg, bb = colorsys.hsv_to_rgb(color[0]/360, color[1], color[2])
+            rgb[i] = (rr, gg, bb)
+
+    elif color_model == "RGB":
+        for i in range(len(rgb)):
+            rgb[i] = rgb[i][0] / 255, rgb[i][1] / 255, rgb[i][2] / 255
+
+    return rgb

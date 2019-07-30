@@ -28,7 +28,9 @@ def get_default_texture(name):
     return tex
 
 
-# ----------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Color mapper nodes
+# -----------------------------------------------------------------------------
 
 
 class BVTK_NT_ColorMapper(Node, BVTK_Node):
@@ -142,7 +144,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
                 layout.label('Input has no associated data (try updating)')
 
 
-# ----------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 class BVTK_NT_ColorToImage(Node, BVTK_Node):
@@ -299,8 +301,9 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
         return self.get_input_node('input')[1]
 
 
-# ----------------------------------------------------------------
-
+# -----------------------------------------------------------------------------
+# Color ramp node
+# -----------------------------------------------------------------------------
 
 class BVTK_PG_ColorSettings(bpy.types.PropertyGroup):
     """Property used by the color ramp node to allow
@@ -348,8 +351,9 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
     def setup(self):
         new_texture = get_default_texture(self.name)
         self.my_texture = new_texture.name
-        for i in range(30):
-            # Initially add 30 color settings
+        for i in range(32):
+            # Initially add 32 color settings, which is the
+            # maximum number of color ramp elements
             self.color_settings.add()
 
     def get_texture(self):
@@ -385,6 +389,7 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
     def draw_buttons(self, context, layout):
         if self.my_texture in bpy.data.textures.keys():
             texture = bpy.data.textures[self.my_texture]
+            layout.menu("BVTK_MT_ColorRamps")
             layout.template_color_ramp(texture, "color_ramp", expand=False)
 
             path = node_path(self)
@@ -425,7 +430,8 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
                 if i >= n_settings:
                     # If the settings aren't enough to match any color ramp elements, the operator will
                     # notice it and add more settings. It's done with an operator because blender doesn't
-                    # allow to modify data during draw.
+                    # allow to modify data during draw. Anyway after this should not happen unless
+                    # the maximum number of color ramp element increases in future versions of Blender
                     op = row.operator("bvtk.update_color_settings", text="", icon="RADIOBUT_OFF", emboss=False)
                     op.el_index = i
                     op.node_path = path
@@ -498,7 +504,7 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
                     e.color = new_el[0]
 
 
-# ----------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 class BVTK_OT_UpdateColorSetting(bpy.types.Operator):
@@ -535,7 +541,7 @@ class BVTK_OT_UpdateColorSetting(bpy.types.Operator):
         return {'FINISHED'}
 
 
-# ----------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 class BVTK_OT_ApplyRampPosition(bpy.types.Operator):
@@ -640,6 +646,184 @@ class BVTK_OT_ArrangeColorRamp(bpy.types.Operator):
         return {'FINISHED'}
 
 
+# -----------------------------------------------------------------------------
+# Cpt color ramps management
+# -----------------------------------------------------------------------------
+
+# Generate color bar menus based on the directories in the color_ramps folder;
+# a menu is created for each folder; it will contain a button for each .cpt
+# file inside the said folder
+color_ramp_dir = addon_path+"color_ramps"
+color_ramp_menus = []
+
+for dir_name in os.listdir(color_ramp_dir):
+    if os.path.isdir(os.path.join(color_ramp_dir, dir_name)):
+        def menu_draw(self, context):
+            layout = self.layout
+            # Scan the folder and add an operator for each .cpt file
+            add_cpt_operators(self.dir_path, layout)
+
+        menu_type = type("BVTK_MT_" + dir_name, (bpy.types.Menu,), {
+            "bl_idname": "BVTK_MT_" + dir_name,
+            "bl_label": dir_name,
+            "draw": menu_draw,
+            "dir_path": os.path.join(color_ramp_dir, dir_name)
+        })
+
+        color_ramp_menus.append(menu_type)
+        add_ui_class(menu_type)
+
+
+class BVTK_MT_ColorRamps(bpy.types.Menu):
+    """Color ramps menu"""
+    bl_label = "Color ramps"
+
+    def draw(self, context):
+        layout = self.layout
+        # Scan the color_ramps directory for cpt files
+        add_cpt_operators(color_ramp_dir, layout)
+
+        # Display all the menus automatically generated
+        # and stored in the color_ramp_menus array
+        for em in color_ramp_menus:
+            menu_icon = 0
+            p_coll = get_p_coll(em.dir_path)
+            if p_coll and len(p_coll.keys()):
+                # A random icon from his collection is assigned
+                # to each menu
+                menu_icon = p_coll[list(p_coll)[0]].icon_id
+            layout.menu(em.bl_idname, icon_value=menu_icon)
+
+
+# Load color bar icons: each .cpt may have a png equivalent
+# with the same name and in the same folder to be displayed
+# as an icon; for example, red_scale.cpt will have the icon
+# red_scale.png, if present. A preview collection with the
+# icons is created for each directory inside the
+# 'color_ramps' folder; all the collections are stored in a
+# dictionary with the corresponding directory absolute path
+# as the key
+p_collections = {}
+
+for dir_name in os.listdir(color_ramp_dir):
+    if os.path.isdir(os.path.join(color_ramp_dir, dir_name)):
+        dir_path = os.path.join(color_ramp_dir, dir_name)
+        p_coll = bpy.utils.previews.new()
+        p_collections[dir_path] = p_coll
+        for file_name in os.listdir(dir_path):
+            if file_name.endswith(".png"):
+                img_path = os.path.join(dir_path, file_name)
+                p_coll.load(file_name, img_path, 'IMAGE')
+
+
+def get_p_coll(dir_path):
+    """Given a directory absolute path, return the
+    corresponding preview collection or none.
+    """
+    if dir_path in p_collections:
+        return p_collections[dir_path]
+    return None
+
+
+def get_icon_id(dir_path, img_file_name):
+    """Given a directory absolute path and an image
+    file name, return the corresponding icon id or 0.
+    """
+    p_coll = get_p_coll(dir_path)
+    if p_coll:
+        p_coll = p_collections[dir_path]
+        if img_file_name in p_coll:
+            return p_coll[img_file_name].icon_id
+        else:
+            log.debug("Key '{}' not found in the preview collection '{}'.".format(img_file_name, dir_path))
+    else:
+        log.debug("Key '{}' not found in the preview collection dictionary.".format(dir_path))
+    return 0
+
+
+def cpt_dir_scan(dir_path):
+    """Scan a directory to find all the .cpt files, and
+    return for each one the absolute path, the file name
+    and the corresponding icon id."""
+    for file_name in os.listdir(dir_path):
+        if file_name.endswith('.cpt'):
+            file_path = os.path.join(dir_path, file_name)
+            icon_file = file_name.replace(".cpt", ".png")
+            icon_id = get_icon_id(dir_path, icon_file)
+            yield file_path, file_name, icon_id
+
+
+def add_cpt_operators(dir_path, layout):
+    """Search the given directory for .cpt files and the
+    corresponding icon then create an operator in the given
+    layout to load each of these color ramps.
+    """
+    for file_path, file_name, icon_id in cpt_dir_scan(dir_path):
+        op = layout.operator("bvtk.load_cpt_color_ramp",
+                             text=file_name.replace(".cpt", ""),
+                             icon_value=icon_id)
+        op.file_path = file_path
+
+
+# ----------------------------------------------------------------
+
+
+def scale_to(array, n1):
+    new_array = []
+    n0 = len(array)
+    for i in range(n1):
+        j = ((n0-1)/(n1-1))*i
+        new_array.append(array[round(j)])
+    return new_array
+
+
+class BVTK_OT_LoadCPTColorRamp(bpy.types.Operator):
+    """Load a color ramp from a .cpt file."""
+    bl_idname = "bvtk.load_cpt_color_ramp"
+    bl_label = "Load .cpt color ramp"
+    file_path = bpy.props.StringProperty()
+
+    def execute(self, context):
+        nodes = context.selected_nodes
+        ramp_nodes = []
+        for node in nodes:
+            if node.bl_idname == BVTK_NT_ColorRamp.bl_idname:
+                ramp_nodes.append(node)
+        if not ramp_nodes:
+            self.report({"ERROR"}, "Select the color ramp node.")
+            return {'CANCELLED'}
+        for node in ramp_nodes:
+            texture = node.get_texture()
+            if not texture:
+                return {'CANCELLED'}
+            colors = read_cpt(self.file_path)
+            if not colors:
+                self.report({"ERROR"}, "Color ramp could not be loaded.")
+                return {'CANCELLED'}
+            elements = texture.color_ramp.elements
+
+            if len(colors) > 32:
+                colors = scale_to(colors, 32)
+                self.report({"INFO"}, "Color ramp has been resized to 32 colors.")
+
+            n_colors = len(colors)
+            while len(elements) > n_colors:
+                elements.remove(elements[0])
+
+            gamma = 2.2  # gamma correction
+            for i in range(n_colors):
+                position = (1/n_colors)/2 + (1/n_colors)*i
+                if i >= len(elements):
+                    el = elements.new(position)
+                else:
+                    el = elements[i]
+                    el.position = position
+                el.color = (pow(colors[i][0], gamma),
+                            pow(colors[i][1], gamma),
+                            pow(colors[i][2], gamma), 1)
+        return {'FINISHED'}
+
+
 # ----------------------------------------------------------------
 
 
@@ -655,6 +839,8 @@ add_ui_class(BVTK_PG_ColorSettings)
 add_ui_class(BVTK_OT_ArrangeColorRamp)
 add_ui_class(BVTK_OT_UpdateColorSetting)
 add_ui_class(BVTK_OT_ApplyRampPosition)
+add_ui_class(BVTK_OT_LoadCPTColorRamp)
+add_ui_class(BVTK_MT_ColorRamps)
 
 menu_items = [NodeItem(x) for x in TYPENAMES]
 CATEGORIES.append(BVTK_NodeCategory("Colour", "Colour", items=menu_items))
