@@ -88,14 +88,14 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
     font = bpy.props.PointerProperty(type=bpy.types.VectorFont)
 
     def m_properties(self):
-        return ['color_by', 'texture_type', 'auto_range',
-                'lut', 'min', 'max', 'height']
+        return ["color_by", "texture_type", "auto_range",
+                "lut", "range_min", "range_max", "height"]
 
     def m_connections(self):
-        return (['input'],[],[],['output'])
+        return (["input"],[],[],["output"])
 
     def setup(self):
-        self.inputs.new('BVTK_NS_Standard', 'lookuptable')
+        self.inputs.new("BVTK_NS_Standard", "lookuptable")
 
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
@@ -103,7 +103,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
             self.update_range(None)
 
     def get_texture(self):
-        in_links = self.inputs['lookuptable'].links
+        in_links = self.inputs["lookuptable"].links
         if len(in_links) > 0:
             return in_links[0].from_node.get_texture()
         if self.default_texture:
@@ -120,25 +120,25 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
         node_deleted(self)
 
     def draw_buttons(self, context, layout):
-        in_node, vtkobj = self.get_input_node('input')
+        in_node, vtkobj = self.get_input_node("input")
         if not in_node:
-            layout.label('Connect a node')
+            layout.label("Connect a node")
         elif not vtkobj:
-            layout.label('Input has not vtkobj (try updating)')
+            layout.label("Input has not vtkobj (try updating)")
         else:
             vtkobj = resolve_algorithm_output(vtkobj)
-            if hasattr(vtkobj, 'GetPointData'):
-                layout.prop(self, 'lut', text='Generate scalar bar')
-                layout.prop(self, 'texture_type')
+            if hasattr(vtkobj, "GetPointData"):
+                layout.prop(self, "lut", text="Generate scalar bar")
+                layout.prop(self, "texture_type")
                 if self.lut:
-                    layout.prop(self, 'height', text='scalar bar height')
+                    layout.prop(self, "height", text="scalar bar height")
                     layout.template_ID(self, "font", open="font.open", unlink="font.unlink")
-                layout.prop(self, 'color_by', text='color by')
-                layout.prop(self, 'auto_range', text='automatic range')
+                layout.prop(self, "color_by", text="color by")
+                layout.prop(self, "auto_range", text="automatic range")
                 row = layout.row(align=True)
                 row.enabled = not self.auto_range
-                row.prop(self, 'range_min')
-                row.prop(self, 'range_max')
+                row.prop(self, "range_min")
+                row.prop(self, "range_max")
                 layout.separator()
             else:
                 layout.label('Input has no associated data (try updating)')
@@ -161,10 +161,10 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
     def update_range(self, context):
         if not self.auto_range:
             return
-        vtkobj = self.get_input_node('input')[1]
+        vtkobj = self.get_input_node("input")[1]
         if self.color_by and vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
-            if self.color_by[0] == 'P':
+            if self.color_by[0] == "P":
                 d = vtkobj.GetPointData()
             else:
                 d = vtkobj.GetCellData()
@@ -175,28 +175,28 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
 
     def color_arrays(self, context):
         items = []
-        vtkobj = self.get_input_node('input')[1]
+        vtkobj = self.get_input_node("input")[1]
         if vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
-            if hasattr(vtkobj, 'GetCellData'):
+            if hasattr(vtkobj, "GetCellData"):
                 c_data = vtkobj.GetCellData()
                 p_data = vtkobj.GetPointData()
-                c_descr = 'Color by cell data using '
-                p_descr = 'Color by point data using '
+                c_descr = "Color by cell data using "
+                p_descr = "Color by point data using "
                 for i in range(p_data.GetNumberOfArrays()):
                     arr_name = str(p_data.GetArrayName(i))
-                    items.append(('P'+str(i), arr_name, p_descr+arr_name+' array', 'VERTEXSEL', len(items)))
+                    items.append(('P'+str(i), arr_name, p_descr+arr_name+" array", "VERTEXSEL", len(items)))
                 for i in range(c_data.GetNumberOfArrays()):
                     arr_name = str(c_data.GetArrayName(i))
-                    items.append(('C'+str(i), arr_name, c_descr+arr_name+' array', 'FACESEL', len(items)))
+                    items.append(("C"+str(i), arr_name, c_descr+arr_name+" array", "FACESEL", len(items)))
         if not len(items):
-            items.append(('', '', ''))
+            items.append(("", "", ""))
         return items
 
     color_by = bpy.props.EnumProperty(items=color_arrays, name="color by", update=update_range)
     auto_range = bpy.props.BoolProperty(default=True, update=update_range)
     default_texture = bpy.props.StringProperty(default="")
-    last_color_by = bpy.props.StringProperty(default='')
+    last_color_by = bpy.props.StringProperty(default="")
     lut = bpy.props.BoolProperty(default=False)
     height = bpy.props.FloatProperty(default=5.5)
     range_max = bpy.props.FloatProperty(default=0, name="Min")
@@ -207,14 +207,14 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
     uv_layer = bpy.props.StringProperty()
 
     def m_properties(self):
-        return ['color_by', 'auto_range',
-                'lut', 'range_min', 'range_max', 'height']
+        return ["color_by", "auto_range",
+                "lut", "range_min", "range_max", "height"]
 
     def m_connections(self):
-        return ['input'], [], [], ['output']
+        return ["input"], [], [], ["output"]
 
     def setup(self):
-        self.inputs.new('BVTK_NS_Standard', 'lookuptable')
+        self.inputs.new("BVTK_NS_Standard", "lookuptable")
 
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
@@ -228,33 +228,33 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
         node_deleted(self)
 
     def draw_buttons(self, context, layout):
-        in_node, vtkobj = self.get_input_node('input')
+        in_node, vtkobj = self.get_input_node("input")
         if not in_node:
-            layout.box().label('Connect a node', icon="QUESTION")
+            layout.box().label("Connect a node", icon="QUESTION")
         elif not vtkobj:
-            layout.box().label('Input has not vtkobj (try updating)', icon="QUESTION")
+            layout.box().label("Input has not vtkobj (try updating)", icon="QUESTION")
         else:
             vtkobj = resolve_algorithm_output(vtkobj)
-            if not hasattr(vtkobj, 'GetPointData'):
-                layout.box().label('Input has no associated data (try updating)', icon="QUESTION")
+            if not hasattr(vtkobj, "GetPointData"):
+                layout.box().label("Input has no associated data (try updating)", icon="QUESTION")
             else:
                 # Find if node is connected to a 'toBlender' node.
                 # If it is, mesh names are compared to the local one
                 # to see if they match.
-                out_links = self.outputs['output'].links
+                out_links = self.outputs["output"].links
                 flag = False
                 # m_flag is False if there isn't a linked ToBlender with a mesh name
                 # equal to the mesh stored on this node.
                 m_flag = False
                 for link in out_links:
                     node = link.to_node
-                    if node.bl_idname == 'BVTK_NT_ToBlender':
+                    if node.bl_idname == "BVTK_NT_ToBlender":
                         flag = True
                         if self.mesh and node.m_Name == self.mesh.name:
                             m_flag = True
                 if not flag and len(out_links):
-                    layout.box().label('This node must be connected in output with '
-                                       'a ToBlender node in order to work properly', icon="ERROR")
+                    layout.box().label("This node must be connected in output with "
+                                       "a ToBlender node in order to work properly", icon="ERROR")
                 # Image output layout
                 box1 = layout.box()
                 box1.box().label("Image output")
@@ -268,23 +268,23 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
                 # Coloring layout
                 box1 = layout.box()
                 box1.box().label("Coloring")
-                box1.prop(self, 'color_by', text='Color by')
-                box1.prop(self, 'auto_range', text='Automatic range')
+                box1.prop(self, "color_by", text="Color by")
+                box1.prop(self, "auto_range", text="Automatic range")
                 row = box1.row(align=True)
                 row.enabled = not self.auto_range
-                row.prop(self, 'range_min')
-                row.prop(self, 'range_max')
+                row.prop(self, "range_min")
+                row.prop(self, "range_max")
                 layout.separator()
                 # Scalar bar
                 box1 = layout.box()
                 box1.box().label("Scalar bar")
-                box1.prop(self, 'lut', text='Generate scalar bar')
+                box1.prop(self, "lut", text="Generate scalar bar")
                 if self.lut:
-                    box1.prop(self, 'height', text='scalar bar height')
+                    box1.prop(self, "height", text="scalar bar height")
                     box1.template_ID(self, "font", open="font.open", unlink="font.unlink")
 
     def get_texture(self):
-        in_links = self.inputs['lookuptable'].links
+        in_links = self.inputs["lookuptable"].links
         if len(in_links) > 0:
             return in_links[0].from_node.get_texture()
         if self.default_texture:
@@ -298,7 +298,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
         pass
 
     def get_output(self, socket):
-        return self.get_input_node('input')[1]
+        return self.get_input_node("input")[1]
 
 
 # -----------------------------------------------------------------------------
@@ -319,8 +319,8 @@ class BVTK_PG_ColorSettings(bpy.types.PropertyGroup):
 
 class BVTK_NT_ColorRamp(Node, BVTK_Node):
     """BVTK Color Ramp Node"""
-    bl_idname = 'BVTK_NT_ColorRamp'
-    bl_label = 'ColorRamp'
+    bl_idname = "BVTK_NT_ColorRamp"
+    bl_label = "ColorRamp"
 
     my_texture = bpy.props.StringProperty()
     color_settings = bpy.props.CollectionProperty(type=BVTK_PG_ColorSettings)
@@ -329,7 +329,7 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
         return []
 
     def m_connections(self):
-        return [], [], [], ['ColorRamp']
+        return [], [], [], ["ColorRamp"]
 
     def copy_setup(self, node):
         new_texture = get_default_texture(self.name)
@@ -474,7 +474,7 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
 
     def special_properties(self):
         """Make auto_update scanner notice changes in the color ramp"""
-        return self.export_properties()['elements']
+        return self.export_properties()["elements"]
 
     def export_properties(self):
         """Export colormap properties. Called by export operator"""
@@ -484,13 +484,13 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
             e = [[[x for x in e.color], e.position] for e in elements]
         else:
             e = []
-        return {'elements': e}
+        return {"elements": e}
 
     def import_properties(self, dict):
         """Import colormap properties. Called by import operator"""
         log.debug("importing colormap " + str(self.name))
         t = self.get_texture()
-        new_elements = dict['elements']
+        new_elements = dict["elements"]
         if t:
             elements = t.color_ramp.elements
             while len(elements) > len(new_elements):
@@ -518,15 +518,15 @@ class BVTK_OT_UpdateColorSetting(bpy.types.Operator):
     def execute(self, context):
         node = eval(self.node_path)
         if not node:
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         texture = node.get_texture()
         if not texture:
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         ramp = texture.color_ramp
         color_settings = node.color_settings
         el_index = self.el_index
         if el_index >= len(ramp.elements):
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         elif el_index >= len(color_settings):
             m_settings = el_index-len(color_settings)+1  # Number of missing settings
             for i in range(m_settings):
@@ -538,7 +538,7 @@ class BVTK_OT_UpdateColorSetting(bpy.types.Operator):
         else:
             bpy.ops.bvtk.apply_ramp_position(node_path=self.node_path, el_index=self.el_index)
             color_setting.locked = True
-        return {'FINISHED'}
+        return {"FINISHED"}
 
 
 # -----------------------------------------------------------------------------
@@ -555,10 +555,10 @@ class BVTK_OT_ApplyRampPosition(bpy.types.Operator):
     def execute(self, context):
         node = eval(self.node_path)
         if not node:
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         texture = node.get_texture()
         if not texture:
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         r = node.get_range()
         if not r:
             return {"CANCELLED"}
@@ -568,11 +568,11 @@ class BVTK_OT_ApplyRampPosition(bpy.types.Operator):
         color_settings = node.color_settings
         el_index = self.el_index
         if el_index >= len(ramp.elements) or el_index >= len(color_settings):
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         else:
             el = ramp.elements[el_index]
             color_settings[el_index].value = r_min + el.position * r_delta
-        return {'FINISHED'}
+        return {"FINISHED"}
 
 
 # ----------------------------------------------------------------
@@ -608,10 +608,10 @@ class BVTK_OT_ArrangeColorRamp(bpy.types.Operator):
     def execute(self, context):
         node = eval(self.node_path)
         if not node:
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         texture = node.get_texture()
         if not texture:
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         r = node.get_range()
         if not r:
             return {"CANCELLED"}
@@ -643,7 +643,7 @@ class BVTK_OT_ArrangeColorRamp(bpy.types.Operator):
                 el.position = abs_start+abs_step*(i+1)
             if subset.last_element:
                 subset.last_element.position = (subset.last_value - r_min)/r_delta
-        return {'FINISHED'}
+        return {"FINISHED"}
 
 
 # -----------------------------------------------------------------------------
@@ -713,7 +713,7 @@ for dir_name in os.listdir(color_ramp_dir):
         for file_name in os.listdir(dir_path):
             if file_name.endswith(".png"):
                 img_path = os.path.join(dir_path, file_name)
-                p_coll.load(file_name, img_path, 'IMAGE')
+                p_coll.load(file_name, img_path, "IMAGE")
 
 
 def get_p_coll(dir_path):
@@ -746,7 +746,7 @@ def cpt_dir_scan(dir_path):
     return for each one the absolute path, the file name
     and the corresponding icon id."""
     for file_name in os.listdir(dir_path):
-        if file_name.endswith('.cpt'):
+        if file_name.endswith(".cpt"):
             file_path = os.path.join(dir_path, file_name)
             icon_file = file_name.replace(".cpt", ".png")
             icon_id = get_icon_id(dir_path, icon_file)
@@ -791,15 +791,15 @@ class BVTK_OT_LoadCPTColorRamp(bpy.types.Operator):
                 ramp_nodes.append(node)
         if not ramp_nodes:
             self.report({"ERROR"}, "Select the color ramp node.")
-            return {'CANCELLED'}
+            return {"CANCELLED"}
         for node in ramp_nodes:
             texture = node.get_texture()
             if not texture:
-                return {'CANCELLED'}
+                return {"CANCELLED"}
             colors = read_cpt(self.file_path)
             if not colors:
                 self.report({"ERROR"}, "Color ramp could not be loaded.")
-                return {'CANCELLED'}
+                return {"CANCELLED"}
             elements = texture.color_ramp.elements
 
             if len(colors) > 32:
@@ -821,7 +821,7 @@ class BVTK_OT_LoadCPTColorRamp(bpy.types.Operator):
                 el.color = (pow(colors[i][0], gamma),
                             pow(colors[i][1], gamma),
                             pow(colors[i][2], gamma), 1)
-        return {'FINISHED'}
+        return {"FINISHED"}
 
 
 # ----------------------------------------------------------------
@@ -830,11 +830,11 @@ class BVTK_OT_LoadCPTColorRamp(bpy.types.Operator):
 # Add classes and menu items
 TYPENAMES = []
 add_class(BVTK_NT_ColorMapper)
-TYPENAMES.append('BVTK_NT_ColorMapper')
+TYPENAMES.append("BVTK_NT_ColorMapper")
 add_class(BVTK_NT_ColorRamp)
-TYPENAMES.append('BVTK_NT_ColorRamp')
+TYPENAMES.append("BVTK_NT_ColorRamp")
 add_class(BVTK_NT_ColorToImage)
-TYPENAMES.append('BVTK_NT_ColorToImage')
+TYPENAMES.append("BVTK_NT_ColorToImage")
 add_ui_class(BVTK_PG_ColorSettings)
 add_ui_class(BVTK_OT_ArrangeColorRamp)
 add_ui_class(BVTK_OT_UpdateColorSetting)

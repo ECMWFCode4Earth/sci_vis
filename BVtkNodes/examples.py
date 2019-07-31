@@ -134,8 +134,8 @@ for name in [name for name in os.listdir(examples_dir)
                                 os.path.join(self.filepath, i)
 
     menu_type = type("BVTK_MT_" + name, (bpy.types.Menu,), {
+        "bl_idname": "BVTK_MT_" + name,
         "bl_label": name,
-        # "bl_idname": "ExamplesCategory_" + name,
         "draw": menu_draw,
         "filepath": os.path.join(examples_dir, name)
     })
