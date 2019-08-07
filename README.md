@@ -21,7 +21,7 @@ The Visualization Toolkit (VTK https://www.vtk.org/ ) is an open source library 
 
 ### Installation:
 - verify the prerequisites
-- download [BVTK_Nodes.zip]( http://github.com/simboden/BVTK_Nodes/blob/master/BVTK_Nodes.zip )
+- download [BVTK.zip]( https://github.com/esowc/sci_vis/raw/master/BVTK.zip )
 - Blender menu > User Preferences > Addons > install from file > choose the zip-archive > activate flag beside BVTK_Nodes
 
 
