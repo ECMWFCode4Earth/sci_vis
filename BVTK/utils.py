@@ -58,7 +58,6 @@ def node_prop_path(node, propname):
 
 
 def addon_pref(pref_name):
-    # For future use
     pref = bpy.context.user_preferences.addons[__package__].preferences
     if hasattr(pref, pref_name):
         return getattr(pref, pref_name)

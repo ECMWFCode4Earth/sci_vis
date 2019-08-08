@@ -247,5 +247,7 @@ def unregister():
         bpy.utils.unregister_class(core.CLASSES[c])
     for c in reversed(core.UI_CLASSES):
         bpy.utils.unregister_class(c)
+    for p_c in core.p_collections:
+        bpy.utils.previews.remove(core.p_collections[p_c])
     bpy.app.handlers.load_post.remove(on_file_loaded)
     bpy.app.handlers.frame_change_post.remove(on_frame_change)

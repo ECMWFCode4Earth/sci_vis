@@ -133,15 +133,15 @@ def check_cache():
 # ---------------------------------------------------------------------------------
 
 
-class BVTKAddonPreferences(AddonPreferences):
+class BVTK_AddonPreferences(AddonPreferences):
     """BVTK add-on preferences"""
 
     bl_idname = __package__
-    output_files_path = bpy.props.StringProperty(default="/tmp/BVTK/")
+    output_path = bpy.props.StringProperty(default="/tmp/BVTK/", subtype='FILE_PATH')
 
     def draw(self, context):
         layout = self.layout
-        layout.prop(self, "file_output_path", text="Output files path")
+        layout.prop(self, "output_path", text="Output directory")
 
 
 # ---------------------------------------------------------------------------------
@@ -370,6 +370,7 @@ class BVTK_Node:
 
 CLASSES = {}  # dictionary of classes, used to allow class overriding
 UI_CLASSES = []
+p_collections = {}  # preview collections for custom icons (see colormap.py)
 
 
 def add_class(obj):
@@ -395,6 +396,7 @@ def check_b_properties():
 
 # Register classes
 add_class(BVTK_NodeTree)
+add_class(BVTK_AddonPreferences)
 add_class(BVTK_NS_Standard)
 
 

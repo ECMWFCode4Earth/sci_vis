@@ -19,32 +19,32 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
                     node_name=self.name,
                     tree_name=context.space_data.node_tree.name)
 
-    m_Name = bpy.props.StringProperty(name='Name', default='mesh')
+    m_Name = bpy.props.StringProperty(name="Name", default="mesh")
     auto_update = bpy.props.BoolProperty(default=False, update=start_scan)
-    smooth = bpy.props.BoolProperty(name='Smooth', default=False)
+    smooth = bpy.props.BoolProperty(name="Smooth", default=False)
 
     def m_properties(self):
-        return ['m_Name', 'smooth', ]
+        return ["m_Name", "smooth", ]
 
     def m_connections(self):
-        return ( ['input'],[],[],[] )
+        return ( ["Input"],[],[],[] )
 
     def draw_buttons(self, context, layout):
-        layout.prop(self, 'm_Name')
-        layout.prop(self, 'auto_update', text='Auto update')
-        layout.prop(self, 'smooth', text='Smooth')
+        layout.prop(self, "m_Name")
+        layout.prop(self, "auto_update", text="Auto update")
+        layout.prop(self, "smooth", text="Smooth")
         layout.separator()
         layout.operator("bvtk.node_update", text="update").node_path = node_path(self)
 
     def update_cb(self):
         """Update node"""
-        input_node, vtkobj = self.get_input_node('input')
+        input_node, vtkobj = self.get_input_node("Input")
         color_node = None
-        if input_node and (input_node.bl_idname == 'BVTK_NT_ColorMapper' or
-                           input_node.bl_idname == 'BVTK_NT_ColorToImage'):
+        if input_node and (input_node.bl_idname == "BVTK_NT_ColorMapper" or
+                           input_node.bl_idname == "BVTK_NT_ColorToImage"):
             color_node = input_node
             color_node.update()  # setting auto range
-            input_node, vtkobj = input_node.get_input_node('input')
+            input_node, vtkobj = input_node.get_input_node("Input")
         if vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
             vtkdata_to_blender(vtkobj, self.m_Name, color_node, self.smooth)
@@ -574,9 +574,11 @@ def rect_grid_to_blender(data, name, color_node):
 
     from array import array
 
-    data_array = data.GetPointData().GetArray(int(color_node.color_by[1:]))
+    if color_node.color_by[0] == 'P':
+        data_array = data.GetPointData().GetArray(int(color_node.color_by[1:]))
+    else:
+        data_array = data.GetCellData().GetArray(int(color_node.color_by[1:]))
 
-    # Generate image data to img
     dim = data.GetDimensions()
     s_range = (color_node.range_min, color_node.range_max)
     img_slice_size = dim[0]*dim[1]

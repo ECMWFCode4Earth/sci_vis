@@ -41,7 +41,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
     def update_range(self, context):
         if not self.auto_range:
             return
-        vtkobj = self.get_input_node('input')[1]
+        vtkobj = self.get_input_node("Input")[1]
         if self.color_by and vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
             if self.color_by[0] == 'P':
@@ -55,7 +55,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
 
     def color_arrays(self, context):
         items = []
-        vtkobj = self.get_input_node('input')[1]
+        vtkobj = self.get_input_node("Input")[1]
         if vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
             if hasattr(vtkobj, 'GetCellData'):
@@ -92,10 +92,10 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
                 "lut", "range_min", "range_max", "height"]
 
     def m_connections(self):
-        return (["input"],[],[],["output"])
+        return (["Input"],[],[],["Output"])
 
     def setup(self):
-        self.inputs.new("BVTK_NS_Standard", "lookuptable")
+        self.inputs.new("BVTK_NS_Standard", "ColorRamp")
 
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
@@ -103,7 +103,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
             self.update_range(None)
 
     def get_texture(self):
-        in_links = self.inputs["lookuptable"].links
+        in_links = self.inputs["ColorRamp"].links
         if len(in_links) > 0:
             return in_links[0].from_node.get_texture()
         if self.default_texture:
@@ -120,7 +120,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
         node_deleted(self)
 
     def draw_buttons(self, context, layout):
-        in_node, vtkobj = self.get_input_node("input")
+        in_node, vtkobj = self.get_input_node("Input")
         if not in_node:
             layout.label("Connect a node")
         elif not vtkobj:
@@ -161,7 +161,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
     def update_range(self, context):
         if not self.auto_range:
             return
-        vtkobj = self.get_input_node("input")[1]
+        vtkobj = self.get_input_node("Input")[1]
         if self.color_by and vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
             if self.color_by[0] == "P":
@@ -175,7 +175,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
 
     def color_arrays(self, context):
         items = []
-        vtkobj = self.get_input_node("input")[1]
+        vtkobj = self.get_input_node("Input")[1]
         if vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
             if hasattr(vtkobj, "GetCellData"):
@@ -211,10 +211,10 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
                 "lut", "range_min", "range_max", "height"]
 
     def m_connections(self):
-        return ["input"], [], [], ["output"]
+        return ["Input"], [], [], ["Output"]
 
     def setup(self):
-        self.inputs.new("BVTK_NS_Standard", "lookuptable")
+        self.inputs.new("BVTK_NS_Standard", "ColorRamp")
 
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
@@ -228,7 +228,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
         node_deleted(self)
 
     def draw_buttons(self, context, layout):
-        in_node, vtkobj = self.get_input_node("input")
+        in_node, vtkobj = self.get_input_node("Input")
         if not in_node:
             layout.box().label("Connect a node", icon="QUESTION")
         elif not vtkobj:
@@ -241,7 +241,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
                 # Find if node is connected to a 'toBlender' node.
                 # If it is, mesh names are compared to the local one
                 # to see if they match.
-                out_links = self.outputs["output"].links
+                out_links = self.outputs["Output"].links
                 flag = False
                 # m_flag is False if there isn't a linked ToBlender with a mesh name
                 # equal to the mesh stored on this node.
@@ -284,7 +284,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
                     box1.template_ID(self, "font", open="font.open", unlink="font.unlink")
 
     def get_texture(self):
-        in_links = self.inputs["lookuptable"].links
+        in_links = self.inputs["ColorRamp"].links
         if len(in_links) > 0:
             return in_links[0].from_node.get_texture()
         if self.default_texture:
@@ -298,7 +298,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
         pass
 
     def get_output(self, socket):
-        return self.get_input_node("input")[1]
+        return self.get_input_node("Input")[1]
 
 
 # -----------------------------------------------------------------------------
@@ -701,10 +701,8 @@ class BVTK_MT_ColorRamps(bpy.types.Menu):
 # red_scale.png, if present. A preview collection with the
 # icons is created for each directory inside the
 # 'color_ramps' folder; all the collections are stored in a
-# dictionary with the corresponding directory absolute path
-# as the key
-p_collections = {}
-
+# dictionary (declared in core.py) with the corresponding
+# directory absolute path as the key
 for dir_name in os.listdir(color_ramp_dir):
     if os.path.isdir(os.path.join(color_ramp_dir, dir_name)):
         dir_path = os.path.join(color_ramp_dir, dir_name)
