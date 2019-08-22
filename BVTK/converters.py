@@ -317,7 +317,7 @@ def vtk_data_to_mesh(data, name, color_node=None, smooth=False):
     if not check_mesh_data(data):
         log.warning("Input data is not suitable to be converted in a mesh as it is: "
                     "converting to geometry. The process may take a while, consider adding "
-                    "a geometry filter in the pipeline to avoid repeating this process.")
+                    "a geometry filter in the node tree to avoid repeating this process.")
         data = apply_geometry_filter(data)
         if not check_mesh_data(data):
             log.error("Data can't be converted to a suitable geometry."
