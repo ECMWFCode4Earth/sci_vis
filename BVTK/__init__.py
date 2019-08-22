@@ -92,6 +92,7 @@ else:
     import importlib
 
     importlib.reload(utils)
+    importlib.reload(progress)
     importlib.reload(core)
     importlib.reload(update)
     importlib.reload(converters)
