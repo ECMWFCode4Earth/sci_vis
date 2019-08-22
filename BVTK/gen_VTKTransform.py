@@ -5,135 +5,6 @@ TYPENAMES = []
 # --------------------------------------------------------------
 
 
-class BVTK_NT_PerspectiveTransform(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_PerspectiveTransform'
-    bl_label = 'vtkPerspectiveTransform'
-    
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return []
-    
-    def m_connections(self):
-        return [], [], ['Input', 'Inverse', 'Matrix'], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_PerspectiveTransform)
-TYPENAMES.append('BVTK_NT_PerspectiveTransform' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_GeneralTransform(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_GeneralTransform'
-    bl_label = 'vtkGeneralTransform'
-    
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return []
-    
-    def m_connections(self):
-        return [], [], ['Input', 'Inverse'], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_GeneralTransform)
-TYPENAMES.append('BVTK_NT_GeneralTransform' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_LandmarkTransform(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_LandmarkTransform'
-    bl_label = 'vtkLandmarkTransform'
-    e_Mode_items = [(x, x, x) for x in ['Affine', 'RigidBody', 'Similarity']]
-    
-    e_Mode = bpy.props.EnumProperty(name='Mode', description='Set the number of degrees of freedom to constrain the solution to. Rigidbody (VTK_LANDMARK_RIGIDBODY): rotation and translation only. Similarity (VTK_LANDMARK_SIMILARITY): rotation, translation and isotropic scaling. Affine (VTK_LANDMARK_AFFINE): collinearity is preserved. Ratios of distances along a line are preserved. The default is similarity', default='Similarity', items=e_Mode_items)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['e_Mode', ]
-    
-    def m_connections(self):
-        return [], [], ['Inverse', 'SourceLandmarks', 'TargetLandmarks'], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_LandmarkTransform)
-TYPENAMES.append('BVTK_NT_LandmarkTransform' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_SphericalTransform(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_SphericalTransform'
-    bl_label = 'vtkSphericalTransform'
-    
-    m_InverseIterations = bpy.props.IntProperty(name='InverseIterations', description='Set the maximum number of iterations for the inverse transformation. The default is 500, but usually only 2 to 5 iterations are used. The inversion method is fairly robust, and it should converge for nearly all smooth transformations that do not fold back on themselves', default=500)
-    m_InverseTolerance = bpy.props.FloatProperty(name='InverseTolerance', description='Set the tolerance for inverse transformation. The default is 0.001', default=0.001)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_InverseIterations', 'm_InverseTolerance', ]
-    
-    def m_connections(self):
-        return [], [], ['Inverse'], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_SphericalTransform)
-TYPENAMES.append('BVTK_NT_SphericalTransform' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_MatrixToLinearTransform(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_MatrixToLinearTransform'
-    bl_label = 'vtkMatrixToLinearTransform'
-    
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return []
-    
-    def m_connections(self):
-        return [], [], ['Input', 'Inverse'], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_MatrixToLinearTransform)
-TYPENAMES.append('BVTK_NT_MatrixToLinearTransform' )
-
-
-# --------------------------------------------------------------
-
-
 class BVTK_NT_Transform(Node, BVTK_Node):
 
     bl_idname = 'BVTK_NT_Transform'
@@ -154,6 +25,31 @@ class BVTK_NT_Transform(Node, BVTK_Node):
 
 add_class(BVTK_NT_Transform)
 TYPENAMES.append('BVTK_NT_Transform' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_MatrixToHomogeneousTransform(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_MatrixToHomogeneousTransform'
+    bl_label = 'vtkMatrixToHomogeneousTransform'
+    
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return []
+    
+    def m_connections(self):
+        return [], [], ['Input', 'Inverse'], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_MatrixToHomogeneousTransform)
+TYPENAMES.append('BVTK_NT_MatrixToHomogeneousTransform' )
 
 
 # --------------------------------------------------------------
@@ -190,35 +86,10 @@ TYPENAMES.append('BVTK_NT_GridTransform' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_MatrixToHomogeneousTransform(Node, BVTK_Node):
+class BVTK_NT_SphericalTransform(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_MatrixToHomogeneousTransform'
-    bl_label = 'vtkMatrixToHomogeneousTransform'
-    
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return []
-    
-    def m_connections(self):
-        return [], [], ['Input', 'Inverse'], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_MatrixToHomogeneousTransform)
-TYPENAMES.append('BVTK_NT_MatrixToHomogeneousTransform' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_CylindricalTransform(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_CylindricalTransform'
-    bl_label = 'vtkCylindricalTransform'
+    bl_idname = 'BVTK_NT_SphericalTransform'
+    bl_label = 'vtkSphericalTransform'
     
     m_InverseIterations = bpy.props.IntProperty(name='InverseIterations', description='Set the maximum number of iterations for the inverse transformation. The default is 500, but usually only 2 to 5 iterations are used. The inversion method is fairly robust, and it should converge for nearly all smooth transformations that do not fold back on themselves', default=500)
     m_InverseTolerance = bpy.props.FloatProperty(name='InverseTolerance', description='Set the tolerance for inverse transformation. The default is 0.001', default=0.001)
@@ -235,38 +106,8 @@ class BVTK_NT_CylindricalTransform(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_CylindricalTransform)
-TYPENAMES.append('BVTK_NT_CylindricalTransform' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_BSplineTransform(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_BSplineTransform'
-    bl_label = 'vtkBSplineTransform'
-    e_BorderMode_items = [(x, x, x) for x in ['Edge', 'Zero', 'ZeroAtBorder']]
-    
-    e_BorderMode = bpy.props.EnumProperty(name='BorderMode', description='Set/Get the border mode, to alter behavior at the edge of the grid. The Edge mode allows the displacement to converge to the edge coefficient past the boundary, which is similar to the behavior of the vtkGridTransform. The Zero mode allows the displacement to smoothly converge to zero two node-spacings past the boundary, which is useful when you want to create a localized transform. The ZeroAtBorder mode sacrifices smoothness to further localize the transform to just one node-spacing past the boundary', default='Edge', items=e_BorderMode_items)
-    m_DisplacementScale = bpy.props.FloatProperty(name='DisplacementScale', description='Set/Get a scale to apply to the transformation', default=1.0)
-    m_InverseIterations = bpy.props.IntProperty(name='InverseIterations', description='Set the maximum number of iterations for the inverse transformation. The default is 500, but usually only 2 to 5 iterations are used. The inversion method is fairly robust, and it should converge for nearly all smooth transformations that do not fold back on themselves', default=500)
-    m_InverseTolerance = bpy.props.FloatProperty(name='InverseTolerance', description='Set the tolerance for inverse transformation. The default is 0.001', default=1e-06)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=4, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['e_BorderMode', 'm_DisplacementScale', 'm_InverseIterations', 'm_InverseTolerance', ]
-    
-    def m_connections(self):
-        return [], [], ['CoefficientData', 'Inverse'], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_BSplineTransform)
-TYPENAMES.append('BVTK_NT_BSplineTransform' )
+add_class(BVTK_NT_SphericalTransform)
+TYPENAMES.append('BVTK_NT_SphericalTransform' )
 
 
 # --------------------------------------------------------------
@@ -304,10 +145,10 @@ TYPENAMES.append('BVTK_NT_IterativeClosestPointTransform' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_IdentityTransform(Node, BVTK_Node):
+class BVTK_NT_MatrixToLinearTransform(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_IdentityTransform'
-    bl_label = 'vtkIdentityTransform'
+    bl_idname = 'BVTK_NT_MatrixToLinearTransform'
+    bl_label = 'vtkMatrixToLinearTransform'
     
     
     b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
@@ -316,14 +157,66 @@ class BVTK_NT_IdentityTransform(Node, BVTK_Node):
         return []
     
     def m_connections(self):
-        return [], [], ['Inverse'], ['Self']
+        return [], [], ['Input', 'Inverse'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_IdentityTransform)
-TYPENAMES.append('BVTK_NT_IdentityTransform' )
+add_class(BVTK_NT_MatrixToLinearTransform)
+TYPENAMES.append('BVTK_NT_MatrixToLinearTransform' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_LandmarkTransform(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_LandmarkTransform'
+    bl_label = 'vtkLandmarkTransform'
+    e_Mode_items = [(x, x, x) for x in ['Affine', 'RigidBody', 'Similarity']]
+    
+    e_Mode = bpy.props.EnumProperty(name='Mode', description='Set the number of degrees of freedom to constrain the solution to. Rigidbody (VTK_LANDMARK_RIGIDBODY): rotation and translation only. Similarity (VTK_LANDMARK_SIMILARITY): rotation, translation and isotropic scaling. Affine (VTK_LANDMARK_AFFINE): collinearity is preserved. Ratios of distances along a line are preserved. The default is similarity', default='Similarity', items=e_Mode_items)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['e_Mode', ]
+    
+    def m_connections(self):
+        return [], [], ['Inverse', 'SourceLandmarks', 'TargetLandmarks'], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_LandmarkTransform)
+TYPENAMES.append('BVTK_NT_LandmarkTransform' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_PerspectiveTransform(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_PerspectiveTransform'
+    bl_label = 'vtkPerspectiveTransform'
+    
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return []
+    
+    def m_connections(self):
+        return [], [], ['Input', 'Inverse', 'Matrix'], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_PerspectiveTransform)
+TYPENAMES.append('BVTK_NT_PerspectiveTransform' )
 
 
 # --------------------------------------------------------------
@@ -354,6 +247,113 @@ class BVTK_NT_ThinPlateSplineTransform(Node, BVTK_Node):
 
 add_class(BVTK_NT_ThinPlateSplineTransform)
 TYPENAMES.append('BVTK_NT_ThinPlateSplineTransform' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_GeneralTransform(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_GeneralTransform'
+    bl_label = 'vtkGeneralTransform'
+    
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return []
+    
+    def m_connections(self):
+        return [], [], ['Input', 'Inverse'], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_GeneralTransform)
+TYPENAMES.append('BVTK_NT_GeneralTransform' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_BSplineTransform(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_BSplineTransform'
+    bl_label = 'vtkBSplineTransform'
+    e_BorderMode_items = [(x, x, x) for x in ['Edge', 'Zero', 'ZeroAtBorder']]
+    
+    e_BorderMode = bpy.props.EnumProperty(name='BorderMode', description='Set/Get the border mode, to alter behavior at the edge of the grid. The Edge mode allows the displacement to converge to the edge coefficient past the boundary, which is similar to the behavior of the vtkGridTransform. The Zero mode allows the displacement to smoothly converge to zero two node-spacings past the boundary, which is useful when you want to create a localized transform. The ZeroAtBorder mode sacrifices smoothness to further localize the transform to just one node-spacing past the boundary', default='Edge', items=e_BorderMode_items)
+    m_DisplacementScale = bpy.props.FloatProperty(name='DisplacementScale', description='Set/Get a scale to apply to the transformation', default=1.0)
+    m_InverseIterations = bpy.props.IntProperty(name='InverseIterations', description='Set the maximum number of iterations for the inverse transformation. The default is 500, but usually only 2 to 5 iterations are used. The inversion method is fairly robust, and it should converge for nearly all smooth transformations that do not fold back on themselves', default=500)
+    m_InverseTolerance = bpy.props.FloatProperty(name='InverseTolerance', description='Set the tolerance for inverse transformation. The default is 0.001', default=1e-06)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=4, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['e_BorderMode', 'm_DisplacementScale', 'm_InverseIterations', 'm_InverseTolerance', ]
+    
+    def m_connections(self):
+        return [], [], ['CoefficientData', 'Inverse'], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_BSplineTransform)
+TYPENAMES.append('BVTK_NT_BSplineTransform' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_CylindricalTransform(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_CylindricalTransform'
+    bl_label = 'vtkCylindricalTransform'
+    
+    m_InverseIterations = bpy.props.IntProperty(name='InverseIterations', description='Set the maximum number of iterations for the inverse transformation. The default is 500, but usually only 2 to 5 iterations are used. The inversion method is fairly robust, and it should converge for nearly all smooth transformations that do not fold back on themselves', default=500)
+    m_InverseTolerance = bpy.props.FloatProperty(name='InverseTolerance', description='Set the tolerance for inverse transformation. The default is 0.001', default=0.001)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_InverseIterations', 'm_InverseTolerance', ]
+    
+    def m_connections(self):
+        return [], [], ['Inverse'], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_CylindricalTransform)
+TYPENAMES.append('BVTK_NT_CylindricalTransform' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_IdentityTransform(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_IdentityTransform'
+    bl_label = 'vtkIdentityTransform'
+    
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return []
+    
+    def m_connections(self):
+        return [], [], ['Inverse'], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_IdentityTransform)
+TYPENAMES.append('BVTK_NT_IdentityTransform' )
 
 
 # --------------------------------------------------------------

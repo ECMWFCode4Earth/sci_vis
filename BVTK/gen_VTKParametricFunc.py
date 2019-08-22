@@ -5,84 +5,6 @@ TYPENAMES = []
 # --------------------------------------------------------------
 
 
-class BVTK_NT_ParametricHenneberg(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_ParametricHenneberg'
-    bl_label = 'vtkParametricHenneberg'
-    
-    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
-    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
-    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
-    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=1.0)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=1.5707963267948966)
-    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-1.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-1.5707963267948966)
-    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
-    
-    def m_connections(self):
-        return [], [], [], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_ParametricHenneberg)
-TYPENAMES.append('BVTK_NT_ParametricHenneberg' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_ParametricCrossCap(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_ParametricCrossCap'
-    bl_label = 'vtkParametricCrossCap'
-    
-    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
-    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
-    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
-    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
-    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
-    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
-    
-    def m_connections(self):
-        return [], [], [], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_ParametricCrossCap)
-TYPENAMES.append('BVTK_NT_ParametricCrossCap' )
-
-
-# --------------------------------------------------------------
-
-
 class BVTK_NT_ParametricFigure8Klein(Node, BVTK_Node):
 
     bl_idname = 'BVTK_NT_ParametricFigure8Klein'
@@ -123,35 +45,33 @@ TYPENAMES.append('BVTK_NT_ParametricFigure8Klein' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_ParametricSuperEllipsoid(Node, BVTK_Node):
+class BVTK_NT_ParametricBohemianDome(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricSuperEllipsoid'
-    bl_label = 'vtkParametricSuperEllipsoid'
+    bl_idname = 'BVTK_NT_ParametricBohemianDome'
+    bl_label = 'vtkParametricBohemianDome'
     
+    m_A = bpy.props.FloatProperty(name='A', description='Construct a Bohemian dome surface with the following parameters', default=0.5)
+    m_B = bpy.props.FloatProperty(name='B', description='', default=1.5)
+    m_C = bpy.props.FloatProperty(name='C', description='', default=1.0)
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
     m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
     m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
     m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
     m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=1.5707963267948966)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
     m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
     m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-3.141592653589793)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-1.5707963267948966)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-3.141592653589793)
     m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_N1 = bpy.props.FloatProperty(name='N1', description='Set/Get the "squareness" parameter in the z axis. Default is 1', default=1.0)
-    m_N2 = bpy.props.FloatProperty(name='N2', description='Set/Get the "squareness" parameter in the x-y plane. Default is 1', default=1.0)
     m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_XRadius = bpy.props.FloatProperty(name='XRadius', description='Set/Get the scaling factor for the x-axis. Default is 1', default=1.0)
-    m_YRadius = bpy.props.FloatProperty(name='YRadius', description='Set/Get the scaling factor for the y-axis. Default is 1', default=1.0)
-    m_ZRadius = bpy.props.FloatProperty(name='ZRadius', description='Set/Get the scaling factor for the z-axis. Default is 1', default=1.0)
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=19, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=17, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N1', 'm_N2', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_XRadius', 'm_YRadius', 'm_ZRadius', ]
+        return ['m_A', 'm_B', 'm_C', 'm_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -160,8 +80,129 @@ class BVTK_NT_ParametricSuperEllipsoid(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricSuperEllipsoid)
-TYPENAMES.append('BVTK_NT_ParametricSuperEllipsoid' )
+add_class(BVTK_NT_ParametricBohemianDome)
+TYPENAMES.append('BVTK_NT_ParametricBohemianDome' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_ParametricPluckerConoid(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_ParametricPluckerConoid'
+    bl_label = 'vtkParametricPluckerConoid'
+    
+    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
+    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
+    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
+    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.0)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=6.283185307179586)
+    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
+    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_N = bpy.props.IntProperty(name='N', description='This is the number of folds in the conoid', default=2)
+    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+    
+    def m_connections(self):
+        return [], [], [], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_ParametricPluckerConoid)
+TYPENAMES.append('BVTK_NT_ParametricPluckerConoid' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_ParametricEllipsoid(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_ParametricEllipsoid'
+    bl_label = 'vtkParametricEllipsoid'
+    
+    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
+    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
+    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
+    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=6.283185307179586)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
+    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
+    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_XRadius = bpy.props.FloatProperty(name='XRadius', description='Set/Get the scaling factor for the x-axis. Default is 1', default=1.0)
+    m_YRadius = bpy.props.FloatProperty(name='YRadius', description='Set/Get the scaling factor for the y-axis. Default is 1', default=1.0)
+    m_ZRadius = bpy.props.FloatProperty(name='ZRadius', description='Set/Get the scaling factor for the z-axis. Default is 1', default=1.0)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=17, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_XRadius', 'm_YRadius', 'm_ZRadius', ]
+    
+    def m_connections(self):
+        return [], [], [], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_ParametricEllipsoid)
+TYPENAMES.append('BVTK_NT_ParametricEllipsoid' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_ParametricCrossCap(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_ParametricCrossCap'
+    bl_label = 'vtkParametricCrossCap'
+    
+    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
+    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
+    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
+    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
+    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
+    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+    
+    def m_connections(self):
+        return [], [], [], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_ParametricCrossCap)
+TYPENAMES.append('BVTK_NT_ParametricCrossCap' )
 
 
 # --------------------------------------------------------------
@@ -213,91 +254,6 @@ TYPENAMES.append('BVTK_NT_ParametricSuperToroid' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_ParametricEllipsoid(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_ParametricEllipsoid'
-    bl_label = 'vtkParametricEllipsoid'
-    
-    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
-    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
-    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
-    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=6.283185307179586)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
-    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
-    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_XRadius = bpy.props.FloatProperty(name='XRadius', description='Set/Get the scaling factor for the x-axis. Default is 1', default=1.0)
-    m_YRadius = bpy.props.FloatProperty(name='YRadius', description='Set/Get the scaling factor for the y-axis. Default is 1', default=1.0)
-    m_ZRadius = bpy.props.FloatProperty(name='ZRadius', description='Set/Get the scaling factor for the z-axis. Default is 1', default=1.0)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=17, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_XRadius', 'm_YRadius', 'm_ZRadius', ]
-    
-    def m_connections(self):
-        return [], [], [], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_ParametricEllipsoid)
-TYPENAMES.append('BVTK_NT_ParametricEllipsoid' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_ParametricConicSpiral(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_ParametricConicSpiral'
-    bl_label = 'vtkParametricConicSpiral'
-    
-    m_A = bpy.props.FloatProperty(name='A', description='Set/Get the scale factor. Default = 0.', default=0.2)
-    m_B = bpy.props.FloatProperty(name='B', description='Set/Get the A function coefficient. See the definition in Parametric surfaces referred to above. Default is 1', default=1.0)
-    m_C = bpy.props.FloatProperty(name='C', description='Set/Get the B function coefficient. See the definition in Parametric surfaces referred to above. Default is 0.1', default=0.1)
-    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
-    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
-    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
-    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=6.283185307179586)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=6.283185307179586)
-    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
-    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_N = bpy.props.FloatProperty(name='N', description='Set/Get the C function coefficient. See the definition in Parametric surfaces referred to above. Default is 2', default=2.0)
-    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=18, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_A', 'm_B', 'm_C', 'm_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
-    
-    def m_connections(self):
-        return [], [], [], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_ParametricConicSpiral)
-TYPENAMES.append('BVTK_NT_ParametricConicSpiral' )
-
-
-# --------------------------------------------------------------
-
-
 class BVTK_NT_ParametricEnneper(Node, BVTK_Node):
 
     bl_idname = 'BVTK_NT_ParametricEnneper'
@@ -337,31 +293,30 @@ TYPENAMES.append('BVTK_NT_ParametricEnneper' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_ParametricPluckerConoid(Node, BVTK_Node):
+class BVTK_NT_ParametricHenneberg(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricPluckerConoid'
-    bl_label = 'vtkParametricPluckerConoid'
+    bl_idname = 'BVTK_NT_ParametricHenneberg'
+    bl_label = 'vtkParametricHenneberg'
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
     m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
     m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
     m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.0)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=6.283185307179586)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=1.0)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=1.5707963267948966)
     m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-1.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-1.5707963267948966)
     m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_N = bpy.props.IntProperty(name='N', description='This is the number of folds in the conoid', default=2)
     m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -370,8 +325,48 @@ class BVTK_NT_ParametricPluckerConoid(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricPluckerConoid)
-TYPENAMES.append('BVTK_NT_ParametricPluckerConoid' )
+add_class(BVTK_NT_ParametricHenneberg)
+TYPENAMES.append('BVTK_NT_ParametricHenneberg' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_ParametricKuen(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_ParametricKuen'
+    bl_label = 'vtkParametricKuen'
+    
+    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
+    m_DeltaV0 = bpy.props.FloatProperty(name='DeltaV0', description='Set/Get the value to use when V == 0. Default is 0.05, giving the best appearance with the default settings. Setting it to a value less than 0.05 extrapolates the surface towards a pole in the -z direction. Setting it to 0 retains the pole whose z-value is -inf', default=0.05)
+    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
+    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
+    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=4.5)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
+    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-4.5)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
+    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_ClockwiseOrdering', 'm_DeltaV0', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+    
+    def m_connections(self):
+        return [], [], [], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_ParametricKuen)
+TYPENAMES.append('BVTK_NT_ParametricKuen' )
 
 
 # --------------------------------------------------------------
@@ -501,6 +496,168 @@ TYPENAMES.append('BVTK_NT_ParametricBour' )
 # --------------------------------------------------------------
 
 
+class BVTK_NT_ParametricSuperEllipsoid(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_ParametricSuperEllipsoid'
+    bl_label = 'vtkParametricSuperEllipsoid'
+    
+    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
+    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
+    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
+    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=1.5707963267948966)
+    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-3.141592653589793)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-1.5707963267948966)
+    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_N1 = bpy.props.FloatProperty(name='N1', description='Set/Get the "squareness" parameter in the z axis. Default is 1', default=1.0)
+    m_N2 = bpy.props.FloatProperty(name='N2', description='Set/Get the "squareness" parameter in the x-y plane. Default is 1', default=1.0)
+    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_XRadius = bpy.props.FloatProperty(name='XRadius', description='Set/Get the scaling factor for the x-axis. Default is 1', default=1.0)
+    m_YRadius = bpy.props.FloatProperty(name='YRadius', description='Set/Get the scaling factor for the y-axis. Default is 1', default=1.0)
+    m_ZRadius = bpy.props.FloatProperty(name='ZRadius', description='Set/Get the scaling factor for the z-axis. Default is 1', default=1.0)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=19, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N1', 'm_N2', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_XRadius', 'm_YRadius', 'm_ZRadius', ]
+    
+    def m_connections(self):
+        return [], [], [], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_ParametricSuperEllipsoid)
+TYPENAMES.append('BVTK_NT_ParametricSuperEllipsoid' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_ParametricKlein(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_ParametricKlein'
+    bl_label = 'vtkParametricKlein'
+    
+    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
+    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
+    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
+    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=6.283185307179586)
+    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
+    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+    
+    def m_connections(self):
+        return [], [], [], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_ParametricKlein)
+TYPENAMES.append('BVTK_NT_ParametricKlein' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_ParametricRoman(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_ParametricRoman'
+    bl_label = 'vtkParametricRoman'
+    
+    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
+    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
+    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
+    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
+    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
+    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_Radius = bpy.props.FloatProperty(name='Radius', description='Set/Get the radius. Default is 1', default=1.0)
+    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_Radius', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+    
+    def m_connections(self):
+        return [], [], [], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_ParametricRoman)
+TYPENAMES.append('BVTK_NT_ParametricRoman' )
+
+
+# --------------------------------------------------------------
+
+
+class BVTK_NT_ParametricPseudosphere(Node, BVTK_Node):
+
+    bl_idname = 'BVTK_NT_ParametricPseudosphere'
+    bl_label = 'vtkParametricPseudosphere'
+    
+    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
+    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
+    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
+    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=5.0)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
+    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-5.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-3.141592653589793)
+    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
+    
+    b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+
+    def m_properties(self):
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+    
+    def m_connections(self):
+        return [], [], [], ['Self']
+    
+    def methods(self):
+        return []
+
+
+add_class(BVTK_NT_ParametricPseudosphere)
+TYPENAMES.append('BVTK_NT_ParametricPseudosphere' )
+
+
+# --------------------------------------------------------------
+
+
 class BVTK_NT_ParametricRandomHills(Node, BVTK_Node):
 
     bl_idname = 'BVTK_NT_ParametricRandomHills'
@@ -549,86 +706,6 @@ TYPENAMES.append('BVTK_NT_ParametricRandomHills' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_ParametricRoman(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_ParametricRoman'
-    bl_label = 'vtkParametricRoman'
-    
-    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
-    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
-    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
-    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
-    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
-    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_Radius = bpy.props.FloatProperty(name='Radius', description='Set/Get the radius. Default is 1', default=1.0)
-    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_Radius', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
-    
-    def m_connections(self):
-        return [], [], [], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_ParametricRoman)
-TYPENAMES.append('BVTK_NT_ParametricRoman' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_ParametricKuen(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_ParametricKuen'
-    bl_label = 'vtkParametricKuen'
-    
-    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
-    m_DeltaV0 = bpy.props.FloatProperty(name='DeltaV0', description='Set/Get the value to use when V == 0. Default is 0.05, giving the best appearance with the default settings. Setting it to a value less than 0.05 extrapolates the surface towards a pole in the -z direction. Setting it to 0 retains the pole whose z-value is -inf', default=0.05)
-    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
-    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
-    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=4.5)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
-    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-4.5)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
-    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DeltaV0', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
-    
-    def m_connections(self):
-        return [], [], [], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_ParametricKuen)
-TYPENAMES.append('BVTK_NT_ParametricKuen' )
-
-
-# --------------------------------------------------------------
-
-
 class BVTK_NT_ParametricTorus(Node, BVTK_Node):
 
     bl_idname = 'BVTK_NT_ParametricTorus'
@@ -670,33 +747,31 @@ TYPENAMES.append('BVTK_NT_ParametricTorus' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_ParametricBohemianDome(Node, BVTK_Node):
+class BVTK_NT_ParametricMobius(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricBohemianDome'
-    bl_label = 'vtkParametricBohemianDome'
+    bl_idname = 'BVTK_NT_ParametricMobius'
+    bl_label = 'vtkParametricMobius'
     
-    m_A = bpy.props.FloatProperty(name='A', description='Construct a Bohemian dome surface with the following parameters', default=0.5)
-    m_B = bpy.props.FloatProperty(name='B', description='', default=1.5)
-    m_C = bpy.props.FloatProperty(name='C', description='', default=1.0)
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
     m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
     m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
     m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
+    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=6.283185307179586)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=1.0)
     m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-3.141592653589793)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-3.141592653589793)
+    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-1.0)
     m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
+    m_Radius = bpy.props.FloatProperty(name='Radius', description='Set/Get the radius of the Mobius strip. Default is 1', default=1.0)
     m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=17, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_A', 'm_B', 'm_C', 'm_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_Radius', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -705,47 +780,8 @@ class BVTK_NT_ParametricBohemianDome(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricBohemianDome)
-TYPENAMES.append('BVTK_NT_ParametricBohemianDome' )
-
-
-# --------------------------------------------------------------
-
-
-class BVTK_NT_ParametricPseudosphere(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_ParametricPseudosphere'
-    bl_label = 'vtkParametricPseudosphere'
-    
-    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
-    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
-    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
-    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=5.0)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=3.141592653589793)
-    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=-5.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-3.141592653589793)
-    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
-    
-    def m_connections(self):
-        return [], [], [], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_ParametricPseudosphere)
-TYPENAMES.append('BVTK_NT_ParametricPseudosphere' )
+add_class(BVTK_NT_ParametricMobius)
+TYPENAMES.append('BVTK_NT_ParametricMobius' )
 
 
 # --------------------------------------------------------------
@@ -792,45 +828,6 @@ TYPENAMES.append('BVTK_NT_ParametricDini' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_ParametricKlein(Node, BVTK_Node):
-
-    bl_idname = 'BVTK_NT_ParametricKlein'
-    bl_label = 'vtkParametricKlein'
-    
-    m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
-    m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
-    m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
-    m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
-    m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=3.141592653589793)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=6.283185307179586)
-    m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
-    m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
-    m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
-    
-    b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
-
-    def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
-    
-    def m_connections(self):
-        return [], [], [], ['Self']
-    
-    def methods(self):
-        return []
-
-
-add_class(BVTK_NT_ParametricKlein)
-TYPENAMES.append('BVTK_NT_ParametricKlein' )
-
-
-# --------------------------------------------------------------
-
-
 class BVTK_NT_ParametricCatalanMinimal(Node, BVTK_Node):
 
     bl_idname = 'BVTK_NT_ParametricCatalanMinimal'
@@ -870,31 +867,34 @@ TYPENAMES.append('BVTK_NT_ParametricCatalanMinimal' )
 # --------------------------------------------------------------
 
 
-class BVTK_NT_ParametricMobius(Node, BVTK_Node):
+class BVTK_NT_ParametricConicSpiral(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricMobius'
-    bl_label = 'vtkParametricMobius'
+    bl_idname = 'BVTK_NT_ParametricConicSpiral'
+    bl_label = 'vtkParametricConicSpiral'
     
+    m_A = bpy.props.FloatProperty(name='A', description='Set/Get the scale factor. Default = 0.', default=0.2)
+    m_B = bpy.props.FloatProperty(name='B', description='Set/Get the A function coefficient. See the definition in Parametric surfaces referred to above. Default is 1', default=1.0)
+    m_C = bpy.props.FloatProperty(name='C', description='Set/Get the B function coefficient. See the definition in Parametric surfaces referred to above. Default is 0.1', default=0.1)
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
     m_JoinU = bpy.props.BoolProperty(name='JoinU', description='Set/Get the flag which joins the first triangle strip to the last one', default=True)
     m_JoinV = bpy.props.BoolProperty(name='JoinV', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
     m_JoinW = bpy.props.BoolProperty(name='JoinW', description='Set/Get the flag which joins the the ends of the triangle strips', default=True)
     m_MaximumU = bpy.props.FloatProperty(name='MaximumU', description='Set/Get the maximum u-value', default=6.283185307179586)
-    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=1.0)
+    m_MaximumV = bpy.props.FloatProperty(name='MaximumV', description='Set/Get the maximum v-value', default=6.283185307179586)
     m_MaximumW = bpy.props.FloatProperty(name='MaximumW', description='Set/Get the maximum w-value', default=1.0)
     m_MinimumU = bpy.props.FloatProperty(name='MinimumU', description='Set/Get the minimum u-value', default=0.0)
-    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=-1.0)
+    m_MinimumV = bpy.props.FloatProperty(name='MinimumV', description='Set/Get the minimum v-value', default=0.0)
     m_MinimumW = bpy.props.FloatProperty(name='MinimumW', description='Set/Get the minimum w-value', default=0.0)
-    m_Radius = bpy.props.FloatProperty(name='Radius', description='Set/Get the radius of the Mobius strip. Default is 1', default=1.0)
+    m_N = bpy.props.FloatProperty(name='N', description='Set/Get the C function coefficient. See the definition in Parametric surfaces referred to above. Default is 2', default=2.0)
     m_TwistU = bpy.props.BoolProperty(name='TwistU', description='Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     m_TwistV = bpy.props.BoolProperty(name='TwistV', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     m_TwistW = bpy.props.BoolProperty(name='TwistW', description='Set/Get the flag which joins the ends of the triangle strips with a twist. JoinW must also be set if this is set. Used when building some non-orientable surfaces', default=True)
     
-    b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
+    b_properties = bpy.props.BoolVectorProperty(name="", size=18, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_Radius', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ['m_A', 'm_B', 'm_C', 'm_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -903,8 +903,8 @@ class BVTK_NT_ParametricMobius(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricMobius)
-TYPENAMES.append('BVTK_NT_ParametricMobius' )
+add_class(BVTK_NT_ParametricConicSpiral)
+TYPENAMES.append('BVTK_NT_ParametricConicSpiral' )
 
 
 # --------------------------------------------------------------
