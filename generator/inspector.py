@@ -79,10 +79,10 @@ class VTKVariable:
     # p_doc is simpler:
     # (int, int)
     def __init__(self, p_doc, c_doc):
-
-        self.name = ""     # Name of the variable
-        self.type = None   # See 'type_from_string' for possible types
-        self.size = 0      # Size of the array, if the property is a vector
+        self.fullname = p_doc   # Name of the variable as it was in the python doc
+        self.name = ""          # Name of the variable
+        self.type = None        # See 'type_from_string' for possible types
+        self.size = 0           # Size of the array, if the property is a vector
 
         if c_doc:
             log.post("Variable names", p_doc + " " + c_doc)
@@ -105,6 +105,17 @@ class VTKVariable:
 
         if self.check():
             all_variables.add(self)
+
+    def compare_string(self):
+        """Return a string representing the variable but without
+        the first and the last parenthesis if it's
+        a tuple or an array. Used to compare the variable with a
+        setter arguments, it allows to find a match between
+        '(float, float)' and 'float, float' ."""
+        if (self.fullname.startswith("(") and self.fullname.endswith(")")) or\
+           (self.fullname.startswith("[") and self.fullname.endswith("]")):
+            return self.fullname[1:-1]
+        return self.fullname
 
     def check(self):
         if self.type is None:
@@ -295,6 +306,9 @@ class VTKMProperty:
         for key in setup_dict:
             setattr(self, key, setup_dict[key])
 
+    def __eq__(self, other):
+        return other and self.name == other.name
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -359,7 +373,9 @@ class VTKClass:
             if len(getter.arguments) == 0:
                 for setter in self.setters:
                     if getter.name[3:] == setter.name[3:]:
-                        if getter.str_returns == setter.str_arguments:
+                        if getter.str_returns == setter.str_arguments or \
+                           getter.returns.compare_string() == setter.str_arguments:
+
                             # here's something we can get and set
                             returns = getter.returns
                             if getter.name[3:] not in banned_props:
@@ -387,7 +403,10 @@ class VTKClass:
                                 if self.is_bool(getter.name):
                                     setup['type'] = 'Bool'
 
-                                self.m_properties.append(VTKMProperty(setup))
+                                prop = VTKMProperty(setup)
+
+                                if prop not in self.m_properties:
+                                    self.m_properties.append(prop)
 
     def is_bool(self, base):
         """To call when getters and setters are initialized.
