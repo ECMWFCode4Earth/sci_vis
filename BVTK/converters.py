@@ -3,6 +3,7 @@ from . update import *
 from .progress import ChargingBar
 import bmesh
 
+
 # -----------------------------------------------------------------------------
 # Converters from VTK to Blender
 # -----------------------------------------------------------------------------
@@ -143,9 +144,10 @@ class BVTK_OT_NodeWrite(Operator):
 
 
 def map(node, pmap=None):
-    """ Creates a map which represent
+    """Creates a map which represent
     the status (m_properties and inputs) of
-    every node connected to the one given. """
+    every node connected to the one given.
+    """
     # {} map:        node name -> (nodeprops, nodeinputs)
     # {} nodeprops:  property name -> property value
     # {} nodeinputs: input name -> connected node name
@@ -176,7 +178,7 @@ def map(node, pmap=None):
 
 
 def differences(map1, map2):
-    """Generate differences in properties and inputs of argument maps"""
+    """Generate differences in properties and inputs of argument maps."""
     props = {}   # differences in properties
     inputs = {}  # differences in inputs
     for node in map1:
@@ -196,7 +198,7 @@ def differences(map1, map2):
 
 
 def compare(dict1, dict2):
-    """Compare two dictionaries. Return a list of mismatching keys"""
+    """Compare two dictionaries. Return a list of mismatching keys."""
     diff = []
     for k in dict1:
         if k not in dict2:
@@ -271,6 +273,7 @@ def cut_excess(original_seq, new_len):
 
 
 def has_attributes(data, *attributes):
+    """Return true if data has all of the specified arguments."""
     for att in attributes:
         if not hasattr(data, att):
             return False
@@ -278,6 +281,9 @@ def has_attributes(data, *attributes):
 
 
 def check_mesh_data(data):
+    """Check data and return true if it's eligible to be
+    converted in a mesh.
+    """
     if not has_attributes(data, "GetPoints", "GetPoint",
                           "GetNumberOfCells", "GetCell",
                           "GetNumberOfPoints"):
@@ -291,6 +297,9 @@ def check_mesh_data(data):
 
 
 def apply_geometry_filter(data):
+    """Create and apply a vtk geometry filter to the given data.
+    Return the resulting geometry.
+    """
     geom = vtk.vtkGeometryFilter()
     geom.SetInputData(data)
     geom.Update()
@@ -412,14 +421,14 @@ def vtk_data_to_mesh(data, name, color_node=None, smooth=False):
 
 
 def mesh_and_object(name):
-    """ method gets/creates an object and his mesh and returns both """
+    """Get or create an object and his mesh and return both."""
     me = get_item(bpy.data.meshes, name)
     ob = get_object(name, me)
     return me, ob
 
 
 def get_item(data, *args):
-    """ method gets/creates the item with key args[0] from data and return it """
+    """Get or create the item with key args[0] from data and return it."""
     item = data.get(args[0])
     if not item:
         item = data.new(*args)
@@ -427,13 +436,13 @@ def get_item(data, *args):
 
 
 def set_link(data, item):
-    """ method links item to data if item isn't already linked """
+    """Link item to data if it's not already linked."""
     if item.name not in data:
         data.link(item)
 
 
 def get_object(name, data):
-    """ method gets/creates object, sets his data, adds it to current scene """
+    """Get or create object, set his data, ads it to current scene."""
     ob = get_item(bpy.data.objects, name, data)
     ob.data = data
     set_link(bpy.context.scene.objects, ob)
@@ -446,6 +455,12 @@ def get_object(name, data):
 
 
 def get_color_array(data, color_node):
+    """Retrieve an array from the given data, based on the
+    'color by' selection on the provided color node. If the
+    color node is not valid then try to retrieve point data
+    scalars or face data scalars. Return a tuple with the
+    array and a boolean specifying whether it represents or
+    not point data."""
     data_array = None
     is_pd = False
 
@@ -833,12 +848,13 @@ def delete_texts(name):
             bpy.data.curves.remove(curve)
 
 
-def create_lut(name, Range, n_div, mat, font="", b=0.5, h=5.5, x=5, y=0, z=0, fontsize=0.35, roundto=2):
-    """Create value labels and color legends and add to current scene"""
+def create_lut(name, data_range, n_div, mat, font="", b=0.5, h=5.5, x=5, y=0, z=0, fontsize=0.35, roundto=2):
+    """Create value labels and color legends and add to current scene."""
+    # Todo: rewrite and optimize this function
     name = name+'_colormap'
     delete_texts(name+'_lab')  # Delete old labels
     # Create plane and UVs
-    plane = bmesh.new()
+    plane = bmesh.new()  # Todo: use the plane_bmesh function
     plane.faces.new((
         plane.verts.new((0, 0, 0)),
         plane.verts.new((b, 0, 0)),
@@ -854,36 +870,36 @@ def create_lut(name, Range, n_div, mat, font="", b=0.5, h=5.5, x=5, y=0, z=0, fo
     me, ob = mesh_and_object(name)
     plane.to_mesh(me)
     apply_material(me, mat)
-    min, max = Range
-    if min>max or h<=0:
+    r_min, r_max = data_range
+    if r_min > r_max or h <= 0:
         log.error('range maximum greater than minimum')
         return
     import math
-    idealspace = (max-min)/(h)
-    exponent = math.floor(math.log10(idealspace))
-    mantissa = idealspace/(10**exponent)
+    ideal_space = (r_max-r_min)/h
+    exponent = math.floor(math.log10(ideal_space))
+    mantissa = ideal_space/(10**exponent)
     if mantissa < 2.5:
         step = 10 ** exponent
     elif mantissa < 7.5:
         step = 5*10**exponent
     else:
         step = 10*10**exponent
-    start = math.ceil(min/step)*step
-    delta = max-min
-    if step>delta:
+    start = math.ceil(r_min/step)*step
+    delta = r_max-r_min
+    if step > delta:
         return
-    starth = (h*(start-min))/delta
-    steph = (h*step)/delta
+    start_h = (h*(start-r_min))/delta
+    step_h = (h*step)/delta
 
     # Add labels as texts
-    for i in range(int(math.floor((max-start)/step))+1):
+    for i in range(int(math.floor((r_max-start)/step))+1):
         t = text(name+'_lab'+str(i), '{:.15}'.format(float(start+i*step)))
         t.data.size = fontsize
         if font:
             t.data.font = font
         t.rotation_mode = 'XYZ'
         t.rotation_euler = (1.5707963705062866, 0.0, 0.0)
-        t.location = b+b/5, 0, starth+steph*i
+        t.location = b+b/5, 0, start_h+step_h*i
         t.parent = ob
 
 
@@ -1015,9 +1031,7 @@ def probe_grid(data, resolution=(250, 250, 250)):
 
 
 def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resolution=(250, 250, 250)):
-    """Under development. Convert vtk volumetric data
-    to a Blender object with a volumetric material.
-    """
+    """Convert vtk volumetric data to a Blender object with a volumetric material."""
     from array import array
 
     if not color_node:
@@ -1130,13 +1144,11 @@ def vtk_data_to_image(data, name, color_node):
                   "a valid 'color by' array selected.")
         return
 
-    # Range
     if color_node:
         data_range = color_node.range_min, color_node.range_max
     else:
         data_range = data_array.GetRange()
 
-    # Generate image data to img
     if hasattr(data, "GetDimensions"):
         dim = data.GetDimensions()
     else:
