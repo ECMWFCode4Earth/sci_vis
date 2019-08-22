@@ -1,19 +1,15 @@
 from . utils import resolve_algorithm_output, log, node_path, header_box
 from . core import *
 
+
 # -----------------------------------------------------------------------------
 # Custom filter
 # -----------------------------------------------------------------------------
 
 
 class BVTK_NT_CustomFilter(Node, BVTK_Node):
-    """# This file is used for vtk custom filter.
-    # On update all of this file will be executed.
-    # To the chosen function will be passed:
-    # - A list of objects, if custom filter node has multiple links in input.
-    # - A single object, if custom filter node has a single link in input.
-    # Your function must return a variable which can be set as input of the
-    # node following custom filter.
+    """A node connected to a python script written by the user,
+    to create a vtk object and pass it through the pipeline.
     """
     bl_idname = 'BVTK_NT_CustomFilter'
     bl_label = 'CustomFilter'
@@ -45,24 +41,24 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
         return []
 
     def m_connections(self):
-        return (['input'], [], [], ['output'])
+        return ["input"], [], [], ["output"]
 
     def draw_buttons(self, context, layout):
         row = layout.row(align=True)
-        row.prop(self, 'text')
-        op = row.operator('bvtk.new_text', icon='ZOOMIN', text='')
-        op.name = 'customfilter.py'
-        op.body = ('# This file is used for vtk custom filter.'
-                   '# On update all of this file will be executed.'
-                   '# To the chosen function will be passed:'
-                   '# - A list of objects, if custom filter node has multiple links in input.'
-                   '# - A single object, if custom filter node has a single link in input.'
-                   '# Your function must return a variable which can be set as input of the'
-                   '# node following custom filter.')
+        row.prop(self, "text")
+        op = row.operator("bvtk.new_text", icon="ZOOMIN", text="")
+        op.name = "customfilter.py"
+        op.body = ("# This file is used for vtk custom filter. \n"
+                   "# On update all of this file will be executed. \n"
+                   "# To the chosen function will be passed: \n"
+                   "# - A list of objects, if custom filter node has multiple links in input. \n"
+                   "# - A single object, if custom filter node has a single link in input. \n"
+                   "# Your function must return a variable which can be set as input of the \n"
+                   "# node following custom filter. \n")
         if len(self.functions()):
-            layout.prop(self, 'func')
+            layout.prop(self, "func")
         else:
-            layout.label('No functions found in specified text')
+            layout.label("No functions found in specified text")
 
     def apply_properties(self, vtkobj):
         pass
@@ -74,7 +70,7 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
         """Execute user defined function. If something goes wrong,
         print the error and return the input object.
         """
-        input_objects = [x[1] for x in self.get_input_nodes('input')]
+        input_objects = [x[1] for x in self.get_input_nodes("input")]
         if len(input_objects) == 1:
             input_objects = input_objects[0]
         if self.text in bpy.data.texts:
@@ -82,42 +78,42 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
             try:
                 exec(t, globals(), locals())
             except Exception as e:
-                log.error('error while parsing user defined text: ' +
-                          str(e).replace('<string>', self.text))
-                return self.get_input_node('input')[1]
+                log.error("error while parsing user defined text: " +
+                          str(e).replace("<string>", self.text))
+                return self.get_input_node("input")[1]
             if self.func not in locals():
-                log.error('function not found')
+                log.error("function not found")
             else:
                 try:
-                    user_output = eval(self.func+'(input_objects)')
+                    user_output = eval(self.func+"(input_objects)")
                     return user_output
                 except Exception as e:
-                    log.error('error while executing user defined function:' + str(e))
-        return self.get_input_node('input')[1]
+                    log.error("error while executing user defined function:" + str(e))
+        return self.get_input_node("input")[1]
 
     def setup(self):
-        self.inputs['input'].link_limit = 300
+        self.inputs["input"].link_limit = 300
 
     def export_properties(self):
         """Export node properties"""
         dict = {}
         if self.text in bpy.data.texts:
             t = bpy.data.texts[self.text].as_string()
-            dict['text_as_string'] = t
-            dict['text_name'] = self.text
+            dict["text_as_string"] = t
+            dict["text_name"] = self.text
         return dict
 
     def import_properties(self, dict):
         """Import node properties"""
-        bpy.ops.bvtk.new_text(body=dict['text_as_string'], name=dict['text_name'])
+        bpy.ops.bvtk.new_text(body=dict["text_as_string"], name=dict["text_name"])
 
 
 class BVTK_OT_NewText(bpy.types.Operator):
     """New text operator"""
-    bl_idname = 'bvtk.new_text'
-    bl_label = 'Create a new text'
+    bl_idname = "bvtk.new_text"
+    bl_label = "Create a new text"
 
-    name = bpy.props.StringProperty(default='New text')
+    name = bpy.props.StringProperty(default="New text")
     body = bpy.props.StringProperty()
 
     def execute(self, context):
@@ -126,21 +122,22 @@ class BVTK_OT_NewText(bpy.types.Operator):
         flag = True
         areas = context.screen.areas
         for area in areas:
-            if area.type == 'TEXT_EDITOR':
+            if area.type == "TEXT_EDITOR":
                 for space in area.spaces:
-                    if space.type == 'TEXT_EDITOR':
+                    if space.type == "TEXT_EDITOR":
                         if flag:
                             space.text = text
                             space.top = 0
                             flag = False
         if flag:
-            self.report({'INFO'}, "See '" + text.name + "' in the text editor")
-        return {'FINISHED'}
+            self.report({"INFO"}, "See '{}' in the text editor.".format(text.name))
+        return {"FINISHED"}
 
 
 # ----------------------------------------------------------------
 # MultiBlockLeaf
 # ----------------------------------------------------------------
+
 
 class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
     """This node breaks down vtkMultiBlock data and outputs one
@@ -191,14 +188,14 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
         return []
 
     def m_connections(self):
-        return (['input'], [], [], ['output'])
+        return ["input"], [], [], ["output"]
 
     def draw_buttons(self, context, layout):
-        in_node, vtkobj = self.get_input_node('input')
+        in_node, vtkobj = self.get_input_node("input")
         if not in_node:
-            layout.label('Connect a node')
+            layout.label("Connect a node")
         elif not vtkobj:
-            layout.label('Input has not vtkobj (try updating)')
+            layout.label("Input has not vtkobj (try updating)")
         else:
             vtkobj = resolve_algorithm_output(vtkobj)
             if not vtkobj:
@@ -220,7 +217,7 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
         """Check if the specified block can be retrieved from the input vtk object,
         in case it's possible the said block is returned.
         """
-        in_node, vtkobj = self.get_input_node('input')
+        in_node, vtkobj = self.get_input_node("input")
         if in_node:
             if vtkobj:
                 vtkobj = resolve_algorithm_output(vtkobj)
@@ -246,7 +243,7 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
         in_node, out_port = self.get_input_node('input')
         if in_node:
             if out_port:
-                if out_port.IsA('vtkAlgorithmOutput'):
+                if out_port.IsA("vtkAlgorithmOutput"):
                     prod = out_port.GetProducer()
                     executive = prod.GetExecutive()
                     out_info = prod.GetOutputInformation(out_port.GetIndex())
@@ -265,16 +262,16 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
         return []
 
     def m_connections(self):
-        return (['input'], [], [], ['output'])
+        return ["input"], [], [], ["output"]
 
     def draw_buttons(self, context, layout):
-        in_node, out_port = self.get_input_node('input')
+        in_node, out_port = self.get_input_node("input")
         if not in_node:
-            layout.label('Connect a node')
+            layout.label("Connect a node")
         elif not out_port:
-            layout.label('Input has not vtkobj (try updating)')
-        elif not out_port.IsA('vtkAlgorithmOutput'):
-            layout.label('Input is not a vtkAlgorithm.')
+            layout.label("Input has not vtkobj (try updating)")
+        elif not out_port.IsA("vtkAlgorithmOutput"):
+            layout.label("Input is not a vtkAlgorithm.")
         else:
             prod = out_port.GetProducer()
             executive = prod.GetExecutive()
@@ -283,17 +280,17 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
                 time_steps = out_info.Get(executive.TIME_STEPS())
                 if time_steps:
                     row = layout.row()
-                    row.prop(self, 'time_step', text="Time step")
+                    row.prop(self, "time_step", text="Time step")
                     size = len(time_steps)
                     row.label("Max: "+str(size-1))
                     if -size <= self.time_step < size:
                         layout.label("Time: "+str(time_steps[self.time_step]))
                     else:
-                        layout.label('Index out of time steps range', icon='ERROR')
+                        layout.label("Index out of time steps range", icon="ERROR")
                 else:
-                    layout.label('Input executive contains a time steps array but it\'s empty.')
+                    layout.label("Input executive contains a time steps array but it's empty.")
             else:
-                layout.label('Input executive does not contain any information about time steps.')
+                layout.label("Input executive does not contain any information about time steps.")
 
     def apply_properties(self, vtkobj):
         pass
@@ -306,10 +303,10 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
         If tests pass the time step is updated and the input object is returned,
         otherwise None is returned.
         """
-        in_node, out_port = self.get_input_node('input')
+        in_node, out_port = self.get_input_node("input")
         if in_node:
             if out_port:
-                if out_port.IsA('vtkAlgorithmOutput'):
+                if out_port.IsA("vtkAlgorithmOutput"):
                     prod = out_port.GetProducer()
                     executive = prod.GetExecutive()
                     out_info = prod.GetOutputInformation(out_port.GetIndex())
@@ -325,7 +322,7 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
                                                 .format(prod.__class__.__name__))
                                     log.warning("If you can, please document this case and report it to the developers.")
                             else:
-                                log.warning('ERROR: Index out of time steps range')
+                                log.warning("ERROR: Index out of time steps range")
                 return resolve_algorithm_output(out_port)
         return None
 
@@ -346,7 +343,7 @@ class BVTK_NT_Baker(Node, BVTK_Node):
         return []
 
     def m_connections(self):
-        return (['Input'], [], [], ['Output'])
+        return ["Input"], [], [], ["Output"]
 
     def draw_buttons(self, context, layout):
         baked_obj = self.get_vtkobj()
@@ -365,7 +362,7 @@ class BVTK_NT_Baker(Node, BVTK_Node):
         pass
 
     def update_cb(self):
-        in_node, in_obj = self.get_input_node('Input')
+        in_node, in_obj = self.get_input_node("Input")
         if in_obj:
             self.set_vtkobj(in_obj)
         else:
@@ -395,7 +392,7 @@ class BVTK_NT_Baker(Node, BVTK_Node):
         if baked_obj:
             return baked_obj
 
-        in_node, in_obj = self.get_input_node('Input')
+        in_node, in_obj = self.get_input_node("Input")
         if in_obj:
             return in_obj
 
@@ -420,7 +417,7 @@ class BVTK_OT_FreeBake(bpy.types.Operator):
             node.set_vtkobj(None)  # Remove baked object
             bpy.ops.bvtk.node_update(node_path=self.node_path)
         self.use_queue = True
-        return {'FINISHED'}
+        return {"FINISHED"}
 
 
 # ----------------------------------------------------------------
@@ -428,13 +425,13 @@ class BVTK_OT_FreeBake(bpy.types.Operator):
 
 TYPENAMES = []
 add_class(BVTK_NT_CustomFilter)
-TYPENAMES.append('BVTK_NT_CustomFilter')
+TYPENAMES.append("BVTK_NT_CustomFilter")
 add_class(BVTK_NT_MultiBlockLeaf)
-TYPENAMES.append('BVTK_NT_MultiBlockLeaf')
+TYPENAMES.append("BVTK_NT_MultiBlockLeaf")
 add_class(BVTK_NT_TimeSelector)
-TYPENAMES.append('BVTK_NT_TimeSelector')
+TYPENAMES.append("BVTK_NT_TimeSelector")
 add_class(BVTK_NT_Baker)
-TYPENAMES.append('BVTK_NT_Baker')
+TYPENAMES.append("BVTK_NT_Baker")
 add_ui_class(BVTK_OT_NewText)
 add_ui_class(BVTK_OT_FreeBake)
 
