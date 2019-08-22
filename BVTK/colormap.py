@@ -250,7 +250,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
                     node = link.to_node
                     if node.bl_idname == "BVTK_NT_ToBlender":
                         flag = True
-                        if self.mesh and node.m_Name == self.mesh.name:
+                        if self.mesh and node.mesh_name == self.mesh.name:
                             m_flag = True
                 if not flag and len(out_links):
                     layout.box().label("This node must be connected in output with "
@@ -305,6 +305,7 @@ class BVTK_NT_ColorToImage(Node, BVTK_Node):
 # Color ramp node
 # -----------------------------------------------------------------------------
 
+
 class BVTK_PG_ColorSettings(bpy.types.PropertyGroup):
     """Property used by the color ramp node to allow
     the user to choose the arrangement criteria.
@@ -336,17 +337,8 @@ class BVTK_NT_ColorRamp(Node, BVTK_Node):
         self.my_texture = new_texture.name
         old_texture = node.get_texture()
         if old_texture:
-            elements = new_texture.color_ramp.elements
-            new_elements = old_texture.color_ramp.elements
-            while len(elements) > len(new_elements):
-                elements.remove(elements[0])
-            for i, new_el in enumerate(new_elements):
-                if i < len(elements):
-                    elements[i].color = new_el.color
-                    elements[i].position = new_el.position
-                else:
-                    e = elements.new(new_el.position)
-                    e.color = new_el.color
+            copy_color_ramp(old_texture.color_ramp,
+                            new_texture.color_ramp)
 
     def setup(self):
         new_texture = get_default_texture(self.name)

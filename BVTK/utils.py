@@ -1,6 +1,7 @@
 import bpy
 import os
 import logging
+from math import gcd, log10, pow
 
 # -----------------------------------------------------------------------------
 # Logging
@@ -62,6 +63,72 @@ def addon_pref(pref_name):
     if hasattr(pref, pref_name):
         return getattr(pref, pref_name)
     return None
+
+
+def copy_color_ramp(from_ramp, to_ramp):
+    elements = to_ramp.elements
+    new_elements = from_ramp.elements
+    while len(elements) > len(new_elements):
+        elements.remove(elements[0])
+    for i, new_el in enumerate(new_elements):
+        if i < len(elements):
+            elements[i].color = new_el.color
+            elements[i].position = new_el.position
+        else:
+            e = elements.new(new_el.position)
+            e.color = new_el.color
+
+
+def float_scale(x):
+    """Find and return the number of valid digits
+    after the comma for the given float.
+    """
+    max_digits = 14
+    int_part = int(abs(x))
+    magnitude = 1 if int_part == 0 else int(log10(int_part)) + 1
+    if magnitude >= max_digits:
+        return 0
+    frac_part = abs(x) - int_part
+    multiplier = 10 ** (max_digits - magnitude)
+    frac_digits = multiplier + int(multiplier * frac_part + 0.5)
+    while frac_digits % 10 == 0:
+        frac_digits /= 10
+    return int(log10(frac_digits))
+
+
+def float_gcd(a, b):
+    """Find and return the float greatest common divisor."""
+    sc = float_scale(a)
+    sc_b = float_scale(b)
+    sc = sc_b if sc_b > sc else sc
+    fac = pow(10, sc)
+
+    a = int(round(a*fac))
+    b = int(round(b*fac))
+
+    return round(gcd(a, b)/fac, sc)
+
+
+def multi_gcd(a, b, *args):
+    """Find the greatest common divisor of all the given numbers."""
+    f_gcd = float_gcd(a, b)  # Final result
+    for n in args:
+        f_gcd = float_gcd(f_gcd, n)
+    return f_gcd
+
+
+def normalize_value(value, data_range):
+    """Return the position of the value relative to the range,
+    from 0 (range min) to 1 (range max).
+    """
+    min_r, max_r = data_range
+    val = (value - min_r) / (max_r - min_r)
+    val = min(1, max(0, val))
+    return val
+
+
+def normalize_tuple(tuple, data_range):
+    return (normalize_value(val, data_range) for val in tuple)
 
 
 # -----------------------------------------------------------------------------
