@@ -7,7 +7,7 @@ import vtk
 from bpy.types import NodeTree, Node, NodeSocket, Operator, AddonPreferences
 from nodeitems_utils import NodeCategory, NodeItem
 import os
-from . utils import log
+from . utils import *
 from . import b_properties  # Boolean properties
 b_path = b_properties.__file__  # Boolean properties config file path
 
@@ -137,7 +137,8 @@ class BVTK_AddonPreferences(AddonPreferences):
     """BVTK add-on preferences"""
 
     bl_idname = __package__
-    output_path = bpy.props.StringProperty(default="/tmp/BVTK/", subtype='FILE_PATH')
+    output_path = bpy.props.StringProperty(default=os.path.join(addon_path, "tmp"),
+                                           subtype='FILE_PATH')
 
     def draw(self, context):
         layout = self.layout
