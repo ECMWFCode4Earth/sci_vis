@@ -81,7 +81,7 @@ def no_queue_update(node, cb, x=True):
     vtkobj = node.get_vtkobj()
     for input_node in node.input_nodes():
         no_queue_update(input_node, None, False)
-    if x:
+    if x and cb:
         cb()
     else:
         if vtkobj:

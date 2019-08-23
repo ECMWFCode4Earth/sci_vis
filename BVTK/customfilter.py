@@ -262,21 +262,13 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
     bl_label = 'TimeSelector'
 
     def check_range(self, context):
-        in_node, out_port = self.get_input_node("Input")
-        if in_node:
-            if out_port:
-                if out_port.IsA("vtkAlgorithmOutput"):
-                    prod = out_port.GetProducer()
-                    executive = prod.GetExecutive()
-                    out_info = prod.GetOutputInformation(out_port.GetIndex())
-                    if hasattr(executive, "TIME_STEPS"):
-                        time_steps = out_info.Get(executive.TIME_STEPS())
-                        if time_steps:
-                            size = len(time_steps)
-                            if self.time_step < 0:
-                                self.time_step = 0
-                            elif self.time_step >= size:
-                                self.time_step = size-1
+        time_steps = self.get_time_steps()
+        if time_steps:
+            size = len(time_steps)
+            if self.time_step < 0:
+                self.time_step = 0
+            elif self.time_step >= size:
+                self.time_step = size-1
 
     time_step = bpy.props.IntProperty(update=check_range)
     date_format = bpy.props.EnumProperty(name="Date format", items=[
@@ -360,6 +352,20 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
     def apply_inputs(self, vtkobj):
         pass
 
+    def get_time_steps(self):
+        # Please note: this method is used by the batch scripts,
+        # renaming or editing it may compromise them.
+        in_node, out_port = self.get_input_node("Input")
+        if in_node:
+            if out_port:
+                if out_port.IsA("vtkAlgorithmOutput"):
+                    prod = out_port.GetProducer()
+                    executive = prod.GetExecutive()
+                    out_info = prod.GetOutputInformation(out_port.GetIndex())
+                    if hasattr(executive, "TIME_STEPS"):
+                        return out_info.Get(executive.TIME_STEPS())
+        return None
+
     def get_time_reader(self, node):
         """Recursively search the node tree behind the given node for a
         time reader and return it. A node is considerable a time reader
@@ -416,24 +422,21 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
             return None
 
         prod = out_port.GetProducer()
-        executive = prod.GetExecutive()
-        out_info = prod.GetOutputInformation(out_port.GetIndex())
-        if hasattr(executive, "TIME_STEPS"):
-            time_steps = out_info.Get(executive.TIME_STEPS())
-            if time_steps:
-                if 0 <= self.time_step < len(time_steps):
-                    time_value = time_steps[self.time_step]
+        time_steps = self.get_time_steps()
+        if time_steps:
+            if 0 <= self.time_step < len(time_steps):
+                time_value = time_steps[self.time_step]
 
-                    if socket.name == "Date":
-                        return self.get_text(time_value)
+                if socket.name == "Date":
+                    return self.get_text(time_value)
 
-                    if hasattr(prod, "UpdateTimeStep"):
-                        prod.UpdateTimeStep(time_value)
-                    else:
-                        log.warning("ERROR: {} does not have 'UpdateTimeStep' method."
-                                    .format(prod.__class__.__name__))
+                if hasattr(prod, "UpdateTimeStep"):
+                    prod.UpdateTimeStep(time_value)
                 else:
-                    log.warning("ERROR: Index out of time steps range")
+                    log.warning("ERROR: {} does not have 'UpdateTimeStep' method."
+                                .format(prod.__class__.__name__))
+            else:
+                log.warning("ERROR: Index out of time steps range")
         return resolve_algorithm_output(out_port)
 
 

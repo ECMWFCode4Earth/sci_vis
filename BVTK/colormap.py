@@ -39,6 +39,8 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
     bl_label = 'Color Mapper'
 
     def update_range(self, context):
+        # Please note: this method is used by the batch scripts,
+        # renaming or editing it may compromise them.
         if not self.auto_range:
             return
         vtkobj = self.get_input_node("Input")[1]
@@ -53,7 +55,9 @@ class BVTK_NT_ColorMapper(Node, BVTK_Node):
                 self.range_max = range[1]
                 self.range_min = range[0]
 
-    def color_arrays(self, context):
+    def color_arrays(self, context=None):
+        # Please note: this method is used by the batch scripts,
+        # renaming or editing it may compromise them.
         items = []
         vtkobj = self.get_input_node("Input")[1]
         if vtkobj:
