@@ -70,7 +70,7 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
             color_node = input_node
             color_node.update()  # setting auto range
             input_node, input_obj = input_node.get_input_node("Input")
-        if input_obj:
+        if input_obj is not None:
             input_obj = resolve_algorithm_output(input_obj)
             output_type = self.output_type
             mesh_name = self.mesh_name
@@ -445,7 +445,16 @@ def set_link(data, item):
 def get_object(name, data):
     """Get or create object, set his data, add it to the current scene."""
     ob = get_item(bpy.data.objects, name, data)
-    ob.data = data
+
+    try:
+        # Setting data to an object may rise an error if it's not
+        # of the correct type, for example trying to set a mesh
+        # as the data of a curve object.
+        ob.data = data
+    except TypeError:
+        bpy.data.objects.remove(ob)
+        return get_object(name, data)
+
     set_link(bpy.context.scene.objects, ob)
     return ob
 
@@ -919,7 +928,9 @@ def vtk_data_to_text(data, name):
     if cur.font.name == "Bfont":
         if "Aileron-Regular" not in bpy.data.fonts:
             f = bpy.data.fonts.load(os.path.join(addon_path, "Aileron-Regular.otf"))
-            cur.font = f
+        else:
+            f = bpy.data.fonts["Aileron-Regular"]
+        cur.font = f
 
     log.info("Text created: '{}'.".format(data))
 

@@ -295,7 +295,7 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
         return []
 
     def m_connections(self):
-        return ["Input"], ["Output"], [], ["Date"]
+        return ["Input"], ["Output"], [], ["Date", "Time Step"]
 
     def draw_buttons(self, context, layout):
         in_node, out_port = self.get_input_node("Input")
@@ -396,12 +396,16 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
         return None
 
     def get_output(self, socket):
-        """Output socket: check if the input is valid and if the time step can be set.
+        """Time step socket: return the current time step
+        Output socket: check if the input is valid and if the time step can be set.
         If tests pass the time step is updated and the input object is returned,
         otherwise None is returned.
         Date socket: check if it's possible to retrieve a readable date and
         return it as a formatted string.
         """
+        if socket.name == "Time Step":
+            return self.time_step
+
         in_node, out_port = self.get_input_node("Input")
 
         if not in_node:
