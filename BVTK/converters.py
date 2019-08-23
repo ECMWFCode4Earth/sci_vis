@@ -27,7 +27,8 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
     output_type = bpy.props.EnumProperty(name="Output", default="MESH", items=[
         ("MESH", "Mesh", "Generate a mesh as output", "VIEW3D", 0),
         ("VOLUME", "Volume", "Generate a volume as output. Works only in blender render.", "MOD_CAST", 1),
-        ("IMAGE", "Image", "Generate image as output.", "IMAGE_DATA", 2)
+        ("IMAGE", "Image", "Generate image as output.", "IMAGE_DATA", 2),
+        ("TEXT", "Text", "Generate a text object as output.", "FONT_DATA", 3)
     ])
     use_probing = bpy.props.BoolProperty(default=True, name="Probe")
     probe_resolution = bpy.props.IntVectorProperty(name="Resolution", default=(250, 250, 250))
@@ -62,25 +63,26 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
 
     def update_cb(self):
         """Update node"""
-        input_node, vtk_obj = self.get_input_node("Input")
+        input_node, input_obj = self.get_input_node("Input")
         color_node = None
         if input_node and (input_node.bl_idname == "BVTK_NT_ColorMapper" or
                            input_node.bl_idname == "BVTK_NT_ColorToImage"):
             color_node = input_node
             color_node.update()  # setting auto range
-            input_node, vtk_obj = input_node.get_input_node("Input")
-        if vtk_obj:
-            vtk_obj = resolve_algorithm_output(vtk_obj)
+            input_node, input_obj = input_node.get_input_node("Input")
+        if input_obj:
+            input_obj = resolve_algorithm_output(input_obj)
             output_type = self.output_type
             mesh_name = self.mesh_name
             if output_type == "MESH":
-                vtk_data_to_mesh(vtk_obj, mesh_name, color_node, self.smooth)
+                vtk_data_to_mesh(input_obj, mesh_name, color_node, self.smooth)
             elif output_type == "VOLUME":
-                vtk_data_to_volume(vtk_obj, mesh_name, color_node, use_probing=self.use_probing,
+                vtk_data_to_volume(input_obj, mesh_name, color_node, use_probing=self.use_probing,
                                    probe_resolution=self.probe_resolution)
             elif output_type == "IMAGE":
-                vtk_data_to_image(vtk_obj, mesh_name, color_node)
-
+                vtk_data_to_image(input_obj, mesh_name, color_node)
+            elif output_type == "TEXT":
+                vtk_data_to_text(input_obj, mesh_name)
             update_3d_view()
 
     def apply_properties(self, vtkobj):
@@ -272,14 +274,6 @@ def cut_excess(original_seq, new_len):
                 original_seq.remove(el)
 
 
-def has_attributes(data, *attributes):
-    """Return true if data has all of the specified arguments."""
-    for att in attributes:
-        if not hasattr(data, att):
-            return False
-    return True
-
-
 def check_mesh_data(data):
     """Check data and return true if it's eligible to be
     converted in a mesh.
@@ -427,6 +421,13 @@ def mesh_and_object(name):
     return me, ob
 
 
+def curve_and_object(name, curve_type):
+    """Get or create an object and his curve and return both."""
+    curve = get_item(bpy.data.curves, name, curve_type)
+    ob = get_object(name, curve)
+    return curve, ob
+
+
 def get_item(data, *args):
     """Get or create the item with key args[0] from data and return it."""
     item = data.get(args[0])
@@ -442,7 +443,7 @@ def set_link(data, item):
 
 
 def get_object(name, data):
-    """Get or create object, set his data, ads it to current scene."""
+    """Get or create object, set his data, add it to the current scene."""
     ob = get_item(bpy.data.objects, name, data)
     ob.data = data
     set_link(bpy.context.scene.objects, ob)
@@ -836,6 +837,7 @@ def text(name, body):
     font = get_item(bpy.data.curves, name, 'FONT')
     ob = get_object(name, font)
     font.body = body
+
     return ob
 
 
@@ -901,6 +903,25 @@ def create_lut(name, data_range, n_div, mat, font="", b=0.5, h=5.5, x=5, y=0, z=
         t.rotation_euler = (1.5707963705062866, 0.0, 0.0)
         t.location = b+b/5, 0, start_h+step_h*i
         t.parent = ob
+
+
+# -----------------------------------------------------------------------------
+#  Text data conversion
+# -----------------------------------------------------------------------------
+
+
+def vtk_data_to_text(data, name):
+    cur, ob = curve_and_object(name, "FONT")
+    data = str(data)
+    cur.body = data
+
+    # Set Aileron Regular instead of the default font
+    if cur.font.name == "Bfont":
+        if "Aileron-Regular" not in bpy.data.fonts:
+            f = bpy.data.fonts.load(os.path.join(addon_path, "Aileron-Regular.otf"))
+            cur.font = f
+
+    log.info("Text created: '{}'.".format(data))
 
 
 # -----------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-from . utils import resolve_algorithm_output, log, node_path, header_box
+from . utils import *
 from . core import *
 
 
@@ -41,7 +41,7 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
         return []
 
     def m_connections(self):
-        return ["input"], [], [], ["output"]
+        return ["Input"], [], [], ["Output"]
 
     def draw_buttons(self, context, layout):
         row = layout.row(align=True)
@@ -70,7 +70,7 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
         """Execute user defined function. If something goes wrong,
         print the error and return the input object.
         """
-        input_objects = [x[1] for x in self.get_input_nodes("input")]
+        input_objects = [x[1] for x in self.get_input_nodes("Input")]
         if len(input_objects) == 1:
             input_objects = input_objects[0]
         if self.text in bpy.data.texts:
@@ -80,7 +80,7 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
             except Exception as e:
                 log.error("error while parsing user defined text: " +
                           str(e).replace("<string>", self.text))
-                return self.get_input_node("input")[1]
+                return self.get_input_node("Input")[1]
             if self.func not in locals():
                 log.error("function not found")
             else:
@@ -89,10 +89,10 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
                     return user_output
                 except Exception as e:
                     log.error("error while executing user defined function:" + str(e))
-        return self.get_input_node("input")[1]
+        return self.get_input_node("Input")[1]
 
     def setup(self):
-        self.inputs["input"].link_limit = 300
+        self.inputs["Input"].link_limit = 300
 
     def export_properties(self):
         """Export node properties"""
@@ -155,7 +155,7 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
         - Block data type (ex. structured grid)
         - Block custom name (if it's defined, in most cases it's not)
         """
-        in_node, vtkobj = self.get_input_node('input')
+        in_node, vtkobj = self.get_input_node("Input")
         if not in_node:
             return []
         elif not vtkobj:
@@ -188,10 +188,10 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
         return []
 
     def m_connections(self):
-        return ["input"], [], [], ["output"]
+        return ["Input"], [], [], ["Output"]
 
     def draw_buttons(self, context, layout):
-        in_node, vtkobj = self.get_input_node("input")
+        in_node, vtkobj = self.get_input_node("Input")
         if not in_node:
             layout.label("Connect a node")
         elif not vtkobj:
@@ -217,7 +217,7 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
         """Check if the specified block can be retrieved from the input vtk object,
         in case it's possible the said block is returned.
         """
-        in_node, vtkobj = self.get_input_node("input")
+        in_node, vtkobj = self.get_input_node("Input")
         if in_node:
             if vtkobj:
                 vtkobj = resolve_algorithm_output(vtkobj)
@@ -232,6 +232,28 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
 # ----------------------------------------------------------------
 
 
+def pip_install(package):
+    import subprocess
+    log.warning("Installing {} via pip.".format(package))
+    subprocess.run([bpy.app.binary_path_python, "-m", "pip", "install", package])
+    log.warning("Install process ended.")
+
+
+try:
+    # Import, or install if needed, the 'cftime' package
+    # needed to convert the time value to a date
+    import cftime
+except ImportError:
+    log.warning("Module cftime not imported.")
+    pip_install("cftime")
+    try:
+        import cftime
+    except ImportError:
+        log.error("Module cftime failed to install.")
+
+cftime_loaded = "cftime" in locals()
+
+
 class BVTK_NT_TimeSelector(Node, BVTK_Node):
     """VTK time management node for time variant data. Display time sets,
     time values and set time.
@@ -240,7 +262,7 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
     bl_label = 'TimeSelector'
 
     def check_range(self, context):
-        in_node, out_port = self.get_input_node('input')
+        in_node, out_port = self.get_input_node("Input")
         if in_node:
             if out_port:
                 if out_port.IsA("vtkAlgorithmOutput"):
@@ -251,46 +273,86 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
                         time_steps = out_info.Get(executive.TIME_STEPS())
                         if time_steps:
                             size = len(time_steps)
-                            if self.time_step < -size:
-                                self.time_step = -size
+                            if self.time_step < 0:
+                                self.time_step = 0
                             elif self.time_step >= size:
                                 self.time_step = size-1
 
     time_step = bpy.props.IntProperty(update=check_range)
+    date_format = bpy.props.EnumProperty(name="Date format", items=[
+        ("%d/%m/%Y %H:%M", "D/M/Y h:m", "D/M/Y h:m"),
+        ("%Y/%m/%d %H:%M", "Y/M/D h:m", "Y/M/D h:m"),
+        ("%m/%d/%Y %H:%M", "M/D/Y h:m", "M/D/Y h:m"),
+        ("%m/%d/%Y %H:%M", "M/D/Y h:m", "M/D/Y h:m"),
+        ("%m/%Y", "M/Y", "M/Y"),
+        ("%d/%m/%Y", "D/M/Y", "D/M/Y"),
+        ("%Y/%m/%d", "Y/M/D", "Y/M/D"),
+        ("%m/%d/%Y", "M/D/Y", "M/D/Y"),
+        ("%m/%d/%Y", "M/D/Y", "M/D/Y")
+    ])
 
     def m_properties(self):
         return []
 
     def m_connections(self):
-        return ["input"], [], [], ["output"]
+        return ["Input"], ["Output"], [], ["Date"]
 
     def draw_buttons(self, context, layout):
-        in_node, out_port = self.get_input_node("input")
+        in_node, out_port = self.get_input_node("Input")
         if not in_node:
-            layout.label("Connect a node")
+            question_box(layout, "Connect a node")
         elif not out_port:
-            layout.label("Input has not vtkobj (try updating)")
+            question_box(layout, "Input has not vtkobj, try updating.")
         elif not out_port.IsA("vtkAlgorithmOutput"):
-            layout.label("Input is not a vtkAlgorithm.")
+            question_box(layout, "Input is not a vtkAlgorithm.")
         else:
             prod = out_port.GetProducer()
             executive = prod.GetExecutive()
             out_info = prod.GetOutputInformation(out_port.GetIndex())
-            if hasattr(executive, "TIME_STEPS"):
-                time_steps = out_info.Get(executive.TIME_STEPS())
-                if time_steps:
-                    row = layout.row()
-                    row.prop(self, "time_step", text="Time step")
-                    size = len(time_steps)
-                    row.label("Max: "+str(size-1))
-                    if -size <= self.time_step < size:
-                        layout.label("Time: "+str(time_steps[self.time_step]))
-                    else:
-                        layout.label("Index out of time steps range", icon="ERROR")
-                else:
-                    layout.label("Input executive contains a time steps array but it's empty.")
+            if not hasattr(executive, "TIME_STEPS"):
+                question_box(layout, "Input executive does not contain\n"
+                                     "any information about time steps.")
+                return
+
+            time_steps = out_info.Get(executive.TIME_STEPS())
+            if not time_steps:
+                question_box(layout, "Input contains a time step array\n"
+                                     "but it's empty. Try updating.")
+                return
+
+            row = layout.row()
+            row.prop(self, "time_step", text="Time step")
+            size = len(time_steps)
+            row.label("Max: "+str(size-1))
+
+            if not 0 <= self.time_step < size:
+                error_box(layout, "Index out of time steps range")
+                return
+
+            t_val = time_steps[self.time_step]
+            layout.label("Time value: {}".format(t_val))
+
+            if not cftime_loaded:
+                error_box(layout, "Module cftime not loaded: install\n"
+                                  "it to convert the time value\n"
+                                  "into a human readable date.\n"
+                                  "> pip install cftime")
+                return
+
+            time_reader = self.get_time_reader(self)
+
+            if not time_reader:
+                return
+
+            layout.prop(self, "date_format")
+            t_units = time_reader.GetTimeUnits()
+            calendar = time_reader.GetCalendar()
+            date = cftime.num2date(t_val, t_units, calendar)
+
+            if date:
+                layout.label("Date: {}".format(date.strftime(self.date_format)))
             else:
-                layout.label("Input executive does not contain any information about time steps.")
+                layout.label("Time value could not be converted to a date.", icon="ERROR")
 
     def apply_properties(self, vtkobj):
         pass
@@ -298,33 +360,77 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
     def apply_inputs(self, vtkobj):
         pass
 
+    def get_time_reader(self, node):
+        """Recursively search the node tree behind the given node for a
+        time reader and return it. A node is considerable a time reader
+        if its vtk object has 'GetTimeUnits' and 'GetCalendar' methods."""
+        if node.get_vtkobj():
+            obj = node.get_vtkobj()
+            if has_attributes(obj, "GetTimeUnits", "GetCalendar"):
+                return obj
+        for input in node.inputs:
+            for link in input.links:
+                in_reader = self.get_time_reader(link.from_node)
+                if in_reader:
+                    return in_reader
+        return None
+
+    def get_text(self, time_value):
+        """Convert the given time value in a readable date, if possible."""
+        time_reader = self.get_time_reader(self)
+
+        if not time_reader:
+            return None
+
+        if not cftime_loaded:
+            log.error("Time Selector node can't obtain the date if the 'cftime' library is not loaded")
+            return None
+
+        t_units = time_reader.GetTimeUnits()
+        calendar = time_reader.GetCalendar()
+        date = cftime.num2date(time_value, t_units, calendar)
+
+        if date:
+            return "{}".format(date.strftime(self.date_format))
+
+        return None
+
     def get_output(self, socket):
-        """ Check if the input is valid and if the time step can be set.
+        """Output socket: check if the input is valid and if the time step can be set.
         If tests pass the time step is updated and the input object is returned,
         otherwise None is returned.
+        Date socket: check if it's possible to retrieve a readable date and
+        return it as a formatted string.
         """
-        in_node, out_port = self.get_input_node("input")
-        if in_node:
-            if out_port:
-                if out_port.IsA("vtkAlgorithmOutput"):
-                    prod = out_port.GetProducer()
-                    executive = prod.GetExecutive()
-                    out_info = prod.GetOutputInformation(out_port.GetIndex())
-                    if hasattr(executive, "TIME_STEPS"):
-                        time_steps = out_info.Get(executive.TIME_STEPS())
-                        if time_steps:
-                            size = len(time_steps)
-                            if -size <= self.time_step < size:
-                                if hasattr(prod, "UpdateTimeStep"):
-                                    prod.UpdateTimeStep(time_steps[self.time_step])
-                                else:
-                                    log.warning("ERROR: {} does not have 'UpdateTimeStep' method."
-                                                .format(prod.__class__.__name__))
-                                    log.warning("If you can, please document this case and report it to the developers.")
-                            else:
-                                log.warning("ERROR: Index out of time steps range")
-                return resolve_algorithm_output(out_port)
-        return None
+        in_node, out_port = self.get_input_node("Input")
+
+        if not in_node:
+            return None
+        if not out_port:
+            return None
+        if not out_port.IsA("vtkAlgorithmOutput"):
+            return None
+
+        prod = out_port.GetProducer()
+        executive = prod.GetExecutive()
+        out_info = prod.GetOutputInformation(out_port.GetIndex())
+        if hasattr(executive, "TIME_STEPS"):
+            time_steps = out_info.Get(executive.TIME_STEPS())
+            if time_steps:
+                if 0 <= self.time_step < len(time_steps):
+                    time_value = time_steps[self.time_step]
+
+                    if socket.name == "Date":
+                        return self.get_text(time_value)
+
+                    if hasattr(prod, "UpdateTimeStep"):
+                        prod.UpdateTimeStep(time_value)
+                    else:
+                        log.warning("ERROR: {} does not have 'UpdateTimeStep' method."
+                                    .format(prod.__class__.__name__))
+                else:
+                    log.warning("ERROR: Index out of time steps range")
+        return resolve_algorithm_output(out_port)
 
 
 # ----------------------------------------------------------------

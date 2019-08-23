@@ -30,8 +30,9 @@ addon_path = os.path.realpath(__file__).replace('utils.py', '')
 
 def resolve_algorithm_output(vtkobj):
     """Return vtkobj from vtkAlgorithmOutput"""
-    if vtkobj.IsA('vtkAlgorithmOutput'):
-        vtkobj = vtkobj.GetProducer().GetOutputDataObject(vtkobj.GetIndex())
+    if hasattr(vtkobj, "IsA"):
+        if vtkobj.IsA('vtkAlgorithmOutput'):
+            vtkobj = vtkobj.GetProducer().GetOutputDataObject(vtkobj.GetIndex())
     return vtkobj
 
 
@@ -131,26 +132,55 @@ def normalize_tuple(tuple, data_range):
     return (normalize_value(val, data_range) for val in tuple)
 
 
+def has_attributes(data, *attributes):
+    """Return true if data has all of the specified arguments."""
+    for att in attributes:
+        if not hasattr(data, att):
+            return False
+    return True
+
 # -----------------------------------------------------------------------------
 # Layout elements
 # -----------------------------------------------------------------------------
 
 
+def icon_box(layout, text, icon_code):
+    """Create a box inside the given layout,
+    with the given text and and the specified icon.
+    """
+    box = layout.box()
+    row = box.row()
+    icon = row.column()
+    icon.label(text="", icon=icon_code)
+    col = row.column()
+    tot_scale = 0
+    scale = 0.7
+    col.scale_y = scale
+    for text in text.split("\n"):
+        col.label(text=str(text))
+        tot_scale += scale
+    icon.scale_y = tot_scale + 0.1
+    return box
+
+
 def question_box(layout, text):
     """Create a box inside the given layout,
-    with the given text and an error icon."""
-    layout.box().label(text=str(text), icon="QUESTION")
+    with the given text and an error icon.
+    """
+    return icon_box(layout, text, "QUESTION")
 
 
 def error_box(layout, text):
     """Create a box inside the given layout,
-    with the given text and an error icon."""
-    layout.box().label(text=str(text), icon="ERROR")
+    with the given text and an error icon.
+    """
+    return icon_box(layout, text, "ERROR")
 
 
 def header_box(layout, text):
     """Create a box inside the given layout,
-    with the given text."""
+    with the given text.
+    """
     layout.box().label(text=str(text))
 
 

@@ -54,6 +54,7 @@ print('Import vtk begin')
 try:
     import vtk
     print('Import ok')
+    sys.path.remove("/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages")
 except ImportError:
     message = """
         BVTK_Nodes add-on failed to access the VTK library. You must
