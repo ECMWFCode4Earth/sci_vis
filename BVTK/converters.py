@@ -1113,13 +1113,25 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
                     i += 1
     bar.finish()
 
-    file_path = os.path.join(addon_pref("output_path"), name+".bvox")
+    output_dir = addon_pref("output_path")
+    file_path = os.path.join(output_dir, name+".bvox")
+
+    if not os.path.exists(output_dir):
+        try:
+            os.makedirs(output_dir)
+        except OSError:
+            log.error("Tmp directory to store volume data couldn't "
+                      "be created in path '{}'".format(output_dir))
+        else:
+            log.info("Tmp directory created in '{}'.".format(output_dir))
+
     bin_file = open(file_path, 'wb')
     header = array("I", header)
     vol_data = array("f", vol_data)
     header.tofile(bin_file)
     vol_data.tofile(bin_file)
     log.info("Volumetric file created in '{}'.".format(file_path))
+
     me, ob = mesh_and_object(name)
     parallelepiped(dim, layers=2).to_mesh(me)
     texture = color_node.get_texture()
