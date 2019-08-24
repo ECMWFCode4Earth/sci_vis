@@ -33,6 +33,14 @@ F=$(dirname $0)
 # Import configuration
 . $F/BVTK.config
 
+if [ "$blender_ex" == "" ]
+then
+  echo ""
+  echo "Please configure the path of the blender executable in the BVTK.config file."
+  echo ""
+  exit
+fi
+
 if (( $# < 2 ))
 then
     echo "Bad number of arguments $#, expecting at least 2"
