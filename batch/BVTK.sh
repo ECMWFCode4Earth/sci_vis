@@ -27,7 +27,7 @@ print_sintax () {
     echo ""
 }
 
-# bash script location
+# Bash script location
 F=$(dirname $0)
 
 # Import configuration
@@ -35,7 +35,7 @@ F=$(dirname $0)
 
 if (( $# < 2 ))
 then
-    echo "Bad number of arguments $#, expecting at least 3"
+    echo "Bad number of arguments $#, expecting at least 2"
     print_sintax
     exit
 fi
