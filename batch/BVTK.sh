@@ -168,4 +168,4 @@ echo "Preset .blend:      $preset"
 # -P : esegui questo script
 # -- : passa il testo di seguito allo script python
  
-$blender_ex -b $preset -P $F/render.py -- input_data:$input_data output_folder:$output_folder time_start:$time_start time_end:$time_end color_by:$color_by range_min:$range_min range_max:$range_max
+$blender_ex -b "$preset" -P "$F"/render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max"
