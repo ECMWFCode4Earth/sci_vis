@@ -179,7 +179,8 @@ time_selector.keyframe_insert("time_step", frame=time_start)
 if not data_range:
     color_mapper.auto_range = True
     color_mapper.update_range(None)
-    print("First automatic range: ({}, {})".format(
+    color_mapper.auto_range = False
+    print("Detected range: ({}, {})".format(
         color_mapper.range_min, color_mapper.range_max
     ))
 else:
