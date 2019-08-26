@@ -65,8 +65,7 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
         """Update node"""
         input_node, input_obj = self.get_input_node("Input")
         color_node = None
-        if input_node and (input_node.bl_idname == "BVTK_NT_ColorMapper" or
-                           input_node.bl_idname == "BVTK_NT_ColorToImage"):
+        if input_node and input_node.bl_idname == "BVTK_NT_ColorMapper":
             color_node = input_node
             color_node.update()  # setting auto range
             input_node, input_obj = input_node.get_input_node("Input")
@@ -498,19 +497,12 @@ def apply_colors(color_node, bm, me, data):
         texture = color_node.get_texture()
         uv_map = default_uv_map
         mat = None
-        if color_node.bl_idname == 'BVTK_NT_ColorToImage':  # todo: move color logic inside node classes
-            img = color_node.image
-            uv_map = color_node.uv_layer
-            if not img:
-                log.warning("Image not selected in {} node".format(color_node.name))
-            else:
-                ramp_to_image(texture.color_ramp, image=img)
-        else:
-            if color_node.texture_type == "IMAGE":
-                img = ramp_to_image(texture.color_ramp, name=texture.name + 'IMAGE')
-                mat = image_material(me, me.name, img)
-            elif color_node.texture_type == "BLEND":
-                mat = blend_material(me, me.name, texture.color_ramp, texture)
+
+        if color_node.texture_type == "IMAGE":
+            img = ramp_to_image(texture.color_ramp, name=texture.name + 'IMAGE')
+            mat = image_material(me, me.name, img, reset=color_node.reset_materials)
+        elif color_node.texture_type == "BLEND":
+            mat = blend_material(me, me.name, texture.color_ramp, texture, reset=color_node.reset_materials)
 
         s_range = (color_node.range_min, color_node.range_max)
         array, is_point_data = get_color_array(data, color_node)
@@ -530,10 +522,10 @@ image_material_prefix = "BVTK Image "
 volume_material_prefix = "BVTK Volume "
 
 
-def blend_material(mesh, name, ramp, texture):
+def blend_material(mesh, name, ramp, texture, reset=True):
     """Create a blend material and apply it to the given mesh."""
     name = blend_material_prefix + name
-    mat, flag = material(mesh, name)
+    mat, flag = material(mesh, name, reset)
     render_engine = bpy.context.scene.render.engine
 
     if render_engine == "CYCLES" or render_engine == "BLENDER_EEVEE":
@@ -555,10 +547,10 @@ def blend_material(mesh, name, ramp, texture):
     return mat
 
 
-def image_material(mesh, name, img):
+def image_material(mesh, name, img, reset=True):
     """Create an image material and apply it to the given mesh."""
     name = image_material_prefix + name
-    mat, flag = material(mesh, name)
+    mat, flag = material(mesh, name, reset)
     render_engine = bpy.context.scene.render.engine
 
     if render_engine == "CYCLES" or render_engine == "BLENDER_EEVEE":
@@ -582,11 +574,11 @@ def image_material(mesh, name, img):
     return mat
 
 
-def voxel_material(mesh, name, file_path, texture=None):
+def voxel_material(mesh, name, file_path, texture=None, reset=True):
     """Create a voxel material and apply it to the given mesh.
     Works only with blender render engine."""
     name = volume_material_prefix + name
-    mat, flag = material(mesh, name, type="VOLUME")
+    mat, flag = material(mesh, name, reset, type="VOLUME")
     render_engine = bpy.context.scene.render.engine
     if render_engine == "CYCLES" or render_engine == "BLENDER_EEVEE":
         log.warning("Volumetric rendering is not supported in cycles, use blender render instead.")
@@ -1146,7 +1138,7 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
     me, ob = mesh_and_object(name)
     parallelepiped(dim, layers=2).to_mesh(me)
     texture = color_node.get_texture()
-    voxel_material(me, name, file_path, texture)
+    voxel_material(me, name, file_path, texture, color_node.reset_materials)
 
 
 # -----------------------------------------------------------------------------
@@ -1243,7 +1235,7 @@ def vtk_data_to_image(data, name, color_node):
     me, ob = mesh_and_object(name)
     ob.location = data.GetOrigin() if hasattr(data, "GetOrigin") else (0, 0, 0)
     plane.to_mesh(me)
-    mat = image_material(me, name, img)
+    mat = image_material(me, name, img, color_node.reset_materials)
     mat.use_shadeless = True
 
 

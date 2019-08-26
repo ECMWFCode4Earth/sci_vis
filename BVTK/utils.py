@@ -1,6 +1,7 @@
 import bpy
 import os
 import logging
+import json
 from math import gcd, log10, pow
 
 # -----------------------------------------------------------------------------
@@ -57,6 +58,49 @@ def node_path(node):
 def node_prop_path(node, propname):
     """Return node property path"""
     return node_path(node)+'.'+propname
+
+
+def node_hash(node):
+    """Return a short and identifying hash for the given node.
+    Note that the hash is unreliable and may become invalid."""
+    tree_i = -1
+    tree = node.id_data
+    for i, ng in enumerate(bpy.data.node_groups):
+        if ng == tree:
+            tree_i = i
+    return "T{} {}".format(tree_i, node.name)
+
+
+def encode_node_path(node):
+    id_dict = {
+        "tree_name": node.id_data.name,
+        "node_name": node.name
+    }
+    return json.dumps(id_dict)
+
+
+def decode_node_path(encoded_node):
+    try:
+        id_dict = json.loads(encoded_node)
+        if "tree_name" not in id_dict:
+            return None
+        if "node_name" not in id_dict:
+            return None
+        tree_name = id_dict["tree_name"]
+        node_name = id_dict["node_name"]
+
+        if tree_name not in bpy.data.node_groups:
+            return None
+        tree = bpy.data.node_groups[tree_name]
+
+        if node_name not in tree.nodes:
+            return None
+        node = tree.nodes[node_name]
+
+        return node
+
+    except (json.decoder.JSONDecodeError, TypeError):
+        return None
 
 
 def addon_pref(pref_name):
@@ -139,6 +183,7 @@ def has_attributes(data, *attributes):
             return False
     return True
 
+
 # -----------------------------------------------------------------------------
 # Layout elements
 # -----------------------------------------------------------------------------
@@ -149,17 +194,20 @@ def icon_box(layout, text, icon_code):
     with the given text and and the specified icon.
     """
     box = layout.box()
+    box = side_spaced_layout(box)
+
     row = box.row()
     icon = row.column()
     icon.label(text="", icon=icon_code)
     col = row.column()
-    tot_scale = 0
+    col.separator()
     scale = 0.7
+    tot_scale = scale
     col.scale_y = scale
     for text in text.split("\n"):
         col.label(text=str(text))
         tot_scale += scale
-    icon.scale_y = tot_scale + 0.1
+    icon.scale_y = tot_scale
     return box
 
 
@@ -177,6 +225,12 @@ def error_box(layout, text):
     return icon_box(layout, text, "ERROR")
 
 
+def try_update_box(node, layout, text):
+    box = question_box(layout, text)
+    box.operator("bvtk.node_update", text="Update").node_path = node_path(node)
+    box.separator()
+
+
 def header_box(layout, text):
     """Create a box inside the given layout,
     with the given text.
@@ -187,6 +241,92 @@ def header_box(layout, text):
 def error_icon(layout):
     """Create an error icon inside the given layout."""
     layout.label(text="", icon="ERROR")
+
+
+def small_separator(layout):
+    """Create an empty space in the given layout, smaller
+    than the one made using the separator method.
+    """
+    layout.row().column()
+
+
+def side_spaced_layout(layout):
+    """Return a layout with additional space on the
+    left and on the right.
+    """
+    row = layout.row()
+    row.column()
+    spaced_layout = row.column()
+    row.column()
+    return spaced_layout
+
+
+class BVTK_NodePanels:
+    """Helper class to create subdivisions similar to panels
+    inside node layouts. Child classes should redefine the
+    protected class variable '_panels'.
+    """
+
+    node_categories = bpy.props.BoolVectorProperty(size=32)
+    _panels = []
+
+    def draw_index_panel(self, context, layout, panel_index):
+        """Draw the panel at the given index."""
+        cat_name, cat_draw = self._panels[panel_index]
+        is_open = self.node_categories[panel_index]
+
+        box = layout.box()
+        icon = "TRIA_DOWN" if is_open else "TRIA_RIGHT"
+        op = box.operator(BVTK_OT_TogglePanel.bl_idname, icon=icon,
+                          text=cat_name, emboss=False)
+        op.index = panel_index
+        op.encoded_path = encode_node_path(self)
+        op.property_name = "node_categories"
+        op.value = not is_open
+
+        if is_open and cat_draw:
+            c_box = side_spaced_layout(box)
+            small_separator(box)
+            cat_draw(self, context, c_box)
+
+    def draw_panels(self, context, layout):
+        """Draw all panels in the given layout."""
+        for i, cat in enumerate(self._panels):
+            self.draw_index_panel(context, layout, i)
+
+    def draw_panel(self, context, layout, panel_name):
+        """Draw the panel with the given name."""
+        for i, cat in enumerate(self._panels):
+            if cat[0] == panel_name:
+                self.draw_index_panel(context, layout, i)
+
+
+class BVTK_OT_TogglePanel(bpy.types.Operator):
+    """Open/close panel"""
+    bl_idname = "bvtk.toggle_panel"
+    bl_label = "Run a VTK function in queue"
+    encoded_path = bpy.props.StringProperty()
+    property_name = bpy.props.StringProperty()
+    index = bpy.props.IntProperty(default=-1)
+    value = bpy.props.BoolProperty()
+
+    def execute(self, context):
+        node = decode_node_path(self.encoded_path)
+        if not node:
+            log.error("Could not set property, invalid node path.")
+            return {"CANCELLED"}
+
+        prop = self.property_name
+        if not hasattr(node, prop):
+            log.error("Could not set property, invalid node property.")
+            return {"CANCELLED"}
+
+        if self.index == -1:
+            setattr(node, prop, self.value)
+        else:
+            getattr(node, prop)[self.index] = self.value
+
+        return {'FINISHED'}
 
 
 # -----------------------------------------------------------------------------
@@ -201,7 +341,7 @@ def read_cpt(file_path=None):
     try:
         f = open(file_path)
     except:
-        print("File not found: '{}'".format(file_path))
+        log.error("File not found: '{}'".format(file_path))
         return None
 
     lines = f.readlines()

@@ -357,7 +357,7 @@ class BVTK_Node:
 
         # Write sorted b_properties.b dictionary
         # Note: lambda function used to force sort on dictionary key
-        txt="b={"
+        txt = "b={"
         for key, value in sorted(b_properties.b.items(), key=lambda s: str.lower(s[0])):
             txt += " '" + key + "': " + str(value) + ",\n"
         txt += "}\n"
@@ -399,6 +399,7 @@ def check_b_properties():
 add_class(BVTK_NodeTree)
 add_class(BVTK_AddonPreferences)
 add_class(BVTK_NS_Standard)
+add_class(BVTK_OT_TogglePanel)
 
 
 # -----------------------------------------------------------------------------
