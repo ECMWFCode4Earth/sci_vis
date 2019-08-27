@@ -88,8 +88,8 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
     last_color_by = bpy.props.StringProperty(default='')
     lut = bpy.props.BoolProperty(default=False)
     height = bpy.props.FloatProperty(default=5.5)
-    range_max = bpy.props.FloatProperty(default=1, name="Range min")
-    range_min = bpy.props.FloatProperty(default=0, name="Range max")
+    range_max = bpy.props.FloatProperty(default=1, name="Range max")
+    range_min = bpy.props.FloatProperty(default=0, name="Range min")
     font = bpy.props.PointerProperty(type=bpy.types.VectorFont)
     reset_materials = bpy.props.BoolProperty(name="Reset materials", default=True)
 
