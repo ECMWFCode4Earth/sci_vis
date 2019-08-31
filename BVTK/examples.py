@@ -189,12 +189,8 @@ def node_tree_from_dict(context, node_tree_dict):
 
 def node_from_dict(nodes, node_dict):
     """Create a node using data from node dictionary"""
-    idname = node_dict['bl_idname']
-    # Removed this check, hasattr does not find idname correctly. OK to remove?
-    #if not hasattr(bpy.types, idname):
-    #    log.error('Node type not found ' + idname)
-    #else:
-    new_node = nodes.new(type=idname)
+    id_name = node_dict['bl_idname']
+    new_node = nodes.new(type=id_name)
     for prop in node_dict:
         value = node_dict[prop]
         if prop == 'additional_properties':

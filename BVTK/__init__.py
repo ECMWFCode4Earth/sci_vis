@@ -54,7 +54,6 @@ print('Import vtk begin')
 try:
     import vtk
     print('Import ok')
-    sys.path.remove("/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages")
 except ImportError:
     message = """
         BVTK_Nodes add-on failed to access the VTK library. You must
@@ -75,7 +74,7 @@ if not reloading:
     from . import core
     from . import b_properties
     from . import showhide_properties
-    from . import inspect
+    from . import inspect_panel
     from . import favorites
     from . import examples
     from . import colormap
@@ -100,7 +99,7 @@ else:
     importlib.reload(b_properties)
     importlib.reload(showhide_properties)
     importlib.reload(examples)
-    importlib.reload(inspect)
+    importlib.reload(inspect_panel)
     importlib.reload(colormap)
     importlib.reload(customfilter)
     importlib.reload(info)

@@ -232,24 +232,14 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
 # ----------------------------------------------------------------
 
 
-def pip_install(package):
-    import subprocess
-    log.warning("Installing {} via pip.".format(package))
-    subprocess.run([bpy.app.binary_path_python, "-m", "pip", "install", package])
-    log.warning("Install process ended.")
-
-
 try:
     # Import, or install if needed, the 'cftime' package
     # needed to convert the time value to a date
     import cftime
 except ImportError:
-    log.warning("Module cftime not imported.")
-    pip_install("cftime")
-    try:
+    from . import pip_installer
+    if pip_installer.pip_install("cftime", ("numpy", "cython")):
         import cftime
-    except ImportError:
-        log.error("Module cftime failed to install.")
 
 cftime_loaded = "cftime" in locals()
 
