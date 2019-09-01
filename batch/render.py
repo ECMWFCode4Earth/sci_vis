@@ -2,6 +2,7 @@ import bpy
 import os
 import sys
 
+
 # -----------------------------------------------------------------------------
 # Functions
 # -----------------------------------------------------------------------------
@@ -70,11 +71,10 @@ def get_color_array_name(color_mapper, key):
 
 
 # -----------------------------------------------------------------------------
-# Setup and render
+# Read arguments
 # -----------------------------------------------------------------------------
 
 
-# Reads arguments
 args = {}
 separator_found = False
 for a in sys.argv:
@@ -86,7 +86,11 @@ for a in sys.argv:
         separator_found = True
 
 
-# Validate and retrieve arguments
+# -----------------------------------------------------------------------------
+# Validate arguments
+# -----------------------------------------------------------------------------
+
+
 if "input_data" not in args:
     quit_msg("No input given, render process aborted.")
 else:
@@ -135,6 +139,20 @@ else:
     print("Range min and max not provided, automatic range will be used. "
           "Please note that this is not desirable to produce scientifically "
           "reliable animations.")
+
+tile_size = None
+if "tile_size" in args:
+    try:
+        tile_size = int(args["tile_size"])
+    except ValueError:
+        print("Tile size must be an integer, the provided value is invalid "
+              "and will be ignored")
+
+
+# -----------------------------------------------------------------------------
+# Apply arguments
+# -----------------------------------------------------------------------------
+
 
 node_tree = bvtk_node_tree()
 
@@ -197,12 +215,16 @@ if color_by:
 else:
     print("Coloring using '{}' array.".format(get_color_array_name(color_mapper, color_mapper.color_by)))
 
-# Enabling auto tile size add-on
-bpy.ops.wm.addon_enable(module="render_auto_tile_size")
-if hasattr(bpy.context.scene, "ats_settings"):
-    bpy.context.scene.ats_settings.is_enabled = True
+if not tile_size:
+    # Enabling auto tile size add-on
+    bpy.ops.wm.addon_enable(module="render_auto_tile_size")
+    if hasattr(bpy.context.scene, "ats_settings"):
+        bpy.context.scene.ats_settings.is_enabled = True
+    else:
+        print("Auto tile size could not be enabled.")
 else:
-    print("Auto tile size could not be enabled.")
+    bpy.context.scene.render.tile_x = tile_size
+    bpy.context.scene.render.tile_y = tile_size
 
 
 print("Setup complete, starting render.")

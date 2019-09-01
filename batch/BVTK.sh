@@ -24,6 +24,9 @@ print_sintax () {
     echo "          --range-max:       higher value in the wanted range. If range_max and "
     echo "                             range_min are not given both, the range will be set to"
     echo "                             automatic."
+    echo "          --tile-size:       tile size to use while rendering. If not set it's"
+    echo "                             automatically determined, but this may result inefficient"
+    echo "                             and increase the render times."
     echo ""
 }
 
@@ -61,6 +64,7 @@ time_end=""
 color_by=""
 range_min=""
 range_max=""
+tile_size=""
 
 while :; do
     case $1 in
@@ -80,7 +84,7 @@ while :; do
             output_folder=${1#*=}
             ;;
         -o=|--output-folder=)
-            die "Error: '--output_folder' requires a non-empty option argument."
+            die "Error: '--output-folder' requires a non-empty option argument."
             ;;
         -ts|--time-start)
               if [ "$2" ]; then
@@ -94,7 +98,7 @@ while :; do
             time_start=${1#*=}
             ;;
         -ts=|--time-start=)
-            die "Error: '--output_folder' requires a non-empty option argument."
+            die "Error: '--time-start' requires a non-empty option argument."
             ;;
         -te|--time-end)
               if [ "$2" ]; then
@@ -108,7 +112,7 @@ while :; do
             time_end=${1#*=}
             ;;
         -te=|--time-end=)
-            die "Error: '--output_folder' requires a non-empty option argument."
+            die "Error: '--time-end' requires a non-empty option argument."
             ;;
         -cb|--color-by)
               if [ "$2" ]; then
@@ -122,7 +126,7 @@ while :; do
             color_by=${1#*=}
             ;;
         -cb=|--color-by=)
-            die "Error: '--output_folder' requires a non-empty option argument."
+            die "Error: '--color-by' requires a non-empty option argument."
             ;;
         --range-min)
               if [ "$2" ]; then
@@ -136,7 +140,7 @@ while :; do
             range_min=${1#*=}
             ;;
         --range-min=)
-            die "Error: '--output_folder' requires a non-empty option argument."
+            die "Error: '--range-min' requires a non-empty option argument."
             ;;
         --range-max)
               if [ "$2" ]; then
@@ -150,7 +154,21 @@ while :; do
             range_max=${1#*=}
             ;;
         --range-max=)
-            die "Error: '--output_folder' requires a non-empty option argument."
+            die "Error: '--range-max' requires a non-empty option argument."
+            ;;
+        --tile-size)
+              if [ "$2" ]; then
+                  tile_size=$2
+                  shift
+              else
+                  die "Error: '--tile-size' requires a non-empty option argument."
+              fi
+              ;;
+        --tile-size=?*)
+            tile_size=${1#*=}
+            ;;
+        --tile-size=)
+            die "Error: '--tile-size' requires a non-empty option argument."
             ;;
         *)
             break
@@ -163,9 +181,5 @@ done
 echo "Blender executable: $blender_ex"
 echo "Input data:         $input_data"
 echo "Preset .blend:      $preset"
-
-# -b : lancia blender in background
-# -P : esegui questo script
-# -- : passa il testo di seguito allo script python
  
-$blender_ex -b "$preset" -P "$F"/render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max"
+$blender_ex -b "$preset" -P "$F"/render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size"
