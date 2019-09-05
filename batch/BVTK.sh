@@ -181,5 +181,5 @@ done
 echo "Blender executable: $blender_ex"
 echo "Input data:         $input_data"
 echo "Preset .blend:      $preset"
- 
-$blender_ex -b "$preset" -P "$F"/render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size"
+
+$blender_ex -b "$preset" -P "$F"/BVTK_render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size"

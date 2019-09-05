@@ -153,6 +153,13 @@ if "tile_size" in args:
 # Apply arguments
 # -----------------------------------------------------------------------------
 
+if bpy.ops.wm.addon_enable(module="BVTK") != {'FINISHED'}:
+    quit_msg("Couldn't enable the BVTK add-on, please check if you have installed it."
+             "Make sure you have unzipped the folder if you moved BVTK directly"
+             "inside the addons folder.")
+
+if "draw_windows" in bpy.context.user_preferences.addons["BVTK"].preferences:
+    bpy.context.user_preferences.addons["BVTK"].preferences.draw_windows = False
 
 node_tree = bvtk_node_tree()
 
