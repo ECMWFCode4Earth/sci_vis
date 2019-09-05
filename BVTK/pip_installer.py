@@ -35,36 +35,42 @@ def pip_update():
             "Stderr:      {}\n".format(e.output, e.stdout, e.stderr)
         )
         log.debug(message)
-        log.warning("Pip update failed. Updating pip is usually necessary, the following "
+        log.warning("Pip update failed. Updating pip is usually necessary, the following\n"
                     "attempts to install the required libraries may fail.")
     return False
 
 
 def pip_install(package, dependencies=()):
+    """Try to install the specified package using pip.
+    Return codes are:
+    -1: Failure (no internet)
+    0:  Failure (command failed)
+    1:  Success
+    """
     pip_update()
-    __pip_install(package, dependencies)
+    return __pip_install(package, dependencies)
 
 
 def __pip_install(package, dependencies=()):
     try:
         importlib.import_module(package)
-        return True
+        return 1
     except ImportError:
         pass
 
     for dep in dependencies:
-        pip_install(dep)
+        __pip_install(dep)
 
     cmd = "python3 pip install {}".format(package)
 
     if not is_connected():
-        log.error("Unable to connect to the internet. Connection is required "
-                  "to install the '{}' package. Connect to the internet and try "
-                  "again (just close and reopen blender), or install the "
+        log.error("Unable to connect to the internet. Connection is required\n"
+                  "to install the '{}' package. Connect to the internet and try\n"
+                  "again (just close and reopen blender), or install the\n"
                   "package yourself by running the command '{}'.".format(package, cmd))
-        return False
+        return -1
 
-    log.warning("Installing {} via pip.".format(package))
+    log.info("Installing {} via pip.".format(package))
 
     args = [bpy.app.binary_path_python, "-m", "pip", "install"]
     if len(dependencies):
@@ -88,10 +94,21 @@ def __pip_install(package, dependencies=()):
 
     try:
         importlib.import_module(package)
-        log.warning("{} package successfully installed.".format(package))
-        return True
+        log.info("{} package successfully installed.".format(package))
+        return 1
     except ImportError:
         log.error("{} package failed to install. You can try to install it yourself by "
                   "running the command '{}'.".format(package, cmd))
 
-    return False
+    return 0
+
+
+def is_loaded(package):
+    if package in globals():
+        return True
+    try:
+        import importlib
+        importlib.import_module(package)
+    except ImportError:
+        return False
+    return True

@@ -1,6 +1,6 @@
 import time
 from . core import *
-from . utils import log, node_path
+from . utils import log, node_path, set_addon_pref
 
 # -----------------------------------------------------------------------------
 #  Functions and classes for running BVTK_Nodes internal function queue and
@@ -77,12 +77,14 @@ def no_queue_update(node, cb, x=True):
     Finally updates this node by calling argument cb() if argument x
     is True, and VTK Update function otherwise.
     """
-    log.debug('on_update ' + node.name)
+    if x:
+        log.disable_draw_win()
     vtkobj = node.get_vtkobj()
     for input_node in node.input_nodes():
         no_queue_update(input_node, None, False)
     if x and cb:
         cb()
+        log.enable_draw_win()
     else:
         if vtkobj:
             node.apply_properties(vtkobj)

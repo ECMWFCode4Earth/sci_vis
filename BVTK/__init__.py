@@ -5,7 +5,8 @@
 # ---------------------------------------------------------------------------------
 
 import sys
-from .utils import log
+from . utils import log, node_path
+from . import pip_installer
 
 bl_info = {
     "name": "BVTK nodes",
@@ -50,19 +51,39 @@ vtk_paths = [
     "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages"
 ]
 sys.path.extend(vtk_paths)
-print('Import vtk begin')
+log.warning("Import vtk begin.", draw_win=False)
 try:
     import vtk
-    print('Import ok')
+    res_code = 1
+    log.warning("Import ok.", draw_win=False)
 except ImportError:
-    message = """
-        BVTK_Nodes add-on failed to access the VTK library. You must
-        compile and install Python library corresponding to the Python
-        library version used by Blender, and then compile and install
-        VTK on top of it. Finally you must customize environment variables
-        to use the compiled Python library before starting Blender.
-        Please refer to BVTK_Nodes documentation for help. """
-    raise Exception(message)
+    res_code = pip_installer.pip_install("vtk")
+    if res_code == 1:
+        import vtk
+
+if not pip_installer.is_loaded("vtk"):
+    if res_code == -1:
+        message = ("\n\n"
+                   "BVTK add-on failed to install the VTK library because of the\n"
+                   "absence of the internet connection. Please connect to the internet and\n"
+                   "try again. Otherwise you can install the VTK library by yourself\n"
+                   "and then make sure it is accessible inside Blender.\n")
+        raise Exception(message)
+    else:
+        import bpy
+        message = ("\n\n"
+                   "BVTK add-on failed to install the VTK library. Usually to solve\n"
+                   "this type of error closing and reopen Blender and try again is\n"
+                   "enough. Otherwise if it keeps failing you may try to install the\n"
+                   "VTK library by yourself on the Blender python, running in\n"
+                   "the terminal the following command:\n"
+                   "\n"
+                   "{} -m pip install vtk\n"
+                   "\n"
+                   "Then close and reopen Blender. If it still doesn't work you can\n"
+                   "open an issue on github: https://github.com/esowc/sci_vis/issues .\n"
+                   .format(bpy.app.binary_path_python))
+        raise Exception(message)
 
 reloading = "bpy" in locals()
 
@@ -71,6 +92,8 @@ if not reloading:
     from bpy.app.handlers import persistent
     import nodeitems_utils
 
+    from . import utils
+    from . import progress
     from . import core
     from . import b_properties
     from . import showhide_properties
@@ -128,12 +151,12 @@ else:
     importlib.reload(VTKOthers)
 
 if reloading:
-    log.debug("Reloaded modules")
+    log.debug("Reloaded modules", draw_win=False)
 else:
-    log.debug("Initialized modules")
+    log.debug("Initialized modules", draw_win=False)
 
-log.info("Loaded VTK version: " + vtk.vtkVersion().GetVTKVersion())
-log.info("VTK base path: " + vtk.__file__)
+log.info("Loaded VTK version: {}\n"
+         "VTK base path: {}".format(vtk.vtkVersion().GetVTKVersion(), vtk.__file__))
 
 
 @persistent
@@ -148,8 +171,11 @@ def on_frame_change(scene):
     for node_group in bpy.data.node_groups:
         for node in node_group.nodes:
             if node.bl_idname == 'BVTK_NT_ToBlender':
-                log.debug("calling no_queue_update")
-                update.no_queue_update(node, node.update_cb)
+                log.debug("Calling update without queue", draw_win=False)
+                bpy.ops.bvtk.node_update(
+                    node_path=node_path(node),
+                    use_queue=False
+                )
 
 
 # -----------------------------------------------------------------------------
@@ -248,7 +274,8 @@ def unregister():
         bpy.utils.unregister_class(core.CLASSES[c])
     for c in reversed(core.UI_CLASSES):
         bpy.utils.unregister_class(c)
-    for p_c in core.p_collections:
-        bpy.utils.previews.remove(core.p_collections[p_c])
+    for p_c in core.p_collections.values():
+        bpy.utils.previews.remove(p_c)
+    core.p_collections.clear()
     bpy.app.handlers.load_post.remove(on_file_loaded)
     bpy.app.handlers.frame_change_post.remove(on_frame_change)

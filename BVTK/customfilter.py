@@ -1,5 +1,6 @@
 from . utils import *
 from . core import *
+from . import pip_installer
 
 
 # -----------------------------------------------------------------------------
@@ -237,11 +238,8 @@ try:
     # needed to convert the time value to a date
     import cftime
 except ImportError:
-    from . import pip_installer
-    if pip_installer.pip_install("cftime", ("numpy", "cython")):
+    if pip_installer.pip_install("cftime", ("numpy", "cython")) == 1:
         import cftime
-
-cftime_loaded = "cftime" in locals()
 
 
 class BVTK_NT_TimeSelector(Node, BVTK_Node):
@@ -270,7 +268,8 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
         ("%d/%m/%Y", "D/M/Y", "D/M/Y"),
         ("%Y/%m/%d", "Y/M/D", "Y/M/D"),
         ("%m/%d/%Y", "M/D/Y", "M/D/Y"),
-        ("%m/%d/%Y", "M/D/Y", "M/D/Y")
+        ("%m/%d/%Y", "M/D/Y", "M/D/Y"),
+        ("%Y", "Y", "Y")
     ])
 
     def m_properties(self):
@@ -314,7 +313,7 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
             t_val = time_steps[self.time_step]
             layout.label("Time value: {}".format(t_val))
 
-            if not cftime_loaded:
+            if not pip_installer.is_loaded("cftime"):
                 error_box(layout, "Module cftime not loaded: install\n"
                                   "it to convert the time value\n"
                                   "into a human readable date.\n"
@@ -378,7 +377,7 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
         if not time_reader:
             return None
 
-        if not cftime_loaded:
+        if not pip_installer.is_loaded("cftime"):
             log.error("Time Selector node can't obtain the date if the 'cftime' library is not loaded")
             return None
 

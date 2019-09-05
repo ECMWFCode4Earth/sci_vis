@@ -1,6 +1,6 @@
 from . utils import *
 from . update import *
-from .progress import ChargingBar
+from . progress import ChargingBar
 import bmesh
 
 
@@ -271,6 +271,7 @@ def cut_excess(original_seq, new_len):
         for i, el in enumerate(original_seq):
             if i > (new_len-1):
                 original_seq.remove(el)
+    return original_len-new_len
 
 
 def check_mesh_data(data):
@@ -343,8 +344,9 @@ def vtk_data_to_mesh(data, name, color_node=None, smooth=False):
     bar.finish()
 
     # Remove surplus vertices
-    log.info("Removing surplus vertices")
-    cut_excess(bm.verts, n_points)
+    log.info("Removing surplus vertices.")
+    exc = cut_excess(bm.verts, n_points)
+    log.debug("{} vertices removed.".format(exc))
 
     # Creating faces and edges
     bm.faces.ensure_lookup_table()
@@ -410,7 +412,7 @@ def vtk_data_to_mesh(data, name, color_node=None, smooth=False):
 
     bm.to_mesh(me)  # Store bmesh to mesh
 
-    log.info('Blender mesh created! {} vertices.'.format(len(verts)))
+    log.info('Blender mesh created! {} vertices.'.format(len(verts)), draw_win=True)
 
 
 def mesh_and_object(name):
@@ -924,7 +926,7 @@ def vtk_data_to_text(data, name):
             f = bpy.data.fonts["Aileron-Regular"]
         cur.font = f
 
-    log.info("Text created: '{}'.".format(data))
+    log.info("Text created: '{}'.".format(data), draw_win=True)
 
 
 # -----------------------------------------------------------------------------
@@ -1116,7 +1118,7 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
                     i += 1
     bar.finish()
 
-    output_dir = addon_pref("output_path")
+    output_dir = get_addon_pref("output_path")
     file_path = os.path.join(output_dir, name+".bvox")
 
     if not os.path.exists(output_dir):

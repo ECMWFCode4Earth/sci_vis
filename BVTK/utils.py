@@ -15,7 +15,106 @@ from math import gcd, log10, pow
 # add there something like:
 # import logging
 # logging.basicConfig(format='%(funcName)s: %(message)s', level=logging.DEBUG)
-log = logging.getLogger(__name__)
+
+
+class BlenderLog:
+    """Customized version of the normal python log, to draw a graphical
+    window showing the message other than printing in the console.
+    Note that sometimes the bpy.context.window_manager.popup_menu function
+    can make blender crash: for example if you try to call it when blender
+    has been started without gui. This is why there is an option in the user
+    preferences to disable the drawing of this windows.
+    """
+    def __init__(self, python_log_name):
+        self.python_log = logging.getLogger(python_log_name)
+
+    def concat(self, *strings):
+        """Join multiple strings, separated by single a space."""
+        s = ""
+        first = True
+        for string in strings:
+            if not first:
+                s += " "
+            else:
+                first = False
+            s += str(string)
+        return s
+
+    def disable_draw_win(self):
+        set_addon_pref("draw_windows", False)
+
+    def enable_draw_win(self):
+        set_addon_pref("draw_windows", True)
+
+    def draw_win(self, msg_type, msg, icon):
+        """Draw the message to a blender popup window."""
+
+        def draw(self, context):
+            split_labels(self.layout, msg)
+
+        if get_addon_pref("draw_windows"):
+            title = "BVTK "+msg_type.capitalize()
+            bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
+
+    def _log(self, msg, level, log_method, draw_win, icon, *args, **kwargs):
+        if getattr(logging, level) >= self.python_log.getEffectiveLevel():
+            msg = self.concat(msg, *args)
+            log_method(msg.replace("\n", " "), **kwargs)
+            if draw_win and "RestrictContext" not in bpy.context.__class__.__name__:
+                self.draw_win(level, msg, icon)
+
+    def debug(self, msg, draw_win=False, *args, **kwargs):
+        self._log(
+            msg,
+            "DEBUG",
+            self.python_log.debug,
+            draw_win,
+            "SCRIPTWIN",
+            *args, **kwargs
+        )
+
+    def info(self, msg, draw_win=False, *args, **kwargs):
+        self._log(
+            msg,
+            "INFO",
+            self.python_log.info,
+            draw_win,
+            "QUESTION",
+            *args, **kwargs
+        )
+
+    def warning(self, msg, draw_win=True, *args, **kwargs):
+        self._log(
+            msg,
+            "WARNING",
+            self.python_log.warning,
+            draw_win,
+            "ERROR",
+            *args, **kwargs
+        )
+
+    def error(self, msg, draw_win=True, *args, **kwargs):
+        self._log(
+            msg,
+            "ERROR",
+            self.python_log.error,
+            draw_win,
+            "ERROR",
+            *args, **kwargs
+        )
+
+    def critical(self, msg, draw_win=True, *args, **kwargs):
+        self._log(
+            msg,
+            "CRITICAL",
+            self.python_log.critical,
+            draw_win,
+            "ERROR",
+            *args, **kwargs
+        )
+
+
+log = BlenderLog(__name__)
 
 
 # -----------------------------------------------------------------------------
@@ -103,7 +202,13 @@ def decode_node_path(encoded_node):
         return None
 
 
-def addon_pref(pref_name):
+def set_addon_pref(pref_name, value):
+    pref = bpy.context.user_preferences.addons[__package__].preferences
+    if hasattr(pref, pref_name):
+        return setattr(pref, pref_name, value)
+
+
+def get_addon_pref(pref_name):
     pref = bpy.context.user_preferences.addons[__package__].preferences
     if hasattr(pref, pref_name):
         return getattr(pref, pref_name)
@@ -189,6 +294,17 @@ def has_attributes(data, *attributes):
 # -----------------------------------------------------------------------------
 
 
+def split_labels(layout, text, scale=1.0, initial_scale=0.0):
+    """Add a label to the given layout for each
+    newline in the given text.
+    """
+    tot_scale = initial_scale
+    for text in text.split("\n"):
+        layout.label(text=str(text))
+        tot_scale += scale
+    return tot_scale
+
+
 def icon_box(layout, text, icon_code):
     """Create a box inside the given layout,
     with the given text and and the specified icon.
@@ -202,11 +318,8 @@ def icon_box(layout, text, icon_code):
     col = row.column()
     col.separator()
     scale = 0.7
-    tot_scale = scale
     col.scale_y = scale
-    for text in text.split("\n"):
-        col.label(text=str(text))
-        tot_scale += scale
+    tot_scale = split_labels(col, text, scale, scale)
     icon.scale_y = tot_scale
     return box
 

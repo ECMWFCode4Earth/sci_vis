@@ -43,7 +43,7 @@ def node_created(node):
             return
         VTKCache[node.node_id] = vtk_class()  # make an instance of node.vtk_class
     
-    log.debug("node_created " + node.bl_label + " " + str(node.node_id))
+    log.debug("Node created {} ({})".format(node.bl_label, node.node_id))
 
 
 def node_deleted(node):
@@ -59,14 +59,14 @@ def node_deleted(node):
         # if obj: 
         #     obj.UnRegister(obj)  # vtkObjects have no Delete in Python -- maybe is not needed
         del VTKCache[node.node_id]
-    log.debug("deleted " + node.bl_label + " " + str(node.node_id))
+    log.debug("Node deleted {} ({})".format(node.bl_label, node.node_id))
 
 
 def get_node(node_id):
     """Get node corresponding to node_id."""
     node = NodesMap.get(node_id)
     if node is None:
-        print("get_node - node not found, node_id=", node_id)
+        log.error("Node not found, node id: {}".format(node_id))
     return node
 
 
@@ -77,7 +77,7 @@ def get_vtkobj(node):
         return None
 
     if node.node_id not in VTKCache:
-        log.debug("node_id not in cache " + str(node.node_id))
+        log.debug("Node id not in cache: {}".format(node.node_id))
         return None
 
     return VTKCache[node.node_id]
@@ -139,10 +139,37 @@ class BVTK_AddonPreferences(AddonPreferences):
     bl_idname = __package__
     output_path = bpy.props.StringProperty(default=os.path.join(addon_path, "tmp"),
                                            subtype='FILE_PATH')
+    draw_windows = bpy.props.BoolProperty(default=True)
+
+    def get_log_level(self):
+        log_lev = log.python_log.getEffectiveLevel()
+        lev = logging.CRITICAL
+        if log_lev <= logging.DEBUG:
+            lev = logging.DEBUG
+        elif log_lev <= logging.INFO:
+            lev = logging.INFO
+        elif log_lev <= logging.WARNING:
+            lev = logging.WARNING
+        elif log_lev <= logging.ERROR:
+            lev = logging.ERROR
+        return lev
+
+    def set_log_level(self, value):
+        log.python_log.setLevel(value)
+
+    logging_level = bpy.props.EnumProperty(items=[
+        (str(logging.DEBUG), "Debug", "Show all types of message", "NONE", logging.DEBUG),
+        (str(logging.INFO), "Info", "Show info, warning, error and critical messages", "NONE", logging.INFO),
+        (str(logging.WARNING), "Warning", "Show warning, error and critical messages", "NONE", logging.WARNING),
+        (str(logging.ERROR), "Error", "Show error and critical messages", "NONE", logging.ERROR),
+        (str(logging.CRITICAL), "Critical", "Show only critical messages", "NONE", logging.CRITICAL)
+    ], get=get_log_level, set=set_log_level)
 
     def draw(self, context):
         layout = self.layout
         layout.prop(self, "output_path", text="Output directory")
+        layout.prop(self, "logging_level", text="Logging detail")
+        layout.prop(self, "draw_windows", text="Draw log windows")
 
 
 # ---------------------------------------------------------------------------------
