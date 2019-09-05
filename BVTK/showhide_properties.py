@@ -28,4 +28,3 @@ class BVTK_PT_ShowHideProperties(bpy.types.Panel):
 # ----------------------------------------------------------------
 
 core.add_ui_class(BVTK_PT_ShowHideProperties)
-

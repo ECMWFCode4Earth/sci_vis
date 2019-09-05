@@ -111,7 +111,7 @@ class BVTK_MT_Examples(bpy.types.Menu):
         for i in os.listdir(examples_dir):
             if i.endswith('.json'):
                 layout.operator('bvtk.tree_import',
-                                text = i.replace('.json', '')
+                                text=i.replace('.json', '')
                                 ).filepath = examples_dir + i
 
         for em in ExamplesMenus:
@@ -202,7 +202,10 @@ def node_from_dict(nodes, node_dict):
             try:
                 setattr(new_node, prop, value)
             except:
-                log.error("setattr failed for " + str(prop) + " " + str(value))
+                log.debug("Setattr failed: '{}' node, '{}' property.".format(
+                    new_node.name,
+                    prop
+                ))
 
 
 def link_from_dict(nodes, links, new_link_dict):
