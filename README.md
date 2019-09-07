@@ -1,7 +1,7 @@
 # BVTK
 The Visualization Toolkit (VTK https://www.vtk.org/ ) is an open source library for scientific visualization developed by Kitware. BVTK_Nodes is a Blender Addon allowing to use VTK within Blender.
 <p align="center">
-<img src="isosurfaces.jpg" width="800" >
+<img src="banner.jpg" width="800" >
 </p>
 
 ### Information
