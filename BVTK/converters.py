@@ -1258,8 +1258,6 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0)):
     shift_x = int(nx * shift[0])
     shift_y = int(nx * shift[1])
 
-    print(shift_x, nx)
-
     for y in range(ny):  # line
         bar.next()
         y = shift_reverse_index(y, ny, shift_y, ry)
