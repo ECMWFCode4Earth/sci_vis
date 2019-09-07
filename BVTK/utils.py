@@ -289,6 +289,31 @@ def has_attributes(data, *attributes):
     return True
 
 
+def reverse_index(i, size, condition=True):
+    if condition:
+        return size - i - 1
+    return i
+
+
+def shift_index(i, shift_threshold, size):
+    """Shift an index based on the provided threshold."""
+
+    if shift_threshold < 0:
+        shift_threshold = size+shift_threshold
+
+    s_i = shift_threshold+i  # Shifted index
+    if s_i >= size:
+        s_i = s_i - size
+    return s_i
+
+
+def shift_reverse_index(i, size, shift_threshold=0, reverse=False):
+    """Shift and eventually reverse the provided index."""
+    i = reverse_index(i, size, reverse)
+    i = shift_index(i, shift_threshold, size)
+    return i
+
+
 # -----------------------------------------------------------------------------
 # Layout elements
 # -----------------------------------------------------------------------------

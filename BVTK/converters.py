@@ -30,8 +30,15 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
         ("IMAGE", "Image", "Generate image as output.", "IMAGE_DATA", 2),
         ("TEXT", "Text", "Generate a text object as output.", "FONT_DATA", 3)
     ])
+
+    # Volume output options
     use_probing = bpy.props.BoolProperty(default=True, name="Probe")
     probe_resolution = bpy.props.IntVectorProperty(name="Resolution", default=(250, 250, 250))
+
+    # Image output and volume output options
+    shift_x = bpy.props.FloatProperty(default=0, name="Shift x", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
+    shift_y = bpy.props.FloatProperty(default=0, name="Shift y", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
+
 
     def m_properties(self):
         return ["mesh_name", "smooth", ]
@@ -51,11 +58,16 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
             if render_engine == "CYCLES" or render_engine == "BLENDER_EEVEE":
                 enable_update = False
                 error_box(layout, "Volume output is supported only by blender render.")
-            else:
-                layout.prop(self, "use_probing")
-                row = layout.row()
-                row.enabled = self.use_probing
-                row.prop(self, "probe_resolution")
+
+            layout.prop(self, "use_probing")
+            row = layout.row()
+            row.enabled = self.use_probing
+            row.prop(self, "probe_resolution")
+
+        if self.output_type == "VOLUME" or self.output_type == "IMAGE":
+            col = layout.column(align=True)
+            col.prop(self, "shift_x")
+            col.prop(self, "shift_y")
 
         row = layout.row()
         row.enabled = enable_update
@@ -73,13 +85,14 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
             input_obj = resolve_algorithm_output(input_obj)
             output_type = self.output_type
             mesh_name = self.mesh_name
+            shift = -self.shift_x/100, self.shift_y/100
             if output_type == "MESH":
                 vtk_data_to_mesh(input_obj, mesh_name, color_node, self.smooth)
             elif output_type == "VOLUME":
                 vtk_data_to_volume(input_obj, mesh_name, color_node, use_probing=self.use_probing,
-                                   probe_resolution=self.probe_resolution)
+                                   probe_resolution=self.probe_resolution, shift=shift)
             elif output_type == "IMAGE":
-                vtk_data_to_image(input_obj, mesh_name, color_node)
+                vtk_data_to_image(input_obj, mesh_name, color_node, shift)
             elif output_type == "TEXT":
                 vtk_data_to_text(input_obj, mesh_name)
             update_3d_view()
@@ -971,13 +984,13 @@ def parallelepiped(dim, pos=(0, 0, 0), layers=2):
 
 
 def scan_coordinates(coordinates):
-    """Scan a coordinates array to find if the
-    grid is uniform and if it's not the optimal number of
-    subdivisions.
+    """Scan a coordinates array to find if the grid is
+    uniform, if it's in reverse order and the optimal number
+    of subdivisions.
     """
     size = coordinates.GetNumberOfValues()
     if size < 2:
-        return True, 0
+        return True, False, 0
 
     l_c = None  # Last coordinate
     first_step = coordinates.GetValue(1) - coordinates.GetValue(0)
@@ -1005,27 +1018,29 @@ def scan_coordinates(coordinates):
     return is_uniform, is_reverse, divisions
 
 
-def scan_rect_grid(grid):
-    coord = [
-        ("x", grid.GetXCoordinates()),
-        ("y", grid.GetYCoordinates()),
-        ("z", grid.GetZCoordinates())
-    ]
+def scan_rect_grid(grid, non_uniform_warning="", exclude=()):
+    """Scan a rectilinear grid to find out if the coordinate
+    arrays are uniform and if they are in reverse order. Return
+    two tuples with tree values each which correspond to the
+    three axis xyz.
+    """
+    coord = (
+        (grid.GetXCoordinates(), "x"),
+        (grid.GetYCoordinates(), "y"),
+        (grid.GetZCoordinates(), "z")
+    )
     reverse_coords = []
+    uniformity = []
 
-    for axis, array in coord:
-        is_uniform, is_reverse, div = scan_coordinates(array)
-        reverse_coords.append(is_reverse)
-        if not is_uniform:
-            log.warning("Non uniform coordinates in the {}-axis. It is advisable to use probing.".format(axis))
+    for array, axis in coord:
+        if axis not in exclude:
+            is_uniform, is_reverse, div = scan_coordinates(array)
+            reverse_coords.append(is_reverse)
+            uniformity.append(is_uniform)
+            if not is_uniform and non_uniform_warning:
+                log.warning(non_uniform_warning.format(axis))
 
-    return reverse_coords
-
-
-def reverse_index(i, size, condition=True):
-    if condition:
-        return size - i - 1
-    return i
+    return reverse_coords, uniformity
 
 
 def probe_grid(data, resolution=(250, 250, 250)):
@@ -1056,7 +1071,7 @@ def probe_grid(data, resolution=(250, 250, 250)):
     return probe_out
 
 
-def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resolution=(250, 250, 250)):
+def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resolution=(250, 250, 250), shift=(0, 0)):
     """Convert vtk volumetric data to a Blender object with a volumetric material."""
     from array import array
 
@@ -1079,7 +1094,9 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
         data = probe_grid(data, probe_resolution)
         data_array = data.GetPointData().GetArray(data_array.GetName())
     elif issubclass(data.__class__, vtk.vtkRectilinearGrid):
-        rx, ry, rz = scan_rect_grid(data)
+        scan_res = scan_rect_grid(data, non_uniform_warning="Non uniform coordinates in the {}-axis. "
+                                                            "It is advisable to use probing.")
+        rx, ry, rz = scan_res[0]
 
     dim = data.GetDimensions()
 
@@ -1099,7 +1116,8 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
     nf = 1
     header = [nx, ny, nz, nf]
     vol_data = []
-    i = 0
+    shift_x = int(nx * shift[0])
+    shift_y = int(nx * shift[1])
 
     bar = ChargingBar("Processing volume", max=(nf * nz))
     for t in range(nf):  # frame
@@ -1108,14 +1126,13 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
             z = reverse_index(z, nz, rz)
 
             for y in range(ny):  # line
-                y = reverse_index(y, ny, ry)
+                y = shift_reverse_index(y, ny, shift_y, ry)
 
                 for x in range(nx):  # value
-                    x = reverse_index(x, nx, rx)
+                    x = shift_reverse_index(x, nx, shift_x, rx)
                     index = t*(nx*ny*nz) + z*(nx*ny) + y*nx + x
                     val = (data_array.GetValue(index) - min_r) / (max_r - min_r)
                     vol_data.append(val)
-                    i += 1
     bar.finish()
 
     output_dir = get_addon_pref("output_path")
@@ -1138,7 +1155,14 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
     log.info("Volumetric file created in '{}'.".format(file_path))
 
     me, ob = mesh_and_object(name)
-    parallelepiped(dim, layers=2).to_mesh(me)
+
+    pos = (0, 0, 0)
+    if hasattr(data, "GetBounds"):
+        bounds = evaluate_bounds(data.GetBounds())
+        if bounds:
+            pos, dim = bounds
+
+    parallelepiped(dim, layers=2, pos=pos).to_mesh(me)
     texture = color_node.get_texture()
     voxel_material(me, name, file_path, texture, color_node.reset_materials)
 
@@ -1170,10 +1194,20 @@ def plane_bmesh(dim, pos=(0, 0, 0)):
     return bm
 
 
-def vtk_data_to_image(data, name, color_node):
+def evaluate_bounds(bounds):
+    if not bounds or len(bounds) != 6:
+        return None
+    origin = []
+    dim = []
+    for i in (0, 2, 4):
+        origin.append(bounds[i])
+        dim.append(abs(bounds[i+1]-bounds[i]))
+    return origin, dim
+
+
+def vtk_data_to_image(data, name, color_node, shift=(0, 0)):
     """Convert vtkImageData to a Blender image"""
 
-    wm = bpy.context.window_manager
     data_array = get_color_array(data, color_node)[0]
 
     if not data_array:
@@ -1182,16 +1216,20 @@ def vtk_data_to_image(data, name, color_node):
                   "a valid 'color by' array selected.")
         return
 
+    data_range = data_array.GetRange()
+    color_ramp = None
+
     if color_node:
         data_range = color_node.range_min, color_node.range_max
-    else:
-        data_range = data_array.GetRange()
+        tex = color_node.get_texture()
+        if tex:
+            color_ramp = tex.color_ramp
 
     if hasattr(data, "GetDimensions"):
         dim = data.GetDimensions()
     else:
-        log.error("Input data isn't suitable to become an image. Please change "
-                  "the output type or connect data with defined dimensions.")
+        log.error("Input data isn't suitable to become an image."
+                  "Please change the output type.")
         return
 
     if dim[2] > 1:
@@ -1202,22 +1240,47 @@ def vtk_data_to_image(data, name, color_node):
         bpy.data.images.remove(bpy.data.images[name])
     img = bpy.data.images.new(name, dim[0], dim[1])
 
-    array_size = data_array.GetNumberOfTuples()
     p = []
+    nx, ny, nz = dim[0], dim[1], dim[2]
+    array_size = ny*nx  # data_array.GetNumberOfTuples()
 
-    bar = ChargingBar('Writing image', max=array_size)
-    for j in range(array_size):
+    # Reverse coordinates
+    rx, ry = False, False
+    if issubclass(data.__class__, vtk.vtkRectilinearGrid):
+        scan_res = scan_rect_grid(data,
+                                  non_uniform_warning="Non uniform coordinates in the {}-axis. "
+                                                      "The resulting image may not be accurate.",
+                                  exclude=("z",))
+        rx, ry = scan_res[0]
+
+    bar = ChargingBar("Processing image", max=ny)
+
+    shift_x = int(nx * shift[0])
+    shift_y = int(nx * shift[1])
+
+    print(shift_x, nx)
+
+    for y in range(ny):  # line
         bar.next()
-        t = data_array.GetTuple(j)
-        tuple_size = len(t)
-        if tuple_size == 1:
-            val = normalize_value(t[0], data_range)
-            p.extend((val, val, val, 1))
-        else:
-            for val in normalize_tuple(t, data_range):
-                p.append(val)
-            if tuple_size < 4:
-                p.append(1)  # Alpha
+        y = shift_reverse_index(y, ny, shift_y, ry)
+
+        for x in range(nx):  # value
+            x = shift_reverse_index(x, nx, shift_x, rx)
+
+            i = y * nx + x
+            t = data_array.GetTuple(i)
+            tuple_size = len(t)
+            if tuple_size == 1:
+                val = normalize_value(t[0], data_range)
+                if color_ramp:
+                    p.extend(color_ramp.evaluate(val))
+                else:
+                    p.extend((val, val, val, 1))
+            else:
+                for val in normalize_tuple(t, data_range):
+                    p.append(val)
+                if tuple_size < 4:
+                    p.append(1)  # Alpha
     bar.finish()
 
     img.pixels = p
@@ -1225,17 +1288,29 @@ def vtk_data_to_image(data, name, color_node):
 
     # Create plane mesh with UVs to show the image
     spacing = data.GetSpacing() if hasattr(data, "GetSpacing") else (1,)
+
+    pos = (0, 0, 0)
+    if hasattr(data, "GetBounds"):
+        bounds = evaluate_bounds(data.GetBounds())
+        if bounds:
+            pos, dim = bounds
+
     x = dim[0] * spacing[0]
     y = dim[1] * spacing[0]
-    plane = plane_bmesh((x, y, 0))
+    plane = plane_bmesh((x, y), pos)
+
     uv_layer = get_item(plane.loops.layers.uv, default_uv_map)
     plane.faces.ensure_lookup_table()
     plane.faces[0].loops[0][uv_layer].uv = (0, 0)
     plane.faces[0].loops[1][uv_layer].uv = (1, 0)
     plane.faces[0].loops[2][uv_layer].uv = (1, 1)
     plane.faces[0].loops[3][uv_layer].uv = (0, 1)
+
     me, ob = mesh_and_object(name)
-    ob.location = data.GetOrigin() if hasattr(data, "GetOrigin") else (0, 0, 0)
+
+    if hasattr(data, "GetOrigin"):
+        ob.location = data.GetOrigin()
+
     plane.to_mesh(me)
     mat = image_material(me, name, img, color_node.reset_materials)
     mat.use_shadeless = True
