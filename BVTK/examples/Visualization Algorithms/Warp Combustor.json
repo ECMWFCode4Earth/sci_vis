@@ -1,0 +1,328 @@
+{
+    "links": [
+        {
+            "from_node_name": "vtkMultiBlockPLOT3DReader",
+            "from_socket_identifier": "Output",
+            "to_node_name": "MultiBlockLeaf",
+            "to_socket_identifier": "Input"
+        },
+        {
+            "from_node_name": "MultiBlockLeaf",
+            "from_socket_identifier": "Output",
+            "to_node_name": "vtkStructuredGridGeometryFilter",
+            "to_socket_identifier": "Input"
+        },
+        {
+            "from_node_name": "vtkWarpScalar",
+            "from_socket_identifier": "Output",
+            "to_node_name": "Color Mapper",
+            "to_socket_identifier": "Input"
+        },
+        {
+            "from_node_name": "ColorRamp",
+            "from_socket_identifier": "ColorRamp",
+            "to_node_name": "Color Mapper",
+            "to_socket_identifier": "ColorRamp"
+        },
+        {
+            "from_node_name": "Color Mapper",
+            "from_socket_identifier": "Output",
+            "to_node_name": "ToBlender",
+            "to_socket_identifier": "Input"
+        },
+        {
+            "from_node_name": "vtkStructuredGridGeometryFilter",
+            "from_socket_identifier": "Output",
+            "to_node_name": "vtkWarpScalar",
+            "to_socket_identifier": "Input"
+        }
+    ],
+    "nodes": [
+        {
+            "bl_idname": "BVTK_NT_MultiBlockLeaf",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                254.33114624023438,
+                0.0
+            ],
+            "mute": false,
+            "name": "MultiBlockLeaf",
+            "show_options": true,
+            "show_preview": false,
+            "width": 229.84500122070312
+        },
+        {
+            "bl_idname": "BVTK_NT_StructuredGridGeometryFilter",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                504.1761474609375,
+                0.0
+            ],
+            "m_Extent": [
+                10,
+                10,
+                1,
+                100,
+                1,
+                100
+            ],
+            "mute": false,
+            "name": "vtkStructuredGridGeometryFilter",
+            "show_options": true,
+            "show_preview": false,
+            "width": 421.48150634765625
+        },
+        {
+            "auto_range": true,
+            "bl_idname": "BVTK_NT_ColorMapper",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "color_by": "P0",
+            "height": 5.5,
+            "hide": false,
+            "label": "",
+            "location": [
+                1250.784912109375,
+                0.0
+            ],
+            "lut": false,
+            "mute": false,
+            "name": "Color Mapper",
+            "range_max": 0.6373796463012695,
+            "range_min": 0.205027237534523,
+            "reset_materials": true,
+            "show_options": true,
+            "show_preview": false,
+            "texture_type": "IMAGE",
+            "width": 200.0
+        },
+        {
+            "bl_idname": "BVTK_NT_ToBlender",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                1470.784912109375,
+                0.0
+            ],
+            "mesh_name": "combustor",
+            "mute": false,
+            "name": "ToBlender",
+            "show_options": true,
+            "show_preview": false,
+            "smooth": false,
+            "width": 200.0
+        },
+        {
+            "bl_idname": "BVTK_NT_WarpScalar",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                945.6576538085938,
+                0.0
+            ],
+            "m_Normal": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "m_ScaleFactor": 2.5,
+            "m_UseNormal": true,
+            "m_XYPlane": true,
+            "mute": false,
+            "name": "vtkWarpScalar",
+            "show_options": true,
+            "show_preview": false,
+            "width": 285.127197265625
+        },
+        {
+            "additional_properties": {
+                "elements": [
+                    [
+                        [
+                            0.3488648235797882,
+                            5.077051810076227e-06,
+                            0.05112205073237419,
+                            1.0
+                        ],
+                        0.04545454680919647
+                    ],
+                    [
+                        [
+                            0.6730490922927856,
+                            0.044552627950906754,
+                            0.07592611759901047,
+                            1.0
+                        ],
+                        0.13636364042758942
+                    ],
+                    [
+                        [
+                            0.9075471758842468,
+                            0.1541522592306137,
+                            0.05284162610769272,
+                            1.0
+                        ],
+                        0.22727273404598236
+                    ],
+                    [
+                        [
+                            0.9828262329101562,
+                            0.43134021759033203,
+                            0.11926401406526566,
+                            1.0
+                        ],
+                        0.3181818127632141
+                    ],
+                    [
+                        [
+                            0.9913928508758545,
+                            0.7518950700759888,
+                            0.26317471265792847,
+                            1.0
+                        ],
+                        0.40909090638160706
+                    ],
+                    [
+                        [
+                            1.0,
+                            1.0,
+                            0.5295231938362122,
+                            1.0
+                        ],
+                        0.5
+                    ],
+                    [
+                        [
+                            0.7969165444374084,
+                            0.9157501459121704,
+                            0.3203815519809723,
+                            1.0
+                        ],
+                        0.5909090638160706
+                    ],
+                    [
+                        [
+                            0.4151480793952942,
+                            0.729918897151947,
+                            0.37867626547813416,
+                            1.0
+                        ],
+                        0.6818181872367859
+                    ],
+                    [
+                        [
+                            0.1332085132598877,
+                            0.5479934811592102,
+                            0.38377463817596436,
+                            1.0
+                        ],
+                        0.7727272510528564
+                    ],
+                    [
+                        [
+                            0.02775527909398079,
+                            0.2508402466773987,
+                            0.517401397228241,
+                            1.0
+                        ],
+                        0.8636363744735718
+                    ],
+                    [
+                        [
+                            0.11129941791296005,
+                            0.07592611759901047,
+                            0.36859092116355896,
+                            1.0
+                        ],
+                        0.9545454382896423
+                    ]
+                ]
+            },
+            "bl_idname": "BVTK_NT_ColorRamp",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                945.6576538085938,
+                -164.99996948242188
+            ],
+            "mute": false,
+            "name": "ColorRamp",
+            "show_options": true,
+            "show_preview": false,
+            "width": 200.0
+        },
+        {
+            "bl_idname": "BVTK_NT_MultiBlockPLOT3DReader",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "e_ByteOrder": "BigEndian",
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                20.0,
+                0.0
+            ],
+            "m_AutoDetectFormat": true,
+            "m_BinaryFile": true,
+            "m_DoublePrecision": true,
+            "m_FileName": "/Users/lorenzocelli",
+            "m_ForceRead": true,
+            "m_FunctionFileName": "/Users/lorenzocelli",
+            "m_Gamma": 1.399999976158142,
+            "m_HasByteCount": true,
+            "m_IBlanking": true,
+            "m_MultiGrid": true,
+            "m_PreserveIntermediateFunctions": true,
+            "m_QFileName": "$/combq.bin",
+            "m_R": 1.0,
+            "m_ScalarFunctionNumber": 100,
+            "m_TwoDimensionalGeometry": true,
+            "m_VectorFunctionNumber": 202,
+            "m_XYZFileName": "$/combxyz.bin",
+            "mute": false,
+            "name": "vtkMultiBlockPLOT3DReader",
+            "show_options": true,
+            "show_preview": false,
+            "width": 214.33114624023438
+        }
+    ]
+}
