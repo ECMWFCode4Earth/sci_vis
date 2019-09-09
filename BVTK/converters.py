@@ -1099,7 +1099,6 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
         rx, ry, rz = scan_res[0]
 
     dim = data.GetDimensions()
-
     min_r, max_r = color_node.range_min, color_node.range_max
 
     if color_node.auto_range:
@@ -1112,29 +1111,28 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
         return
 
     nx, ny, nz = dim[0], dim[1], dim[2]
-
     nf = 1
     header = [nx, ny, nz, nf]
     vol_data = []
     shift_x = int(nx * shift[0])
-    shift_y = int(nx * shift[1])
-
+    shift_y = int(ny * shift[1])
     bar = ChargingBar("Processing volume", max=(nf * nz))
+
     for t in range(nf):  # frame
-        for z in range(nz):  # layer
+        for z in reverse_range(nz, rz):  # layer
             bar.next()
-            z = reverse_index(z, nz, rz)
+            for y in shift_reverse_range(ny, shift_y, ry):  # line
+                for x in shift_reverse_range(nx, shift_x, rx):  # value
+                    # index = t*(nx*ny*nz) + z*(nx*ny) + y*nx + x
+                    # val = (data_array.GetValue(index) - min_r) / (max_r - min_r)
+                    # vol_data.append(val)
+                    #
+                    # Compact and faster version
+                    vol_data.append(
+                        (data_array.GetValue(t * nx * ny * nz + z * nx * ny + y * nx + x) - min_r) / (max_r - min_r)
+                    )
 
-            for y in range(ny):  # line
-                y = shift_reverse_index(y, ny, shift_y, ry)
-
-                for x in range(nx):  # value
-                    x = shift_reverse_index(x, nx, shift_x, rx)
-                    index = t*(nx*ny*nz) + z*(nx*ny) + y*nx + x
-                    val = (data_array.GetValue(index) - min_r) / (max_r - min_r)
-                    vol_data.append(val)
     bar.finish()
-
     output_dir = get_addon_pref("output_path")
     file_path = os.path.join(output_dir, name+".bvox")
 
@@ -1254,20 +1252,16 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0)):
         rx, ry = scan_res[0]
 
     bar = ChargingBar("Processing image", max=ny)
-
     shift_x = int(nx * shift[0])
-    shift_y = int(nx * shift[1])
+    shift_y = int(ny * shift[1])
+    tuple_size = len(data_array.GetTuple(0))
 
-    for y in range(ny):  # line
+    for y in shift_reverse_range(ny, shift_y, ry):  # line
         bar.next()
-        y = shift_reverse_index(y, ny, shift_y, ry)
 
-        for x in range(nx):  # value
-            x = shift_reverse_index(x, nx, shift_x, rx)
+        for x in shift_reverse_range(nx, shift_x, rx):  # value
+            t = data_array.GetTuple(y * nx + x)
 
-            i = y * nx + x
-            t = data_array.GetTuple(i)
-            tuple_size = len(t)
             if tuple_size == 1:
                 val = normalize_value(t[0], data_range)
                 if color_ramp:
