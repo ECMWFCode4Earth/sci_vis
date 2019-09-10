@@ -601,7 +601,7 @@ def voxel_material(mesh, name, file_path, texture=None, reset=True):
     else:
         if not texture:
             texture = get_item(bpy.data.textures, name, "VOXEL_DATA")
-        if not flag:
+        if not flag or texture != "VOXEL_DATA":
             texture, ts = setup_texture(mat, texture, "VOXEL_DATA")
             mat.volume.density = 0
             texture.voxel_data.file_format = "BLENDER_VOXEL"

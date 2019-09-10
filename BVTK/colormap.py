@@ -299,7 +299,7 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
             errors.add("Range max and min can't be equal!")
         elif range_min > range_max:
             error_icon(row)
-            errors.add("Range max must be grater than min!")
+            errors.add("Range max must be greater than min!")
 
         color_settings = self.color_settings
         n_settings = len(color_settings)
