@@ -35,10 +35,13 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
     use_probing = bpy.props.BoolProperty(default=True, name="Probe")
     probe_resolution = bpy.props.IntVectorProperty(name="Resolution", default=(250, 250, 250))
 
+    # Image output options
+    create_plane = bpy.props.BoolProperty(default=True, name="Create plane",
+                                          description="Create a plane to display the generated image")
+
     # Image output and volume output options
     shift_x = bpy.props.FloatProperty(default=0, name="Shift x", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
     shift_y = bpy.props.FloatProperty(default=0, name="Shift y", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
-
 
     def m_properties(self):
         return ["mesh_name", "smooth", ]
@@ -69,6 +72,9 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
             col.prop(self, "shift_x")
             col.prop(self, "shift_y")
 
+        if self.output_type == "IMAGE":
+            layout.prop(self, "create_plane")
+
         row = layout.row()
         row.enabled = enable_update
         row.operator("bvtk.node_update", text="Update").node_path = node_path(self)
@@ -92,7 +98,7 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
                 vtk_data_to_volume(input_obj, mesh_name, color_node, use_probing=self.use_probing,
                                    probe_resolution=self.probe_resolution, shift=shift)
             elif output_type == "IMAGE":
-                vtk_data_to_image(input_obj, mesh_name, color_node, shift)
+                vtk_data_to_image(input_obj, mesh_name, color_node, shift, self.create_plane)
             elif output_type == "TEXT":
                 vtk_data_to_text(input_obj, mesh_name)
             update_3d_view()
@@ -450,6 +456,16 @@ def get_item(data, *args):
     return item
 
 
+def seek_item(data, *args):
+    """Get or create the item with key args[0] from data and return it,
+    together with a boolean flag to indicate if it already existed.
+    """
+    item = data.get(args[0])
+    if not item:
+        return data.new(*args), False
+    return item, True
+
+
 def set_link(data, item):
     """Link item to data if it's not already linked."""
     if item.name not in data:
@@ -627,19 +643,14 @@ def material(mesh, name, reset_previous=True, **material_settings):
         # Remove all other materials from the mesh
         mesh.materials.clear()
 
-    mat = bpy.data.materials.get(name)
-    flag = True
-
-    if not mat:
-        mat = bpy.data.materials.new(name)
-        flag = False
+    mat, existed = seek_item(bpy.data.materials, name)
 
     for key, value in material_settings.items():
         setattr(mat, key, value)
 
     apply_material(mesh, mat)
 
-    return mat, flag
+    return mat, existed
 
 
 def apply_material(mesh, mat):
@@ -1203,7 +1214,7 @@ def evaluate_bounds(bounds):
     return origin, dim
 
 
-def vtk_data_to_image(data, name, color_node, shift=(0, 0)):
+def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
     """Convert vtkImageData to a Blender image"""
 
     data_array = get_color_array(data, color_node)[0]
@@ -1234,9 +1245,11 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0)):
         log.warning("Input data has more than one dimension in the z-axis. "
                     "You may try to choose volume as an output type.")
 
-    if name in bpy.data.images:
-        bpy.data.images.remove(bpy.data.images[name])
-    img = bpy.data.images.new(name, dim[0], dim[1])
+    img, existed = seek_item(bpy.data.images, name, dim[0], dim[1])
+    if existed:
+        img.source = "GENERATED"
+        img.generated_width = dim[0]
+        img.generated_height = dim[1]
 
     p = []
     nx, ny, nz = dim[0], dim[1], dim[2]
@@ -1278,10 +1291,13 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0)):
     img.pixels = p
     log.info("Image created, {} pixels.".format(array_size))
 
+    if not create_plane:
+        return
+
     # Create plane mesh with UVs to show the image
     spacing = data.GetSpacing() if hasattr(data, "GetSpacing") else (1,)
-
     pos = (0, 0, 0)
+
     if hasattr(data, "GetBounds"):
         bounds = evaluate_bounds(data.GetBounds())
         if bounds:
@@ -1290,7 +1306,6 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0)):
     x = dim[0] * spacing[0]
     y = dim[1] * spacing[0]
     plane = plane_bmesh((x, y), pos)
-
     uv_layer = get_item(plane.loops.layers.uv, default_uv_map)
     plane.faces.ensure_lookup_table()
     plane.faces[0].loops[0][uv_layer].uv = (0, 0)
