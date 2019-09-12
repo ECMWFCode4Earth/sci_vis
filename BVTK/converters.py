@@ -34,6 +34,8 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
     # Volume output options
     use_probing = bpy.props.BoolProperty(default=True, name="Probe")
     probe_resolution = bpy.props.IntVectorProperty(name="Resolution", default=(250, 250, 250))
+    create_box = bpy.props.BoolProperty(default=True, name="Create box",
+                                        description="Create a parallelepiped to display the generated volume")
 
     # Image output options
     create_plane = bpy.props.BoolProperty(default=True, name="Create plane",
@@ -66,6 +68,7 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
             row = layout.row()
             row.enabled = self.use_probing
             row.prop(self, "probe_resolution")
+            layout.prop(self, "create_box")
 
         if self.output_type == "VOLUME" or self.output_type == "IMAGE":
             col = layout.column(align=True)
@@ -83,24 +86,29 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
         """Update node"""
         input_node, input_obj = self.get_input_node("Input")
         color_node = None
+
         if input_node and input_node.bl_idname == "BVTK_NT_ColorMapper":
             color_node = input_node
             color_node.update()  # setting auto range
             input_node, input_obj = input_node.get_input_node("Input")
+
         if input_obj is not None:
             input_obj = resolve_algorithm_output(input_obj)
             output_type = self.output_type
             mesh_name = self.mesh_name
             shift = -self.shift_x/100, self.shift_y/100
+
             if output_type == "MESH":
                 vtk_data_to_mesh(input_obj, mesh_name, color_node, self.smooth)
             elif output_type == "VOLUME":
                 vtk_data_to_volume(input_obj, mesh_name, color_node, use_probing=self.use_probing,
-                                   probe_resolution=self.probe_resolution, shift=shift)
+                                   probe_resolution=self.probe_resolution, shift=shift,
+                                   create_box=self.create_box)
             elif output_type == "IMAGE":
                 vtk_data_to_image(input_obj, mesh_name, color_node, shift, self.create_plane)
             elif output_type == "TEXT":
                 vtk_data_to_text(input_obj, mesh_name)
+
             update_3d_view()
 
     def apply_properties(self, vtkobj):
@@ -617,7 +625,7 @@ def voxel_material(mesh, name, file_path, texture=None, reset=True):
     else:
         if not texture:
             texture = get_item(bpy.data.textures, name, "VOXEL_DATA")
-        if not flag or texture != "VOXEL_DATA":
+        if not flag or texture.type != "VOXEL_DATA":
             texture, ts = setup_texture(mat, texture, "VOXEL_DATA")
             mat.volume.density = 0
             texture.voxel_data.file_format = "BLENDER_VOXEL"
@@ -1082,7 +1090,8 @@ def probe_grid(data, resolution=(250, 250, 250)):
     return probe_out
 
 
-def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resolution=(250, 250, 250), shift=(0, 0)):
+def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resolution=(250, 250, 250),
+                       shift=(0, 0), create_box=True):
     """Convert vtk volumetric data to a Blender object with a volumetric material."""
     from array import array
 
@@ -1162,6 +1171,16 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
     header.tofile(bin_file)
     vol_data.tofile(bin_file)
     log.info("Volumetric file created in '{}'.".format(file_path))
+
+    if not create_box:
+        texture = color_node.get_texture()
+        if hasattr(texture, "voxel_data"):
+            texture.voxel_data.filepath = file_path
+        else:
+            log.warning("The color ramp texture is not of voxel type. You should "
+                        "update again checking the option 'create box' to properly "
+                        "setup the texture.")
+        return
 
     me, ob = mesh_and_object(name)
 
