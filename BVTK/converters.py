@@ -109,6 +109,11 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
             elif output_type == "TEXT":
                 vtk_data_to_text(input_obj, mesh_name)
 
+            if color_node and color_node.cl_enable:
+                create_color_legend(mesh_name, color_node, color_node.cl_div,
+                                    color_node.cl_font, color_node.cl_width,
+                                    color_node.cl_height, color_node.cl_font_size)
+
             update_3d_view()
 
     def apply_properties(self, vtkobj):
@@ -433,7 +438,6 @@ def vtk_data_to_mesh(data, name, color_node=None, smooth=False):
         for i in range(len(verts)):
             verts[i].normal = point_normals.GetTuple(i)
 
-    # Apply colors and create lut
     if color_node:
         bm = apply_colors(color_node, bm, me, data)
 
@@ -535,30 +539,45 @@ def apply_colors(color_node, bm, me, data):
     if color_node.color_by:
         texture = color_node.get_texture()
         uv_map = default_uv_map
-        mat = None
 
         if color_node.texture_type == "IMAGE":
             img = ramp_to_image(texture.color_ramp, name=texture.name + 'IMAGE')
-            mat = image_material(me, me.name, img, reset=color_node.reset_materials)
+            image_material(me, me.name, img, reset=color_node.reset_materials)
         elif color_node.texture_type == "BLEND":
-            mat = blend_material(me, me.name, texture.color_ramp, texture, reset=color_node.reset_materials)
+            blend_material(me, me.name, texture.color_ramp, texture, reset=color_node.reset_materials)
 
         s_range = (color_node.range_min, color_node.range_max)
         array, is_point_data = get_color_array(data, color_node)
-        if color_node.lut and mat:
-            # The lookup table won't work with the color to image node. The support is not
-            # granted because the node will be removed in the next add-on versions.
-            create_lut(me.name, s_range, 6, mat, font=color_node.font, h=color_node.height)
+
         if is_point_data:
             bm = point_unwrap(bm, array, s_range, uv_map)
         else:
             bm = face_unwrap(bm, array, s_range, uv_map)
+
     return bm
 
 
+# ---------------------------------------------------------------------------------
+# Materials and textures
+# ---------------------------------------------------------------------------------
+
+# User interface names, prefixes and suffixes
+# Prefix for blend materials
 blend_material_prefix = "BVTK Blend "
+# Prefix for image materials
 image_material_prefix = "BVTK Image "
+# Prefix for volume materials
 volume_material_prefix = "BVTK Volume "
+# Prefix for color legend meshes
+color_leg_prefix = "BVTK Color Legend "
+# Prefix for color legend materials
+color_leg_mat_prefix = "Color Legend "
+# Prefix for color legend labels
+label_suffix = " Label "
+# Default uv layer name for BVTK unwraps
+default_uv_map = "BVTK UV"
+image_node_label = "BVTK Image Texture"
+ramp_node_label = "BVTK Color Ramp"
 
 
 def blend_material(mesh, name, ramp, texture, reset=True):
@@ -684,11 +703,6 @@ def link_nodes(node_a, output_name, node_b, input_name, links):
     links.new(to_socket, from_socket)
 
 
-default_uv_map = "BVTK UV"
-image_node_label = "BVTK Image Texture"
-ramp_node_label = "BVTK Color Ramp"
-
-
 def setup_blend_tree(mat, ramp):
     mat.use_nodes = True
     nodes = mat.node_tree.nodes
@@ -804,7 +818,7 @@ def set_active_material():
     pass
 
 
-def ramp_to_image(ramp, name=None, image=None, w=2000, h=10):
+def ramp_to_image(ramp, name=None, image=None, w=2000, h=100):
     """Take a color ramp and create a blender image h pixel tall
     and w pixels wide.
     """
@@ -885,58 +899,71 @@ def delete_texts(name):
             bpy.data.curves.remove(curve)
 
 
-def create_lut(name, data_range, n_div, mat, font="", b=0.5, h=5.5, x=5, y=0, z=0, fontsize=0.35, roundto=2):
+def create_color_legend(name, color_node, n_div, font="", w=0.5, h=5.5, fontsize=0.35):
     """Create value labels and color legends and add to current scene."""
     # Todo: rewrite and optimize this function
-    name = name+'_colormap'
-    delete_texts(name+'_lab')  # Delete old labels
-    # Create plane and UVs
-    plane = bmesh.new()  # Todo: use the plane_bmesh function
-    plane.faces.new((
-        plane.verts.new((0, 0, 0)),
-        plane.verts.new((b, 0, 0)),
-        plane.verts.new((b, 0, h)),
-        plane.verts.new((0, 0, h)),
-    ))
-    uv_layer = plane.loops.layers.uv.verify()
+    cl_name = color_leg_prefix + name
+    delete_texts(cl_name+label_suffix)  # Delete old labels
+    # Create plane and unwrap it
+    plane = plane_bmesh((w, h))
+    uv_layer = get_item(plane.loops.layers.uv, default_uv_map)
     plane.faces.ensure_lookup_table()
     plane.faces[0].loops[0][uv_layer].uv = (0, 1)
     plane.faces[0].loops[1][uv_layer].uv = (0, 0)
     plane.faces[0].loops[2][uv_layer].uv = (1, 0)
     plane.faces[0].loops[3][uv_layer].uv = (1, 1)
-    me, ob = mesh_and_object(name)
+    me, ob = mesh_and_object(cl_name)
     plane.to_mesh(me)
-    apply_material(me, mat)
-    r_min, r_max = data_range
-    if r_min > r_max or h <= 0:
-        log.error('range maximum greater than minimum')
+    tex = color_node.get_texture()
+
+    if not tex:
+        log.error("Could not retrieve the texture to create the "
+                  "color legend.")
         return
+
+    img = ramp_to_image(tex.color_ramp, cl_name)
+    image_material(me, color_leg_mat_prefix+name, img)
+    r_min, r_max = color_node.range_min, color_node.range_max
+
+    if r_min > r_max:
+        log.error("Range maximum greater than minimum.")
+        return
+
     import math
-    ideal_space = (r_max-r_min)/h
+    ideal_space = (r_max-r_min)/n_div
     exponent = math.floor(math.log10(ideal_space))
     mantissa = ideal_space/(10**exponent)
+
     if mantissa < 2.5:
         step = 10 ** exponent
     elif mantissa < 7.5:
-        step = 5*10**exponent
+        step = 5 * 10 ** exponent
     else:
-        step = 10*10**exponent
+        step = 10 * 10 ** exponent
+
     start = math.ceil(r_min/step)*step
     delta = r_max-r_min
+
     if step > delta:
         return
+
     start_h = (h*(start-r_min))/delta
     step_h = (h*step)/delta
+    x_offset = 0.1
+    z_offset = None
 
     # Add labels as texts
     for i in range(int(math.floor((r_max-start)/step))+1):
-        t = text(name+'_lab'+str(i), '{:.15}'.format(float(start+i*step)))
+        t = text(cl_name+label_suffix+str(i), '{:.15}'.format(float(start+i*step)))
         t.data.size = fontsize
         if font:
             t.data.font = font
-        t.rotation_mode = 'XYZ'
-        t.rotation_euler = (1.5707963705062866, 0.0, 0.0)
-        t.location = b+b/5, 0, start_h+step_h*i
+
+        if z_offset is None:
+            bpy.context.scene.update()
+            z_offset = -t.dimensions[1]/2
+
+        t.location = w + x_offset, start_h + step_h * i + z_offset, 0
         t.parent = ob
 
 
@@ -952,11 +979,7 @@ def vtk_data_to_text(data, name):
 
     # Set Aileron Regular instead of the default font
     if cur.font.name == "Bfont":
-        if "Aileron-Regular" not in bpy.data.fonts:
-            f = bpy.data.fonts.load(os.path.join(addon_path, "Aileron-Regular.otf"))
-        else:
-            f = bpy.data.fonts["Aileron-Regular"]
-        cur.font = f
+        cur.font = get_aileron_font()
 
     log.info("Text created: '{}'.".format(data), draw_win=True)
 

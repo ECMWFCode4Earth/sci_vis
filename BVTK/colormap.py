@@ -86,23 +86,29 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
     auto_range = bpy.props.BoolProperty(default=True, update=update_range)
     default_texture = bpy.props.StringProperty(default="")
     last_color_by = bpy.props.StringProperty(default='')
-    lut = bpy.props.BoolProperty(default=False)
-    height = bpy.props.FloatProperty(default=5.5)
     range_max = bpy.props.FloatProperty(default=1, name="Range max")
     range_min = bpy.props.FloatProperty(default=0, name="Range min")
-    font = bpy.props.PointerProperty(type=bpy.types.VectorFont)
     reset_materials = bpy.props.BoolProperty(name="Reset materials", default=True)
+
+    # Color legend options
+    cl_enable = bpy.props.BoolProperty(default=False)
+    cl_div = bpy.props.IntProperty(default=10)
+    cl_height = bpy.props.FloatProperty(default=5.5, name="Height")
+    cl_width = bpy.props.FloatProperty(default=0.2, name="Width")
+    cl_font = bpy.props.PointerProperty(type=bpy.types.VectorFont, name="Font")
+    cl_font_size = bpy.props.FloatProperty(default=0.3, name="Font size")
 
     def m_properties(self):
         return ["color_by", "texture_type", "auto_range",
-                "lut", "range_min", "range_max", "height",
-                "reset_materials"]
+                "cl_enable", "range_min", "range_max", "cl_height",
+                "cl_width", "cl_font", "cl_div", "reset_materials"]
 
     def m_connections(self):
         return ["Input"], [], [], ["Output"]
 
     def setup(self):
         self.inputs.new("BVTK_NS_Standard", "ColorRamp")
+        self.cl_font = get_aileron_font()
 
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
@@ -166,22 +172,31 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
         small_separator(layout)
         self.draw_panels(context, layout)
 
-    def draw_scalar_bar(self, context, layout):
-        layout.prop(self, "lut", text="Generate scalar bar")
-        if self.lut:
-            row = layout.split(percentage=0.2)
-            row.label(text="Height:")
-            row.prop(self, "height", text="")
+    def draw_color_legend(self, context, layout):
+        layout.prop(self, "cl_enable", text="Generate color legend")
 
-            row = layout.split(percentage=0.2)
+        if self.cl_enable:
+            col = layout.column(align=True)
+            col.prop(self, "cl_width")
+            col.prop(self, "cl_height")
+
+            row = layout.split(percentage=0.3)
+            row.label(text="Divisions:")
+            row.prop(self, "cl_div", text="")
+
+            row = layout.split(percentage=0.3)
             row.label(text="Font:")
-            row.template_ID(self, "font", open="font.open", unlink="font.unlink")
+            row.template_ID(self, "cl_font", open="font.open", unlink="font.unlink")
+
+            row = layout.split(percentage=0.3)
+            row.label(text="Font size:")
+            row.prop(self, "cl_font_size", text="")
 
     def draw_options(self, context, layout):
         layout.prop(self, "reset_materials")
 
     _panels = [
-        ("Scalar Bar", draw_scalar_bar),
+        ("Color Legend", draw_color_legend),
         ("Options", draw_options)
     ]
 

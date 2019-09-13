@@ -424,6 +424,12 @@ def side_spaced_layout(layout):
     return spaced_layout
 
 
+def get_aileron_font():
+    if "Aileron-Regular" not in bpy.data.fonts:
+        return bpy.data.fonts.load(os.path.join(addon_path, "Aileron-Regular.otf"))
+    return bpy.data.fonts["Aileron-Regular"]
+
+
 class BVTK_NodePanels:
     """Helper class to create subdivisions similar to panels
     inside node layouts. Child classes should redefine the
