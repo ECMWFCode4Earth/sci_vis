@@ -36,8 +36,8 @@ def get_default_texture(node):
 
 class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
     """BVTK Color Mapper Node"""
-    bl_idname = 'BVTK_NT_ColorMapper'
-    bl_label = 'Color Mapper'
+    bl_idname = "BVTK_NT_ColorMapper"
+    bl_label = "Color Mapper"
 
     def update_range(self, context):
         # Please note: this method is used by the batch scripts,
@@ -47,7 +47,7 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
         vtkobj = self.get_input_node("Input")[1]
         if self.color_by and vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
-            if self.color_by[0] == 'P':
+            if self.color_by[0] == "P":
                 d = vtkobj.GetPointData()
             else:
                 d = vtkobj.GetCellData()
@@ -63,26 +63,26 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
         vtkobj = self.get_input_node("Input")[1]
         if vtkobj:
             vtkobj = resolve_algorithm_output(vtkobj)
-            if hasattr(vtkobj, 'GetCellData'):
+            if hasattr(vtkobj, "GetCellData"):
                 c_data = vtkobj.GetCellData()
                 p_data = vtkobj.GetPointData()
-                c_descr = 'Color by cell data using '
-                p_descr = 'Color by point data using '
+                c_descr = "Color by cell data using "
+                p_descr = "Color by point data using "
                 for i in range(p_data.GetNumberOfArrays()):
                     arr_name = str(p_data.GetArrayName(i))
-                    items.append(('P'+str(i), arr_name, p_descr+arr_name+' array', 'VERTEXSEL', len(items)))
+                    items.append(("P"+str(i), arr_name, p_descr+arr_name+" array", "VERTEXSEL", len(items)))
                 for i in range(c_data.GetNumberOfArrays()):
                     arr_name = str(c_data.GetArrayName(i))
-                    items.append(('C'+str(i), arr_name, c_descr+arr_name+' array', 'FACESEL', len(items)))
+                    items.append(("C"+str(i), arr_name, c_descr+arr_name+" array", "FACESEL", len(items)))
         if not len(items):
-            items.append(('', '', ''))
+            items.append(("", "", ""))
         return items
 
     color_by = bpy.props.EnumProperty(items=color_arrays, name="Color by", update=update_range)
     texture_type = bpy.props.EnumProperty(name="Texture",
-                                          items=[('BLEND', 'BLEND', 'BLEND', 'TEXTURE_DATA', 0),
-                                                 ('IMAGE', 'IMAGE', 'IMAGE', 'FILE_IMAGE', 1)],
-                                          default='IMAGE')
+                                          items=[("BLEND", "BLEND", "BLEND", "TEXTURE_DATA", 0),
+                                                 ("IMAGE", "IMAGE", "IMAGE", "FILE_IMAGE", 1)],
+                                          default="IMAGE")
     auto_range = bpy.props.BoolProperty(default=True, update=update_range)
     default_texture = bpy.props.StringProperty(default="")
     last_color_by = bpy.props.StringProperty(default='')
@@ -150,17 +150,37 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
 
         # Find if node is connected to a 'toBlender' node.
         out_links = self.outputs["Output"].links
-        flag = False
+        tb_nodes = []
         for link in out_links:
             node = link.to_node
             if node.bl_idname == "BVTK_NT_ToBlender":
-                flag = True
+                tb_nodes.append(node)
 
-        if not flag and len(out_links):
+        if not tb_nodes and len(out_links):
             error_box(layout, "This node must be connected in\n"
                               "output with a ToBlender node\n"
-                              "in order to work properly")
+                              "in order to work properly.")
             small_separator(layout)
+
+        err = set()
+        quest = set()
+        for tb in tb_nodes:
+            o_type = tb.output_type 
+            if self.texture_type == "BLEND":
+                if o_type == "IMAGE":
+                    err.add("Image output is not compatible\n"
+                            "with the blend texture type.")
+            elif self.texture_type == "IMAGE":
+                if o_type == "VOLUME":
+                    err.add("Volume output is not compatible\n"
+                            "with the image texture type.")
+            if o_type == "TEXT":
+                quest.add("The color mapper node won't have\n"
+                          "any effect on text output.")
+        for e in err:
+            error_box(layout, e)
+        for q in quest:
+            question_box(layout, q)
 
         layout.prop(self, "texture_type")
         layout.prop(self, "color_by", text="Color by")

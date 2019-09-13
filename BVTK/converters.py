@@ -576,8 +576,10 @@ color_leg_mat_prefix = "Color Legend "
 label_suffix = " Label "
 # Default uv layer name for BVTK unwraps
 default_uv_map = "BVTK UV"
-image_node_label = "BVTK Image Texture"
-ramp_node_label = "BVTK Color Ramp"
+# Name for the customized image texture node
+image_node_name = "BVTK Image Texture"
+# Name for the customized color ramp node
+ramp_node_name = "BVTK Color Ramp"
 
 
 def blend_material(mesh, name, ramp, texture, reset=True):
@@ -749,37 +751,38 @@ def new_ramp_node(nodes, ramp):
     customize_ramp_node(ramp_node)
 
 
-def customize_node(node, node_label):
+def customize_node(node, node_name):
     node.use_custom_color = True
     node.color = 0.3, 0.4, 0.5
-    node.bl_label = node_label
+    node.name = node_name
+    node.label = node_name
 
 
-def get_customized_nodes(nodes, node_label):
+def get_customized_nodes(nodes, node_name):
     c_nodes = []
     for node in nodes:
-        if node.bl_label == node_label:
+        if node.name == node_name:
             c_nodes.append(node)
     return c_nodes
 
 
 def customize_image_node(node):
-    customize_node(node, image_node_label)
+    customize_node(node, image_node_name)
 
 
 def update_image_nodes(nodes, img):
-    img_nodes = get_customized_nodes(nodes, image_node_label)
+    img_nodes = get_customized_nodes(nodes, image_node_name)
     for node in img_nodes:
         node.image = img
     return img_nodes
 
 
 def customize_ramp_node(node):
-    customize_node(node, ramp_node_label)
+    customize_node(node, ramp_node_name)
 
 
 def update_ramp_nodes(nodes, ramp):
-    ramp_nodes = get_customized_nodes(nodes, ramp_node_label)
+    ramp_nodes = get_customized_nodes(nodes, ramp_node_name)
     for node in ramp_nodes:
         copy_color_ramp(ramp, node.color_ramp)
     return ramp_nodes
