@@ -390,9 +390,9 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
         pass
 
     def get_output(self, socket):
-        lut = vtk.vtkLookupTable()
-        lut.Build()
-        return lut
+        tex = self.get_texture()
+        if tex:
+            return tex.color_ramp
 
     def special_properties(self):
         """Make auto_update scanner notice changes in the color ramp"""

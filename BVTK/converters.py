@@ -327,7 +327,10 @@ def apply_geometry_filter(data):
     Return the resulting geometry.
     """
     geom = vtk.vtkGeometryFilter()
-    geom.SetInputData(data)
+    try:
+        geom.SetInputData(data)
+    except TypeError:
+        return None
     geom.Update()
     return geom.GetOutput()
 
@@ -343,7 +346,7 @@ def vtk_data_to_mesh(data, name, color_node=None, smooth=False):
     if not check_mesh_data(data):
         log.warning("Input data is not suitable to be converted in a mesh as it is: "
                     "converting to geometry. The process may take a while, consider adding "
-                    "a geometry filter in the node tree to avoid repeating this process.")
+                    "a geometry filter in the node tree to avoid repeating this process.", draw_win=False)
         data = apply_geometry_filter(data)
         if not check_mesh_data(data):
             log.error("Data can't be converted to a suitable geometry."
@@ -478,6 +481,16 @@ def seek_item(data, *args):
     return item, True
 
 
+def get_image(name, dim):
+    """Get/Create an image and make sure it has the correct dimensions."""
+    img, existed = seek_item(bpy.data.images, name, dim[0], dim[1])
+    if existed:
+        img.source = "GENERATED"
+        img.generated_width = dim[0]
+        img.generated_height = dim[1]
+    return img
+
+
 def set_link(data, item):
     """Link item to data if it's not already linked."""
     if item.name not in data:
@@ -517,14 +530,15 @@ def get_color_array(data, color_node):
     is_pd = False
 
     if not color_node:
-        pd = data.GetPointData()
-        fd = data.GetCellData()
-        if pd and hasattr(pd, "GetScalars"):
-            data_array = pd.GetScalars()
-            is_pd = True
-        elif fd and hasattr(fd, "GetScalars"):
-            data_array = fd.GetScalars()
-            is_pd = False
+        if has_attributes(data, "GetPointData", "GetCellData"):
+            pd = data.GetPointData()
+            fd = data.GetCellData()
+            if pd and hasattr(pd, "GetScalars"):
+                data_array = pd.GetScalars()
+                is_pd = True
+            elif fd and hasattr(fd, "GetScalars"):
+                data_array = fd.GetScalars()
+                is_pd = False
     elif color_node.color_by[0] == 'P':
         data_array = data.GetPointData().GetArray(int(color_node.color_by[1:]))
         is_pd = True
@@ -826,14 +840,16 @@ def ramp_to_image(ramp, name=None, image=None, w=2000, h=100):
     and w pixels wide.
     """
     if not image:
-        image = get_item(bpy.data.images, name, w, h)
+        image = get_image(name, (w, h))
     else:
         w = image.generated_width
         h = image.generated_height
+
     p = []
     for y in range(h):
         for x in range(w):
-            p.extend(ramp.evaluate(x/w))
+            p.extend(ramp.evaluate(x / w))
+
     image.pixels = p
     # The image could be deleted automatically by blender
     # if it's not used, this must be prevented setting
@@ -1261,12 +1277,23 @@ def evaluate_bounds(bounds):
 
 def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
     """Convert vtkImageData to a Blender image"""
+    if issubclass(data.__class__, bpy.types.ColorRamp):
+        ramp_to_image(data, name)
+        log.info("Color ramp image created: '{}'.".format(name), draw_win=True)
+        return
+
+    if hasattr(data, "GetDimensions"):
+        dim = data.GetDimensions()
+    else:
+        log.error("Input data isn't suitable to become an image.\n"
+                  "Please change the output type.")
+        return
 
     data_array = get_color_array(data, color_node)[0]
 
     if not data_array:
-        log.error("Couldn't retrieve the data array from the color mapper: "
-                  "make sure there is a color mapper node connected, and "
+        log.error("Couldn't retrieve the data array from the color mapper:\n"
+                  "make sure there is a color mapper node connected, and\n"
                   "a valid 'color by' array selected.")
         return
 
@@ -1279,26 +1306,14 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
         if tex:
             color_ramp = tex.color_ramp
 
-    if hasattr(data, "GetDimensions"):
-        dim = data.GetDimensions()
-    else:
-        log.error("Input data isn't suitable to become an image."
-                  "Please change the output type.")
-        return
-
     if dim[2] > 1:
-        log.warning("Input data has more than one dimension in the z-axis. "
+        log.warning("Input data has more than one dimension in the z-axis.\n"
                     "You may try to choose volume as an output type.")
 
-    img, existed = seek_item(bpy.data.images, name, dim[0], dim[1])
-    if existed:
-        img.source = "GENERATED"
-        img.generated_width = dim[0]
-        img.generated_height = dim[1]
+    img = get_image(name, dim)
 
     p = []
     nx, ny, nz = dim[0], dim[1], dim[2]
-    array_size = ny*nx  # data_array.GetNumberOfTuples()
 
     # Reverse coordinates
     rx, ry = False, False
@@ -1313,13 +1328,19 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
     shift_x = int(nx * shift[0])
     shift_y = int(ny * shift[1])
     tuple_size = len(data_array.GetTuple(0))
+    n_tuples = data_array.GetNumberOfTuples()
+
+    if (ny-1) * nx + (nx-1) >= n_tuples:
+        log.error("Input data isn't suitable to become an image,\n"
+                  "maybe due to a three-dimensional structure.\n"
+                  "Try to change the output type.")
+        return
 
     for y in shift_reverse_range(ny, shift_y, ry):  # line
         bar.next()
 
         for x in shift_reverse_range(nx, shift_x, rx):  # value
             t = data_array.GetTuple(y * nx + x)
-
             if tuple_size == 1:
                 val = normalize_value(t[0], data_range)
                 if color_ramp:
@@ -1331,10 +1352,10 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
                     p.append(val)
                 if tuple_size < 4:
                     p.append(1)  # Alpha
-    bar.finish()
 
+    bar.finish()
     img.pixels = p
-    log.info("Image created, {} pixels.".format(array_size))
+    log.info("Image created, {} pixels.".format(len(p)), draw_win=True)
 
     if not create_plane:
         return
@@ -1364,8 +1385,7 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
         ob.location = data.GetOrigin()
 
     plane.to_mesh(me)
-    mat = image_material(me, name, img, color_node.reset_materials)
-    mat.use_shadeless = True
+    image_material(me, name, img, color_node.reset_materials)
 
 
 # Add classes and menu items
