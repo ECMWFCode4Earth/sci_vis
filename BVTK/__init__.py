@@ -7,6 +7,9 @@
 import sys
 from . utils import log, node_path
 from . import pip_installer
+# Crashes debugging
+import faulthandler
+faulthandler.enable()
 
 bl_info = {
     "name": "BVTK nodes",

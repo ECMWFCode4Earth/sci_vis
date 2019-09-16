@@ -110,6 +110,9 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
         self.inputs.new("BVTK_NS_Standard", "ColorRamp")
         self.cl_font = get_aileron_font()
 
+    def get_output(self, socket):
+        return self.get_input_node("Input")[1]
+
     def update(self):
         if self.last_color_by != self.color_by or self.auto_range:
             self.last_color_by = self.color_by

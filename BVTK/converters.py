@@ -21,6 +21,15 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
                     node_name=self.name,
                     tree_name=context.space_data.node_tree.name)
 
+    def update_z_level(self, context):
+        data = self.get_input_node("Input")[1]
+        data = resolve_algorithm_output(data)
+
+        if hasattr(data, "GetDimensions"):
+            z = data.GetDimensions()[2]
+            if self.z_level > z:
+                self.z_level = z
+
     mesh_name = bpy.props.StringProperty(name="Name", default="mesh")
     auto_update = bpy.props.BoolProperty(default=False, update=start_scan)
     smooth = bpy.props.BoolProperty(name="Smooth", default=False)
@@ -40,13 +49,14 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
     # Image output options
     create_plane = bpy.props.BoolProperty(default=True, name="Create plane",
                                           description="Create a plane to display the generated image")
+    z_level = bpy.props.IntProperty(default=1, min=1, update=update_z_level)
 
     # Image output and volume output options
     shift_x = bpy.props.FloatProperty(default=0, name="Shift x", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
     shift_y = bpy.props.FloatProperty(default=0, name="Shift y", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
 
     def m_properties(self):
-        return ["mesh_name", "smooth", ]
+        return ["mesh_name", "smooth", "z_level"]
 
     def m_connections(self):
         return ["Input"], [], [], []
@@ -76,6 +86,15 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
             col.prop(self, "shift_y")
 
         if self.output_type == "IMAGE":
+            data = self.get_input_node("Input")[1]
+            data = resolve_algorithm_output(data)
+
+            if hasattr(data, "GetDimensions"):
+                z = data.GetDimensions()[2]
+                row = layout.split(percentage=0.3)
+                row.prop(self, "z_level", text="")
+                row.label(text="Max: {}".format(z))
+
             layout.prop(self, "create_plane")
 
         row = layout.row()
@@ -105,7 +124,8 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
                                    probe_resolution=self.probe_resolution, shift=shift,
                                    create_box=self.create_box)
             elif output_type == "IMAGE":
-                vtk_data_to_image(input_obj, mesh_name, color_node, shift, self.create_plane)
+                vtk_data_to_image(input_obj, mesh_name, color_node, shift, self.create_plane,
+                                  self.z_level-1)
             elif output_type == "TEXT":
                 vtk_data_to_text(input_obj, mesh_name)
 
@@ -1275,7 +1295,7 @@ def evaluate_bounds(bounds):
     return origin, dim
 
 
-def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
+def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True, z_level=0):
     """Convert vtkImageData to a Blender image"""
     if issubclass(data.__class__, bpy.types.ColorRamp):
         ramp_to_image(data, name)
@@ -1329,8 +1349,9 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
     shift_y = int(ny * shift[1])
     tuple_size = len(data_array.GetTuple(0))
     n_tuples = data_array.GetNumberOfTuples()
+    z_offset = z_level*nx*ny
 
-    if (ny-1) * nx + (nx-1) >= n_tuples:
+    if (ny-1) * nx + (nx-1) + z_offset >= n_tuples:
         log.error("Input data isn't suitable to become an image,\n"
                   "maybe due to a three-dimensional structure.\n"
                   "Try to change the output type.")
@@ -1340,7 +1361,7 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True):
         bar.next()
 
         for x in shift_reverse_range(nx, shift_x, rx):  # value
-            t = data_array.GetTuple(y * nx + x)
+            t = data_array.GetTuple(y * nx + x + z_offset)
             if tuple_size == 1:
                 val = normalize_value(t[0], data_range)
                 if color_ramp:
