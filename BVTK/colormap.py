@@ -668,7 +668,7 @@ def cpt_dir_scan(dir_path):
     """Scan a directory to find all the .cpt files, and
     return for each one the absolute path, the file name
     and the corresponding icon id."""
-    for file_name in os.listdir(dir_path):
+    for file_name in sorted(os.listdir(dir_path)):
         if file_name.endswith(".cpt"):
             file_path = os.path.join(dir_path, file_name)
             icon_file = file_name.replace(".cpt", ".png")
