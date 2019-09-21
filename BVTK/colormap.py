@@ -203,16 +203,13 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
             col.prop(self, "cl_width")
             col.prop(self, "cl_height")
 
-            row = layout.split(percentage=0.3)
-            row.label(text="Divisions:")
+            row = aside_label(layout, "Divisions")
             row.prop(self, "cl_div", text="")
 
-            row = layout.split(percentage=0.3)
-            row.label(text="Font:")
+            row = aside_label(layout, "Font")
             row.template_ID(self, "cl_font", open="font.open", unlink="font.unlink")
 
-            row = layout.split(percentage=0.3)
-            row.label(text="Font size:")
+            row = aside_label(layout, "Font size")
             row.prop(self, "cl_font_size", text="")
 
     def draw_options(self, context, layout):
@@ -248,6 +245,21 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
 
     my_texture = bpy.props.StringProperty()
     color_settings = bpy.props.CollectionProperty(type=BVTK_PG_ColorSettings)
+
+    def distribute_transparency(self, context):
+        bpy.ops.bvtk.distribute_alpha(
+            node_path=node_path(self),
+            mode=self.transparency_mode,
+            factor=self.transparency_factor
+        )
+
+    # Transparency options
+    transparency_mode = bpy.props.EnumProperty(items=[
+        ("Sequential", "Sequential", "Sequential"),
+        ("Divergent", "Divergent", "Divergent")
+    ], default="Sequential", name="Mode", update=distribute_transparency)
+    transparency_factor = bpy.props.FloatProperty(default=1, name="Factor",
+                                                  update=distribute_transparency)
 
     def m_properties(self):
         return []
@@ -385,8 +397,20 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
         op = row.operator("bvtk.arrange_color_ramp", text="Arrange", icon="ALIGN")
         op.node_path = path
 
+    def draw_transparency(self, context, layout):
+        layout.prop(self, "transparency_mode", expand=True)
+        row = aside_label(layout, "Factor")
+        row.prop(self, "transparency_factor")
+        small_separator(layout)
+        op = high_op(layout, "bvtk.distribute_alpha",
+                     text="Distribute transparency")
+        op.mode = self.transparency_mode
+        op.factor = self.transparency_factor
+        op.node_path = node_path(self)
+
     _panels = [
-        ("Color Values", draw_color_values)
+        ("Color Values", draw_color_values),
+        ("Transparency", draw_transparency)
     ]
 
     def apply_properties(self, vtkobj):
@@ -567,6 +591,54 @@ class BVTK_OT_ArrangeColorRamp(bpy.types.Operator):
                 el.position = abs_start+abs_step*(i+1)
             if subset.last_element:
                 subset.last_element.position = (subset.last_value - r_min)/r_delta
+        return {"FINISHED"}
+
+
+# ----------------------------------------------------------------
+
+
+class BVTK_OT_DistributeAlpha(bpy.types.Operator):
+    """Distribute transparency between the color ramp elements"""
+    bl_idname = "bvtk.distribute_alpha"
+    bl_label = "Distribute transparency"
+
+    node_path = bpy.props.StringProperty()
+    mode = bpy.props.EnumProperty(items=[
+        ("Sequential", "Sequential", "Sequential"),
+        ("Divergent", "Divergent", "Divergent")
+    ], default="Sequential", name="Mode")
+    factor = bpy.props.FloatProperty(default=1, name="Factor")
+
+    def execute(self, context):
+        node = eval(self.node_path)
+        if not node:
+            return {"CANCELLED"}
+        texture = node.get_texture()
+        if not texture:
+            return {"CANCELLED"}
+
+        r = texture.color_ramp
+        l_el = len(r.elements) - 1  # Last element index
+
+        if self.factor == 0:
+            for el in r.elements:
+                el.alpha = 0
+            return {"FINISHED"}
+
+        if self.mode == "Sequential":
+            for i in range(l_el+1):
+                el = r.elements[i]
+                i = reverse_index(l_el+1, i, self.factor < 0)
+                el.alpha = min(1, pow((i / l_el), abs(1/self.factor)))
+
+        elif self.mode == "Divergent":
+            for i in range(l_el+1):
+                el = r.elements[i]
+                if self.factor < 0:
+                    el.alpha = min(1, pow(1 - abs((i / l_el) - 0.5) * 2, abs(1 / self.factor)))
+                    continue
+                el.alpha = min(1, pow(abs((i / l_el) - 0.5) * 2, abs(1/self.factor)))
+
         return {"FINISHED"}
 
 
@@ -759,6 +831,7 @@ add_ui_class(BVTK_OT_ArrangeColorRamp)
 add_ui_class(BVTK_OT_UpdateColorSetting)
 add_ui_class(BVTK_OT_ApplyRampPosition)
 add_ui_class(BVTK_OT_LoadCPTColorRamp)
+add_ui_class(BVTK_OT_DistributeAlpha)
 add_ui_class(BVTK_MT_ColorRamps)
 
 menu_items = [NodeItem(x) for x in TYPENAMES]

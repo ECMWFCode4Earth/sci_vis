@@ -339,6 +339,16 @@ def reverse_range(n, reverse=False):
             yield i
             i -= 1
 
+
+def reverse_index(n, i, reverse=True):
+    """Return a reversed index based on the specified
+    size n, but only if the reverse variable is true.
+    """
+    if not reverse:
+        return i
+    return n - 1 - i
+
+
 # -----------------------------------------------------------------------------
 # Layout elements
 # -----------------------------------------------------------------------------
@@ -410,7 +420,28 @@ def small_separator(layout):
     """Create an empty space in the given layout, smaller
     than the one made using the separator method.
     """
-    layout.row().column()
+    col = layout.column()
+    col.separator()
+    col.scale_y = 0.8
+
+
+def high_op(layout, *args, **kwargs):
+    """Create a button for an operator in the given layout,
+    a little taller than the default.
+    """
+    col = layout.column()
+    col.scale_y = 1.3
+    op = col.operator(*args, **kwargs)
+    return op
+
+
+def aside_label(layout, label, percentage=0.3):
+    """Split the given layout and insert a label,
+    then return the resulting split layout.
+    """
+    row = layout.split(percentage=percentage)
+    row.label(text=str(label)+":")
+    return row
 
 
 def side_spaced_layout(layout):
