@@ -242,6 +242,14 @@ def link_to_dict(link):
     return dict
 
 
+def is_json_serializable(x):
+    try:
+        json.dumps(x)
+        return True
+    except (TypeError, OverflowError):
+        return False
+
+
 def node_to_dict(node):
     """Create a node dictionary entry from node"""
     dict = {}
@@ -261,12 +269,20 @@ def node_to_dict(node):
     for prop in props:
         attr = getattr(node, prop)
         classname = attr.__class__.__name__
+
         if classname in ['Vector', 'Color', 'bpy_prop_array']:
             attr = [i for i in attr]
+
         if 'FileName' in prop and issubclass(attr.__class__, str):
             attr = os.path.realpath(bpy.path.abspath(attr)).replace(examples_data_dir, '$/')
-        log.debug(prop.ljust(20) + classname.ljust(20) + str(attr))
-        dict[prop] = attr
+
+        if is_json_serializable(attr):
+            log.debug(prop.ljust(20) + classname.ljust(20) + str(attr))
+            dict[prop] = attr
+        else:
+            log.debug(prop.ljust(20) + classname.ljust(20) + str(attr) +
+                      " Property is not json serializable, ignored.")
+
     if hasattr(node, 'export_properties'):
         ep = node.export_properties()
         dict['additional_properties'] = ep
@@ -341,9 +357,9 @@ class BVTK_OT_TreeExport(bpy.types.Operator, ExportHelper):
             self.report({'ERROR'}, 'Select a node tree')
             return {'CANCELLED'}
         dic = node_tree_to_dict(node_tree)
-        text = json.dumps( dic, indent=4, sort_keys=True) 
+        text = json.dumps(dic, indent=4, sort_keys=True)
         f = open(self.filepath, 'w', encoding='utf-8')
-        f.write( text )
+        f.write(text)
         f.close()
         return {'FINISHED'}
 

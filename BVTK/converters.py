@@ -56,7 +56,12 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
     shift_y = bpy.props.FloatProperty(default=0, name="Shift y", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
 
     def m_properties(self):
-        return ["mesh_name", "smooth", "z_level"]
+        return ["mesh_name", "smooth",
+                "z_level", "smooth",
+                "output_type", "use_probing",
+                "probe_resolution", "create_box",
+                "create_plane", "shift_x",
+                "shift_y"]
 
     def m_connections(self):
         return ["Input"], [], [], []
