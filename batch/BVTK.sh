@@ -27,6 +27,10 @@ print_sintax () {
     echo "          --tile-size:       tile size to use while rendering. If not set it's"
     echo "                             automatically determined, but this may result inefficient"
     echo "                             and increase the render times."
+    echo "    -rf,  --resample-fac:    resample factor to interpolate data. By default it's not"
+    echo "                             set and interpolation is disabled."
+    echo "    -rx,  --res-x:           set the x resolution of the image."
+    echo "    -ry,  --res-y:           set the y resolution of the image."
     echo ""
 }
 
@@ -65,6 +69,9 @@ color_by=""
 range_min=""
 range_max=""
 tile_size=""
+resample_fac=""
+res_x=""
+res_y=""
 
 while :; do
     case $1 in
@@ -170,6 +177,48 @@ while :; do
         --tile-size=)
             die "Error: '--tile-size' requires a non-empty option argument."
             ;;
+        -rf|--resample-fac)
+              if [ "$2" ]; then
+                  resample_fac=$2
+                  shift
+              else
+                  die "Error: '--resample-fac' requires a non-empty option argument."
+              fi
+              ;;
+        -rf=?*|--resample-fac=?*)
+            resample_fac=${1#*=}
+            ;;
+        -rf=|--resample-fac=)
+            die "Error: '--resample-fac' requires a non-empty option argument."
+            ;;
+        -rx|--res-x)
+              if [ "$2" ]; then
+                  res_x=$2
+                  shift
+              else
+                  die "Error: '--res-x' requires a non-empty option argument."
+              fi
+              ;;
+        -rx=?*|--res-x=?*)
+            res_x=${1#*=}
+            ;;
+        -rx=|--res-x=)
+            die "Error: '--res-x' requires a non-empty option argument."
+            ;;
+        -ry|--res-y)
+              if [ "$2" ]; then
+                  res_y=$2
+                  shift
+              else
+                  die "Error: '--res-y' requires a non-empty option argument."
+              fi
+              ;;
+        -ry=?*|--res-y=?*)
+            res_y=${1#*=}
+            ;;
+        -ry=|--res-y=)
+            die "Error: '--res-y' requires a non-empty option argument."
+            ;;
         *)
             break
     esac
@@ -177,9 +226,10 @@ while :; do
     shift
 done
 
-
+echo ""
 echo "Blender executable: $blender_ex"
-echo "Input data:         $input_data"
-echo "Preset .blend:      $preset"
+echo "Input data: $input_data"
+echo "Preset .blend: $preset"
+echo ""
 
-$blender_ex -b "$preset" -P "$F"/BVTK_render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size"
+$blender_ex -b "$preset" -P "$F"/BVTK_render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size" resample_fac:"$resample_fac" res_x:"$res_x" res_y:"$res_y"
