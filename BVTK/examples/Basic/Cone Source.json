@@ -1,0 +1,268 @@
+{
+    "links": [
+        {
+            "from_node_name": "Color Mapper",
+            "from_socket_identifier": "Output",
+            "to_node_name": "ToBlender",
+            "to_socket_identifier": "Input"
+        },
+        {
+            "from_node_name": "vtkConeSource",
+            "from_socket_identifier": "Output",
+            "to_node_name": "vtkElevationFilter",
+            "to_socket_identifier": "Input"
+        },
+        {
+            "from_node_name": "vtkElevationFilter",
+            "from_socket_identifier": "Output",
+            "to_node_name": "Color Mapper",
+            "to_socket_identifier": "Input"
+        },
+        {
+            "from_node_name": "ColorRamp",
+            "from_socket_identifier": "ColorRamp",
+            "to_node_name": "Color Mapper",
+            "to_socket_identifier": "ColorRamp"
+        }
+    ],
+    "nodes": [
+        {
+            "bl_idname": "BVTK_NT_ToBlender",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "create_box": true,
+            "create_plane": true,
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                640.0,
+                0.0
+            ],
+            "mesh_name": "cone",
+            "mute": false,
+            "name": "ToBlender",
+            "output_type": "MESH",
+            "probe_resolution": [
+                250,
+                250,
+                250
+            ],
+            "shift_x": 0.0,
+            "shift_y": 0.0,
+            "show_options": true,
+            "show_preview": false,
+            "smooth": false,
+            "use_probing": true,
+            "width": 200.0,
+            "z_level": 1
+        },
+        {
+            "auto_range": true,
+            "bl_idname": "BVTK_NT_ColorMapper",
+            "cl_div": 10,
+            "cl_enable": false,
+            "cl_height": 5.5,
+            "cl_width": 0.20000000298023224,
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "color_by": "P0",
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                430.0,
+                0.0
+            ],
+            "mute": false,
+            "name": "Color Mapper",
+            "range_max": 0.9330127239227295,
+            "range_min": 0.0669873058795929,
+            "reset_materials": true,
+            "show_options": true,
+            "show_preview": false,
+            "texture_type": "IMAGE",
+            "width": 200.0
+        },
+        {
+            "bl_idname": "BVTK_NT_ElevationFilter",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                220.0,
+                0.0
+            ],
+            "m_HighPoint": [
+                0.0,
+                0.0,
+                0.5
+            ],
+            "m_LowPoint": [
+                0.0,
+                0.0,
+                -0.5
+            ],
+            "m_ScalarRange": [
+                0.0,
+                1.0
+            ],
+            "mute": false,
+            "name": "vtkElevationFilter",
+            "show_options": true,
+            "show_preview": false,
+            "width": 200.0
+        },
+        {
+            "additional_properties": {
+                "elements": [
+                    [
+                        [
+                            0.40982574224472046,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        0.0555555559694767
+                    ],
+                    [
+                        [
+                            1.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        0.1666666716337204
+                    ],
+                    [
+                        [
+                            1.0,
+                            0.08919350802898407,
+                            0.0,
+                            1.0
+                        ],
+                        0.2777777910232544
+                    ],
+                    [
+                        [
+                            1.0,
+                            0.40982574224472046,
+                            0.0,
+                            1.0
+                        ],
+                        0.3888888955116272
+                    ],
+                    [
+                        [
+                            1.0,
+                            1.0,
+                            0.0,
+                            1.0
+                        ],
+                        0.5
+                    ],
+                    [
+                        [
+                            0.10114516317844391,
+                            1.0,
+                            0.00902149174362421,
+                            1.0
+                        ],
+                        0.6111111044883728
+                    ],
+                    [
+                        [
+                            0.0,
+                            0.8751375675201416,
+                            0.15728072822093964,
+                            1.0
+                        ],
+                        0.7222222089767456
+                    ],
+                    [
+                        [
+                            0.0,
+                            0.07805658876895905,
+                            1.0,
+                            1.0
+                        ],
+                        0.8333333134651184
+                    ],
+                    [
+                        [
+                            0.0,
+                            0.0,
+                            0.6186857223510742,
+                            1.0
+                        ],
+                        0.9444444179534912
+                    ]
+                ]
+            },
+            "bl_idname": "BVTK_NT_ColorRamp",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                220.0,
+                -159.49032592773438
+            ],
+            "mute": false,
+            "name": "ColorRamp",
+            "show_options": true,
+            "show_preview": false,
+            "width": 200.0
+        },
+        {
+            "bl_idname": "BVTK_NT_ConeSource",
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "height": 100.0,
+            "hide": false,
+            "label": "",
+            "location": [
+                10.0,
+                0.0
+            ],
+            "m_Angle": 26.565052032470703,
+            "m_Capping": true,
+            "m_Center": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "m_Direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "m_Height": 1.0,
+            "m_Radius": 0.5,
+            "m_Resolution": 6,
+            "mute": false,
+            "name": "vtkConeSource",
+            "show_options": true,
+            "show_preview": false,
+            "width": 200.0
+        }
+    ]
+}
