@@ -215,6 +215,12 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
     def draw_options(self, context, layout):
         layout.prop(self, "reset_materials")
 
+    def apply_properties(self, vtkobj):
+        pass
+
+    def apply_inputs(self, vtkobj):
+        pass
+
     _panels = [
         ("Color Legend", draw_color_legend),
         ("Options", draw_options)
@@ -414,6 +420,9 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
     ]
 
     def apply_properties(self, vtkobj):
+        pass
+
+    def apply_inputs(self, vtkobj):
         pass
 
     def get_output(self, socket):

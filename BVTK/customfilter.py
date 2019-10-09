@@ -62,7 +62,30 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
             layout.label("No functions found in specified text")
 
     def apply_properties(self, vtkobj):
-        pass
+        """Execute user defined function. If something goes wrong,
+        print the error and leave the object as it was before.
+        """
+        input_objects = [x[1] for x in self.get_input_nodes("Input")]
+
+        if len(input_objects) == 1:
+            input_objects = input_objects[0]
+
+        if self.text in bpy.data.texts:
+            t = bpy.data.texts[self.text].as_string()
+
+            try:
+                exec(t, globals(), locals())
+            except Exception as e:
+                log.info("Error while parsing user defined text: " +
+                         str(e).replace("<string>", self.text))
+                return self.get_input_node("Input")[1]
+
+            if self.func in locals():
+                try:
+                    user_output = eval(self.func + "(input_objects)")
+                    self.set_vtkobj(user_output)
+                except Exception as e:
+                    log.info("Error while executing user defined function:" + str(e))
 
     def apply_inputs(self, vtkobj):
         pass
@@ -71,26 +94,16 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
         """Execute user defined function. If something goes wrong,
         print the error and return the input object.
         """
-        input_objects = [x[1] for x in self.get_input_nodes("Input")]
-        if len(input_objects) == 1:
-            input_objects = input_objects[0]
-        if self.text in bpy.data.texts:
-            t = bpy.data.texts[self.text].as_string()
-            try:
-                exec(t, globals(), locals())
-            except Exception as e:
-                log.error("error while parsing user defined text: " +
-                          str(e).replace("<string>", self.text))
-                return self.get_input_node("Input")[1]
-            if self.func not in locals():
-                log.error("function not found")
-            else:
-                try:
-                    user_output = eval(self.func+"(input_objects)")
-                    return user_output
-                except Exception as e:
-                    log.error("error while executing user defined function:" + str(e))
-        return self.get_input_node("Input")[1]
+        custom_obj = self.get_vtkobj()
+
+        if custom_obj:
+            return custom_obj
+
+        in_node, in_obj = self.get_input_node("Input")
+        if in_obj:
+            return in_obj
+
+        return None
 
     def setup(self):
         self.inputs["Input"].link_limit = 300

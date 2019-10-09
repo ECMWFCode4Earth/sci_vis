@@ -144,6 +144,9 @@ class BVTK_NT_ToBlender(Node, BVTK_Node):
     def apply_properties(self, vtkobj):
         pass
 
+    def apply_inputs(self, vtkobj):
+        pass
+
 
 # ---------------------------------------------------------------------------------
 # Operator Update
@@ -1148,9 +1151,9 @@ def probe_grid(data, resolution=(250, 250, 250)):
     probe = vtk.vtkProbeFilter()
     probe.SetInputData(struct_p)
     probe.SetSourceData(data)
-    log.warning("Starting probe. The process may take a long time.")
+    log.warning("Starting probe. The process may take a long time.", draw_win=False)
     probe.Update()
-    log.warning("Probe complete.")
+    log.warning("Probe complete.", draw_win=False)
 
     probe_out = probe.GetOutput()
 
