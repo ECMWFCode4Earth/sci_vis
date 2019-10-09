@@ -65,7 +65,10 @@ class BVTK_NT_CustomFilter(Node, BVTK_Node):
         """Execute user defined function. If something goes wrong,
         print the error and leave the object as it was before.
         """
-        input_objects = [x[1] for x in self.get_input_nodes("Input")]
+        # Acquire each input object
+        input_objects = [
+            resolve_algorithm_output(x[1]) for x in self.get_input_nodes("Input")
+        ]
 
         if len(input_objects) == 1:
             input_objects = input_objects[0]
@@ -160,6 +163,10 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
     bl_idname = 'BVTK_NT_MultiBlockLeaf'
     bl_label = 'MultiBlockLeaf'
 
+    # Value of enum list in case no blocks
+    # are  found in the input data.
+    empty_block_list_id = "-1"
+
     def blocks(self, context):
         """ Returns a list for a dynamic enum. Once verified that
         the input vtk object is decomposable in blocks, the list
@@ -171,29 +178,41 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
         """
         in_node, vtkobj = self.get_input_node("Input")
         if not in_node:
-            return []
+            return [(self.empty_block_list_id, "Input missing", "")]
+
         elif not vtkobj:
-            return []
+            return [(self.empty_block_list_id, "Input object missing", "")]
+
         else:
             vtkobj = resolve_algorithm_output(vtkobj)
+
             if not vtkobj:
-                return []
+                return [(self.empty_block_list_id, "Invalid input", "")]
+
             if not hasattr(vtkobj, "GetNumberOfBlocks") or not hasattr(vtkobj, "GetBlock"):
-                return []
+                return [(self.empty_block_list_id, "Invalid input object", "")]
+
             items = []
             meta_flag = True if hasattr(vtkobj, "GetMetaData") else False
+
             for i in range(vtkobj.GetNumberOfBlocks()):
                 block = vtkobj.GetBlock(i)
                 meta_data = vtkobj.GetMetaData(i) if meta_flag else None
+
                 if meta_data:
                     custom_name = meta_data.Get(vtk.vtkCompositeDataSet.NAME())
                     if not custom_name:
                         custom_name = ""
                 else:
                     custom_name = ""
+
                 name = "[" + str(i) + "]: " + custom_name + " (" + \
                        (block.__class__.__name__ if block else "Empty Block") + ")"
                 items.append((str(i), name, ""))
+
+            if not len(items):
+                return [(self.empty_block_list_id, "Empty list of blocks", "")]
+
             return items
 
     block = bpy.props.EnumProperty(items=blocks, name="Output block")
@@ -209,16 +228,20 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
         if not in_node:
             layout.label("Connect a node")
         elif not vtkobj:
-            layout.label("Input has not vtkobj (try updating)")
+            try_update_box(self, layout, "Input has not vtkobj (try updating).")
         else:
             vtkobj = resolve_algorithm_output(vtkobj)
+
             if not vtkobj:
                 return
+
             class_name = vtkobj.__class__.__name__
             layout.label("Input: "+class_name)
+
             if not hasattr(vtkobj, "GetNumberOfBlocks") or not hasattr(vtkobj, "GetBlock"):
-                layout.label("Input object does not contain multiple blocks of data")
+                question_box(layout, "Input object does not contain\nmultiple blocks of data.")
                 return
+
             layout.prop(self, "block")
 
     def apply_properties(self, vtkobj):
@@ -237,8 +260,9 @@ class BVTK_NT_MultiBlockLeaf(Node, BVTK_Node):
                 vtkobj = resolve_algorithm_output(vtkobj)
                 if vtkobj:
                     if hasattr(vtkobj, "GetNumberOfBlocks") or not hasattr(vtkobj, "GetBlock"):
-                        return vtkobj.GetBlock(int(self.block))
-        return None
+                        if self.block != self.empty_block_list_id:
+                            return vtkobj.GetBlock(int(self.block))
+        return vtkobj
 
 
 # ----------------------------------------------------------------
