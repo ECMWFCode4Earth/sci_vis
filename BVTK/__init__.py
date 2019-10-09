@@ -86,6 +86,16 @@ if not pip_installer.is_loaded("vtk"):
                    "Then close and reopen Blender. If it still doesn't work you can\n"
                    "open an issue on github: https://github.com/esowc/sci_vis/issues .\n"
                    .format(bpy.app.binary_path_python))
+
+        # Redirect to the troubleshooting web page
+        import urllib.parse
+        import webbrowser
+        params = urllib.parse.urlencode({
+            "python_path": bpy.app.binary_path_python,
+            "blender_path": bpy.app.binary_path
+        })
+        webbrowser.open("http://lorenzocelli.me/BVTK/troubleshooting/index.html?"+params)
+
         raise Exception(message)
 
 reloading = "bpy" in locals()
