@@ -658,7 +658,7 @@ class BVTK_OT_DistributeAlpha(bpy.types.Operator):
 # Generate color bar menus based on the directories in the color_ramps folder;
 # a menu is created for each folder; it will contain a button for each .cpt
 # file inside the said folder
-color_ramp_dir = addon_path+"color_ramps"
+color_ramp_dir = os.path.join(addon_path, "color_ramps")
 color_ramp_menus = []
 
 for dir_name in os.listdir(color_ramp_dir):

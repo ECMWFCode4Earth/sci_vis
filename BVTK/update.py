@@ -172,8 +172,8 @@ class BVTK_OT_FunctionQueue(bpy.types.Operator):
 
 
 out = vtk.vtkFileOutputWindow()
-logfile = b_path.rsplit('/', 1)[0]+'/vtklog.txt'
-open(logfile, 'w').write('')
+logfile = os.path.join(addon_path, "vtklog.txt")
+open(logfile, 'w').write("")
 out.SetFileName(logfile)
 vtk.vtkOutputWindow.SetInstance(out)
 
