@@ -429,7 +429,7 @@ def node_tree_from_py(context, py):
             if '=vtk.' in line:
                 a = line.split('=vtk.')
                 type = a[1].replace('()', '').replace('vtk', 'VTK') + 'Type'
-                if type in core.CLASSES:
+                if type in core.node_classes:
                     vtk_objs[a[0]] = nodes.new(type)
                     linked.append(vtk_objs[a[0]])
                 else:

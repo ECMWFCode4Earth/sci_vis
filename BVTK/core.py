@@ -396,24 +396,24 @@ class BVTK_Node:
 # -----------------------------------------------------------------------------
 
 
-CLASSES = {}  # dictionary of classes, used to allow class overriding
-UI_CLASSES = []
+node_classes = {}  # dictionary of classes, used to allow class overriding
+ui_classes = []
 p_collections = {}  # preview collections for custom icons (see colormap.py)
 
 
 def add_class(obj):
-    CLASSES[obj.bl_idname] = obj
+    node_classes[obj.bl_idname] = obj
 
 
 def add_ui_class(obj):
-    UI_CLASSES.append(obj)
+    ui_classes.append(obj)
 
 
 def check_b_properties():
     """Sets all boolean properties to True, unless correct number of properties
     is specified in b_properties
     """
-    for obj in CLASSES.values():
+    for obj in node_classes.values():
         if hasattr(obj, 'm_properties') and hasattr(obj, 'b_properties'):
             np = len(obj.m_properties(obj))
             name = obj.bl_idname
@@ -440,7 +440,7 @@ class BVTK_NodeCategory(NodeCategory):
         return context.space_data.tree_type == 'BVTK_NodeTree'
 
 
-CATEGORIES = []
+node_categories = []
 
 
 # -----------------------------------------------------------------------------

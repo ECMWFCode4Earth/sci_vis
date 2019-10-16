@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -24,7 +24,7 @@ class BVTK_NT_Transform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Transform)
-TYPENAMES.append('BVTK_NT_Transform' )
+type_names.append('BVTK_NT_Transform')
 
 
 # --------------------------------------------------------------
@@ -49,7 +49,7 @@ class BVTK_NT_MatrixToHomogeneousTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MatrixToHomogeneousTransform)
-TYPENAMES.append('BVTK_NT_MatrixToHomogeneousTransform' )
+type_names.append('BVTK_NT_MatrixToHomogeneousTransform')
 
 
 # --------------------------------------------------------------
@@ -80,7 +80,7 @@ class BVTK_NT_GridTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GridTransform)
-TYPENAMES.append('BVTK_NT_GridTransform' )
+type_names.append('BVTK_NT_GridTransform')
 
 
 # --------------------------------------------------------------
@@ -107,7 +107,7 @@ class BVTK_NT_SphericalTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SphericalTransform)
-TYPENAMES.append('BVTK_NT_SphericalTransform' )
+type_names.append('BVTK_NT_SphericalTransform')
 
 
 # --------------------------------------------------------------
@@ -139,7 +139,7 @@ class BVTK_NT_IterativeClosestPointTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_IterativeClosestPointTransform)
-TYPENAMES.append('BVTK_NT_IterativeClosestPointTransform' )
+type_names.append('BVTK_NT_IterativeClosestPointTransform')
 
 
 # --------------------------------------------------------------
@@ -164,7 +164,7 @@ class BVTK_NT_MatrixToLinearTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MatrixToLinearTransform)
-TYPENAMES.append('BVTK_NT_MatrixToLinearTransform' )
+type_names.append('BVTK_NT_MatrixToLinearTransform')
 
 
 # --------------------------------------------------------------
@@ -191,7 +191,7 @@ class BVTK_NT_LandmarkTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LandmarkTransform)
-TYPENAMES.append('BVTK_NT_LandmarkTransform' )
+type_names.append('BVTK_NT_LandmarkTransform')
 
 
 # --------------------------------------------------------------
@@ -216,7 +216,7 @@ class BVTK_NT_PerspectiveTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PerspectiveTransform)
-TYPENAMES.append('BVTK_NT_PerspectiveTransform' )
+type_names.append('BVTK_NT_PerspectiveTransform')
 
 
 # --------------------------------------------------------------
@@ -246,7 +246,7 @@ class BVTK_NT_ThinPlateSplineTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ThinPlateSplineTransform)
-TYPENAMES.append('BVTK_NT_ThinPlateSplineTransform' )
+type_names.append('BVTK_NT_ThinPlateSplineTransform')
 
 
 # --------------------------------------------------------------
@@ -271,7 +271,7 @@ class BVTK_NT_GeneralTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GeneralTransform)
-TYPENAMES.append('BVTK_NT_GeneralTransform' )
+type_names.append('BVTK_NT_GeneralTransform')
 
 
 # --------------------------------------------------------------
@@ -301,7 +301,7 @@ class BVTK_NT_BSplineTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BSplineTransform)
-TYPENAMES.append('BVTK_NT_BSplineTransform' )
+type_names.append('BVTK_NT_BSplineTransform')
 
 
 # --------------------------------------------------------------
@@ -328,7 +328,7 @@ class BVTK_NT_CylindricalTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CylindricalTransform)
-TYPENAMES.append('BVTK_NT_CylindricalTransform' )
+type_names.append('BVTK_NT_CylindricalTransform')
 
 
 # --------------------------------------------------------------
@@ -353,11 +353,11 @@ class BVTK_NT_IdentityTransform(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_IdentityTransform)
-TYPENAMES.append('BVTK_NT_IdentityTransform' )
+type_names.append('BVTK_NT_IdentityTransform')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKTransform', 'Transform', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKTransform', 'Transform', items=menu_items))

@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -30,7 +30,7 @@ class BVTK_NT_ImageCanvasSource2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageCanvasSource2D)
-TYPENAMES.append('BVTK_NT_ImageCanvasSource2D' )
+type_names.append('BVTK_NT_ImageCanvasSource2D')
 
 
 # --------------------------------------------------------------
@@ -64,7 +64,7 @@ class BVTK_NT_PSphereSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PSphereSource)
-TYPENAMES.append('BVTK_NT_PSphereSource' )
+type_names.append('BVTK_NT_PSphereSource')
 
 
 # --------------------------------------------------------------
@@ -93,7 +93,7 @@ class BVTK_NT_TextSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TextSource)
-TYPENAMES.append('BVTK_NT_TextSource' )
+type_names.append('BVTK_NT_TextSource')
 
 
 # --------------------------------------------------------------
@@ -131,7 +131,7 @@ class BVTK_NT_EllipticalButtonSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EllipticalButtonSource)
-TYPENAMES.append('BVTK_NT_EllipticalButtonSource' )
+type_names.append('BVTK_NT_EllipticalButtonSource')
 
 
 # --------------------------------------------------------------
@@ -163,7 +163,7 @@ class BVTK_NT_PlaneSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PlaneSource)
-TYPENAMES.append('BVTK_NT_PlaneSource' )
+type_names.append('BVTK_NT_PlaneSource')
 
 
 # --------------------------------------------------------------
@@ -196,7 +196,7 @@ class BVTK_NT_ImageGridSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageGridSource)
-TYPENAMES.append('BVTK_NT_ImageGridSource' )
+type_names.append('BVTK_NT_ImageGridSource')
 
 
 # --------------------------------------------------------------
@@ -228,7 +228,7 @@ class BVTK_NT_WindowToImageFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_WindowToImageFilter)
-TYPENAMES.append('BVTK_NT_WindowToImageFilter' )
+type_names.append('BVTK_NT_WindowToImageFilter')
 
 
 # --------------------------------------------------------------
@@ -258,7 +258,7 @@ class BVTK_NT_BoundedPointSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BoundedPointSource)
-TYPENAMES.append('BVTK_NT_BoundedPointSource' )
+type_names.append('BVTK_NT_BoundedPointSource')
 
 
 # --------------------------------------------------------------
@@ -285,7 +285,7 @@ class BVTK_NT_FrustumSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FrustumSource)
-TYPENAMES.append('BVTK_NT_FrustumSource' )
+type_names.append('BVTK_NT_FrustumSource')
 
 
 # --------------------------------------------------------------
@@ -314,7 +314,7 @@ class BVTK_NT_TimeSourceExample(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TimeSourceExample)
-TYPENAMES.append('BVTK_NT_TimeSourceExample' )
+type_names.append('BVTK_NT_TimeSourceExample')
 
 
 # --------------------------------------------------------------
@@ -342,7 +342,7 @@ class BVTK_NT_LineSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LineSource)
-TYPENAMES.append('BVTK_NT_LineSource' )
+type_names.append('BVTK_NT_LineSource')
 
 
 # --------------------------------------------------------------
@@ -376,7 +376,7 @@ class BVTK_NT_ArcSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArcSource)
-TYPENAMES.append('BVTK_NT_ArcSource' )
+type_names.append('BVTK_NT_ArcSource')
 
 
 # --------------------------------------------------------------
@@ -410,7 +410,7 @@ class BVTK_NT_Cursor3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Cursor3D)
-TYPENAMES.append('BVTK_NT_Cursor3D' )
+type_names.append('BVTK_NT_Cursor3D')
 
 
 # --------------------------------------------------------------
@@ -447,7 +447,7 @@ class BVTK_NT_RectangularButtonSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectangularButtonSource)
-TYPENAMES.append('BVTK_NT_RectangularButtonSource' )
+type_names.append('BVTK_NT_RectangularButtonSource')
 
 
 # --------------------------------------------------------------
@@ -477,7 +477,7 @@ class BVTK_NT_OutlineSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OutlineSource)
-TYPENAMES.append('BVTK_NT_OutlineSource' )
+type_names.append('BVTK_NT_OutlineSource')
 
 
 # --------------------------------------------------------------
@@ -509,7 +509,7 @@ class BVTK_NT_ImageMandelbrotSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMandelbrotSource)
-TYPENAMES.append('BVTK_NT_ImageMandelbrotSource' )
+type_names.append('BVTK_NT_ImageMandelbrotSource')
 
 
 # --------------------------------------------------------------
@@ -541,7 +541,7 @@ class BVTK_NT_ConeSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ConeSource)
-TYPENAMES.append('BVTK_NT_ConeSource' )
+type_names.append('BVTK_NT_ConeSource')
 
 
 # --------------------------------------------------------------
@@ -572,7 +572,7 @@ class BVTK_NT_RegularPolygonSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RegularPolygonSource)
-TYPENAMES.append('BVTK_NT_RegularPolygonSource' )
+type_names.append('BVTK_NT_RegularPolygonSource')
 
 
 # --------------------------------------------------------------
@@ -605,7 +605,7 @@ class BVTK_NT_Cursor2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Cursor2D)
-TYPENAMES.append('BVTK_NT_Cursor2D' )
+type_names.append('BVTK_NT_Cursor2D')
 
 
 # --------------------------------------------------------------
@@ -634,7 +634,7 @@ class BVTK_NT_ImageSinusoidSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageSinusoidSource)
-TYPENAMES.append('BVTK_NT_ImageSinusoidSource' )
+type_names.append('BVTK_NT_ImageSinusoidSource')
 
 
 # --------------------------------------------------------------
@@ -665,7 +665,7 @@ class BVTK_NT_LassoStencilSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LassoStencilSource)
-TYPENAMES.append('BVTK_NT_LassoStencilSource' )
+type_names.append('BVTK_NT_LassoStencilSource')
 
 
 # --------------------------------------------------------------
@@ -699,7 +699,7 @@ class BVTK_NT_SphereSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SphereSource)
-TYPENAMES.append('BVTK_NT_SphereSource' )
+type_names.append('BVTK_NT_SphereSource')
 
 
 # --------------------------------------------------------------
@@ -731,7 +731,7 @@ class BVTK_NT_DiagonalMatrixSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DiagonalMatrixSource)
-TYPENAMES.append('BVTK_NT_DiagonalMatrixSource' )
+type_names.append('BVTK_NT_DiagonalMatrixSource')
 
 
 # --------------------------------------------------------------
@@ -761,7 +761,7 @@ class BVTK_NT_TransformToGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransformToGrid)
-TYPENAMES.append('BVTK_NT_TransformToGrid' )
+type_names.append('BVTK_NT_TransformToGrid')
 
 
 # --------------------------------------------------------------
@@ -793,7 +793,7 @@ class BVTK_NT_ParametricFunctionSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricFunctionSource)
-TYPENAMES.append('BVTK_NT_ParametricFunctionSource' )
+type_names.append('BVTK_NT_ParametricFunctionSource')
 
 
 # --------------------------------------------------------------
@@ -825,7 +825,7 @@ class BVTK_NT_EllipseArcSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EllipseArcSource)
-TYPENAMES.append('BVTK_NT_EllipseArcSource' )
+type_names.append('BVTK_NT_EllipseArcSource')
 
 
 # --------------------------------------------------------------
@@ -851,7 +851,7 @@ class BVTK_NT_SpherePuzzleArrows(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SpherePuzzleArrows)
-TYPENAMES.append('BVTK_NT_SpherePuzzleArrows' )
+type_names.append('BVTK_NT_SpherePuzzleArrows')
 
 
 # --------------------------------------------------------------
@@ -880,7 +880,7 @@ class BVTK_NT_CubeSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CubeSource)
-TYPENAMES.append('BVTK_NT_CubeSource' )
+type_names.append('BVTK_NT_CubeSource')
 
 
 # --------------------------------------------------------------
@@ -906,7 +906,7 @@ class BVTK_NT_DataObjectGenerator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataObjectGenerator)
-TYPENAMES.append('BVTK_NT_DataObjectGenerator' )
+type_names.append('BVTK_NT_DataObjectGenerator')
 
 
 # --------------------------------------------------------------
@@ -935,7 +935,7 @@ class BVTK_NT_DiskSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DiskSource)
-TYPENAMES.append('BVTK_NT_DiskSource' )
+type_names.append('BVTK_NT_DiskSource')
 
 
 # --------------------------------------------------------------
@@ -966,7 +966,7 @@ class BVTK_NT_ArrowSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArrowSource)
-TYPENAMES.append('BVTK_NT_ArrowSource' )
+type_names.append('BVTK_NT_ArrowSource')
 
 
 # --------------------------------------------------------------
@@ -995,7 +995,7 @@ class BVTK_NT_TessellatedBoxSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TessellatedBoxSource)
-TYPENAMES.append('BVTK_NT_TessellatedBoxSource' )
+type_names.append('BVTK_NT_TessellatedBoxSource')
 
 
 # --------------------------------------------------------------
@@ -1025,7 +1025,7 @@ class BVTK_NT_TexturedSphereSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TexturedSphereSource)
-TYPENAMES.append('BVTK_NT_TexturedSphereSource' )
+type_names.append('BVTK_NT_TexturedSphereSource')
 
 
 # --------------------------------------------------------------
@@ -1054,7 +1054,7 @@ class BVTK_NT_ImplicitFunctionToImageStencil(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitFunctionToImageStencil)
-TYPENAMES.append('BVTK_NT_ImplicitFunctionToImageStencil' )
+type_names.append('BVTK_NT_ImplicitFunctionToImageStencil')
 
 
 # --------------------------------------------------------------
@@ -1079,7 +1079,7 @@ class BVTK_NT_ProgrammableDataObjectSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProgrammableDataObjectSource)
-TYPENAMES.append('BVTK_NT_ProgrammableDataObjectSource' )
+type_names.append('BVTK_NT_ProgrammableDataObjectSource')
 
 
 # --------------------------------------------------------------
@@ -1105,7 +1105,7 @@ class BVTK_NT_VectorText(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VectorText)
-TYPENAMES.append('BVTK_NT_VectorText' )
+type_names.append('BVTK_NT_VectorText')
 
 
 # --------------------------------------------------------------
@@ -1136,7 +1136,7 @@ class BVTK_NT_CellTypeSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CellTypeSource)
-TYPENAMES.append('BVTK_NT_CellTypeSource' )
+type_names.append('BVTK_NT_CellTypeSource')
 
 
 # --------------------------------------------------------------
@@ -1170,7 +1170,7 @@ class BVTK_NT_TemporalFractal(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TemporalFractal)
-TYPENAMES.append('BVTK_NT_TemporalFractal' )
+type_names.append('BVTK_NT_TemporalFractal')
 
 
 # --------------------------------------------------------------
@@ -1205,7 +1205,7 @@ class BVTK_NT_SelectionSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SelectionSource)
-TYPENAMES.append('BVTK_NT_SelectionSource' )
+type_names.append('BVTK_NT_SelectionSource')
 
 
 # --------------------------------------------------------------
@@ -1236,7 +1236,7 @@ class BVTK_NT_ROIStencilSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ROIStencilSource)
-TYPENAMES.append('BVTK_NT_ROIStencilSource' )
+type_names.append('BVTK_NT_ROIStencilSource')
 
 
 # --------------------------------------------------------------
@@ -1261,7 +1261,7 @@ class BVTK_NT_SpherePuzzle(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SpherePuzzle)
-TYPENAMES.append('BVTK_NT_SpherePuzzle' )
+type_names.append('BVTK_NT_SpherePuzzle')
 
 
 # --------------------------------------------------------------
@@ -1297,7 +1297,7 @@ class BVTK_NT_GlyphSource2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GlyphSource2D)
-TYPENAMES.append('BVTK_NT_GlyphSource2D' )
+type_names.append('BVTK_NT_GlyphSource2D')
 
 
 # --------------------------------------------------------------
@@ -1324,7 +1324,7 @@ class BVTK_NT_PlatonicSolidSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PlatonicSolidSource)
-TYPENAMES.append('BVTK_NT_PlatonicSolidSource' )
+type_names.append('BVTK_NT_PlatonicSolidSource')
 
 
 # --------------------------------------------------------------
@@ -1353,7 +1353,7 @@ class BVTK_NT_TriangularTexture(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TriangularTexture)
-TYPENAMES.append('BVTK_NT_TriangularTexture' )
+type_names.append('BVTK_NT_TriangularTexture')
 
 
 # --------------------------------------------------------------
@@ -1390,7 +1390,7 @@ class BVTK_NT_BooleanTexture(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BooleanTexture)
-TYPENAMES.append('BVTK_NT_BooleanTexture' )
+type_names.append('BVTK_NT_BooleanTexture')
 
 
 # --------------------------------------------------------------
@@ -1415,7 +1415,7 @@ class BVTK_NT_RowQueryToTable(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RowQueryToTable)
-TYPENAMES.append('BVTK_NT_RowQueryToTable' )
+type_names.append('BVTK_NT_RowQueryToTable')
 
 
 # --------------------------------------------------------------
@@ -1445,7 +1445,7 @@ class BVTK_NT_PointLoad(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PointLoad)
-TYPENAMES.append('BVTK_NT_PointLoad' )
+type_names.append('BVTK_NT_PointLoad')
 
 
 # --------------------------------------------------------------
@@ -1479,7 +1479,7 @@ class BVTK_NT_SampleFunction(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SampleFunction)
-TYPENAMES.append('BVTK_NT_SampleFunction' )
+type_names.append('BVTK_NT_SampleFunction')
 
 
 # --------------------------------------------------------------
@@ -1507,7 +1507,7 @@ class BVTK_NT_EarthSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EarthSource)
-TYPENAMES.append('BVTK_NT_EarthSource' )
+type_names.append('BVTK_NT_EarthSource')
 
 
 # --------------------------------------------------------------
@@ -1537,7 +1537,7 @@ class BVTK_NT_PointSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PointSource)
-TYPENAMES.append('BVTK_NT_PointSource' )
+type_names.append('BVTK_NT_PointSource')
 
 
 # --------------------------------------------------------------
@@ -1564,7 +1564,7 @@ class BVTK_NT_PolyLineSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyLineSource)
-TYPENAMES.append('BVTK_NT_PolyLineSource' )
+type_names.append('BVTK_NT_PolyLineSource')
 
 
 # --------------------------------------------------------------
@@ -1599,7 +1599,7 @@ class BVTK_NT_RTAnalyticSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RTAnalyticSource)
-TYPENAMES.append('BVTK_NT_RTAnalyticSource' )
+type_names.append('BVTK_NT_RTAnalyticSource')
 
 
 # --------------------------------------------------------------
@@ -1627,7 +1627,7 @@ class BVTK_NT_ImageGaussianSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageGaussianSource)
-TYPENAMES.append('BVTK_NT_ImageGaussianSource' )
+type_names.append('BVTK_NT_ImageGaussianSource')
 
 
 # --------------------------------------------------------------
@@ -1658,7 +1658,7 @@ class BVTK_NT_ImageImport(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageImport)
-TYPENAMES.append('BVTK_NT_ImageImport' )
+type_names.append('BVTK_NT_ImageImport')
 
 
 # --------------------------------------------------------------
@@ -1690,7 +1690,7 @@ class BVTK_NT_SectorSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SectorSource)
-TYPENAMES.append('BVTK_NT_SectorSource' )
+type_names.append('BVTK_NT_SectorSource')
 
 
 # --------------------------------------------------------------
@@ -1717,7 +1717,7 @@ class BVTK_NT_ImageNoiseSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageNoiseSource)
-TYPENAMES.append('BVTK_NT_ImageNoiseSource' )
+type_names.append('BVTK_NT_ImageNoiseSource')
 
 
 # --------------------------------------------------------------
@@ -1745,7 +1745,7 @@ class BVTK_NT_AMRGaussianPulseSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMRGaussianPulseSource)
-TYPENAMES.append('BVTK_NT_AMRGaussianPulseSource' )
+type_names.append('BVTK_NT_AMRGaussianPulseSource')
 
 
 # --------------------------------------------------------------
@@ -1784,7 +1784,7 @@ class BVTK_NT_VideoSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VideoSource)
-TYPENAMES.append('BVTK_NT_VideoSource' )
+type_names.append('BVTK_NT_VideoSource')
 
 
 # --------------------------------------------------------------
@@ -1813,7 +1813,7 @@ class BVTK_NT_Axes(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Axes)
-TYPENAMES.append('BVTK_NT_Axes' )
+type_names.append('BVTK_NT_Axes')
 
 
 # --------------------------------------------------------------
@@ -1843,7 +1843,7 @@ class BVTK_NT_CylinderSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CylinderSource)
-TYPENAMES.append('BVTK_NT_CylinderSource' )
+type_names.append('BVTK_NT_CylinderSource')
 
 
 # --------------------------------------------------------------
@@ -1872,7 +1872,7 @@ class BVTK_NT_SQLDatabaseTableSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SQLDatabaseTableSource)
-TYPENAMES.append('BVTK_NT_SQLDatabaseTableSource' )
+type_names.append('BVTK_NT_SQLDatabaseTableSource')
 
 
 # --------------------------------------------------------------
@@ -1897,7 +1897,7 @@ class BVTK_NT_TrivialProducer(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TrivialProducer)
-TYPENAMES.append('BVTK_NT_TrivialProducer' )
+type_names.append('BVTK_NT_TrivialProducer')
 
 
 # --------------------------------------------------------------
@@ -1932,7 +1932,7 @@ class BVTK_NT_SuperquadricSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SuperquadricSource)
-TYPENAMES.append('BVTK_NT_SuperquadricSource' )
+type_names.append('BVTK_NT_SuperquadricSource')
 
 
 # --------------------------------------------------------------
@@ -1958,7 +1958,7 @@ class BVTK_NT_EnsembleSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EnsembleSource)
-TYPENAMES.append('BVTK_NT_EnsembleSource' )
+type_names.append('BVTK_NT_EnsembleSource')
 
 
 # --------------------------------------------------------------
@@ -1989,7 +1989,7 @@ class BVTK_NT_ImageEllipsoidSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageEllipsoidSource)
-TYPENAMES.append('BVTK_NT_ImageEllipsoidSource' )
+type_names.append('BVTK_NT_ImageEllipsoidSource')
 
 
 # --------------------------------------------------------------
@@ -2027,7 +2027,7 @@ class BVTK_NT_HyperTreeGridSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridSource)
-TYPENAMES.append('BVTK_NT_HyperTreeGridSource' )
+type_names.append('BVTK_NT_HyperTreeGridSource')
 
 
 # --------------------------------------------------------------
@@ -2058,11 +2058,11 @@ class BVTK_NT_OutlineCornerSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OutlineCornerSource)
-TYPENAMES.append('BVTK_NT_OutlineCornerSource' )
+type_names.append('BVTK_NT_OutlineCornerSource')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKSource', 'Source', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKSource', 'Source', items=menu_items))

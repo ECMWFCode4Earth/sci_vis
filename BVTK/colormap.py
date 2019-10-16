@@ -844,4 +844,4 @@ add_ui_class(BVTK_OT_DistributeAlpha)
 add_ui_class(BVTK_MT_ColorRamps)
 
 menu_items = [NodeItem(x) for x in TYPENAMES]
-CATEGORIES.append(BVTK_NodeCategory("Colour", "Colour", items=menu_items))
+node_categories.append(BVTK_NodeCategory("Colour", "Colour", items=menu_items))

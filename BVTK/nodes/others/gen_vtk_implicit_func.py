@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -25,7 +25,7 @@ class BVTK_NT_Cone(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Cone)
-TYPENAMES.append('BVTK_NT_Cone' )
+type_names.append('BVTK_NT_Cone')
 
 
 # --------------------------------------------------------------
@@ -57,7 +57,7 @@ class BVTK_NT_Superquadric(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Superquadric)
-TYPENAMES.append('BVTK_NT_Superquadric' )
+type_names.append('BVTK_NT_Superquadric')
 
 
 # --------------------------------------------------------------
@@ -82,7 +82,7 @@ class BVTK_NT_Planes(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Planes)
-TYPENAMES.append('BVTK_NT_Planes' )
+type_names.append('BVTK_NT_Planes')
 
 
 # --------------------------------------------------------------
@@ -108,7 +108,7 @@ class BVTK_NT_ImplicitSum(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitSum)
-TYPENAMES.append('BVTK_NT_ImplicitSum' )
+type_names.append('BVTK_NT_ImplicitSum')
 
 
 # --------------------------------------------------------------
@@ -137,7 +137,7 @@ class BVTK_NT_ImplicitPolyDataDistance(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitPolyDataDistance)
-TYPENAMES.append('BVTK_NT_ImplicitPolyDataDistance' )
+type_names.append('BVTK_NT_ImplicitPolyDataDistance')
 
 
 # --------------------------------------------------------------
@@ -164,7 +164,7 @@ class BVTK_NT_ImplicitSelectionLoop(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitSelectionLoop)
-TYPENAMES.append('BVTK_NT_ImplicitSelectionLoop' )
+type_names.append('BVTK_NT_ImplicitSelectionLoop')
 
 
 # --------------------------------------------------------------
@@ -191,7 +191,7 @@ class BVTK_NT_ImplicitDataSet(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitDataSet)
-TYPENAMES.append('BVTK_NT_ImplicitDataSet' )
+type_names.append('BVTK_NT_ImplicitDataSet')
 
 
 # --------------------------------------------------------------
@@ -218,7 +218,7 @@ class BVTK_NT_ImplicitBoolean(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitBoolean)
-TYPENAMES.append('BVTK_NT_ImplicitBoolean' )
+type_names.append('BVTK_NT_ImplicitBoolean')
 
 
 # --------------------------------------------------------------
@@ -244,7 +244,7 @@ class BVTK_NT_Box(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Box)
-TYPENAMES.append('BVTK_NT_Box' )
+type_names.append('BVTK_NT_Box')
 
 
 # --------------------------------------------------------------
@@ -271,7 +271,7 @@ class BVTK_NT_Plane(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Plane)
-TYPENAMES.append('BVTK_NT_Plane' )
+type_names.append('BVTK_NT_Plane')
 
 
 # --------------------------------------------------------------
@@ -297,7 +297,7 @@ class BVTK_NT_Quadric(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Quadric)
-TYPENAMES.append('BVTK_NT_Quadric' )
+type_names.append('BVTK_NT_Quadric')
 
 
 # --------------------------------------------------------------
@@ -324,7 +324,7 @@ class BVTK_NT_Sphere(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Sphere)
-TYPENAMES.append('BVTK_NT_Sphere' )
+type_names.append('BVTK_NT_Sphere')
 
 
 # --------------------------------------------------------------
@@ -352,7 +352,7 @@ class BVTK_NT_Cylinder(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Cylinder)
-TYPENAMES.append('BVTK_NT_Cylinder' )
+type_names.append('BVTK_NT_Cylinder')
 
 
 # --------------------------------------------------------------
@@ -379,7 +379,7 @@ class BVTK_NT_ImplicitWindowFunction(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitWindowFunction)
-TYPENAMES.append('BVTK_NT_ImplicitWindowFunction' )
+type_names.append('BVTK_NT_ImplicitWindowFunction')
 
 
 # --------------------------------------------------------------
@@ -407,7 +407,7 @@ class BVTK_NT_ImplicitHalo(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitHalo)
-TYPENAMES.append('BVTK_NT_ImplicitHalo' )
+type_names.append('BVTK_NT_ImplicitHalo')
 
 
 # --------------------------------------------------------------
@@ -434,7 +434,7 @@ class BVTK_NT_ImplicitVolume(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitVolume)
-TYPENAMES.append('BVTK_NT_ImplicitVolume' )
+type_names.append('BVTK_NT_ImplicitVolume')
 
 
 # --------------------------------------------------------------
@@ -459,7 +459,7 @@ class BVTK_NT_PlanesIntersection(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PlanesIntersection)
-TYPENAMES.append('BVTK_NT_PlanesIntersection' )
+type_names.append('BVTK_NT_PlanesIntersection')
 
 
 # --------------------------------------------------------------
@@ -484,7 +484,7 @@ class BVTK_NT_PolyPlane(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyPlane)
-TYPENAMES.append('BVTK_NT_PolyPlane' )
+type_names.append('BVTK_NT_PolyPlane')
 
 
 # --------------------------------------------------------------
@@ -512,11 +512,11 @@ class BVTK_NT_PerlinNoise(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PerlinNoise)
-TYPENAMES.append('BVTK_NT_PerlinNoise' )
+type_names.append('BVTK_NT_PerlinNoise')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKImplicitFunc', 'ImplicitFunc', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKImplicitFunc', 'ImplicitFunc', items=menu_items))

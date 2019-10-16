@@ -576,4 +576,4 @@ add_ui_class(BVTK_OT_FreeBake)
 
 
 menu_items = [NodeItem(x) for x in TYPENAMES]
-CATEGORIES.append(BVTK_NodeCategory("Custom", "Custom", items=menu_items))
+node_categories.append(BVTK_NodeCategory("Custom", "Custom", items=menu_items))

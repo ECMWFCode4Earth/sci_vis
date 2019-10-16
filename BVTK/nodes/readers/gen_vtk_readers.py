@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -29,7 +29,7 @@ class BVTK_NT_XMLStructuredGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLStructuredGridReader)
-TYPENAMES.append('BVTK_NT_XMLStructuredGridReader' )
+type_names.append('BVTK_NT_XMLStructuredGridReader')
 
 
 # --------------------------------------------------------------
@@ -71,7 +71,7 @@ class BVTK_NT_DataObjectReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataObjectReader)
-TYPENAMES.append('BVTK_NT_DataObjectReader' )
+type_names.append('BVTK_NT_DataObjectReader')
 
 
 # --------------------------------------------------------------
@@ -113,7 +113,7 @@ class BVTK_NT_BiomTableReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BiomTableReader)
-TYPENAMES.append('BVTK_NT_BiomTableReader' )
+type_names.append('BVTK_NT_BiomTableReader')
 
 
 # --------------------------------------------------------------
@@ -141,7 +141,7 @@ class BVTK_NT_DEMReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DEMReader)
-TYPENAMES.append('BVTK_NT_DEMReader' )
+type_names.append('BVTK_NT_DEMReader')
 
 
 # --------------------------------------------------------------
@@ -185,7 +185,7 @@ class BVTK_NT_MultiBlockPLOT3DReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MultiBlockPLOT3DReader)
-TYPENAMES.append('BVTK_NT_MultiBlockPLOT3DReader' )
+type_names.append('BVTK_NT_MultiBlockPLOT3DReader')
 
 
 # --------------------------------------------------------------
@@ -227,7 +227,7 @@ class BVTK_NT_GenericDataObjectReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericDataObjectReader)
-TYPENAMES.append('BVTK_NT_GenericDataObjectReader' )
+type_names.append('BVTK_NT_GenericDataObjectReader')
 
 
 # --------------------------------------------------------------
@@ -263,7 +263,7 @@ class BVTK_NT_OpenFOAMReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OpenFOAMReader)
-TYPENAMES.append('BVTK_NT_OpenFOAMReader' )
+type_names.append('BVTK_NT_OpenFOAMReader')
 
 
 # --------------------------------------------------------------
@@ -305,7 +305,7 @@ class BVTK_NT_TableReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TableReader)
-TYPENAMES.append('BVTK_NT_TableReader' )
+type_names.append('BVTK_NT_TableReader')
 
 
 # --------------------------------------------------------------
@@ -347,7 +347,7 @@ class BVTK_NT_DataSetReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetReader)
-TYPENAMES.append('BVTK_NT_DataSetReader' )
+type_names.append('BVTK_NT_DataSetReader')
 
 
 # --------------------------------------------------------------
@@ -389,7 +389,7 @@ class BVTK_NT_ImageReader2(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageReader2)
-TYPENAMES.append('BVTK_NT_ImageReader2' )
+type_names.append('BVTK_NT_ImageReader2')
 
 
 # --------------------------------------------------------------
@@ -415,7 +415,7 @@ class BVTK_NT_SimplePointsReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SimplePointsReader)
-TYPENAMES.append('BVTK_NT_SimplePointsReader' )
+type_names.append('BVTK_NT_SimplePointsReader')
 
 
 # --------------------------------------------------------------
@@ -444,7 +444,7 @@ class BVTK_NT_XMLPImageDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPImageDataReader)
-TYPENAMES.append('BVTK_NT_XMLPImageDataReader' )
+type_names.append('BVTK_NT_XMLPImageDataReader')
 
 
 # --------------------------------------------------------------
@@ -471,7 +471,7 @@ class BVTK_NT_ProStarReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProStarReader)
-TYPENAMES.append('BVTK_NT_ProStarReader' )
+type_names.append('BVTK_NT_ProStarReader')
 
 
 # --------------------------------------------------------------
@@ -500,7 +500,7 @@ class BVTK_NT_PSLACReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PSLACReader)
-TYPENAMES.append('BVTK_NT_PSLACReader' )
+type_names.append('BVTK_NT_PSLACReader')
 
 
 # --------------------------------------------------------------
@@ -526,7 +526,7 @@ class BVTK_NT_FacetReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FacetReader)
-TYPENAMES.append('BVTK_NT_FacetReader' )
+type_names.append('BVTK_NT_FacetReader')
 
 
 # --------------------------------------------------------------
@@ -575,7 +575,7 @@ class BVTK_NT_GESignaReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GESignaReader)
-TYPENAMES.append('BVTK_NT_GESignaReader' )
+type_names.append('BVTK_NT_GESignaReader')
 
 
 # --------------------------------------------------------------
@@ -608,7 +608,7 @@ class BVTK_NT_MCubesReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MCubesReader)
-TYPENAMES.append('BVTK_NT_MCubesReader' )
+type_names.append('BVTK_NT_MCubesReader')
 
 
 # --------------------------------------------------------------
@@ -633,7 +633,7 @@ class BVTK_NT_TecplotReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TecplotReader)
-TYPENAMES.append('BVTK_NT_TecplotReader' )
+type_names.append('BVTK_NT_TecplotReader')
 
 
 # --------------------------------------------------------------
@@ -659,7 +659,7 @@ class BVTK_NT_MNITransformReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MNITransformReader)
-TYPENAMES.append('BVTK_NT_MNITransformReader' )
+type_names.append('BVTK_NT_MNITransformReader')
 
 
 # --------------------------------------------------------------
@@ -688,7 +688,7 @@ class BVTK_NT_RTXMLPolyDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RTXMLPolyDataReader)
-TYPENAMES.append('BVTK_NT_RTXMLPolyDataReader' )
+type_names.append('BVTK_NT_RTXMLPolyDataReader')
 
 
 # --------------------------------------------------------------
@@ -716,7 +716,7 @@ class BVTK_NT_RISReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RISReader)
-TYPENAMES.append('BVTK_NT_RISReader' )
+type_names.append('BVTK_NT_RISReader')
 
 
 # --------------------------------------------------------------
@@ -742,7 +742,7 @@ class BVTK_NT_VASPTessellationReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VASPTessellationReader)
-TYPENAMES.append('BVTK_NT_VASPTessellationReader' )
+type_names.append('BVTK_NT_VASPTessellationReader')
 
 
 # --------------------------------------------------------------
@@ -784,7 +784,7 @@ class BVTK_NT_MultiNewickTreeReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MultiNewickTreeReader)
-TYPENAMES.append('BVTK_NT_MultiNewickTreeReader' )
+type_names.append('BVTK_NT_MultiNewickTreeReader')
 
 
 # --------------------------------------------------------------
@@ -810,7 +810,7 @@ class BVTK_NT_PLYReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PLYReader)
-TYPENAMES.append('BVTK_NT_PLYReader' )
+type_names.append('BVTK_NT_PLYReader')
 
 
 # --------------------------------------------------------------
@@ -853,7 +853,7 @@ class BVTK_NT_ExodusIIReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExodusIIReader)
-TYPENAMES.append('BVTK_NT_ExodusIIReader' )
+type_names.append('BVTK_NT_ExodusIIReader')
 
 
 # --------------------------------------------------------------
@@ -885,7 +885,7 @@ class BVTK_NT_ParticleReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParticleReader)
-TYPENAMES.append('BVTK_NT_ParticleReader' )
+type_names.append('BVTK_NT_ParticleReader')
 
 
 # --------------------------------------------------------------
@@ -927,7 +927,7 @@ class BVTK_NT_StructuredGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridReader)
-TYPENAMES.append('BVTK_NT_StructuredGridReader' )
+type_names.append('BVTK_NT_StructuredGridReader')
 
 
 # --------------------------------------------------------------
@@ -972,7 +972,7 @@ class BVTK_NT_ImageReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageReader)
-TYPENAMES.append('BVTK_NT_ImageReader' )
+type_names.append('BVTK_NT_ImageReader')
 
 
 # --------------------------------------------------------------
@@ -1001,7 +1001,7 @@ class BVTK_NT_XMLGenericDataObjectReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLGenericDataObjectReader)
-TYPENAMES.append('BVTK_NT_XMLGenericDataObjectReader' )
+type_names.append('BVTK_NT_XMLGenericDataObjectReader')
 
 
 # --------------------------------------------------------------
@@ -1043,7 +1043,7 @@ class BVTK_NT_UnstructuredGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UnstructuredGridReader)
-TYPENAMES.append('BVTK_NT_UnstructuredGridReader' )
+type_names.append('BVTK_NT_UnstructuredGridReader')
 
 
 # --------------------------------------------------------------
@@ -1085,7 +1085,7 @@ class BVTK_NT_PolyDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataReader)
-TYPENAMES.append('BVTK_NT_PolyDataReader' )
+type_names.append('BVTK_NT_PolyDataReader')
 
 
 # --------------------------------------------------------------
@@ -1136,7 +1136,7 @@ class BVTK_NT_DelimitedTextReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DelimitedTextReader)
-TYPENAMES.append('BVTK_NT_DelimitedTextReader' )
+type_names.append('BVTK_NT_DelimitedTextReader')
 
 
 # --------------------------------------------------------------
@@ -1178,7 +1178,7 @@ class BVTK_NT_DataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataReader)
-TYPENAMES.append('BVTK_NT_DataReader' )
+type_names.append('BVTK_NT_DataReader')
 
 
 # --------------------------------------------------------------
@@ -1220,7 +1220,7 @@ class BVTK_NT_CompositeDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CompositeDataReader)
-TYPENAMES.append('BVTK_NT_CompositeDataReader' )
+type_names.append('BVTK_NT_CompositeDataReader')
 
 
 # --------------------------------------------------------------
@@ -1249,7 +1249,7 @@ class BVTK_NT_AVSucdReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AVSucdReader)
-TYPENAMES.append('BVTK_NT_AVSucdReader' )
+type_names.append('BVTK_NT_AVSucdReader')
 
 
 # --------------------------------------------------------------
@@ -1291,7 +1291,7 @@ class BVTK_NT_GraphReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphReader)
-TYPENAMES.append('BVTK_NT_GraphReader' )
+type_names.append('BVTK_NT_GraphReader')
 
 
 # --------------------------------------------------------------
@@ -1317,7 +1317,7 @@ class BVTK_NT_MNIObjectReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MNIObjectReader)
-TYPENAMES.append('BVTK_NT_MNIObjectReader' )
+type_names.append('BVTK_NT_MNIObjectReader')
 
 
 # --------------------------------------------------------------
@@ -1359,7 +1359,7 @@ class BVTK_NT_RectilinearGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridReader)
-TYPENAMES.append('BVTK_NT_RectilinearGridReader' )
+type_names.append('BVTK_NT_RectilinearGridReader')
 
 
 # --------------------------------------------------------------
@@ -1387,7 +1387,7 @@ class BVTK_NT_ArrayDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArrayDataReader)
-TYPENAMES.append('BVTK_NT_ArrayDataReader' )
+type_names.append('BVTK_NT_ArrayDataReader')
 
 
 # --------------------------------------------------------------
@@ -1423,7 +1423,7 @@ class BVTK_NT_Volume16Reader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Volume16Reader)
-TYPENAMES.append('BVTK_NT_Volume16Reader' )
+type_names.append('BVTK_NT_Volume16Reader')
 
 
 # --------------------------------------------------------------
@@ -1449,7 +1449,7 @@ class BVTK_NT_Plot3DMetaReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Plot3DMetaReader)
-TYPENAMES.append('BVTK_NT_Plot3DMetaReader' )
+type_names.append('BVTK_NT_Plot3DMetaReader')
 
 
 # --------------------------------------------------------------
@@ -1475,7 +1475,7 @@ class BVTK_NT_XYZMolReader2(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XYZMolReader2)
-TYPENAMES.append('BVTK_NT_XYZMolReader2' )
+type_names.append('BVTK_NT_XYZMolReader2')
 
 
 # --------------------------------------------------------------
@@ -1502,7 +1502,7 @@ class BVTK_NT_AMRFlashReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMRFlashReader)
-TYPENAMES.append('BVTK_NT_AMRFlashReader' )
+type_names.append('BVTK_NT_AMRFlashReader')
 
 
 # --------------------------------------------------------------
@@ -1536,7 +1536,7 @@ class BVTK_NT_XMLTreeReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLTreeReader)
-TYPENAMES.append('BVTK_NT_XMLTreeReader' )
+type_names.append('BVTK_NT_XMLTreeReader')
 
 
 # --------------------------------------------------------------
@@ -1580,7 +1580,7 @@ class BVTK_NT_NIFTIImageReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NIFTIImageReader)
-TYPENAMES.append('BVTK_NT_NIFTIImageReader' )
+type_names.append('BVTK_NT_NIFTIImageReader')
 
 
 # --------------------------------------------------------------
@@ -1611,7 +1611,7 @@ class BVTK_NT_XMLUniformGridAMRReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLUniformGridAMRReader)
-TYPENAMES.append('BVTK_NT_XMLUniformGridAMRReader' )
+type_names.append('BVTK_NT_XMLUniformGridAMRReader')
 
 
 # --------------------------------------------------------------
@@ -1641,7 +1641,7 @@ class BVTK_NT_XMLMultiGroupDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLMultiGroupDataReader)
-TYPENAMES.append('BVTK_NT_XMLMultiGroupDataReader' )
+type_names.append('BVTK_NT_XMLMultiGroupDataReader')
 
 
 # --------------------------------------------------------------
@@ -1669,7 +1669,7 @@ class BVTK_NT_MFIXReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MFIXReader)
-TYPENAMES.append('BVTK_NT_MFIXReader' )
+type_names.append('BVTK_NT_MFIXReader')
 
 
 # --------------------------------------------------------------
@@ -1701,7 +1701,7 @@ class BVTK_NT_EnSightGoldBinaryReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EnSightGoldBinaryReader)
-TYPENAMES.append('BVTK_NT_EnSightGoldBinaryReader' )
+type_names.append('BVTK_NT_EnSightGoldBinaryReader')
 
 
 # --------------------------------------------------------------
@@ -1750,7 +1750,7 @@ class BVTK_NT_MedicalImageReader2(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MedicalImageReader2)
-TYPENAMES.append('BVTK_NT_MedicalImageReader2' )
+type_names.append('BVTK_NT_MedicalImageReader2')
 
 
 # --------------------------------------------------------------
@@ -1776,7 +1776,7 @@ class BVTK_NT_GAMBITReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GAMBITReader)
-TYPENAMES.append('BVTK_NT_GAMBITReader' )
+type_names.append('BVTK_NT_GAMBITReader')
 
 
 # --------------------------------------------------------------
@@ -1806,7 +1806,7 @@ class BVTK_NT_XMLHierarchicalDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLHierarchicalDataReader)
-TYPENAMES.append('BVTK_NT_XMLHierarchicalDataReader' )
+type_names.append('BVTK_NT_XMLHierarchicalDataReader')
 
 
 # --------------------------------------------------------------
@@ -1833,7 +1833,7 @@ class BVTK_NT_WindBladeReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_WindBladeReader)
-TYPENAMES.append('BVTK_NT_WindBladeReader' )
+type_names.append('BVTK_NT_WindBladeReader')
 
 
 # --------------------------------------------------------------
@@ -1879,7 +1879,7 @@ class BVTK_NT_BMPReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BMPReader)
-TYPENAMES.append('BVTK_NT_BMPReader' )
+type_names.append('BVTK_NT_BMPReader')
 
 
 # --------------------------------------------------------------
@@ -1907,7 +1907,7 @@ class BVTK_NT_ArrayReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArrayReader)
-TYPENAMES.append('BVTK_NT_ArrayReader' )
+type_names.append('BVTK_NT_ArrayReader')
 
 
 # --------------------------------------------------------------
@@ -1949,7 +1949,7 @@ class BVTK_NT_StructuredPointsReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredPointsReader)
-TYPENAMES.append('BVTK_NT_StructuredPointsReader' )
+type_names.append('BVTK_NT_StructuredPointsReader')
 
 
 # --------------------------------------------------------------
@@ -1991,7 +1991,7 @@ class BVTK_NT_MetaImageReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MetaImageReader)
-TYPENAMES.append('BVTK_NT_MetaImageReader' )
+type_names.append('BVTK_NT_MetaImageReader')
 
 
 # --------------------------------------------------------------
@@ -2023,7 +2023,7 @@ class BVTK_NT_EnSight6Reader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EnSight6Reader)
-TYPENAMES.append('BVTK_NT_EnSight6Reader' )
+type_names.append('BVTK_NT_EnSight6Reader')
 
 
 # --------------------------------------------------------------
@@ -2056,7 +2056,7 @@ class BVTK_NT_PTSReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PTSReader)
-TYPENAMES.append('BVTK_NT_PTSReader' )
+type_names.append('BVTK_NT_PTSReader')
 
 
 # --------------------------------------------------------------
@@ -2085,7 +2085,7 @@ class BVTK_NT_XMLPRectilinearGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPRectilinearGridReader)
-TYPENAMES.append('BVTK_NT_XMLPRectilinearGridReader' )
+type_names.append('BVTK_NT_XMLPRectilinearGridReader')
 
 
 # --------------------------------------------------------------
@@ -2113,7 +2113,7 @@ class BVTK_NT_PDBReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PDBReader)
-TYPENAMES.append('BVTK_NT_PDBReader' )
+type_names.append('BVTK_NT_PDBReader')
 
 
 # --------------------------------------------------------------
@@ -2145,7 +2145,7 @@ class BVTK_NT_EnSight6BinaryReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EnSight6BinaryReader)
-TYPENAMES.append('BVTK_NT_EnSight6BinaryReader' )
+type_names.append('BVTK_NT_EnSight6BinaryReader')
 
 
 # --------------------------------------------------------------
@@ -2172,7 +2172,7 @@ class BVTK_NT_CPExodusIIInSituReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CPExodusIIInSituReader)
-TYPENAMES.append('BVTK_NT_CPExodusIIInSituReader' )
+type_names.append('BVTK_NT_CPExodusIIInSituReader')
 
 
 # --------------------------------------------------------------
@@ -2205,7 +2205,7 @@ class BVTK_NT_TecplotTableReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TecplotTableReader)
-TYPENAMES.append('BVTK_NT_TecplotTableReader' )
+type_names.append('BVTK_NT_TecplotTableReader')
 
 
 # --------------------------------------------------------------
@@ -2234,7 +2234,7 @@ class BVTK_NT_XMLPPolyDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPPolyDataReader)
-TYPENAMES.append('BVTK_NT_XMLPPolyDataReader' )
+type_names.append('BVTK_NT_XMLPPolyDataReader')
 
 
 # --------------------------------------------------------------
@@ -2260,7 +2260,7 @@ class BVTK_NT_OBJReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OBJReader)
-TYPENAMES.append('BVTK_NT_OBJReader' )
+type_names.append('BVTK_NT_OBJReader')
 
 
 # --------------------------------------------------------------
@@ -2305,7 +2305,7 @@ class BVTK_NT_NrrdReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NrrdReader)
-TYPENAMES.append('BVTK_NT_NrrdReader' )
+type_names.append('BVTK_NT_NrrdReader')
 
 
 # --------------------------------------------------------------
@@ -2331,7 +2331,7 @@ class BVTK_NT_GaussianCubeReader2(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GaussianCubeReader2)
-TYPENAMES.append('BVTK_NT_GaussianCubeReader2' )
+type_names.append('BVTK_NT_GaussianCubeReader2')
 
 
 # --------------------------------------------------------------
@@ -2362,7 +2362,7 @@ class BVTK_NT_XMLHierarchicalBoxDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLHierarchicalBoxDataReader)
-TYPENAMES.append('BVTK_NT_XMLHierarchicalBoxDataReader' )
+type_names.append('BVTK_NT_XMLHierarchicalBoxDataReader')
 
 
 # --------------------------------------------------------------
@@ -2404,7 +2404,7 @@ class BVTK_NT_JPEGReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_JPEGReader)
-TYPENAMES.append('BVTK_NT_JPEGReader' )
+type_names.append('BVTK_NT_JPEGReader')
 
 
 # --------------------------------------------------------------
@@ -2440,7 +2440,7 @@ class BVTK_NT_POpenFOAMReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_POpenFOAMReader)
-TYPENAMES.append('BVTK_NT_POpenFOAMReader' )
+type_names.append('BVTK_NT_POpenFOAMReader')
 
 
 # --------------------------------------------------------------
@@ -2466,7 +2466,7 @@ class BVTK_NT_TulipReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TulipReader)
-TYPENAMES.append('BVTK_NT_TulipReader' )
+type_names.append('BVTK_NT_TulipReader')
 
 
 # --------------------------------------------------------------
@@ -2500,7 +2500,7 @@ class BVTK_NT_MPASReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MPASReader)
-TYPENAMES.append('BVTK_NT_MPASReader' )
+type_names.append('BVTK_NT_MPASReader')
 
 
 # --------------------------------------------------------------
@@ -2545,7 +2545,7 @@ class BVTK_NT_TIFFReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TIFFReader)
-TYPENAMES.append('BVTK_NT_TIFFReader' )
+type_names.append('BVTK_NT_TIFFReader')
 
 
 # --------------------------------------------------------------
@@ -2571,7 +2571,7 @@ class BVTK_NT_MRCReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MRCReader)
-TYPENAMES.append('BVTK_NT_MRCReader' )
+type_names.append('BVTK_NT_MRCReader')
 
 
 # --------------------------------------------------------------
@@ -2600,7 +2600,7 @@ class BVTK_NT_XMLTableReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLTableReader)
-TYPENAMES.append('BVTK_NT_XMLTableReader' )
+type_names.append('BVTK_NT_XMLTableReader')
 
 
 # --------------------------------------------------------------
@@ -2632,7 +2632,7 @@ class BVTK_NT_NetCDFCFReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NetCDFCFReader)
-TYPENAMES.append('BVTK_NT_NetCDFCFReader' )
+type_names.append('BVTK_NT_NetCDFCFReader')
 
 
 # --------------------------------------------------------------
@@ -2660,7 +2660,7 @@ class BVTK_NT_STLReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_STLReader)
-TYPENAMES.append('BVTK_NT_STLReader' )
+type_names.append('BVTK_NT_STLReader')
 
 
 # --------------------------------------------------------------
@@ -2689,7 +2689,7 @@ class BVTK_NT_XMLUnstructuredGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLUnstructuredGridReader)
-TYPENAMES.append('BVTK_NT_XMLUnstructuredGridReader' )
+type_names.append('BVTK_NT_XMLUnstructuredGridReader')
 
 
 # --------------------------------------------------------------
@@ -2717,7 +2717,7 @@ class BVTK_NT_GaussianCubeReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GaussianCubeReader)
-TYPENAMES.append('BVTK_NT_GaussianCubeReader' )
+type_names.append('BVTK_NT_GaussianCubeReader')
 
 
 # --------------------------------------------------------------
@@ -2743,7 +2743,7 @@ class BVTK_NT_MNITagPointReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MNITagPointReader)
-TYPENAMES.append('BVTK_NT_MNITagPointReader' )
+type_names.append('BVTK_NT_MNITagPointReader')
 
 
 # --------------------------------------------------------------
@@ -2770,7 +2770,7 @@ class BVTK_NT_NetCDFReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NetCDFReader)
-TYPENAMES.append('BVTK_NT_NetCDFReader' )
+type_names.append('BVTK_NT_NetCDFReader')
 
 
 # --------------------------------------------------------------
@@ -2798,7 +2798,7 @@ class BVTK_NT_AMRFlashParticlesReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMRFlashParticlesReader)
-TYPENAMES.append('BVTK_NT_AMRFlashParticlesReader' )
+type_names.append('BVTK_NT_AMRFlashParticlesReader')
 
 
 # --------------------------------------------------------------
@@ -2843,7 +2843,7 @@ class BVTK_NT_PNMReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PNMReader)
-TYPENAMES.append('BVTK_NT_PNMReader' )
+type_names.append('BVTK_NT_PNMReader')
 
 
 # --------------------------------------------------------------
@@ -2869,7 +2869,7 @@ class BVTK_NT_ChacoGraphReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ChacoGraphReader)
-TYPENAMES.append('BVTK_NT_ChacoGraphReader' )
+type_names.append('BVTK_NT_ChacoGraphReader')
 
 
 # --------------------------------------------------------------
@@ -2895,7 +2895,7 @@ class BVTK_NT_SLACParticleReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SLACParticleReader)
-TYPENAMES.append('BVTK_NT_SLACParticleReader' )
+type_names.append('BVTK_NT_SLACParticleReader')
 
 
 # --------------------------------------------------------------
@@ -2923,7 +2923,7 @@ class BVTK_NT_DIMACSGraphReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DIMACSGraphReader)
-TYPENAMES.append('BVTK_NT_DIMACSGraphReader' )
+type_names.append('BVTK_NT_DIMACSGraphReader')
 
 
 # --------------------------------------------------------------
@@ -2952,7 +2952,7 @@ class BVTK_NT_XMLPStructuredGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPStructuredGridReader)
-TYPENAMES.append('BVTK_NT_XMLPStructuredGridReader' )
+type_names.append('BVTK_NT_XMLPStructuredGridReader')
 
 
 # --------------------------------------------------------------
@@ -2994,7 +2994,7 @@ class BVTK_NT_SLCReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SLCReader)
-TYPENAMES.append('BVTK_NT_SLCReader' )
+type_names.append('BVTK_NT_SLCReader')
 
 
 # --------------------------------------------------------------
@@ -3022,7 +3022,7 @@ class BVTK_NT_ISIReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ISIReader)
-TYPENAMES.append('BVTK_NT_ISIReader' )
+type_names.append('BVTK_NT_ISIReader')
 
 
 # --------------------------------------------------------------
@@ -3048,7 +3048,7 @@ class BVTK_NT_PDataSetReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PDataSetReader)
-TYPENAMES.append('BVTK_NT_PDataSetReader' )
+type_names.append('BVTK_NT_PDataSetReader')
 
 
 # --------------------------------------------------------------
@@ -3081,7 +3081,7 @@ class BVTK_NT_LSDynaReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LSDynaReader)
-TYPENAMES.append('BVTK_NT_LSDynaReader' )
+type_names.append('BVTK_NT_LSDynaReader')
 
 
 # --------------------------------------------------------------
@@ -3108,7 +3108,7 @@ class BVTK_NT_NetCDFPOPReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NetCDFPOPReader)
-TYPENAMES.append('BVTK_NT_NetCDFPOPReader' )
+type_names.append('BVTK_NT_NetCDFPOPReader')
 
 
 # --------------------------------------------------------------
@@ -3137,7 +3137,7 @@ class BVTK_NT_PhyloXMLTreeReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PhyloXMLTreeReader)
-TYPENAMES.append('BVTK_NT_PhyloXMLTreeReader' )
+type_names.append('BVTK_NT_PhyloXMLTreeReader')
 
 
 # --------------------------------------------------------------
@@ -3167,7 +3167,7 @@ class BVTK_NT_ChacoReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ChacoReader)
-TYPENAMES.append('BVTK_NT_ChacoReader' )
+type_names.append('BVTK_NT_ChacoReader')
 
 
 # --------------------------------------------------------------
@@ -3196,7 +3196,7 @@ class BVTK_NT_XMLPolyDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPolyDataReader)
-TYPENAMES.append('BVTK_NT_XMLPolyDataReader' )
+type_names.append('BVTK_NT_XMLPolyDataReader')
 
 
 # --------------------------------------------------------------
@@ -3224,7 +3224,7 @@ class BVTK_NT_AMREnzoReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMREnzoReader)
-TYPENAMES.append('BVTK_NT_AMREnzoReader' )
+type_names.append('BVTK_NT_AMREnzoReader')
 
 
 # --------------------------------------------------------------
@@ -3249,7 +3249,7 @@ class BVTK_NT_SQLiteToTableReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SQLiteToTableReader)
-TYPENAMES.append('BVTK_NT_SQLiteToTableReader' )
+type_names.append('BVTK_NT_SQLiteToTableReader')
 
 
 # --------------------------------------------------------------
@@ -3278,7 +3278,7 @@ class BVTK_NT_XYZMolReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XYZMolReader)
-TYPENAMES.append('BVTK_NT_XYZMolReader' )
+type_names.append('BVTK_NT_XYZMolReader')
 
 
 # --------------------------------------------------------------
@@ -3312,7 +3312,7 @@ class BVTK_NT_BYUReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BYUReader)
-TYPENAMES.append('BVTK_NT_BYUReader' )
+type_names.append('BVTK_NT_BYUReader')
 
 
 # --------------------------------------------------------------
@@ -3338,7 +3338,7 @@ class BVTK_NT_XGMLReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XGMLReader)
-TYPENAMES.append('BVTK_NT_XGMLReader' )
+type_names.append('BVTK_NT_XGMLReader')
 
 
 # --------------------------------------------------------------
@@ -3367,7 +3367,7 @@ class BVTK_NT_XMLPTableReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPTableReader)
-TYPENAMES.append('BVTK_NT_XMLPTableReader' )
+type_names.append('BVTK_NT_XMLPTableReader')
 
 
 # --------------------------------------------------------------
@@ -3410,7 +3410,7 @@ class BVTK_NT_DICOMImageReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DICOMImageReader)
-TYPENAMES.append('BVTK_NT_DICOMImageReader' )
+type_names.append('BVTK_NT_DICOMImageReader')
 
 
 # --------------------------------------------------------------
@@ -3439,7 +3439,7 @@ class BVTK_NT_XMLPUnstructuredGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPUnstructuredGridReader)
-TYPENAMES.append('BVTK_NT_XMLPUnstructuredGridReader' )
+type_names.append('BVTK_NT_XMLPUnstructuredGridReader')
 
 
 # --------------------------------------------------------------
@@ -3469,7 +3469,7 @@ class BVTK_NT_XMLImageDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLImageDataReader)
-TYPENAMES.append('BVTK_NT_XMLImageDataReader' )
+type_names.append('BVTK_NT_XMLImageDataReader')
 
 
 # --------------------------------------------------------------
@@ -3511,7 +3511,7 @@ class BVTK_NT_NewickTreeReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NewickTreeReader)
-TYPENAMES.append('BVTK_NT_NewickTreeReader' )
+type_names.append('BVTK_NT_NewickTreeReader')
 
 
 # --------------------------------------------------------------
@@ -3555,7 +3555,7 @@ class BVTK_NT_MINCImageReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MINCImageReader)
-TYPENAMES.append('BVTK_NT_MINCImageReader' )
+type_names.append('BVTK_NT_MINCImageReader')
 
 
 # --------------------------------------------------------------
@@ -3584,7 +3584,7 @@ class BVTK_NT_AMREnzoParticlesReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMREnzoParticlesReader)
-TYPENAMES.append('BVTK_NT_AMREnzoParticlesReader' )
+type_names.append('BVTK_NT_AMREnzoParticlesReader')
 
 
 # --------------------------------------------------------------
@@ -3616,7 +3616,7 @@ class BVTK_NT_GenericEnSightReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericEnSightReader)
-TYPENAMES.append('BVTK_NT_GenericEnSightReader' )
+type_names.append('BVTK_NT_GenericEnSightReader')
 
 
 # --------------------------------------------------------------
@@ -3644,7 +3644,7 @@ class BVTK_NT_FLUENTReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FLUENTReader)
-TYPENAMES.append('BVTK_NT_FLUENTReader' )
+type_names.append('BVTK_NT_FLUENTReader')
 
 
 # --------------------------------------------------------------
@@ -3674,7 +3674,7 @@ class BVTK_NT_XMLRectilinearGridReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLRectilinearGridReader)
-TYPENAMES.append('BVTK_NT_XMLRectilinearGridReader' )
+type_names.append('BVTK_NT_XMLRectilinearGridReader')
 
 
 # --------------------------------------------------------------
@@ -3704,7 +3704,7 @@ class BVTK_NT_XMLMultiBlockDataReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLMultiBlockDataReader)
-TYPENAMES.append('BVTK_NT_XMLMultiBlockDataReader' )
+type_names.append('BVTK_NT_XMLMultiBlockDataReader')
 
 
 # --------------------------------------------------------------
@@ -3734,7 +3734,7 @@ class BVTK_NT_PChacoReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PChacoReader)
-TYPENAMES.append('BVTK_NT_PChacoReader' )
+type_names.append('BVTK_NT_PChacoReader')
 
 
 # --------------------------------------------------------------
@@ -3763,7 +3763,7 @@ class BVTK_NT_FixedWidthTextReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FixedWidthTextReader)
-TYPENAMES.append('BVTK_NT_FixedWidthTextReader' )
+type_names.append('BVTK_NT_FixedWidthTextReader')
 
 
 # --------------------------------------------------------------
@@ -3789,7 +3789,7 @@ class BVTK_NT_VASPAnimationReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VASPAnimationReader)
-TYPENAMES.append('BVTK_NT_VASPAnimationReader' )
+type_names.append('BVTK_NT_VASPAnimationReader')
 
 
 # --------------------------------------------------------------
@@ -3818,7 +3818,7 @@ class BVTK_NT_SLACReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SLACReader)
-TYPENAMES.append('BVTK_NT_SLACReader' )
+type_names.append('BVTK_NT_SLACReader')
 
 
 # --------------------------------------------------------------
@@ -3861,7 +3861,7 @@ class BVTK_NT_PNGReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PNGReader)
-TYPENAMES.append('BVTK_NT_PNGReader' )
+type_names.append('BVTK_NT_PNGReader')
 
 
 # --------------------------------------------------------------
@@ -3893,7 +3893,7 @@ class BVTK_NT_EnSightGoldReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EnSightGoldReader)
-TYPENAMES.append('BVTK_NT_EnSightGoldReader' )
+type_names.append('BVTK_NT_EnSightGoldReader')
 
 
 # --------------------------------------------------------------
@@ -3926,7 +3926,7 @@ class BVTK_NT_EnSightMasterServerReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EnSightMasterServerReader)
-TYPENAMES.append('BVTK_NT_EnSightMasterServerReader' )
+type_names.append('BVTK_NT_EnSightMasterServerReader')
 
 
 # --------------------------------------------------------------
@@ -3968,7 +3968,7 @@ class BVTK_NT_TreeReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TreeReader)
-TYPENAMES.append('BVTK_NT_TreeReader' )
+type_names.append('BVTK_NT_TreeReader')
 
 
 # --------------------------------------------------------------
@@ -3994,11 +3994,11 @@ class BVTK_NT_CMLMoleculeReader(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CMLMoleculeReader)
-TYPENAMES.append('BVTK_NT_CMLMoleculeReader' )
+type_names.append('BVTK_NT_CMLMoleculeReader')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKReader', 'Reader', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKReader', 'Reader', items=menu_items))

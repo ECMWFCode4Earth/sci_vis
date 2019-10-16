@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -26,7 +26,7 @@ class BVTK_NT_ForceTime(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ForceTime)
-TYPENAMES.append('BVTK_NT_ForceTime' )
+type_names.append('BVTK_NT_ForceTime')
 
 
 # --------------------------------------------------------------
@@ -54,7 +54,7 @@ class BVTK_NT_LinkEdgels(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LinkEdgels)
-TYPENAMES.append('BVTK_NT_LinkEdgels' )
+type_names.append('BVTK_NT_LinkEdgels')
 
 
 # --------------------------------------------------------------
@@ -80,7 +80,7 @@ class BVTK_NT_SimpleBondPerceiver(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SimpleBondPerceiver)
-TYPENAMES.append('BVTK_NT_SimpleBondPerceiver' )
+type_names.append('BVTK_NT_SimpleBondPerceiver')
 
 
 # --------------------------------------------------------------
@@ -106,7 +106,7 @@ class BVTK_NT_CountVertices(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CountVertices)
-TYPENAMES.append('BVTK_NT_CountVertices' )
+type_names.append('BVTK_NT_CountVertices')
 
 
 # --------------------------------------------------------------
@@ -138,7 +138,7 @@ class BVTK_NT_QuadRotationalExtrusionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_QuadRotationalExtrusionFilter)
-TYPENAMES.append('BVTK_NT_QuadRotationalExtrusionFilter' )
+type_names.append('BVTK_NT_QuadRotationalExtrusionFilter')
 
 
 # --------------------------------------------------------------
@@ -163,7 +163,7 @@ class BVTK_NT_DataSetAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetAlgorithm)
-TYPENAMES.append('BVTK_NT_DataSetAlgorithm' )
+type_names.append('BVTK_NT_DataSetAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -189,7 +189,7 @@ class BVTK_NT_CountFaces(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CountFaces)
-TYPENAMES.append('BVTK_NT_CountFaces' )
+type_names.append('BVTK_NT_CountFaces')
 
 
 # --------------------------------------------------------------
@@ -216,7 +216,7 @@ class BVTK_NT_PassArrays(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PassArrays)
-TYPENAMES.append('BVTK_NT_PassArrays' )
+type_names.append('BVTK_NT_PassArrays')
 
 
 # --------------------------------------------------------------
@@ -255,7 +255,7 @@ class BVTK_NT_ImageShrink3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageShrink3D)
-TYPENAMES.append('BVTK_NT_ImageShrink3D' )
+type_names.append('BVTK_NT_ImageShrink3D')
 
 
 # --------------------------------------------------------------
@@ -281,7 +281,7 @@ class BVTK_NT_AppendCompositeDataLeaves(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AppendCompositeDataLeaves)
-TYPENAMES.append('BVTK_NT_AppendCompositeDataLeaves' )
+type_names.append('BVTK_NT_AppendCompositeDataLeaves')
 
 
 # --------------------------------------------------------------
@@ -307,7 +307,7 @@ class BVTK_NT_ExtractDataOverTime(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractDataOverTime)
-TYPENAMES.append('BVTK_NT_ExtractDataOverTime' )
+type_names.append('BVTK_NT_ExtractDataOverTime')
 
 
 # --------------------------------------------------------------
@@ -340,7 +340,7 @@ class BVTK_NT_ImageFourierCenter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageFourierCenter)
-TYPENAMES.append('BVTK_NT_ImageFourierCenter' )
+type_names.append('BVTK_NT_ImageFourierCenter')
 
 
 # --------------------------------------------------------------
@@ -368,7 +368,7 @@ class BVTK_NT_VectorNorm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VectorNorm)
-TYPENAMES.append('BVTK_NT_VectorNorm' )
+type_names.append('BVTK_NT_VectorNorm')
 
 
 # --------------------------------------------------------------
@@ -402,7 +402,7 @@ class BVTK_NT_PYoungsMaterialInterface(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PYoungsMaterialInterface)
-TYPENAMES.append('BVTK_NT_PYoungsMaterialInterface' )
+type_names.append('BVTK_NT_PYoungsMaterialInterface')
 
 
 # --------------------------------------------------------------
@@ -436,7 +436,7 @@ class BVTK_NT_ImageAppend(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageAppend)
-TYPENAMES.append('BVTK_NT_ImageAppend' )
+type_names.append('BVTK_NT_ImageAppend')
 
 
 # --------------------------------------------------------------
@@ -466,7 +466,7 @@ class BVTK_NT_KdTreeSelector(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_KdTreeSelector)
-TYPENAMES.append('BVTK_NT_KdTreeSelector' )
+type_names.append('BVTK_NT_KdTreeSelector')
 
 
 # --------------------------------------------------------------
@@ -492,7 +492,7 @@ class BVTK_NT_MatricizeArray(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MatricizeArray)
-TYPENAMES.append('BVTK_NT_MatricizeArray' )
+type_names.append('BVTK_NT_MatricizeArray')
 
 
 # --------------------------------------------------------------
@@ -520,7 +520,7 @@ class BVTK_NT_PResampleFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PResampleFilter)
-TYPENAMES.append('BVTK_NT_PResampleFilter' )
+type_names.append('BVTK_NT_PResampleFilter')
 
 
 # --------------------------------------------------------------
@@ -545,7 +545,7 @@ class BVTK_NT_OverlappingAMRAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OverlappingAMRAlgorithm)
-TYPENAMES.append('BVTK_NT_OverlappingAMRAlgorithm' )
+type_names.append('BVTK_NT_OverlappingAMRAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -570,7 +570,7 @@ class BVTK_NT_CompositeDataSetAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CompositeDataSetAlgorithm)
-TYPENAMES.append('BVTK_NT_CompositeDataSetAlgorithm' )
+type_names.append('BVTK_NT_CompositeDataSetAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -595,7 +595,7 @@ class BVTK_NT_PiecewiseFunctionAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PiecewiseFunctionAlgorithm)
-TYPENAMES.append('BVTK_NT_PiecewiseFunctionAlgorithm' )
+type_names.append('BVTK_NT_PiecewiseFunctionAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -621,7 +621,7 @@ class BVTK_NT_ProcessIdScalars(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProcessIdScalars)
-TYPENAMES.append('BVTK_NT_ProcessIdScalars' )
+type_names.append('BVTK_NT_ProcessIdScalars')
 
 
 # --------------------------------------------------------------
@@ -655,7 +655,7 @@ class BVTK_NT_RuledSurfaceFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RuledSurfaceFilter)
-TYPENAMES.append('BVTK_NT_RuledSurfaceFilter' )
+type_names.append('BVTK_NT_RuledSurfaceFilter')
 
 
 # --------------------------------------------------------------
@@ -688,7 +688,7 @@ class BVTK_NT_ImageExtractComponents(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageExtractComponents)
-TYPENAMES.append('BVTK_NT_ImageExtractComponents' )
+type_names.append('BVTK_NT_ImageExtractComponents')
 
 
 # --------------------------------------------------------------
@@ -713,7 +713,7 @@ class BVTK_NT_MoleculeAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MoleculeAlgorithm)
-TYPENAMES.append('BVTK_NT_MoleculeAlgorithm' )
+type_names.append('BVTK_NT_MoleculeAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -740,7 +740,7 @@ class BVTK_NT_PolyDataStreamer(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataStreamer)
-TYPENAMES.append('BVTK_NT_PolyDataStreamer' )
+type_names.append('BVTK_NT_PolyDataStreamer')
 
 
 # --------------------------------------------------------------
@@ -779,7 +779,7 @@ class BVTK_NT_ImageSlab(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageSlab)
-TYPENAMES.append('BVTK_NT_ImageSlab' )
+type_names.append('BVTK_NT_ImageSlab')
 
 
 # --------------------------------------------------------------
@@ -814,7 +814,7 @@ class BVTK_NT_ImageGaussianSmooth(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageGaussianSmooth)
-TYPENAMES.append('BVTK_NT_ImageGaussianSmooth' )
+type_names.append('BVTK_NT_ImageGaussianSmooth')
 
 
 # --------------------------------------------------------------
@@ -840,7 +840,7 @@ class BVTK_NT_TemporalDataSetCache(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TemporalDataSetCache)
-TYPENAMES.append('BVTK_NT_TemporalDataSetCache' )
+type_names.append('BVTK_NT_TemporalDataSetCache')
 
 
 # --------------------------------------------------------------
@@ -865,7 +865,7 @@ class BVTK_NT_UnstructuredGridBaseAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UnstructuredGridBaseAlgorithm)
-TYPENAMES.append('BVTK_NT_UnstructuredGridBaseAlgorithm' )
+type_names.append('BVTK_NT_UnstructuredGridBaseAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -897,7 +897,7 @@ class BVTK_NT_ImageSobel3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageSobel3D)
-TYPENAMES.append('BVTK_NT_ImageSobel3D' )
+type_names.append('BVTK_NT_ImageSobel3D')
 
 
 # --------------------------------------------------------------
@@ -927,7 +927,7 @@ class BVTK_NT_AMRSliceFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMRSliceFilter)
-TYPENAMES.append('BVTK_NT_AMRSliceFilter' )
+type_names.append('BVTK_NT_AMRSliceFilter')
 
 
 # --------------------------------------------------------------
@@ -965,7 +965,7 @@ class BVTK_NT_DataSetRegionSurfaceFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetRegionSurfaceFilter)
-TYPENAMES.append('BVTK_NT_DataSetRegionSurfaceFilter' )
+type_names.append('BVTK_NT_DataSetRegionSurfaceFilter')
 
 
 # --------------------------------------------------------------
@@ -995,7 +995,7 @@ class BVTK_NT_ProteinRibbonFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProteinRibbonFilter)
-TYPENAMES.append('BVTK_NT_ProteinRibbonFilter' )
+type_names.append('BVTK_NT_ProteinRibbonFilter')
 
 
 # --------------------------------------------------------------
@@ -1020,7 +1020,7 @@ class BVTK_NT_MoleculeToBondStickFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MoleculeToBondStickFilter)
-TYPENAMES.append('BVTK_NT_MoleculeToBondStickFilter' )
+type_names.append('BVTK_NT_MoleculeToBondStickFilter')
 
 
 # --------------------------------------------------------------
@@ -1053,7 +1053,7 @@ class BVTK_NT_MaskPoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MaskPoints)
-TYPENAMES.append('BVTK_NT_MaskPoints' )
+type_names.append('BVTK_NT_MaskPoints')
 
 
 # --------------------------------------------------------------
@@ -1078,7 +1078,7 @@ class BVTK_NT_UnstructuredGridAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UnstructuredGridAlgorithm)
-TYPENAMES.append('BVTK_NT_UnstructuredGridAlgorithm' )
+type_names.append('BVTK_NT_UnstructuredGridAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -1108,7 +1108,7 @@ class BVTK_NT_FieldDataToAttributeDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FieldDataToAttributeDataFilter)
-TYPENAMES.append('BVTK_NT_FieldDataToAttributeDataFilter' )
+type_names.append('BVTK_NT_FieldDataToAttributeDataFilter')
 
 
 # --------------------------------------------------------------
@@ -1136,7 +1136,7 @@ class BVTK_NT_UniformGridPartitioner(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UniformGridPartitioner)
-TYPENAMES.append('BVTK_NT_UniformGridPartitioner' )
+type_names.append('BVTK_NT_UniformGridPartitioner')
 
 
 # --------------------------------------------------------------
@@ -1164,7 +1164,7 @@ class BVTK_NT_FlyingEdges2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FlyingEdges2D)
-TYPENAMES.append('BVTK_NT_FlyingEdges2D' )
+type_names.append('BVTK_NT_FlyingEdges2D')
 
 
 # --------------------------------------------------------------
@@ -1197,7 +1197,7 @@ class BVTK_NT_ImageLogarithmicScale(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageLogarithmicScale)
-TYPENAMES.append('BVTK_NT_ImageLogarithmicScale' )
+type_names.append('BVTK_NT_ImageLogarithmicScale')
 
 
 # --------------------------------------------------------------
@@ -1223,7 +1223,7 @@ class BVTK_NT_TransmitStructuredGridPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransmitStructuredGridPiece)
-TYPENAMES.append('BVTK_NT_TransmitStructuredGridPiece' )
+type_names.append('BVTK_NT_TransmitStructuredGridPiece')
 
 
 # --------------------------------------------------------------
@@ -1254,7 +1254,7 @@ class BVTK_NT_HyperTreeGridAxisClip(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridAxisClip)
-TYPENAMES.append('BVTK_NT_HyperTreeGridAxisClip' )
+type_names.append('BVTK_NT_HyperTreeGridAxisClip')
 
 
 # --------------------------------------------------------------
@@ -1280,7 +1280,7 @@ class BVTK_NT_DensifyPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DensifyPolyData)
-TYPENAMES.append('BVTK_NT_DensifyPolyData' )
+type_names.append('BVTK_NT_DensifyPolyData')
 
 
 # --------------------------------------------------------------
@@ -1310,7 +1310,7 @@ class BVTK_NT_PolyDataPointSampler(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataPointSampler)
-TYPENAMES.append('BVTK_NT_PolyDataPointSampler' )
+type_names.append('BVTK_NT_PolyDataPointSampler')
 
 
 # --------------------------------------------------------------
@@ -1338,7 +1338,7 @@ class BVTK_NT_ImageDataGeometryFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageDataGeometryFilter)
-TYPENAMES.append('BVTK_NT_ImageDataGeometryFilter' )
+type_names.append('BVTK_NT_ImageDataGeometryFilter')
 
 
 # --------------------------------------------------------------
@@ -1372,7 +1372,7 @@ class BVTK_NT_PointSetToLabelHierarchy(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PointSetToLabelHierarchy)
-TYPENAMES.append('BVTK_NT_PointSetToLabelHierarchy' )
+type_names.append('BVTK_NT_PointSetToLabelHierarchy')
 
 
 # --------------------------------------------------------------
@@ -1397,7 +1397,7 @@ class BVTK_NT_ImageDataToPointSet(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageDataToPointSet)
-TYPENAMES.append('BVTK_NT_ImageDataToPointSet' )
+type_names.append('BVTK_NT_ImageDataToPointSet')
 
 
 # --------------------------------------------------------------
@@ -1427,7 +1427,7 @@ class BVTK_NT_ShepardMethod(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ShepardMethod)
-TYPENAMES.append('BVTK_NT_ShepardMethod' )
+type_names.append('BVTK_NT_ShepardMethod')
 
 
 # --------------------------------------------------------------
@@ -1452,7 +1452,7 @@ class BVTK_NT_MultiBlockMergeFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MultiBlockMergeFilter)
-TYPENAMES.append('BVTK_NT_MultiBlockMergeFilter' )
+type_names.append('BVTK_NT_MultiBlockMergeFilter')
 
 
 # --------------------------------------------------------------
@@ -1477,7 +1477,7 @@ class BVTK_NT_CompositeDataGeometryFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CompositeDataGeometryFilter)
-TYPENAMES.append('BVTK_NT_CompositeDataGeometryFilter' )
+type_names.append('BVTK_NT_CompositeDataGeometryFilter')
 
 
 # --------------------------------------------------------------
@@ -1510,7 +1510,7 @@ class BVTK_NT_ImageLaplacian(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageLaplacian)
-TYPENAMES.append('BVTK_NT_ImageLaplacian' )
+type_names.append('BVTK_NT_ImageLaplacian')
 
 
 # --------------------------------------------------------------
@@ -1535,7 +1535,7 @@ class BVTK_NT_AMRToMultiBlockFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMRToMultiBlockFilter)
-TYPENAMES.append('BVTK_NT_AMRToMultiBlockFilter' )
+type_names.append('BVTK_NT_AMRToMultiBlockFilter')
 
 
 # --------------------------------------------------------------
@@ -1568,7 +1568,7 @@ class BVTK_NT_PMaskPoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PMaskPoints)
-TYPENAMES.append('BVTK_NT_PMaskPoints' )
+type_names.append('BVTK_NT_PMaskPoints')
 
 
 # --------------------------------------------------------------
@@ -1593,7 +1593,7 @@ class BVTK_NT_UniformGridAMRAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UniformGridAMRAlgorithm)
-TYPENAMES.append('BVTK_NT_UniformGridAMRAlgorithm' )
+type_names.append('BVTK_NT_UniformGridAMRAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -1618,7 +1618,7 @@ class BVTK_NT_HierarchicalDataExtractLevel(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HierarchicalDataExtractLevel)
-TYPENAMES.append('BVTK_NT_HierarchicalDataExtractLevel' )
+type_names.append('BVTK_NT_HierarchicalDataExtractLevel')
 
 
 # --------------------------------------------------------------
@@ -1644,7 +1644,7 @@ class BVTK_NT_MergeFields(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MergeFields)
-TYPENAMES.append('BVTK_NT_MergeFields' )
+type_names.append('BVTK_NT_MergeFields')
 
 
 # --------------------------------------------------------------
@@ -1679,7 +1679,7 @@ class BVTK_NT_ArrayCalculator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArrayCalculator)
-TYPENAMES.append('BVTK_NT_ArrayCalculator' )
+type_names.append('BVTK_NT_ArrayCalculator')
 
 
 # --------------------------------------------------------------
@@ -1708,7 +1708,7 @@ class BVTK_NT_AdaptiveSubdivisionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AdaptiveSubdivisionFilter)
-TYPENAMES.append('BVTK_NT_AdaptiveSubdivisionFilter' )
+type_names.append('BVTK_NT_AdaptiveSubdivisionFilter')
 
 
 # --------------------------------------------------------------
@@ -1733,7 +1733,7 @@ class BVTK_NT_ExtractPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractPiece)
-TYPENAMES.append('BVTK_NT_ExtractPiece' )
+type_names.append('BVTK_NT_ExtractPiece')
 
 
 # --------------------------------------------------------------
@@ -1758,7 +1758,7 @@ class BVTK_NT_StructuredGridAppend(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridAppend)
-TYPENAMES.append('BVTK_NT_StructuredGridAppend' )
+type_names.append('BVTK_NT_StructuredGridAppend')
 
 
 # --------------------------------------------------------------
@@ -1796,7 +1796,7 @@ class BVTK_NT_ExtractTensorComponents(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractTensorComponents)
-TYPENAMES.append('BVTK_NT_ExtractTensorComponents' )
+type_names.append('BVTK_NT_ExtractTensorComponents')
 
 
 # --------------------------------------------------------------
@@ -1821,7 +1821,7 @@ class BVTK_NT_QuadraturePointInterpolator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_QuadraturePointInterpolator)
-TYPENAMES.append('BVTK_NT_QuadraturePointInterpolator' )
+type_names.append('BVTK_NT_QuadraturePointInterpolator')
 
 
 # --------------------------------------------------------------
@@ -1847,7 +1847,7 @@ class BVTK_NT_WarpVector(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_WarpVector)
-TYPENAMES.append('BVTK_NT_WarpVector' )
+type_names.append('BVTK_NT_WarpVector')
 
 
 # --------------------------------------------------------------
@@ -1883,7 +1883,7 @@ class BVTK_NT_ClipClosedSurface(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ClipClosedSurface)
-TYPENAMES.append('BVTK_NT_ClipClosedSurface' )
+type_names.append('BVTK_NT_ClipClosedSurface')
 
 
 # --------------------------------------------------------------
@@ -1922,7 +1922,7 @@ class BVTK_NT_ImageAnisotropicDiffusion2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageAnisotropicDiffusion2D)
-TYPENAMES.append('BVTK_NT_ImageAnisotropicDiffusion2D' )
+type_names.append('BVTK_NT_ImageAnisotropicDiffusion2D')
 
 
 # --------------------------------------------------------------
@@ -1958,7 +1958,7 @@ class BVTK_NT_ImageIdealLowPass(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageIdealLowPass)
-TYPENAMES.append('BVTK_NT_ImageIdealLowPass' )
+type_names.append('BVTK_NT_ImageIdealLowPass')
 
 
 # --------------------------------------------------------------
@@ -1987,7 +1987,7 @@ class BVTK_NT_CellDerivatives(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CellDerivatives)
-TYPENAMES.append('BVTK_NT_CellDerivatives' )
+type_names.append('BVTK_NT_CellDerivatives')
 
 
 # --------------------------------------------------------------
@@ -2017,7 +2017,7 @@ class BVTK_NT_Stripper(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Stripper)
-TYPENAMES.append('BVTK_NT_Stripper' )
+type_names.append('BVTK_NT_Stripper')
 
 
 # --------------------------------------------------------------
@@ -2043,7 +2043,7 @@ class BVTK_NT_RectilinearGridClip(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridClip)
-TYPENAMES.append('BVTK_NT_RectilinearGridClip' )
+type_names.append('BVTK_NT_RectilinearGridClip')
 
 
 # --------------------------------------------------------------
@@ -2072,7 +2072,7 @@ class BVTK_NT_PointOccupancyFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PointOccupancyFilter)
-TYPENAMES.append('BVTK_NT_PointOccupancyFilter' )
+type_names.append('BVTK_NT_PointOccupancyFilter')
 
 
 # --------------------------------------------------------------
@@ -2101,7 +2101,7 @@ class BVTK_NT_ExtractCTHPart(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractCTHPart)
-TYPENAMES.append('BVTK_NT_ExtractCTHPart' )
+type_names.append('BVTK_NT_ExtractCTHPart')
 
 
 # --------------------------------------------------------------
@@ -2126,7 +2126,7 @@ class BVTK_NT_ImageToStructuredGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageToStructuredGrid)
-TYPENAMES.append('BVTK_NT_ImageToStructuredGrid' )
+type_names.append('BVTK_NT_ImageToStructuredGrid')
 
 
 # --------------------------------------------------------------
@@ -2152,7 +2152,7 @@ class BVTK_NT_ExtractUserDefinedPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractUserDefinedPiece)
-TYPENAMES.append('BVTK_NT_ExtractUserDefinedPiece' )
+type_names.append('BVTK_NT_ExtractUserDefinedPiece')
 
 
 # --------------------------------------------------------------
@@ -2177,7 +2177,7 @@ class BVTK_NT_HierarchicalDataLevelFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HierarchicalDataLevelFilter)
-TYPENAMES.append('BVTK_NT_HierarchicalDataLevelFilter' )
+type_names.append('BVTK_NT_HierarchicalDataLevelFilter')
 
 
 # --------------------------------------------------------------
@@ -2210,7 +2210,7 @@ class BVTK_NT_PolyDataNormals(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataNormals)
-TYPENAMES.append('BVTK_NT_PolyDataNormals' )
+type_names.append('BVTK_NT_PolyDataNormals')
 
 
 # --------------------------------------------------------------
@@ -2253,7 +2253,7 @@ class BVTK_NT_RandomAttributeGenerator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RandomAttributeGenerator)
-TYPENAMES.append('BVTK_NT_RandomAttributeGenerator' )
+type_names.append('BVTK_NT_RandomAttributeGenerator')
 
 
 # --------------------------------------------------------------
@@ -2290,7 +2290,7 @@ class BVTK_NT_MeshQuality(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MeshQuality)
-TYPENAMES.append('BVTK_NT_MeshQuality' )
+type_names.append('BVTK_NT_MeshQuality')
 
 
 # --------------------------------------------------------------
@@ -2322,7 +2322,7 @@ class BVTK_NT_ImageDivergence(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageDivergence)
-TYPENAMES.append('BVTK_NT_ImageDivergence' )
+type_names.append('BVTK_NT_ImageDivergence')
 
 
 # --------------------------------------------------------------
@@ -2355,7 +2355,7 @@ class BVTK_NT_PolyDataSilhouette(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataSilhouette)
-TYPENAMES.append('BVTK_NT_PolyDataSilhouette' )
+type_names.append('BVTK_NT_PolyDataSilhouette')
 
 
 # --------------------------------------------------------------
@@ -2394,7 +2394,7 @@ class BVTK_NT_ImageMapToWindowLevelColors(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMapToWindowLevelColors)
-TYPENAMES.append('BVTK_NT_ImageMapToWindowLevelColors' )
+type_names.append('BVTK_NT_ImageMapToWindowLevelColors')
 
 
 # --------------------------------------------------------------
@@ -2426,7 +2426,7 @@ class BVTK_NT_SphereTreeFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SphereTreeFilter)
-TYPENAMES.append('BVTK_NT_SphereTreeFilter' )
+type_names.append('BVTK_NT_SphereTreeFilter')
 
 
 # --------------------------------------------------------------
@@ -2451,7 +2451,7 @@ class BVTK_NT_RectilinearGridOutlineFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridOutlineFilter)
-TYPENAMES.append('BVTK_NT_RectilinearGridOutlineFilter' )
+type_names.append('BVTK_NT_RectilinearGridOutlineFilter')
 
 
 # --------------------------------------------------------------
@@ -2488,7 +2488,7 @@ class BVTK_NT_ImageButterworthHighPass(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageButterworthHighPass)
-TYPENAMES.append('BVTK_NT_ImageButterworthHighPass' )
+type_names.append('BVTK_NT_ImageButterworthHighPass')
 
 
 # --------------------------------------------------------------
@@ -2517,7 +2517,7 @@ class BVTK_NT_MarchingCubes(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MarchingCubes)
-TYPENAMES.append('BVTK_NT_MarchingCubes' )
+type_names.append('BVTK_NT_MarchingCubes')
 
 
 # --------------------------------------------------------------
@@ -2542,7 +2542,7 @@ class BVTK_NT_NonOverlappingAMRAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NonOverlappingAMRAlgorithm)
-TYPENAMES.append('BVTK_NT_NonOverlappingAMRAlgorithm' )
+type_names.append('BVTK_NT_NonOverlappingAMRAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -2569,7 +2569,7 @@ class BVTK_NT_CollectGraph(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CollectGraph)
-TYPENAMES.append('BVTK_NT_CollectGraph' )
+type_names.append('BVTK_NT_CollectGraph')
 
 
 # --------------------------------------------------------------
@@ -2598,7 +2598,7 @@ class BVTK_NT_MarchingContourFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MarchingContourFilter)
-TYPENAMES.append('BVTK_NT_MarchingContourFilter' )
+type_names.append('BVTK_NT_MarchingContourFilter')
 
 
 # --------------------------------------------------------------
@@ -2626,7 +2626,7 @@ class BVTK_NT_StructuredGridPartitioner(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridPartitioner)
-TYPENAMES.append('BVTK_NT_StructuredGridPartitioner' )
+type_names.append('BVTK_NT_StructuredGridPartitioner')
 
 
 # --------------------------------------------------------------
@@ -2651,7 +2651,7 @@ class BVTK_NT_SimpleImageFilterExample(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SimpleImageFilterExample)
-TYPENAMES.append('BVTK_NT_SimpleImageFilterExample' )
+type_names.append('BVTK_NT_SimpleImageFilterExample')
 
 
 # --------------------------------------------------------------
@@ -2685,7 +2685,7 @@ class BVTK_NT_GenericGeometryFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericGeometryFilter)
-TYPENAMES.append('BVTK_NT_GenericGeometryFilter' )
+type_names.append('BVTK_NT_GenericGeometryFilter')
 
 
 # --------------------------------------------------------------
@@ -2719,7 +2719,7 @@ class BVTK_NT_UnsignedDistance(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UnsignedDistance)
-TYPENAMES.append('BVTK_NT_UnsignedDistance' )
+type_names.append('BVTK_NT_UnsignedDistance')
 
 
 # --------------------------------------------------------------
@@ -2746,7 +2746,7 @@ class BVTK_NT_GenericCutter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericCutter)
-TYPENAMES.append('BVTK_NT_GenericCutter' )
+type_names.append('BVTK_NT_GenericCutter')
 
 
 # --------------------------------------------------------------
@@ -2777,7 +2777,7 @@ class BVTK_NT_WeightedTransformFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_WeightedTransformFilter)
-TYPENAMES.append('BVTK_NT_WeightedTransformFilter' )
+type_names.append('BVTK_NT_WeightedTransformFilter')
 
 
 # --------------------------------------------------------------
@@ -2802,7 +2802,7 @@ class BVTK_NT_LevelIdScalars(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LevelIdScalars)
-TYPENAMES.append('BVTK_NT_LevelIdScalars' )
+type_names.append('BVTK_NT_LevelIdScalars')
 
 
 # --------------------------------------------------------------
@@ -2827,7 +2827,7 @@ class BVTK_NT_GraphToPoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphToPoints)
-TYPENAMES.append('BVTK_NT_GraphToPoints' )
+type_names.append('BVTK_NT_GraphToPoints')
 
 
 # --------------------------------------------------------------
@@ -2853,7 +2853,7 @@ class BVTK_NT_TransmitRectilinearGridPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransmitRectilinearGridPiece)
-TYPENAMES.append('BVTK_NT_TransmitRectilinearGridPiece' )
+type_names.append('BVTK_NT_TransmitRectilinearGridPiece')
 
 
 # --------------------------------------------------------------
@@ -2886,7 +2886,7 @@ class BVTK_NT_ImageRFFT(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageRFFT)
-TYPENAMES.append('BVTK_NT_ImageRFFT' )
+type_names.append('BVTK_NT_ImageRFFT')
 
 
 # --------------------------------------------------------------
@@ -2917,7 +2917,7 @@ class BVTK_NT_TemporalShiftScale(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TemporalShiftScale)
-TYPENAMES.append('BVTK_NT_TemporalShiftScale' )
+type_names.append('BVTK_NT_TemporalShiftScale')
 
 
 # --------------------------------------------------------------
@@ -2944,7 +2944,7 @@ class BVTK_NT_AMRCutPlane(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMRCutPlane)
-TYPENAMES.append('BVTK_NT_AMRCutPlane' )
+type_names.append('BVTK_NT_AMRCutPlane')
 
 
 # --------------------------------------------------------------
@@ -2975,7 +2975,7 @@ class BVTK_NT_ConnectivityFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ConnectivityFilter)
-TYPENAMES.append('BVTK_NT_ConnectivityFilter' )
+type_names.append('BVTK_NT_ConnectivityFilter')
 
 
 # --------------------------------------------------------------
@@ -3009,7 +3009,7 @@ class BVTK_NT_ImageGradientMagnitude(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageGradientMagnitude)
-TYPENAMES.append('BVTK_NT_ImageGradientMagnitude' )
+type_names.append('BVTK_NT_ImageGradientMagnitude')
 
 
 # --------------------------------------------------------------
@@ -3041,7 +3041,7 @@ class BVTK_NT_ImageSobel2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageSobel2D)
-TYPENAMES.append('BVTK_NT_ImageSobel2D' )
+type_names.append('BVTK_NT_ImageSobel2D')
 
 
 # --------------------------------------------------------------
@@ -3071,7 +3071,7 @@ class BVTK_NT_GraphLayoutFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphLayoutFilter)
-TYPENAMES.append('BVTK_NT_GraphLayoutFilter' )
+type_names.append('BVTK_NT_GraphLayoutFilter')
 
 
 # --------------------------------------------------------------
@@ -3096,7 +3096,7 @@ class BVTK_NT_HierarchicalDataExtractDataSets(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HierarchicalDataExtractDataSets)
-TYPENAMES.append('BVTK_NT_HierarchicalDataExtractDataSets' )
+type_names.append('BVTK_NT_HierarchicalDataExtractDataSets')
 
 
 # --------------------------------------------------------------
@@ -3129,7 +3129,7 @@ class BVTK_NT_Delaunay3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Delaunay3D)
-TYPENAMES.append('BVTK_NT_Delaunay3D' )
+type_names.append('BVTK_NT_Delaunay3D')
 
 
 # --------------------------------------------------------------
@@ -3155,7 +3155,7 @@ class BVTK_NT_TransmitStructuredDataPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransmitStructuredDataPiece)
-TYPENAMES.append('BVTK_NT_TransmitStructuredDataPiece' )
+type_names.append('BVTK_NT_TransmitStructuredDataPiece')
 
 
 # --------------------------------------------------------------
@@ -3183,7 +3183,7 @@ class BVTK_NT_HedgeHog(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HedgeHog)
-TYPENAMES.append('BVTK_NT_HedgeHog' )
+type_names.append('BVTK_NT_HedgeHog')
 
 
 # --------------------------------------------------------------
@@ -3208,7 +3208,7 @@ class BVTK_NT_MultiBlockDataSetAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MultiBlockDataSetAlgorithm)
-TYPENAMES.append('BVTK_NT_MultiBlockDataSetAlgorithm' )
+type_names.append('BVTK_NT_MultiBlockDataSetAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -3235,7 +3235,7 @@ class BVTK_NT_BrownianPoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BrownianPoints)
-TYPENAMES.append('BVTK_NT_BrownianPoints' )
+type_names.append('BVTK_NT_BrownianPoints')
 
 
 # --------------------------------------------------------------
@@ -3262,7 +3262,7 @@ class BVTK_NT_HyperTreeGridAxisCut(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridAxisCut)
-TYPENAMES.append('BVTK_NT_HyperTreeGridAxisCut' )
+type_names.append('BVTK_NT_HyperTreeGridAxisCut')
 
 
 # --------------------------------------------------------------
@@ -3296,7 +3296,7 @@ class BVTK_NT_YoungsMaterialInterface(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_YoungsMaterialInterface)
-TYPENAMES.append('BVTK_NT_YoungsMaterialInterface' )
+type_names.append('BVTK_NT_YoungsMaterialInterface')
 
 
 # --------------------------------------------------------------
@@ -3328,7 +3328,7 @@ class BVTK_NT_PLinearExtrusionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PLinearExtrusionFilter)
-TYPENAMES.append('BVTK_NT_PLinearExtrusionFilter' )
+type_names.append('BVTK_NT_PLinearExtrusionFilter')
 
 
 # --------------------------------------------------------------
@@ -3357,7 +3357,7 @@ class BVTK_NT_GraphToGlyphs(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphToGlyphs)
-TYPENAMES.append('BVTK_NT_GraphToGlyphs' )
+type_names.append('BVTK_NT_GraphToGlyphs')
 
 
 # --------------------------------------------------------------
@@ -3382,7 +3382,7 @@ class BVTK_NT_PCAAnalysisFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PCAAnalysisFilter)
-TYPENAMES.append('BVTK_NT_PCAAnalysisFilter' )
+type_names.append('BVTK_NT_PCAAnalysisFilter')
 
 
 # --------------------------------------------------------------
@@ -3414,7 +3414,7 @@ class BVTK_NT_ImageNormalize(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageNormalize)
-TYPENAMES.append('BVTK_NT_ImageNormalize' )
+type_names.append('BVTK_NT_ImageNormalize')
 
 
 # --------------------------------------------------------------
@@ -3453,7 +3453,7 @@ class BVTK_NT_TubeFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TubeFilter)
-TYPENAMES.append('BVTK_NT_TubeFilter' )
+type_names.append('BVTK_NT_TubeFilter')
 
 
 # --------------------------------------------------------------
@@ -3480,7 +3480,7 @@ class BVTK_NT_PassThrough(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PassThrough)
-TYPENAMES.append('BVTK_NT_PassThrough' )
+type_names.append('BVTK_NT_PassThrough')
 
 
 # --------------------------------------------------------------
@@ -3506,7 +3506,7 @@ class BVTK_NT_CollectPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CollectPolyData)
-TYPENAMES.append('BVTK_NT_CollectPolyData' )
+type_names.append('BVTK_NT_CollectPolyData')
 
 
 # --------------------------------------------------------------
@@ -3533,7 +3533,7 @@ class BVTK_NT_ImageToImageStencil(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageToImageStencil)
-TYPENAMES.append('BVTK_NT_ImageToImageStencil' )
+type_names.append('BVTK_NT_ImageToImageStencil')
 
 
 # --------------------------------------------------------------
@@ -3558,7 +3558,7 @@ class BVTK_NT_TransformPolyDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransformPolyDataFilter)
-TYPENAMES.append('BVTK_NT_TransformPolyDataFilter' )
+type_names.append('BVTK_NT_TransformPolyDataFilter')
 
 
 # --------------------------------------------------------------
@@ -3594,7 +3594,7 @@ class BVTK_NT_AngularPeriodicFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AngularPeriodicFilter)
-TYPENAMES.append('BVTK_NT_AngularPeriodicFilter' )
+type_names.append('BVTK_NT_AngularPeriodicFilter')
 
 
 # --------------------------------------------------------------
@@ -3622,7 +3622,7 @@ class BVTK_NT_SampleImplicitFunctionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SampleImplicitFunctionFilter)
-TYPENAMES.append('BVTK_NT_SampleImplicitFunctionFilter' )
+type_names.append('BVTK_NT_SampleImplicitFunctionFilter')
 
 
 # --------------------------------------------------------------
@@ -3647,7 +3647,7 @@ class BVTK_NT_SplitField(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SplitField)
-TYPENAMES.append('BVTK_NT_SplitField' )
+type_names.append('BVTK_NT_SplitField')
 
 
 # --------------------------------------------------------------
@@ -3688,7 +3688,7 @@ class BVTK_NT_ImageResize(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageResize)
-TYPENAMES.append('BVTK_NT_ImageResize' )
+type_names.append('BVTK_NT_ImageResize')
 
 
 # --------------------------------------------------------------
@@ -3721,7 +3721,7 @@ class BVTK_NT_DensifyPointCloudFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DensifyPointCloudFilter)
-TYPENAMES.append('BVTK_NT_DensifyPointCloudFilter' )
+type_names.append('BVTK_NT_DensifyPointCloudFilter')
 
 
 # --------------------------------------------------------------
@@ -3753,7 +3753,7 @@ class BVTK_NT_ImageAppendComponents(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageAppendComponents)
-TYPENAMES.append('BVTK_NT_ImageAppendComponents' )
+type_names.append('BVTK_NT_ImageAppendComponents')
 
 
 # --------------------------------------------------------------
@@ -3778,7 +3778,7 @@ class BVTK_NT_PolyDataAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataAlgorithm)
-TYPENAMES.append('BVTK_NT_PolyDataAlgorithm' )
+type_names.append('BVTK_NT_PolyDataAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -3803,7 +3803,7 @@ class BVTK_NT_QuadraturePointsGenerator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_QuadraturePointsGenerator)
-TYPENAMES.append('BVTK_NT_QuadraturePointsGenerator' )
+type_names.append('BVTK_NT_QuadraturePointsGenerator')
 
 
 # --------------------------------------------------------------
@@ -3831,7 +3831,7 @@ class BVTK_NT_TransposeTable(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransposeTable)
-TYPENAMES.append('BVTK_NT_TransposeTable' )
+type_names.append('BVTK_NT_TransposeTable')
 
 
 # --------------------------------------------------------------
@@ -3856,7 +3856,7 @@ class BVTK_NT_ComputeQuartiles(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ComputeQuartiles)
-TYPENAMES.append('BVTK_NT_ComputeQuartiles' )
+type_names.append('BVTK_NT_ComputeQuartiles')
 
 
 # --------------------------------------------------------------
@@ -3892,7 +3892,7 @@ class BVTK_NT_WarpLens(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_WarpLens)
-TYPENAMES.append('BVTK_NT_WarpLens' )
+type_names.append('BVTK_NT_WarpLens')
 
 
 # --------------------------------------------------------------
@@ -3923,7 +3923,7 @@ class BVTK_NT_MapArrayValues(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MapArrayValues)
-TYPENAMES.append('BVTK_NT_MapArrayValues' )
+type_names.append('BVTK_NT_MapArrayValues')
 
 
 # --------------------------------------------------------------
@@ -3949,7 +3949,7 @@ class BVTK_NT_ProcrustesAlignmentFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProcrustesAlignmentFilter)
-TYPENAMES.append('BVTK_NT_ProcrustesAlignmentFilter' )
+type_names.append('BVTK_NT_ProcrustesAlignmentFilter')
 
 
 # --------------------------------------------------------------
@@ -3977,7 +3977,7 @@ class BVTK_NT_PProjectSphereFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PProjectSphereFilter)
-TYPENAMES.append('BVTK_NT_PProjectSphereFilter' )
+type_names.append('BVTK_NT_PProjectSphereFilter')
 
 
 # --------------------------------------------------------------
@@ -4003,7 +4003,7 @@ class BVTK_NT_AttributeDataToFieldDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AttributeDataToFieldDataFilter)
-TYPENAMES.append('BVTK_NT_AttributeDataToFieldDataFilter' )
+type_names.append('BVTK_NT_AttributeDataToFieldDataFilter')
 
 
 # --------------------------------------------------------------
@@ -4035,7 +4035,7 @@ class BVTK_NT_AdaptiveDataSetSurfaceFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AdaptiveDataSetSurfaceFilter)
-TYPENAMES.append('BVTK_NT_AdaptiveDataSetSurfaceFilter' )
+type_names.append('BVTK_NT_AdaptiveDataSetSurfaceFilter')
 
 
 # --------------------------------------------------------------
@@ -4070,7 +4070,7 @@ class BVTK_NT_WindowedSincPolyDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_WindowedSincPolyDataFilter)
-TYPENAMES.append('BVTK_NT_WindowedSincPolyDataFilter' )
+type_names.append('BVTK_NT_WindowedSincPolyDataFilter')
 
 
 # --------------------------------------------------------------
@@ -4097,7 +4097,7 @@ class BVTK_NT_VoxelContoursToSurfaceFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VoxelContoursToSurfaceFilter)
-TYPENAMES.append('BVTK_NT_VoxelContoursToSurfaceFilter' )
+type_names.append('BVTK_NT_VoxelContoursToSurfaceFilter')
 
 
 # --------------------------------------------------------------
@@ -4125,7 +4125,7 @@ class BVTK_NT_FlyingEdgesPlaneCutter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FlyingEdgesPlaneCutter)
-TYPENAMES.append('BVTK_NT_FlyingEdgesPlaneCutter' )
+type_names.append('BVTK_NT_FlyingEdgesPlaneCutter')
 
 
 # --------------------------------------------------------------
@@ -4159,7 +4159,7 @@ class BVTK_NT_ExtractUnstructuredGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractUnstructuredGrid)
-TYPENAMES.append('BVTK_NT_ExtractUnstructuredGrid' )
+type_names.append('BVTK_NT_ExtractUnstructuredGrid')
 
 
 # --------------------------------------------------------------
@@ -4193,7 +4193,7 @@ class BVTK_NT_ArcPlotter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArcPlotter)
-TYPENAMES.append('BVTK_NT_ArcPlotter' )
+type_names.append('BVTK_NT_ArcPlotter')
 
 
 # --------------------------------------------------------------
@@ -4218,7 +4218,7 @@ class BVTK_NT_ClipConvexPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ClipConvexPolyData)
-TYPENAMES.append('BVTK_NT_ClipConvexPolyData' )
+type_names.append('BVTK_NT_ClipConvexPolyData')
 
 
 # --------------------------------------------------------------
@@ -4247,7 +4247,7 @@ class BVTK_NT_ImageIslandRemoval2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageIslandRemoval2D)
-TYPENAMES.append('BVTK_NT_ImageIslandRemoval2D' )
+type_names.append('BVTK_NT_ImageIslandRemoval2D')
 
 
 # --------------------------------------------------------------
@@ -4272,7 +4272,7 @@ class BVTK_NT_AnnotationLayersAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AnnotationLayersAlgorithm)
-TYPENAMES.append('BVTK_NT_AnnotationLayersAlgorithm' )
+type_names.append('BVTK_NT_AnnotationLayersAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -4303,7 +4303,7 @@ class BVTK_NT_ImageQuantizeRGBToIndex(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageQuantizeRGBToIndex)
-TYPENAMES.append('BVTK_NT_ImageQuantizeRGBToIndex' )
+type_names.append('BVTK_NT_ImageQuantizeRGBToIndex')
 
 
 # --------------------------------------------------------------
@@ -4328,7 +4328,7 @@ class BVTK_NT_TriangleMeshPointNormals(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TriangleMeshPointNormals)
-TYPENAMES.append('BVTK_NT_TriangleMeshPointNormals' )
+type_names.append('BVTK_NT_TriangleMeshPointNormals')
 
 
 # --------------------------------------------------------------
@@ -4357,7 +4357,7 @@ class BVTK_NT_IdFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_IdFilter)
-TYPENAMES.append('BVTK_NT_IdFilter' )
+type_names.append('BVTK_NT_IdFilter')
 
 
 # --------------------------------------------------------------
@@ -4383,7 +4383,7 @@ class BVTK_NT_SplitByCellScalarFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SplitByCellScalarFilter)
-TYPENAMES.append('BVTK_NT_SplitByCellScalarFilter' )
+type_names.append('BVTK_NT_SplitByCellScalarFilter')
 
 
 # --------------------------------------------------------------
@@ -4408,7 +4408,7 @@ class BVTK_NT_QuadratureSchemeDictionaryGenerator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_QuadratureSchemeDictionaryGenerator)
-TYPENAMES.append('BVTK_NT_QuadratureSchemeDictionaryGenerator' )
+type_names.append('BVTK_NT_QuadratureSchemeDictionaryGenerator')
 
 
 # --------------------------------------------------------------
@@ -4439,7 +4439,7 @@ class BVTK_NT_SMPContourGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SMPContourGrid)
-TYPENAMES.append('BVTK_NT_SMPContourGrid' )
+type_names.append('BVTK_NT_SMPContourGrid')
 
 
 # --------------------------------------------------------------
@@ -4466,7 +4466,7 @@ class BVTK_NT_NormalizeMatrixVectors(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NormalizeMatrixVectors)
-TYPENAMES.append('BVTK_NT_NormalizeMatrixVectors' )
+type_names.append('BVTK_NT_NormalizeMatrixVectors')
 
 
 # --------------------------------------------------------------
@@ -4505,7 +4505,7 @@ class BVTK_NT_QuadricClustering(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_QuadricClustering)
-TYPENAMES.append('BVTK_NT_QuadricClustering' )
+type_names.append('BVTK_NT_QuadricClustering')
 
 
 # --------------------------------------------------------------
@@ -4531,7 +4531,7 @@ class BVTK_NT_StructuredGridGeometryFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridGeometryFilter)
-TYPENAMES.append('BVTK_NT_StructuredGridGeometryFilter' )
+type_names.append('BVTK_NT_StructuredGridGeometryFilter')
 
 
 # --------------------------------------------------------------
@@ -4560,7 +4560,7 @@ class BVTK_NT_ImageSeedConnectivity(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageSeedConnectivity)
-TYPENAMES.append('BVTK_NT_ImageSeedConnectivity' )
+type_names.append('BVTK_NT_ImageSeedConnectivity')
 
 
 # --------------------------------------------------------------
@@ -4585,7 +4585,7 @@ class BVTK_NT_Hull(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Hull)
-TYPENAMES.append('BVTK_NT_Hull' )
+type_names.append('BVTK_NT_Hull')
 
 
 # --------------------------------------------------------------
@@ -4618,7 +4618,7 @@ class BVTK_NT_UnstructuredGridQuadricDecimation(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UnstructuredGridQuadricDecimation)
-TYPENAMES.append('BVTK_NT_UnstructuredGridQuadricDecimation' )
+type_names.append('BVTK_NT_UnstructuredGridQuadricDecimation')
 
 
 # --------------------------------------------------------------
@@ -4651,7 +4651,7 @@ class BVTK_NT_CleanPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CleanPolyData)
-TYPENAMES.append('BVTK_NT_CleanPolyData' )
+type_names.append('BVTK_NT_CleanPolyData')
 
 
 # --------------------------------------------------------------
@@ -4678,7 +4678,7 @@ class BVTK_NT_ButterflySubdivisionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ButterflySubdivisionFilter)
-TYPENAMES.append('BVTK_NT_ButterflySubdivisionFilter' )
+type_names.append('BVTK_NT_ButterflySubdivisionFilter')
 
 
 # --------------------------------------------------------------
@@ -4716,7 +4716,7 @@ class BVTK_NT_ImageThreshold(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageThreshold)
-TYPENAMES.append('BVTK_NT_ImageThreshold' )
+type_names.append('BVTK_NT_ImageThreshold')
 
 
 # --------------------------------------------------------------
@@ -4742,7 +4742,7 @@ class BVTK_NT_FillHolesFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FillHolesFilter)
-TYPENAMES.append('BVTK_NT_FillHolesFilter' )
+type_names.append('BVTK_NT_FillHolesFilter')
 
 
 # --------------------------------------------------------------
@@ -4778,7 +4778,7 @@ class BVTK_NT_GradientFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GradientFilter)
-TYPENAMES.append('BVTK_NT_GradientFilter' )
+type_names.append('BVTK_NT_GradientFilter')
 
 
 # --------------------------------------------------------------
@@ -4808,7 +4808,7 @@ class BVTK_NT_PCANormalEstimation(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PCANormalEstimation)
-TYPENAMES.append('BVTK_NT_PCANormalEstimation' )
+type_names.append('BVTK_NT_PCANormalEstimation')
 
 
 # --------------------------------------------------------------
@@ -4834,7 +4834,7 @@ class BVTK_NT_AggregateDataSetFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AggregateDataSetFilter)
-TYPENAMES.append('BVTK_NT_AggregateDataSetFilter' )
+type_names.append('BVTK_NT_AggregateDataSetFilter')
 
 
 # --------------------------------------------------------------
@@ -4861,7 +4861,7 @@ class BVTK_NT_MatrixMathFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MatrixMathFilter)
-TYPENAMES.append('BVTK_NT_MatrixMathFilter' )
+type_names.append('BVTK_NT_MatrixMathFilter')
 
 
 # --------------------------------------------------------------
@@ -4894,7 +4894,7 @@ class BVTK_NT_ImageFFT(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageFFT)
-TYPENAMES.append('BVTK_NT_ImageFFT' )
+type_names.append('BVTK_NT_ImageFFT')
 
 
 # --------------------------------------------------------------
@@ -4920,7 +4920,7 @@ class BVTK_NT_StrahlerMetric(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StrahlerMetric)
-TYPENAMES.append('BVTK_NT_StrahlerMetric' )
+type_names.append('BVTK_NT_StrahlerMetric')
 
 
 # --------------------------------------------------------------
@@ -4945,7 +4945,7 @@ class BVTK_NT_RectilinearGridToPointSet(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridToPointSet)
-TYPENAMES.append('BVTK_NT_RectilinearGridToPointSet' )
+type_names.append('BVTK_NT_RectilinearGridToPointSet')
 
 
 # --------------------------------------------------------------
@@ -4970,7 +4970,7 @@ class BVTK_NT_SelectionAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SelectionAlgorithm)
-TYPENAMES.append('BVTK_NT_SelectionAlgorithm' )
+type_names.append('BVTK_NT_SelectionAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -4995,7 +4995,7 @@ class BVTK_NT_HyperTreeGridGeometry(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridGeometry)
-TYPENAMES.append('BVTK_NT_HyperTreeGridGeometry' )
+type_names.append('BVTK_NT_HyperTreeGridGeometry')
 
 
 # --------------------------------------------------------------
@@ -5024,7 +5024,7 @@ class BVTK_NT_HierarchicalBinningFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HierarchicalBinningFilter)
-TYPENAMES.append('BVTK_NT_HierarchicalBinningFilter' )
+type_names.append('BVTK_NT_HierarchicalBinningFilter')
 
 
 # --------------------------------------------------------------
@@ -5057,7 +5057,7 @@ class BVTK_NT_ImageRGBToHSI(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageRGBToHSI)
-TYPENAMES.append('BVTK_NT_ImageRGBToHSI' )
+type_names.append('BVTK_NT_ImageRGBToHSI')
 
 
 # --------------------------------------------------------------
@@ -5085,7 +5085,7 @@ class BVTK_NT_ResampleToImage(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ResampleToImage)
-TYPENAMES.append('BVTK_NT_ResampleToImage' )
+type_names.append('BVTK_NT_ResampleToImage')
 
 
 # --------------------------------------------------------------
@@ -5110,7 +5110,7 @@ class BVTK_NT_HierarchicalBoxDataSetAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HierarchicalBoxDataSetAlgorithm)
-TYPENAMES.append('BVTK_NT_HierarchicalBoxDataSetAlgorithm' )
+type_names.append('BVTK_NT_HierarchicalBoxDataSetAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -5135,7 +5135,7 @@ class BVTK_NT_HyperTreeGridToUnstructuredGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridToUnstructuredGrid)
-TYPENAMES.append('BVTK_NT_HyperTreeGridToUnstructuredGrid' )
+type_names.append('BVTK_NT_HyperTreeGridToUnstructuredGrid')
 
 
 # --------------------------------------------------------------
@@ -5163,7 +5163,7 @@ class BVTK_NT_ExtractGeometry(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractGeometry)
-TYPENAMES.append('BVTK_NT_ExtractGeometry' )
+type_names.append('BVTK_NT_ExtractGeometry')
 
 
 # --------------------------------------------------------------
@@ -5198,7 +5198,7 @@ class BVTK_NT_ImageCast(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageCast)
-TYPENAMES.append('BVTK_NT_ImageCast' )
+type_names.append('BVTK_NT_ImageCast')
 
 
 # --------------------------------------------------------------
@@ -5229,7 +5229,7 @@ class BVTK_NT_LinearExtrusionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LinearExtrusionFilter)
-TYPENAMES.append('BVTK_NT_LinearExtrusionFilter' )
+type_names.append('BVTK_NT_LinearExtrusionFilter')
 
 
 # --------------------------------------------------------------
@@ -5261,7 +5261,7 @@ class BVTK_NT_SynchronizedTemplatesCutter3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SynchronizedTemplatesCutter3D)
-TYPENAMES.append('BVTK_NT_SynchronizedTemplatesCutter3D' )
+type_names.append('BVTK_NT_SynchronizedTemplatesCutter3D')
 
 
 # --------------------------------------------------------------
@@ -5295,7 +5295,7 @@ class BVTK_NT_ProjectedTexture(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProjectedTexture)
-TYPENAMES.append('BVTK_NT_ProjectedTexture' )
+type_names.append('BVTK_NT_ProjectedTexture')
 
 
 # --------------------------------------------------------------
@@ -5322,7 +5322,7 @@ class BVTK_NT_ReverseSense(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ReverseSense)
-TYPENAMES.append('BVTK_NT_ReverseSense' )
+type_names.append('BVTK_NT_ReverseSense')
 
 
 # --------------------------------------------------------------
@@ -5348,7 +5348,7 @@ class BVTK_NT_SpatialRepresentationFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SpatialRepresentationFilter)
-TYPENAMES.append('BVTK_NT_SpatialRepresentationFilter' )
+type_names.append('BVTK_NT_SpatialRepresentationFilter')
 
 
 # --------------------------------------------------------------
@@ -5385,7 +5385,7 @@ class BVTK_NT_HyperStreamline(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperStreamline)
-TYPENAMES.append('BVTK_NT_HyperStreamline' )
+type_names.append('BVTK_NT_HyperStreamline')
 
 
 # --------------------------------------------------------------
@@ -5410,7 +5410,7 @@ class BVTK_NT_BlockIdScalars(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BlockIdScalars)
-TYPENAMES.append('BVTK_NT_BlockIdScalars' )
+type_names.append('BVTK_NT_BlockIdScalars')
 
 
 # --------------------------------------------------------------
@@ -5436,7 +5436,7 @@ class BVTK_NT_OutlineFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OutlineFilter)
-TYPENAMES.append('BVTK_NT_OutlineFilter' )
+type_names.append('BVTK_NT_OutlineFilter')
 
 
 # --------------------------------------------------------------
@@ -5470,7 +5470,7 @@ class BVTK_NT_ImageGradient(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageGradient)
-TYPENAMES.append('BVTK_NT_ImageGradient' )
+type_names.append('BVTK_NT_ImageGradient')
 
 
 # --------------------------------------------------------------
@@ -5507,7 +5507,7 @@ class BVTK_NT_ImageButterworthLowPass(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageButterworthLowPass)
-TYPENAMES.append('BVTK_NT_ImageButterworthLowPass' )
+type_names.append('BVTK_NT_ImageButterworthLowPass')
 
 
 # --------------------------------------------------------------
@@ -5539,7 +5539,7 @@ class BVTK_NT_ImageConvolve(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageConvolve)
-TYPENAMES.append('BVTK_NT_ImageConvolve' )
+type_names.append('BVTK_NT_ImageConvolve')
 
 
 # --------------------------------------------------------------
@@ -5565,7 +5565,7 @@ class BVTK_NT_PieceScalars(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PieceScalars)
-TYPENAMES.append('BVTK_NT_PieceScalars' )
+type_names.append('BVTK_NT_PieceScalars')
 
 
 # --------------------------------------------------------------
@@ -5598,7 +5598,7 @@ class BVTK_NT_SplineFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SplineFilter)
-TYPENAMES.append('BVTK_NT_SplineFilter' )
+type_names.append('BVTK_NT_SplineFilter')
 
 
 # --------------------------------------------------------------
@@ -5624,7 +5624,7 @@ class BVTK_NT_ImageTranslateExtent(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageTranslateExtent)
-TYPENAMES.append('BVTK_NT_ImageTranslateExtent' )
+type_names.append('BVTK_NT_ImageTranslateExtent')
 
 
 # --------------------------------------------------------------
@@ -5649,7 +5649,7 @@ class BVTK_NT_ArrayDataAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArrayDataAlgorithm)
-TYPENAMES.append('BVTK_NT_ArrayDataAlgorithm' )
+type_names.append('BVTK_NT_ArrayDataAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -5687,7 +5687,7 @@ class BVTK_NT_GaussianSplatter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GaussianSplatter)
-TYPENAMES.append('BVTK_NT_GaussianSplatter' )
+type_names.append('BVTK_NT_GaussianSplatter')
 
 
 # --------------------------------------------------------------
@@ -5712,7 +5712,7 @@ class BVTK_NT_POutlineFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_POutlineFilter)
-TYPENAMES.append('BVTK_NT_POutlineFilter' )
+type_names.append('BVTK_NT_POutlineFilter')
 
 
 # --------------------------------------------------------------
@@ -5739,7 +5739,7 @@ class BVTK_NT_TemporalSnapToTimeStep(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TemporalSnapToTimeStep)
-TYPENAMES.append('BVTK_NT_TemporalSnapToTimeStep' )
+type_names.append('BVTK_NT_TemporalSnapToTimeStep')
 
 
 # --------------------------------------------------------------
@@ -5773,7 +5773,7 @@ class BVTK_NT_Threshold(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Threshold)
-TYPENAMES.append('BVTK_NT_Threshold' )
+type_names.append('BVTK_NT_Threshold')
 
 
 # --------------------------------------------------------------
@@ -5803,7 +5803,7 @@ class BVTK_NT_VoxelGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VoxelGrid)
-TYPENAMES.append('BVTK_NT_VoxelGrid' )
+type_names.append('BVTK_NT_VoxelGrid')
 
 
 # --------------------------------------------------------------
@@ -5828,7 +5828,7 @@ class BVTK_NT_TreeAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TreeAlgorithm)
-TYPENAMES.append('BVTK_NT_TreeAlgorithm' )
+type_names.append('BVTK_NT_TreeAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -5866,7 +5866,7 @@ class BVTK_NT_EvenlySpacedStreamlines2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EvenlySpacedStreamlines2D)
-TYPENAMES.append('BVTK_NT_EvenlySpacedStreamlines2D' )
+type_names.append('BVTK_NT_EvenlySpacedStreamlines2D')
 
 
 # --------------------------------------------------------------
@@ -5892,7 +5892,7 @@ class BVTK_NT_HyperTreeGridContour(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridContour)
-TYPENAMES.append('BVTK_NT_HyperTreeGridContour' )
+type_names.append('BVTK_NT_HyperTreeGridContour')
 
 
 # --------------------------------------------------------------
@@ -5920,7 +5920,7 @@ class BVTK_NT_HyperTreeGridAxisReflection(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridAxisReflection)
-TYPENAMES.append('BVTK_NT_HyperTreeGridAxisReflection' )
+type_names.append('BVTK_NT_HyperTreeGridAxisReflection')
 
 
 # --------------------------------------------------------------
@@ -5957,7 +5957,7 @@ class BVTK_NT_ImageMapToColors(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMapToColors)
-TYPENAMES.append('BVTK_NT_ImageMapToColors' )
+type_names.append('BVTK_NT_ImageMapToColors')
 
 
 # --------------------------------------------------------------
@@ -5982,7 +5982,7 @@ class BVTK_NT_MultiThreshold(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MultiThreshold)
-TYPENAMES.append('BVTK_NT_MultiThreshold' )
+type_names.append('BVTK_NT_MultiThreshold')
 
 
 # --------------------------------------------------------------
@@ -6018,7 +6018,7 @@ class BVTK_NT_PointDensityFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PointDensityFilter)
-TYPENAMES.append('BVTK_NT_PointDensityFilter' )
+type_names.append('BVTK_NT_PointDensityFilter')
 
 
 # --------------------------------------------------------------
@@ -6043,7 +6043,7 @@ class BVTK_NT_PassInputTypeAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PassInputTypeAlgorithm)
-TYPENAMES.append('BVTK_NT_PassInputTypeAlgorithm' )
+type_names.append('BVTK_NT_PassInputTypeAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -6068,7 +6068,7 @@ class BVTK_NT_DataObjectAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataObjectAlgorithm)
-TYPENAMES.append('BVTK_NT_DataObjectAlgorithm' )
+type_names.append('BVTK_NT_DataObjectAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -6100,7 +6100,7 @@ class BVTK_NT_ImageMagnitude(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMagnitude)
-TYPENAMES.append('BVTK_NT_ImageMagnitude' )
+type_names.append('BVTK_NT_ImageMagnitude')
 
 
 # --------------------------------------------------------------
@@ -6130,7 +6130,7 @@ class BVTK_NT_BlankStructuredGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BlankStructuredGrid)
-TYPENAMES.append('BVTK_NT_BlankStructuredGrid' )
+type_names.append('BVTK_NT_BlankStructuredGrid')
 
 
 # --------------------------------------------------------------
@@ -6164,7 +6164,7 @@ class BVTK_NT_ImagePadFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImagePadFilter)
-TYPENAMES.append('BVTK_NT_ImagePadFilter' )
+type_names.append('BVTK_NT_ImagePadFilter')
 
 
 # --------------------------------------------------------------
@@ -6193,7 +6193,7 @@ class BVTK_NT_TextureMapToCylinder(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TextureMapToCylinder)
-TYPENAMES.append('BVTK_NT_TextureMapToCylinder' )
+type_names.append('BVTK_NT_TextureMapToCylinder')
 
 
 # --------------------------------------------------------------
@@ -6223,7 +6223,7 @@ class BVTK_NT_LinearSelector(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LinearSelector)
-TYPENAMES.append('BVTK_NT_LinearSelector' )
+type_names.append('BVTK_NT_LinearSelector')
 
 
 # --------------------------------------------------------------
@@ -6253,7 +6253,7 @@ class BVTK_NT_DiscreteMarchingCubes(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DiscreteMarchingCubes)
-TYPENAMES.append('BVTK_NT_DiscreteMarchingCubes' )
+type_names.append('BVTK_NT_DiscreteMarchingCubes')
 
 
 # --------------------------------------------------------------
@@ -6281,7 +6281,7 @@ class BVTK_NT_MoleculeToAtomBallFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MoleculeToAtomBallFilter)
-TYPENAMES.append('BVTK_NT_MoleculeToAtomBallFilter' )
+type_names.append('BVTK_NT_MoleculeToAtomBallFilter')
 
 
 # --------------------------------------------------------------
@@ -6324,7 +6324,7 @@ class BVTK_NT_CheckerboardSplatter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CheckerboardSplatter)
-TYPENAMES.append('BVTK_NT_CheckerboardSplatter' )
+type_names.append('BVTK_NT_CheckerboardSplatter')
 
 
 # --------------------------------------------------------------
@@ -6350,7 +6350,7 @@ class BVTK_NT_DataSetGradient(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetGradient)
-TYPENAMES.append('BVTK_NT_DataSetGradient' )
+type_names.append('BVTK_NT_DataSetGradient')
 
 
 # --------------------------------------------------------------
@@ -6375,7 +6375,7 @@ class BVTK_NT_VertexGlyphFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VertexGlyphFilter)
-TYPENAMES.append('BVTK_NT_VertexGlyphFilter' )
+type_names.append('BVTK_NT_VertexGlyphFilter')
 
 
 # --------------------------------------------------------------
@@ -6401,7 +6401,7 @@ class BVTK_NT_TransmitUnstructuredGridPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransmitUnstructuredGridPiece)
-TYPENAMES.append('BVTK_NT_TransmitUnstructuredGridPiece' )
+type_names.append('BVTK_NT_TransmitUnstructuredGridPiece')
 
 
 # --------------------------------------------------------------
@@ -6429,7 +6429,7 @@ class BVTK_NT_Curvatures(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Curvatures)
-TYPENAMES.append('BVTK_NT_Curvatures' )
+type_names.append('BVTK_NT_Curvatures')
 
 
 # --------------------------------------------------------------
@@ -6457,7 +6457,7 @@ class BVTK_NT_RecursiveDividingCubes(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RecursiveDividingCubes)
-TYPENAMES.append('BVTK_NT_RecursiveDividingCubes' )
+type_names.append('BVTK_NT_RecursiveDividingCubes')
 
 
 # --------------------------------------------------------------
@@ -6489,7 +6489,7 @@ class BVTK_NT_VoxelModeller(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VoxelModeller)
-TYPENAMES.append('BVTK_NT_VoxelModeller' )
+type_names.append('BVTK_NT_VoxelModeller')
 
 
 # --------------------------------------------------------------
@@ -6520,7 +6520,7 @@ class BVTK_NT_DataObjectToDataSetFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataObjectToDataSetFilter)
-TYPENAMES.append('BVTK_NT_DataObjectToDataSetFilter' )
+type_names.append('BVTK_NT_DataObjectToDataSetFilter')
 
 
 # --------------------------------------------------------------
@@ -6549,7 +6549,7 @@ class BVTK_NT_GenericContourFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericContourFilter)
-TYPENAMES.append('BVTK_NT_GenericContourFilter' )
+type_names.append('BVTK_NT_GenericContourFilter')
 
 
 # --------------------------------------------------------------
@@ -6582,7 +6582,7 @@ class BVTK_NT_ImageYIQToRGB(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageYIQToRGB)
-TYPENAMES.append('BVTK_NT_ImageYIQToRGB' )
+type_names.append('BVTK_NT_ImageYIQToRGB')
 
 
 # --------------------------------------------------------------
@@ -6610,7 +6610,7 @@ class BVTK_NT_SynchronizedTemplates2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SynchronizedTemplates2D)
-TYPENAMES.append('BVTK_NT_SynchronizedTemplates2D' )
+type_names.append('BVTK_NT_SynchronizedTemplates2D')
 
 
 # --------------------------------------------------------------
@@ -6640,7 +6640,7 @@ class BVTK_NT_CompositeCutter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CompositeCutter)
-TYPENAMES.append('BVTK_NT_CompositeCutter' )
+type_names.append('BVTK_NT_CompositeCutter')
 
 
 # --------------------------------------------------------------
@@ -6665,7 +6665,7 @@ class BVTK_NT_TableFFT(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TableFFT)
-TYPENAMES.append('BVTK_NT_TableFFT' )
+type_names.append('BVTK_NT_TableFFT')
 
 
 # --------------------------------------------------------------
@@ -6691,7 +6691,7 @@ class BVTK_NT_StructuredGridClip(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridClip)
-TYPENAMES.append('BVTK_NT_StructuredGridClip' )
+type_names.append('BVTK_NT_StructuredGridClip')
 
 
 # --------------------------------------------------------------
@@ -6717,7 +6717,7 @@ class BVTK_NT_EdgePoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EdgePoints)
-TYPENAMES.append('BVTK_NT_EdgePoints' )
+type_names.append('BVTK_NT_EdgePoints')
 
 
 # --------------------------------------------------------------
@@ -6742,7 +6742,7 @@ class BVTK_NT_SubdivideTetra(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SubdivideTetra)
-TYPENAMES.append('BVTK_NT_SubdivideTetra' )
+type_names.append('BVTK_NT_SubdivideTetra')
 
 
 # --------------------------------------------------------------
@@ -6768,7 +6768,7 @@ class BVTK_NT_ShrinkFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ShrinkFilter)
-TYPENAMES.append('BVTK_NT_ShrinkFilter' )
+type_names.append('BVTK_NT_ShrinkFilter')
 
 
 # --------------------------------------------------------------
@@ -6800,7 +6800,7 @@ class BVTK_NT_DepthSortPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DepthSortPolyData)
-TYPENAMES.append('BVTK_NT_DepthSortPolyData' )
+type_names.append('BVTK_NT_DepthSortPolyData')
 
 
 # --------------------------------------------------------------
@@ -6829,7 +6829,7 @@ class BVTK_NT_WarpScalar(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_WarpScalar)
-TYPENAMES.append('BVTK_NT_WarpScalar' )
+type_names.append('BVTK_NT_WarpScalar')
 
 
 # --------------------------------------------------------------
@@ -6862,7 +6862,7 @@ class BVTK_NT_ImageVariance3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageVariance3D)
-TYPENAMES.append('BVTK_NT_ImageVariance3D' )
+type_names.append('BVTK_NT_ImageVariance3D')
 
 
 # --------------------------------------------------------------
@@ -6895,7 +6895,7 @@ class BVTK_NT_ImageHSIToRGB(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageHSIToRGB)
-TYPENAMES.append('BVTK_NT_ImageHSIToRGB' )
+type_names.append('BVTK_NT_ImageHSIToRGB')
 
 
 # --------------------------------------------------------------
@@ -6921,7 +6921,7 @@ class BVTK_NT_ExtractUnstructuredGridPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractUnstructuredGridPiece)
-TYPENAMES.append('BVTK_NT_ExtractUnstructuredGridPiece' )
+type_names.append('BVTK_NT_ExtractUnstructuredGridPiece')
 
 
 # --------------------------------------------------------------
@@ -6949,7 +6949,7 @@ class BVTK_NT_TemporalInterpolator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TemporalInterpolator)
-TYPENAMES.append('BVTK_NT_TemporalInterpolator' )
+type_names.append('BVTK_NT_TemporalInterpolator')
 
 
 # --------------------------------------------------------------
@@ -6976,7 +6976,7 @@ class BVTK_NT_ThresholdPoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ThresholdPoints)
-TYPENAMES.append('BVTK_NT_ThresholdPoints' )
+type_names.append('BVTK_NT_ThresholdPoints')
 
 
 # --------------------------------------------------------------
@@ -7001,7 +7001,7 @@ class BVTK_NT_PointSetAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PointSetAlgorithm)
-TYPENAMES.append('BVTK_NT_PointSetAlgorithm' )
+type_names.append('BVTK_NT_PointSetAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -7028,7 +7028,7 @@ class BVTK_NT_MaskPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MaskPolyData)
-TYPENAMES.append('BVTK_NT_MaskPolyData' )
+type_names.append('BVTK_NT_MaskPolyData')
 
 
 # --------------------------------------------------------------
@@ -7055,7 +7055,7 @@ class BVTK_NT_AppendSelection(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AppendSelection)
-TYPENAMES.append('BVTK_NT_AppendSelection' )
+type_names.append('BVTK_NT_AppendSelection')
 
 
 # --------------------------------------------------------------
@@ -7083,7 +7083,7 @@ class BVTK_NT_WarpTo(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_WarpTo)
-TYPENAMES.append('BVTK_NT_WarpTo' )
+type_names.append('BVTK_NT_WarpTo')
 
 
 # --------------------------------------------------------------
@@ -7122,7 +7122,7 @@ class BVTK_NT_ImageAnisotropicDiffusion3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageAnisotropicDiffusion3D)
-TYPENAMES.append('BVTK_NT_ImageAnisotropicDiffusion3D' )
+type_names.append('BVTK_NT_ImageAnisotropicDiffusion3D')
 
 
 # --------------------------------------------------------------
@@ -7147,7 +7147,7 @@ class BVTK_NT_ExtractLevel(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractLevel)
-TYPENAMES.append('BVTK_NT_ExtractLevel' )
+type_names.append('BVTK_NT_ExtractLevel')
 
 
 # --------------------------------------------------------------
@@ -7181,7 +7181,7 @@ class BVTK_NT_ImageMirrorPad(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMirrorPad)
-TYPENAMES.append('BVTK_NT_ImageMirrorPad' )
+type_names.append('BVTK_NT_ImageMirrorPad')
 
 
 # --------------------------------------------------------------
@@ -7212,7 +7212,7 @@ class BVTK_NT_ContourFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ContourFilter)
-TYPENAMES.append('BVTK_NT_ContourFilter' )
+type_names.append('BVTK_NT_ContourFilter')
 
 
 # --------------------------------------------------------------
@@ -7242,7 +7242,7 @@ class BVTK_NT_ReflectionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ReflectionFilter)
-TYPENAMES.append('BVTK_NT_ReflectionFilter' )
+type_names.append('BVTK_NT_ReflectionFilter')
 
 
 # --------------------------------------------------------------
@@ -7273,7 +7273,7 @@ class BVTK_NT_FlyingEdges3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FlyingEdges3D)
-TYPENAMES.append('BVTK_NT_FlyingEdges3D' )
+type_names.append('BVTK_NT_FlyingEdges3D')
 
 
 # --------------------------------------------------------------
@@ -7301,7 +7301,7 @@ class BVTK_NT_SignedDistance(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SignedDistance)
-TYPENAMES.append('BVTK_NT_SignedDistance' )
+type_names.append('BVTK_NT_SignedDistance')
 
 
 # --------------------------------------------------------------
@@ -7327,7 +7327,7 @@ class BVTK_NT_ImageDataToUniformGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageDataToUniformGrid)
-TYPENAMES.append('BVTK_NT_ImageDataToUniformGrid' )
+type_names.append('BVTK_NT_ImageDataToUniformGrid')
 
 
 # --------------------------------------------------------------
@@ -7358,7 +7358,7 @@ class BVTK_NT_TableToStructuredGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TableToStructuredGrid)
-TYPENAMES.append('BVTK_NT_TableToStructuredGrid' )
+type_names.append('BVTK_NT_TableToStructuredGrid')
 
 
 # --------------------------------------------------------------
@@ -7390,7 +7390,7 @@ class BVTK_NT_EuclideanClusterExtraction(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EuclideanClusterExtraction)
-TYPENAMES.append('BVTK_NT_EuclideanClusterExtraction' )
+type_names.append('BVTK_NT_EuclideanClusterExtraction')
 
 
 # --------------------------------------------------------------
@@ -7416,7 +7416,7 @@ class BVTK_NT_CollectTable(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CollectTable)
-TYPENAMES.append('BVTK_NT_CollectTable' )
+type_names.append('BVTK_NT_CollectTable')
 
 
 # --------------------------------------------------------------
@@ -7441,7 +7441,7 @@ class BVTK_NT_DataSetGradientPrecompute(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetGradientPrecompute)
-TYPENAMES.append('BVTK_NT_DataSetGradientPrecompute' )
+type_names.append('BVTK_NT_DataSetGradientPrecompute')
 
 
 # --------------------------------------------------------------
@@ -7468,7 +7468,7 @@ class BVTK_NT_HyperTreeGridThreshold(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridThreshold)
-TYPENAMES.append('BVTK_NT_HyperTreeGridThreshold' )
+type_names.append('BVTK_NT_HyperTreeGridThreshold')
 
 
 # --------------------------------------------------------------
@@ -7494,7 +7494,7 @@ class BVTK_NT_HyperTreeGridCellCenters(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridCellCenters)
-TYPENAMES.append('BVTK_NT_HyperTreeGridCellCenters' )
+type_names.append('BVTK_NT_HyperTreeGridCellCenters')
 
 
 # --------------------------------------------------------------
@@ -7527,7 +7527,7 @@ class BVTK_NT_ImageRGBToYIQ(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageRGBToYIQ)
-TYPENAMES.append('BVTK_NT_ImageRGBToYIQ' )
+type_names.append('BVTK_NT_ImageRGBToYIQ')
 
 
 # --------------------------------------------------------------
@@ -7565,7 +7565,7 @@ class BVTK_NT_UnstructuredGridGeometryFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UnstructuredGridGeometryFilter)
-TYPENAMES.append('BVTK_NT_UnstructuredGridGeometryFilter' )
+type_names.append('BVTK_NT_UnstructuredGridGeometryFilter')
 
 
 # --------------------------------------------------------------
@@ -7590,7 +7590,7 @@ class BVTK_NT_ExtractEdges(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractEdges)
-TYPENAMES.append('BVTK_NT_ExtractEdges' )
+type_names.append('BVTK_NT_ExtractEdges')
 
 
 # --------------------------------------------------------------
@@ -7618,7 +7618,7 @@ class BVTK_NT_ExtractRectilinearGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractRectilinearGrid)
-TYPENAMES.append('BVTK_NT_ExtractRectilinearGrid' )
+type_names.append('BVTK_NT_ExtractRectilinearGrid')
 
 
 # --------------------------------------------------------------
@@ -7650,7 +7650,7 @@ class BVTK_NT_ImageLuminance(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageLuminance)
-TYPENAMES.append('BVTK_NT_ImageLuminance' )
+type_names.append('BVTK_NT_ImageLuminance')
 
 
 # --------------------------------------------------------------
@@ -7675,7 +7675,7 @@ class BVTK_NT_ExtractCells(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractCells)
-TYPENAMES.append('BVTK_NT_ExtractCells' )
+type_names.append('BVTK_NT_ExtractCells')
 
 
 # --------------------------------------------------------------
@@ -7703,7 +7703,7 @@ class BVTK_NT_ImageStencilSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageStencilSource)
-TYPENAMES.append('BVTK_NT_ImageStencilSource' )
+type_names.append('BVTK_NT_ImageStencilSource')
 
 
 # --------------------------------------------------------------
@@ -7728,7 +7728,7 @@ class BVTK_NT_RemoveGhosts(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RemoveGhosts)
-TYPENAMES.append('BVTK_NT_RemoveGhosts' )
+type_names.append('BVTK_NT_RemoveGhosts')
 
 
 # --------------------------------------------------------------
@@ -7766,7 +7766,7 @@ class BVTK_NT_QuadricDecimation(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_QuadricDecimation)
-TYPENAMES.append('BVTK_NT_QuadricDecimation' )
+type_names.append('BVTK_NT_QuadricDecimation')
 
 
 # --------------------------------------------------------------
@@ -7795,7 +7795,7 @@ class BVTK_NT_PiecewiseFunctionShiftScale(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PiecewiseFunctionShiftScale)
-TYPENAMES.append('BVTK_NT_PiecewiseFunctionShiftScale' )
+type_names.append('BVTK_NT_PiecewiseFunctionShiftScale')
 
 
 # --------------------------------------------------------------
@@ -7821,7 +7821,7 @@ class BVTK_NT_HyperTreeGridDepthLimiter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridDepthLimiter)
-TYPENAMES.append('BVTK_NT_HyperTreeGridDepthLimiter' )
+type_names.append('BVTK_NT_HyperTreeGridDepthLimiter')
 
 
 # --------------------------------------------------------------
@@ -7848,7 +7848,7 @@ class BVTK_NT_LoopSubdivisionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LoopSubdivisionFilter)
-TYPENAMES.append('BVTK_NT_LoopSubdivisionFilter' )
+type_names.append('BVTK_NT_LoopSubdivisionFilter')
 
 
 # --------------------------------------------------------------
@@ -7874,7 +7874,7 @@ class BVTK_NT_CellCenters(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CellCenters)
-TYPENAMES.append('BVTK_NT_CellCenters' )
+type_names.append('BVTK_NT_CellCenters')
 
 
 # --------------------------------------------------------------
@@ -7901,7 +7901,7 @@ class BVTK_NT_DuplicatePolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DuplicatePolyData)
-TYPENAMES.append('BVTK_NT_DuplicatePolyData' )
+type_names.append('BVTK_NT_DuplicatePolyData')
 
 
 # --------------------------------------------------------------
@@ -7926,7 +7926,7 @@ class BVTK_NT_AssignAttribute(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AssignAttribute)
-TYPENAMES.append('BVTK_NT_AssignAttribute' )
+type_names.append('BVTK_NT_AssignAttribute')
 
 
 # --------------------------------------------------------------
@@ -7956,7 +7956,7 @@ class BVTK_NT_Cutter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_Cutter)
-TYPENAMES.append('BVTK_NT_Cutter' )
+type_names.append('BVTK_NT_Cutter')
 
 
 # --------------------------------------------------------------
@@ -7989,7 +7989,7 @@ class BVTK_NT_PolyDataConnectivityFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataConnectivityFilter)
-TYPENAMES.append('BVTK_NT_PolyDataConnectivityFilter' )
+type_names.append('BVTK_NT_PolyDataConnectivityFilter')
 
 
 # --------------------------------------------------------------
@@ -8015,7 +8015,7 @@ class BVTK_NT_ProgrammableFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProgrammableFilter)
-TYPENAMES.append('BVTK_NT_ProgrammableFilter' )
+type_names.append('BVTK_NT_ProgrammableFilter')
 
 
 # --------------------------------------------------------------
@@ -8042,7 +8042,7 @@ class BVTK_NT_SurfaceReconstructionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SurfaceReconstructionFilter)
-TYPENAMES.append('BVTK_NT_SurfaceReconstructionFilter' )
+type_names.append('BVTK_NT_SurfaceReconstructionFilter')
 
 
 # --------------------------------------------------------------
@@ -8072,7 +8072,7 @@ class BVTK_NT_ExtractTimeSteps(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractTimeSteps)
-TYPENAMES.append('BVTK_NT_ExtractTimeSteps' )
+type_names.append('BVTK_NT_ExtractTimeSteps')
 
 
 # --------------------------------------------------------------
@@ -8097,7 +8097,7 @@ class BVTK_NT_ImageStencilAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageStencilAlgorithm)
-TYPENAMES.append('BVTK_NT_ImageStencilAlgorithm' )
+type_names.append('BVTK_NT_ImageStencilAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -8124,7 +8124,7 @@ class BVTK_NT_AppendPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AppendPolyData)
-TYPENAMES.append('BVTK_NT_AppendPolyData' )
+type_names.append('BVTK_NT_AppendPolyData')
 
 
 # --------------------------------------------------------------
@@ -8154,7 +8154,7 @@ class BVTK_NT_PReflectionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PReflectionFilter)
-TYPENAMES.append('BVTK_NT_PReflectionFilter' )
+type_names.append('BVTK_NT_PReflectionFilter')
 
 
 # --------------------------------------------------------------
@@ -8179,7 +8179,7 @@ class BVTK_NT_AppendArcLength(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AppendArcLength)
-TYPENAMES.append('BVTK_NT_AppendArcLength' )
+type_names.append('BVTK_NT_AppendArcLength')
 
 
 # --------------------------------------------------------------
@@ -8209,7 +8209,7 @@ class BVTK_NT_GridSynchronizedTemplates3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GridSynchronizedTemplates3D)
-TYPENAMES.append('BVTK_NT_GridSynchronizedTemplates3D' )
+type_names.append('BVTK_NT_GridSynchronizedTemplates3D')
 
 
 # --------------------------------------------------------------
@@ -8238,7 +8238,7 @@ class BVTK_NT_ImageStencilToImage(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageStencilToImage)
-TYPENAMES.append('BVTK_NT_ImageStencilToImage' )
+type_names.append('BVTK_NT_ImageStencilToImage')
 
 
 # --------------------------------------------------------------
@@ -8271,7 +8271,7 @@ class BVTK_NT_AMRResampleFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AMRResampleFilter)
-TYPENAMES.append('BVTK_NT_AMRResampleFilter' )
+type_names.append('BVTK_NT_AMRResampleFilter')
 
 
 # --------------------------------------------------------------
@@ -8301,7 +8301,7 @@ class BVTK_NT_DataSetToDataObjectFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetToDataObjectFilter)
-TYPENAMES.append('BVTK_NT_DataSetToDataObjectFilter' )
+type_names.append('BVTK_NT_DataSetToDataObjectFilter')
 
 
 # --------------------------------------------------------------
@@ -8329,7 +8329,7 @@ class BVTK_NT_ExtractPolyDataGeometry(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractPolyDataGeometry)
-TYPENAMES.append('BVTK_NT_ExtractPolyDataGeometry' )
+type_names.append('BVTK_NT_ExtractPolyDataGeometry')
 
 
 # --------------------------------------------------------------
@@ -8363,7 +8363,7 @@ class BVTK_NT_RibbonFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RibbonFilter)
-TYPENAMES.append('BVTK_NT_RibbonFilter' )
+type_names.append('BVTK_NT_RibbonFilter')
 
 
 # --------------------------------------------------------------
@@ -8402,7 +8402,7 @@ class BVTK_NT_VolumeRayCastSpaceLeapingImageFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VolumeRayCastSpaceLeapingImageFilter)
-TYPENAMES.append('BVTK_NT_VolumeRayCastSpaceLeapingImageFilter' )
+type_names.append('BVTK_NT_VolumeRayCastSpaceLeapingImageFilter')
 
 
 # --------------------------------------------------------------
@@ -8435,7 +8435,7 @@ class BVTK_NT_ImageWeightedSum(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageWeightedSum)
-TYPENAMES.append('BVTK_NT_ImageWeightedSum' )
+type_names.append('BVTK_NT_ImageWeightedSum')
 
 
 # --------------------------------------------------------------
@@ -8465,7 +8465,7 @@ class BVTK_NT_RotationalExtrusionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RotationalExtrusionFilter)
-TYPENAMES.append('BVTK_NT_RotationalExtrusionFilter' )
+type_names.append('BVTK_NT_RotationalExtrusionFilter')
 
 
 # --------------------------------------------------------------
@@ -8493,7 +8493,7 @@ class BVTK_NT_ThresholdTextureCoords(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ThresholdTextureCoords)
-TYPENAMES.append('BVTK_NT_ThresholdTextureCoords' )
+type_names.append('BVTK_NT_ThresholdTextureCoords')
 
 
 # --------------------------------------------------------------
@@ -8518,7 +8518,7 @@ class BVTK_NT_HierarchicalDataSetGeometryFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HierarchicalDataSetGeometryFilter)
-TYPENAMES.append('BVTK_NT_HierarchicalDataSetGeometryFilter' )
+type_names.append('BVTK_NT_HierarchicalDataSetGeometryFilter')
 
 
 # --------------------------------------------------------------
@@ -8550,7 +8550,7 @@ class BVTK_NT_ImageHybridMedian2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageHybridMedian2D)
-TYPENAMES.append('BVTK_NT_ImageHybridMedian2D' )
+type_names.append('BVTK_NT_ImageHybridMedian2D')
 
 
 # --------------------------------------------------------------
@@ -8581,7 +8581,7 @@ class BVTK_NT_RectilinearSynchronizedTemplates(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearSynchronizedTemplates)
-TYPENAMES.append('BVTK_NT_RectilinearSynchronizedTemplates' )
+type_names.append('BVTK_NT_RectilinearSynchronizedTemplates')
 
 
 # --------------------------------------------------------------
@@ -8607,7 +8607,7 @@ class BVTK_NT_ImageDataStreamer(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageDataStreamer)
-TYPENAMES.append('BVTK_NT_ImageDataStreamer' )
+type_names.append('BVTK_NT_ImageDataStreamer')
 
 
 # --------------------------------------------------------------
@@ -8634,7 +8634,7 @@ class BVTK_NT_HyperTreeGridPlaneCutter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HyperTreeGridPlaneCutter)
-TYPENAMES.append('BVTK_NT_HyperTreeGridPlaneCutter' )
+type_names.append('BVTK_NT_HyperTreeGridPlaneCutter')
 
 
 # --------------------------------------------------------------
@@ -8671,7 +8671,7 @@ class BVTK_NT_ImageShiftScale(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageShiftScale)
-TYPENAMES.append('BVTK_NT_ImageShiftScale' )
+type_names.append('BVTK_NT_ImageShiftScale')
 
 
 # --------------------------------------------------------------
@@ -8700,7 +8700,7 @@ class BVTK_NT_ExtractSurface(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractSurface)
-TYPENAMES.append('BVTK_NT_ExtractSurface' )
+type_names.append('BVTK_NT_ExtractSurface')
 
 
 # --------------------------------------------------------------
@@ -8725,7 +8725,7 @@ class BVTK_NT_TriangularTCoords(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TriangularTCoords)
-TYPENAMES.append('BVTK_NT_TriangularTCoords' )
+type_names.append('BVTK_NT_TriangularTCoords')
 
 
 # --------------------------------------------------------------
@@ -8758,7 +8758,7 @@ class BVTK_NT_ImageCityBlockDistance(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageCityBlockDistance)
-TYPENAMES.append('BVTK_NT_ImageCityBlockDistance' )
+type_names.append('BVTK_NT_ImageCityBlockDistance')
 
 
 # --------------------------------------------------------------
@@ -8783,7 +8783,7 @@ class BVTK_NT_UndirectedGraphAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UndirectedGraphAlgorithm)
-TYPENAMES.append('BVTK_NT_UndirectedGraphAlgorithm' )
+type_names.append('BVTK_NT_UndirectedGraphAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -8810,7 +8810,7 @@ class BVTK_NT_CellDataToPointData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CellDataToPointData)
-TYPENAMES.append('BVTK_NT_CellDataToPointData' )
+type_names.append('BVTK_NT_CellDataToPointData')
 
 
 # --------------------------------------------------------------
@@ -8847,7 +8847,7 @@ class BVTK_NT_ImageMapToRGBA(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMapToRGBA)
-TYPENAMES.append('BVTK_NT_ImageMapToRGBA' )
+type_names.append('BVTK_NT_ImageMapToRGBA')
 
 
 # --------------------------------------------------------------
@@ -8872,7 +8872,7 @@ class BVTK_NT_TableAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TableAlgorithm)
-TYPENAMES.append('BVTK_NT_TableAlgorithm' )
+type_names.append('BVTK_NT_TableAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -8906,7 +8906,7 @@ class BVTK_NT_ImageSkeleton2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageSkeleton2D)
-TYPENAMES.append('BVTK_NT_ImageSkeleton2D' )
+type_names.append('BVTK_NT_ImageSkeleton2D')
 
 
 # --------------------------------------------------------------
@@ -8934,7 +8934,7 @@ class BVTK_NT_PCellDataToPointData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PCellDataToPointData)
-TYPENAMES.append('BVTK_NT_PCellDataToPointData' )
+type_names.append('BVTK_NT_PCellDataToPointData')
 
 
 # --------------------------------------------------------------
@@ -8963,7 +8963,7 @@ class BVTK_NT_TemporalArrayOperatorFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TemporalArrayOperatorFilter)
-TYPENAMES.append('BVTK_NT_TemporalArrayOperatorFilter' )
+type_names.append('BVTK_NT_TemporalArrayOperatorFilter')
 
 
 # --------------------------------------------------------------
@@ -8990,7 +8990,7 @@ class BVTK_NT_TriangleFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TriangleFilter)
-TYPENAMES.append('BVTK_NT_TriangleFilter' )
+type_names.append('BVTK_NT_TriangleFilter')
 
 
 # --------------------------------------------------------------
@@ -9016,7 +9016,7 @@ class BVTK_NT_UncertaintyTubeFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UncertaintyTubeFilter)
-TYPENAMES.append('BVTK_NT_UncertaintyTubeFilter' )
+type_names.append('BVTK_NT_UncertaintyTubeFilter')
 
 
 # --------------------------------------------------------------
@@ -9054,7 +9054,7 @@ class BVTK_NT_ImageEuclideanDistance(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageEuclideanDistance)
-TYPENAMES.append('BVTK_NT_ImageEuclideanDistance' )
+type_names.append('BVTK_NT_ImageEuclideanDistance')
 
 
 # --------------------------------------------------------------
@@ -9079,7 +9079,7 @@ class BVTK_NT_TransformFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransformFilter)
-TYPENAMES.append('BVTK_NT_TransformFilter' )
+type_names.append('BVTK_NT_TransformFilter')
 
 
 # --------------------------------------------------------------
@@ -9104,7 +9104,7 @@ class BVTK_NT_ExtractDataSets(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractDataSets)
-TYPENAMES.append('BVTK_NT_ExtractDataSets' )
+type_names.append('BVTK_NT_ExtractDataSets')
 
 
 # --------------------------------------------------------------
@@ -9130,7 +9130,7 @@ class BVTK_NT_InterpolateDataSetAttributes(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_InterpolateDataSetAttributes)
-TYPENAMES.append('BVTK_NT_InterpolateDataSetAttributes' )
+type_names.append('BVTK_NT_InterpolateDataSetAttributes')
 
 
 # --------------------------------------------------------------
@@ -9155,7 +9155,7 @@ class BVTK_NT_DirectedGraphAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DirectedGraphAlgorithm)
-TYPENAMES.append('BVTK_NT_DirectedGraphAlgorithm' )
+type_names.append('BVTK_NT_DirectedGraphAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -9186,7 +9186,7 @@ class BVTK_NT_OBBDicer(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OBBDicer)
-TYPENAMES.append('BVTK_NT_OBBDicer' )
+type_names.append('BVTK_NT_OBBDicer')
 
 
 # --------------------------------------------------------------
@@ -9216,7 +9216,7 @@ class BVTK_NT_PlaneCutter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PlaneCutter)
-TYPENAMES.append('BVTK_NT_PlaneCutter' )
+type_names.append('BVTK_NT_PlaneCutter')
 
 
 # --------------------------------------------------------------
@@ -9243,7 +9243,7 @@ class BVTK_NT_ImageClip(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageClip)
-TYPENAMES.append('BVTK_NT_ImageClip' )
+type_names.append('BVTK_NT_ImageClip')
 
 
 # --------------------------------------------------------------
@@ -9276,7 +9276,7 @@ class BVTK_NT_ImageContinuousDilate3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageContinuousDilate3D)
-TYPENAMES.append('BVTK_NT_ImageContinuousDilate3D' )
+type_names.append('BVTK_NT_ImageContinuousDilate3D')
 
 
 # --------------------------------------------------------------
@@ -9302,7 +9302,7 @@ class BVTK_NT_ShrinkPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ShrinkPolyData)
-TYPENAMES.append('BVTK_NT_ShrinkPolyData' )
+type_names.append('BVTK_NT_ShrinkPolyData')
 
 
 # --------------------------------------------------------------
@@ -9327,7 +9327,7 @@ class BVTK_NT_PassThroughFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PassThroughFilter)
-TYPENAMES.append('BVTK_NT_PassThroughFilter' )
+type_names.append('BVTK_NT_PassThroughFilter')
 
 
 # --------------------------------------------------------------
@@ -9352,7 +9352,7 @@ class BVTK_NT_StructuredGridOutlineFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridOutlineFilter)
-TYPENAMES.append('BVTK_NT_StructuredGridOutlineFilter' )
+type_names.append('BVTK_NT_StructuredGridOutlineFilter')
 
 
 # --------------------------------------------------------------
@@ -9378,7 +9378,7 @@ class BVTK_NT_ExtractPointCloudPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractPointCloudPiece)
-TYPENAMES.append('BVTK_NT_ExtractPointCloudPiece' )
+type_names.append('BVTK_NT_ExtractPointCloudPiece')
 
 
 # --------------------------------------------------------------
@@ -9405,7 +9405,7 @@ class BVTK_NT_PointDataToCellData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PointDataToCellData)
-TYPENAMES.append('BVTK_NT_PointDataToCellData' )
+type_names.append('BVTK_NT_PointDataToCellData')
 
 
 # --------------------------------------------------------------
@@ -9439,7 +9439,7 @@ class BVTK_NT_ImageMagnify(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMagnify)
-TYPENAMES.append('BVTK_NT_ImageMagnify' )
+type_names.append('BVTK_NT_ImageMagnify')
 
 
 # --------------------------------------------------------------
@@ -9473,7 +9473,7 @@ class BVTK_NT_GeometryFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GeometryFilter)
-TYPENAMES.append('BVTK_NT_GeometryFilter' )
+type_names.append('BVTK_NT_GeometryFilter')
 
 
 # --------------------------------------------------------------
@@ -9502,7 +9502,7 @@ class BVTK_NT_CellQuality(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CellQuality)
-TYPENAMES.append('BVTK_NT_CellQuality' )
+type_names.append('BVTK_NT_CellQuality')
 
 
 # --------------------------------------------------------------
@@ -9529,7 +9529,7 @@ class BVTK_NT_ImageOpenClose3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageOpenClose3D)
-TYPENAMES.append('BVTK_NT_ImageOpenClose3D' )
+type_names.append('BVTK_NT_ImageOpenClose3D')
 
 
 # --------------------------------------------------------------
@@ -9554,7 +9554,7 @@ class BVTK_NT_MultiBlockFromTimeSeriesFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MultiBlockFromTimeSeriesFilter)
-TYPENAMES.append('BVTK_NT_MultiBlockFromTimeSeriesFilter' )
+type_names.append('BVTK_NT_MultiBlockFromTimeSeriesFilter')
 
 
 # --------------------------------------------------------------
@@ -9579,7 +9579,7 @@ class BVTK_NT_StructuredGridAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridAlgorithm)
-TYPENAMES.append('BVTK_NT_StructuredGridAlgorithm' )
+type_names.append('BVTK_NT_StructuredGridAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -9605,7 +9605,7 @@ class BVTK_NT_PolyDataToReebGraphFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataToReebGraphFilter)
-TYPENAMES.append('BVTK_NT_PolyDataToReebGraphFilter' )
+type_names.append('BVTK_NT_PolyDataToReebGraphFilter')
 
 
 # --------------------------------------------------------------
@@ -9631,7 +9631,7 @@ class BVTK_NT_ImplicitTextureCoords(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitTextureCoords)
-TYPENAMES.append('BVTK_NT_ImplicitTextureCoords' )
+type_names.append('BVTK_NT_ImplicitTextureCoords')
 
 
 # --------------------------------------------------------------
@@ -9667,7 +9667,7 @@ class BVTK_NT_ImageIdealHighPass(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageIdealHighPass)
-TYPENAMES.append('BVTK_NT_ImageIdealHighPass' )
+type_names.append('BVTK_NT_ImageIdealHighPass')
 
 
 # --------------------------------------------------------------
@@ -9693,7 +9693,7 @@ class BVTK_NT_ExtractTemporalFieldData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractTemporalFieldData)
-TYPENAMES.append('BVTK_NT_ExtractTemporalFieldData' )
+type_names.append('BVTK_NT_ExtractTemporalFieldData')
 
 
 # --------------------------------------------------------------
@@ -9728,7 +9728,7 @@ class BVTK_NT_ImageConstantPad(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageConstantPad)
-TYPENAMES.append('BVTK_NT_ImageConstantPad' )
+type_names.append('BVTK_NT_ImageConstantPad')
 
 
 # --------------------------------------------------------------
@@ -9758,7 +9758,7 @@ class BVTK_NT_ContourLoopExtraction(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ContourLoopExtraction)
-TYPENAMES.append('BVTK_NT_ContourLoopExtraction' )
+type_names.append('BVTK_NT_ContourLoopExtraction')
 
 
 # --------------------------------------------------------------
@@ -9785,7 +9785,7 @@ class BVTK_NT_MarchingSquares(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MarchingSquares)
-TYPENAMES.append('BVTK_NT_MarchingSquares' )
+type_names.append('BVTK_NT_MarchingSquares')
 
 
 # --------------------------------------------------------------
@@ -9813,7 +9813,7 @@ class BVTK_NT_RectilinearGridPartitioner(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridPartitioner)
-TYPENAMES.append('BVTK_NT_RectilinearGridPartitioner' )
+type_names.append('BVTK_NT_RectilinearGridPartitioner')
 
 
 # --------------------------------------------------------------
@@ -9846,7 +9846,7 @@ class BVTK_NT_ImageHSVToRGB(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageHSVToRGB)
-TYPENAMES.append('BVTK_NT_ImageHSVToRGB' )
+type_names.append('BVTK_NT_ImageHSVToRGB')
 
 
 # --------------------------------------------------------------
@@ -9879,7 +9879,7 @@ class BVTK_NT_GreedyTerrainDecimation(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GreedyTerrainDecimation)
-TYPENAMES.append('BVTK_NT_GreedyTerrainDecimation' )
+type_names.append('BVTK_NT_GreedyTerrainDecimation')
 
 
 # --------------------------------------------------------------
@@ -9917,7 +9917,7 @@ class BVTK_NT_ImageBSplineCoefficients(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageBSplineCoefficients)
-TYPENAMES.append('BVTK_NT_ImageBSplineCoefficients' )
+type_names.append('BVTK_NT_ImageBSplineCoefficients')
 
 
 # --------------------------------------------------------------
@@ -9950,7 +9950,7 @@ class BVTK_NT_ImageContinuousErode3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageContinuousErode3D)
-TYPENAMES.append('BVTK_NT_ImageContinuousErode3D' )
+type_names.append('BVTK_NT_ImageContinuousErode3D')
 
 
 # --------------------------------------------------------------
@@ -9979,7 +9979,7 @@ class BVTK_NT_TransformCoordinateSystems(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransformCoordinateSystems)
-TYPENAMES.append('BVTK_NT_TransformCoordinateSystems' )
+type_names.append('BVTK_NT_TransformCoordinateSystems')
 
 
 # --------------------------------------------------------------
@@ -10004,7 +10004,7 @@ class BVTK_NT_MultiBlockDataGroupFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MultiBlockDataGroupFilter)
-TYPENAMES.append('BVTK_NT_MultiBlockDataGroupFilter' )
+type_names.append('BVTK_NT_MultiBlockDataGroupFilter')
 
 
 # --------------------------------------------------------------
@@ -10031,7 +10031,7 @@ class BVTK_NT_GenericDataSetTessellator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericDataSetTessellator)
-TYPENAMES.append('BVTK_NT_GenericDataSetTessellator' )
+type_names.append('BVTK_NT_GenericDataSetTessellator')
 
 
 # --------------------------------------------------------------
@@ -10059,7 +10059,7 @@ class BVTK_NT_TextureMapToSphere(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TextureMapToSphere)
-TYPENAMES.append('BVTK_NT_TextureMapToSphere' )
+type_names.append('BVTK_NT_TextureMapToSphere')
 
 
 # --------------------------------------------------------------
@@ -10086,7 +10086,7 @@ class BVTK_NT_LabelSizeCalculator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LabelSizeCalculator)
-TYPENAMES.append('BVTK_NT_LabelSizeCalculator' )
+type_names.append('BVTK_NT_LabelSizeCalculator')
 
 
 # --------------------------------------------------------------
@@ -10121,7 +10121,7 @@ class BVTK_NT_IconGlyphFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_IconGlyphFilter)
-TYPENAMES.append('BVTK_NT_IconGlyphFilter' )
+type_names.append('BVTK_NT_IconGlyphFilter')
 
 
 # --------------------------------------------------------------
@@ -10154,7 +10154,7 @@ class BVTK_NT_ImageRange3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageRange3D)
-TYPENAMES.append('BVTK_NT_ImageRange3D' )
+type_names.append('BVTK_NT_ImageRange3D')
 
 
 # --------------------------------------------------------------
@@ -10180,7 +10180,7 @@ class BVTK_NT_ImageCacheFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageCacheFilter)
-TYPENAMES.append('BVTK_NT_ImageCacheFilter' )
+type_names.append('BVTK_NT_ImageCacheFilter')
 
 
 # --------------------------------------------------------------
@@ -10205,7 +10205,7 @@ class BVTK_NT_LabelHierarchyAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LabelHierarchyAlgorithm)
-TYPENAMES.append('BVTK_NT_LabelHierarchyAlgorithm' )
+type_names.append('BVTK_NT_LabelHierarchyAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -10231,7 +10231,7 @@ class BVTK_NT_TransmitImageDataPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransmitImageDataPiece)
-TYPENAMES.append('BVTK_NT_TransmitImageDataPiece' )
+type_names.append('BVTK_NT_TransmitImageDataPiece')
 
 
 # --------------------------------------------------------------
@@ -10265,7 +10265,7 @@ class BVTK_NT_CellSizeFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CellSizeFilter)
-TYPENAMES.append('BVTK_NT_CellSizeFilter' )
+type_names.append('BVTK_NT_CellSizeFilter')
 
 
 # --------------------------------------------------------------
@@ -10293,7 +10293,7 @@ class BVTK_NT_ExtractVOI(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractVOI)
-TYPENAMES.append('BVTK_NT_ExtractVOI' )
+type_names.append('BVTK_NT_ExtractVOI')
 
 
 # --------------------------------------------------------------
@@ -10318,7 +10318,7 @@ class BVTK_NT_LinearToQuadraticCellsFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LinearToQuadraticCellsFilter)
-TYPENAMES.append('BVTK_NT_LinearToQuadraticCellsFilter' )
+type_names.append('BVTK_NT_LinearToQuadraticCellsFilter')
 
 
 # --------------------------------------------------------------
@@ -10343,7 +10343,7 @@ class BVTK_NT_GraphAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphAlgorithm)
-TYPENAMES.append('BVTK_NT_GraphAlgorithm' )
+type_names.append('BVTK_NT_GraphAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -10373,7 +10373,7 @@ class BVTK_NT_DijkstraGraphGeodesicPath(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DijkstraGraphGeodesicPath)
-TYPENAMES.append('BVTK_NT_DijkstraGraphGeodesicPath' )
+type_names.append('BVTK_NT_DijkstraGraphGeodesicPath')
 
 
 # --------------------------------------------------------------
@@ -10401,7 +10401,7 @@ class BVTK_NT_ExtractGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractGrid)
-TYPENAMES.append('BVTK_NT_ExtractGrid' )
+type_names.append('BVTK_NT_ExtractGrid')
 
 
 # --------------------------------------------------------------
@@ -10428,7 +10428,7 @@ class BVTK_NT_MemoryLimitImageDataStreamer(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MemoryLimitImageDataStreamer)
-TYPENAMES.append('BVTK_NT_MemoryLimitImageDataStreamer' )
+type_names.append('BVTK_NT_MemoryLimitImageDataStreamer')
 
 
 # --------------------------------------------------------------
@@ -10458,7 +10458,7 @@ class BVTK_NT_ImageMarchingCubes(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMarchingCubes)
-TYPENAMES.append('BVTK_NT_ImageMarchingCubes' )
+type_names.append('BVTK_NT_ImageMarchingCubes')
 
 
 # --------------------------------------------------------------
@@ -10483,7 +10483,7 @@ class BVTK_NT_PointConnectivityFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PointConnectivityFilter)
-TYPENAMES.append('BVTK_NT_PointConnectivityFilter' )
+type_names.append('BVTK_NT_PointConnectivityFilter')
 
 
 # --------------------------------------------------------------
@@ -10522,7 +10522,7 @@ class BVTK_NT_ImplicitModeller(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImplicitModeller)
-TYPENAMES.append('BVTK_NT_ImplicitModeller' )
+type_names.append('BVTK_NT_ImplicitModeller')
 
 
 # --------------------------------------------------------------
@@ -10553,7 +10553,7 @@ class BVTK_NT_RotationFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RotationFilter)
-TYPENAMES.append('BVTK_NT_RotationFilter' )
+type_names.append('BVTK_NT_RotationFilter')
 
 
 # --------------------------------------------------------------
@@ -10578,7 +10578,7 @@ class BVTK_NT_MaskFields(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MaskFields)
-TYPENAMES.append('BVTK_NT_MaskFields' )
+type_names.append('BVTK_NT_MaskFields')
 
 
 # --------------------------------------------------------------
@@ -10604,7 +10604,7 @@ class BVTK_NT_DataSetTriangleFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetTriangleFilter)
-TYPENAMES.append('BVTK_NT_DataSetTriangleFilter' )
+type_names.append('BVTK_NT_DataSetTriangleFilter')
 
 
 # --------------------------------------------------------------
@@ -10632,7 +10632,7 @@ class BVTK_NT_ImageToAMR(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageToAMR)
-TYPENAMES.append('BVTK_NT_ImageToAMR' )
+type_names.append('BVTK_NT_ImageToAMR')
 
 
 # --------------------------------------------------------------
@@ -10663,7 +10663,7 @@ class BVTK_NT_FeatureEdges(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FeatureEdges)
-TYPENAMES.append('BVTK_NT_FeatureEdges' )
+type_names.append('BVTK_NT_FeatureEdges')
 
 
 # --------------------------------------------------------------
@@ -10692,7 +10692,7 @@ class BVTK_NT_TessellatorFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TessellatorFilter)
-TYPENAMES.append('BVTK_NT_TessellatorFilter' )
+type_names.append('BVTK_NT_TessellatorFilter')
 
 
 # --------------------------------------------------------------
@@ -10723,7 +10723,7 @@ class BVTK_NT_TransformTextureCoords(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransformTextureCoords)
-TYPENAMES.append('BVTK_NT_TransformTextureCoords' )
+type_names.append('BVTK_NT_TransformTextureCoords')
 
 
 # --------------------------------------------------------------
@@ -10749,7 +10749,7 @@ class BVTK_NT_ContourTriangulator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ContourTriangulator)
-TYPENAMES.append('BVTK_NT_ContourTriangulator' )
+type_names.append('BVTK_NT_ContourTriangulator')
 
 
 # --------------------------------------------------------------
@@ -10774,7 +10774,7 @@ class BVTK_NT_GraphWeightEuclideanDistanceFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphWeightEuclideanDistanceFilter)
-TYPENAMES.append('BVTK_NT_GraphWeightEuclideanDistanceFilter' )
+type_names.append('BVTK_NT_GraphWeightEuclideanDistanceFilter')
 
 
 # --------------------------------------------------------------
@@ -10800,7 +10800,7 @@ class BVTK_NT_TransmitPolyDataPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TransmitPolyDataPiece)
-TYPENAMES.append('BVTK_NT_TransmitPolyDataPiece' )
+type_names.append('BVTK_NT_TransmitPolyDataPiece')
 
 
 # --------------------------------------------------------------
@@ -10832,7 +10832,7 @@ class BVTK_NT_ImageSpatialAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageSpatialAlgorithm)
-TYPENAMES.append('BVTK_NT_ImageSpatialAlgorithm' )
+type_names.append('BVTK_NT_ImageSpatialAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -10867,7 +10867,7 @@ class BVTK_NT_ImageToPolyDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageToPolyDataFilter)
-TYPENAMES.append('BVTK_NT_ImageToPolyDataFilter' )
+type_names.append('BVTK_NT_ImageToPolyDataFilter')
 
 
 # --------------------------------------------------------------
@@ -10894,7 +10894,7 @@ class BVTK_NT_PieceRequestFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PieceRequestFilter)
-TYPENAMES.append('BVTK_NT_PieceRequestFilter' )
+type_names.append('BVTK_NT_PieceRequestFilter')
 
 
 # --------------------------------------------------------------
@@ -10923,7 +10923,7 @@ class BVTK_NT_VolumeOfRevolutionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VolumeOfRevolutionFilter)
-TYPENAMES.append('BVTK_NT_VolumeOfRevolutionFilter' )
+type_names.append('BVTK_NT_VolumeOfRevolutionFilter')
 
 
 # --------------------------------------------------------------
@@ -10950,7 +10950,7 @@ class BVTK_NT_ExtractBlock(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractBlock)
-TYPENAMES.append('BVTK_NT_ExtractBlock' )
+type_names.append('BVTK_NT_ExtractBlock')
 
 
 # --------------------------------------------------------------
@@ -10978,7 +10978,7 @@ class BVTK_NT_ImageCursor3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageCursor3D)
-TYPENAMES.append('BVTK_NT_ImageCursor3D' )
+type_names.append('BVTK_NT_ImageCursor3D')
 
 
 # --------------------------------------------------------------
@@ -11004,7 +11004,7 @@ class BVTK_NT_ExtractArray(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractArray)
-TYPENAMES.append('BVTK_NT_ExtractArray' )
+type_names.append('BVTK_NT_ExtractArray')
 
 
 # --------------------------------------------------------------
@@ -11037,7 +11037,7 @@ class BVTK_NT_ImageRGBToHSV(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageRGBToHSV)
-TYPENAMES.append('BVTK_NT_ImageRGBToHSV' )
+type_names.append('BVTK_NT_ImageRGBToHSV')
 
 
 # --------------------------------------------------------------
@@ -11063,7 +11063,7 @@ class BVTK_NT_AppendFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AppendFilter)
-TYPENAMES.append('BVTK_NT_AppendFilter' )
+type_names.append('BVTK_NT_AppendFilter')
 
 
 # --------------------------------------------------------------
@@ -11098,7 +11098,7 @@ class BVTK_NT_ImageDilateErode3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageDilateErode3D)
-TYPENAMES.append('BVTK_NT_ImageDilateErode3D' )
+type_names.append('BVTK_NT_ImageDilateErode3D')
 
 
 # --------------------------------------------------------------
@@ -11128,7 +11128,7 @@ class BVTK_NT_ContourGrid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ContourGrid)
-TYPENAMES.append('BVTK_NT_ContourGrid' )
+type_names.append('BVTK_NT_ContourGrid')
 
 
 # --------------------------------------------------------------
@@ -11156,7 +11156,7 @@ class BVTK_NT_ElevationFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ElevationFilter)
-TYPENAMES.append('BVTK_NT_ElevationFilter' )
+type_names.append('BVTK_NT_ElevationFilter')
 
 
 # --------------------------------------------------------------
@@ -11182,7 +11182,7 @@ class BVTK_NT_RectilinearGridGeometryFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridGeometryFilter)
-TYPENAMES.append('BVTK_NT_RectilinearGridGeometryFilter' )
+type_names.append('BVTK_NT_RectilinearGridGeometryFilter')
 
 
 # --------------------------------------------------------------
@@ -11207,7 +11207,7 @@ class BVTK_NT_CastToConcrete(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CastToConcrete)
-TYPENAMES.append('BVTK_NT_CastToConcrete' )
+type_names.append('BVTK_NT_CastToConcrete')
 
 
 # --------------------------------------------------------------
@@ -11240,7 +11240,7 @@ class BVTK_NT_ImageEuclideanToPolar(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageEuclideanToPolar)
-TYPENAMES.append('BVTK_NT_ImageEuclideanToPolar' )
+type_names.append('BVTK_NT_ImageEuclideanToPolar')
 
 
 # --------------------------------------------------------------
@@ -11272,7 +11272,7 @@ class BVTK_NT_DataSetSurfaceFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetSurfaceFilter)
-TYPENAMES.append('BVTK_NT_DataSetSurfaceFilter' )
+type_names.append('BVTK_NT_DataSetSurfaceFilter')
 
 
 # --------------------------------------------------------------
@@ -11297,7 +11297,7 @@ class BVTK_NT_GenericOutlineFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericOutlineFilter)
-TYPENAMES.append('BVTK_NT_GenericOutlineFilter' )
+type_names.append('BVTK_NT_GenericOutlineFilter')
 
 
 # --------------------------------------------------------------
@@ -11323,7 +11323,7 @@ class BVTK_NT_UniformGridGhostDataGenerator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UniformGridGhostDataGenerator)
-TYPENAMES.append('BVTK_NT_UniformGridGhostDataGenerator' )
+type_names.append('BVTK_NT_UniformGridGhostDataGenerator')
 
 
 # --------------------------------------------------------------
@@ -11358,7 +11358,7 @@ class BVTK_NT_ImageMaskBits(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMaskBits)
-TYPENAMES.append('BVTK_NT_ImageMaskBits' )
+type_names.append('BVTK_NT_ImageMaskBits')
 
 
 # --------------------------------------------------------------
@@ -11386,7 +11386,7 @@ class BVTK_NT_ProjectSphereFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProjectSphereFilter)
-TYPENAMES.append('BVTK_NT_ProjectSphereFilter' )
+type_names.append('BVTK_NT_ProjectSphereFilter')
 
 
 # --------------------------------------------------------------
@@ -11411,7 +11411,7 @@ class BVTK_NT_RectilinearGridAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridAlgorithm)
-TYPENAMES.append('BVTK_NT_RectilinearGridAlgorithm' )
+type_names.append('BVTK_NT_RectilinearGridAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -11437,7 +11437,7 @@ class BVTK_NT_AppendPoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AppendPoints)
-TYPENAMES.append('BVTK_NT_AppendPoints' )
+type_names.append('BVTK_NT_AppendPoints')
 
 
 # --------------------------------------------------------------
@@ -11466,7 +11466,7 @@ class BVTK_NT_TemporalStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TemporalStatistics)
-TYPENAMES.append('BVTK_NT_TemporalStatistics' )
+type_names.append('BVTK_NT_TemporalStatistics')
 
 
 # --------------------------------------------------------------
@@ -11492,7 +11492,7 @@ class BVTK_NT_DecimatePolylineFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DecimatePolylineFilter)
-TYPENAMES.append('BVTK_NT_DecimatePolylineFilter' )
+type_names.append('BVTK_NT_DecimatePolylineFilter')
 
 
 # --------------------------------------------------------------
@@ -11525,7 +11525,7 @@ class BVTK_NT_ImageSeparableConvolution(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageSeparableConvolution)
-TYPENAMES.append('BVTK_NT_ImageSeparableConvolution' )
+type_names.append('BVTK_NT_ImageSeparableConvolution')
 
 
 # --------------------------------------------------------------
@@ -11551,7 +11551,7 @@ class BVTK_NT_POutlineCornerFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_POutlineCornerFilter)
-TYPENAMES.append('BVTK_NT_POutlineCornerFilter' )
+type_names.append('BVTK_NT_POutlineCornerFilter')
 
 
 # --------------------------------------------------------------
@@ -11576,7 +11576,7 @@ class BVTK_NT_ProgrammableAttributeDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProgrammableAttributeDataFilter)
-TYPENAMES.append('BVTK_NT_ProgrammableAttributeDataFilter' )
+type_names.append('BVTK_NT_ProgrammableAttributeDataFilter')
 
 
 # --------------------------------------------------------------
@@ -11614,7 +11614,7 @@ class BVTK_NT_DecimatePro(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DecimatePro)
-TYPENAMES.append('BVTK_NT_DecimatePro' )
+type_names.append('BVTK_NT_DecimatePro')
 
 
 # --------------------------------------------------------------
@@ -11642,7 +11642,7 @@ class BVTK_NT_RectilinearGridToTetrahedra(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridToTetrahedra)
-TYPENAMES.append('BVTK_NT_RectilinearGridToTetrahedra' )
+type_names.append('BVTK_NT_RectilinearGridToTetrahedra')
 
 
 # --------------------------------------------------------------
@@ -11667,7 +11667,7 @@ class BVTK_NT_OverlappingAMRLevelIdScalars(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OverlappingAMRLevelIdScalars)
-TYPENAMES.append('BVTK_NT_OverlappingAMRLevelIdScalars' )
+type_names.append('BVTK_NT_OverlappingAMRLevelIdScalars')
 
 
 # --------------------------------------------------------------
@@ -11696,7 +11696,7 @@ class BVTK_NT_PolyDataToImageStencil(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataToImageStencil)
-TYPENAMES.append('BVTK_NT_PolyDataToImageStencil' )
+type_names.append('BVTK_NT_PolyDataToImageStencil')
 
 
 # --------------------------------------------------------------
@@ -11730,7 +11730,7 @@ class BVTK_NT_QuantizePolyDataPoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_QuantizePolyDataPoints)
-TYPENAMES.append('BVTK_NT_QuantizePolyDataPoints' )
+type_names.append('BVTK_NT_QuantizePolyDataPoints')
 
 
 # --------------------------------------------------------------
@@ -11766,7 +11766,7 @@ class BVTK_NT_TableToPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TableToPolyData)
-TYPENAMES.append('BVTK_NT_TableToPolyData' )
+type_names.append('BVTK_NT_TableToPolyData')
 
 
 # --------------------------------------------------------------
@@ -11795,7 +11795,7 @@ class BVTK_NT_CutMaterial(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CutMaterial)
-TYPENAMES.append('BVTK_NT_CutMaterial' )
+type_names.append('BVTK_NT_CutMaterial')
 
 
 # --------------------------------------------------------------
@@ -11829,7 +11829,7 @@ class BVTK_NT_ImageWrapPad(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageWrapPad)
-TYPENAMES.append('BVTK_NT_ImageWrapPad' )
+type_names.append('BVTK_NT_ImageWrapPad')
 
 
 # --------------------------------------------------------------
@@ -11854,7 +11854,7 @@ class BVTK_NT_RearrangeFields(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RearrangeFields)
-TYPENAMES.append('BVTK_NT_RearrangeFields' )
+type_names.append('BVTK_NT_RearrangeFields')
 
 
 # --------------------------------------------------------------
@@ -11880,7 +11880,7 @@ class BVTK_NT_SimpleElevationFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SimpleElevationFilter)
-TYPENAMES.append('BVTK_NT_SimpleElevationFilter' )
+type_names.append('BVTK_NT_SimpleElevationFilter')
 
 
 # --------------------------------------------------------------
@@ -11908,7 +11908,7 @@ class BVTK_NT_SplitColumnComponents(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SplitColumnComponents)
-TYPENAMES.append('BVTK_NT_SplitColumnComponents' )
+type_names.append('BVTK_NT_SplitColumnComponents')
 
 
 # --------------------------------------------------------------
@@ -11934,7 +11934,7 @@ class BVTK_NT_StructuredGridGhostDataGenerator(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridGhostDataGenerator)
-TYPENAMES.append('BVTK_NT_StructuredGridGhostDataGenerator' )
+type_names.append('BVTK_NT_StructuredGridGhostDataGenerator')
 
 
 # --------------------------------------------------------------
@@ -11966,7 +11966,7 @@ class BVTK_NT_TextureMapToPlane(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TextureMapToPlane)
-TYPENAMES.append('BVTK_NT_TextureMapToPlane' )
+type_names.append('BVTK_NT_TextureMapToPlane')
 
 
 # --------------------------------------------------------------
@@ -11993,7 +11993,7 @@ class BVTK_NT_VectorDot(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_VectorDot)
-TYPENAMES.append('BVTK_NT_VectorDot' )
+type_names.append('BVTK_NT_VectorDot')
 
 
 # --------------------------------------------------------------
@@ -12026,7 +12026,7 @@ class BVTK_NT_DijkstraImageGeodesicPath(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DijkstraImageGeodesicPath)
-TYPENAMES.append('BVTK_NT_DijkstraImageGeodesicPath' )
+type_names.append('BVTK_NT_DijkstraImageGeodesicPath')
 
 
 # --------------------------------------------------------------
@@ -12052,7 +12052,7 @@ class BVTK_NT_PCACurvatureEstimation(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PCACurvatureEstimation)
-TYPENAMES.append('BVTK_NT_PCACurvatureEstimation' )
+type_names.append('BVTK_NT_PCACurvatureEstimation')
 
 
 # --------------------------------------------------------------
@@ -12079,7 +12079,7 @@ class BVTK_NT_LinearSubdivisionFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LinearSubdivisionFilter)
-TYPENAMES.append('BVTK_NT_LinearSubdivisionFilter' )
+type_names.append('BVTK_NT_LinearSubdivisionFilter')
 
 
 # --------------------------------------------------------------
@@ -12105,7 +12105,7 @@ class BVTK_NT_ExtractPolyDataPiece(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractPolyDataPiece)
-TYPENAMES.append('BVTK_NT_ExtractPolyDataPiece' )
+type_names.append('BVTK_NT_ExtractPolyDataPiece')
 
 
 # --------------------------------------------------------------
@@ -12138,7 +12138,7 @@ class BVTK_NT_ImageMedian3D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageMedian3D)
-TYPENAMES.append('BVTK_NT_ImageMedian3D' )
+type_names.append('BVTK_NT_ImageMedian3D')
 
 
 # --------------------------------------------------------------
@@ -12172,7 +12172,7 @@ class BVTK_NT_PPolyDataNormals(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PPolyDataNormals)
-TYPENAMES.append('BVTK_NT_PPolyDataNormals' )
+type_names.append('BVTK_NT_PPolyDataNormals')
 
 
 # --------------------------------------------------------------
@@ -12198,11 +12198,11 @@ class BVTK_NT_OutlineCornerFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OutlineCornerFilter)
-TYPENAMES.append('BVTK_NT_OutlineCornerFilter' )
+type_names.append('BVTK_NT_OutlineCornerFilter')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKFilter1', 'Filter1', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKFilter1', 'Filter1', items=menu_items))

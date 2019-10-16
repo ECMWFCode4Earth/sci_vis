@@ -141,9 +141,9 @@ def get_methods(group):
 # -------------------------------------
 # Node file template
 # -------------------------------------
-node_template_s = """from .core import *
-TYPENAMES = []
-{% for C in CLASSES %}
+node_template_s = """from ... core import *
+type_names = []
+{% for C in node_classes %}
 
 # --------------------------------------------------------------
 
@@ -169,14 +169,15 @@ class BVTK_NT_{{C.NAME}}(Node, {{BASE}}):
 
 
 add_class(BVTK_NT_{{C.NAME}})
-TYPENAMES.append('BVTK_NT_{{C.NAME}}' )
+type_names.append('BVTK_NT_{{C.NAME}}')
 {% endfor %}
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTK{{MENU}}', '{{MENU}}', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTK{{MENU}}', '{{MENU}}', items=menu_items))
+
 """
 node_template = Template(node_template_s)
 
@@ -188,7 +189,7 @@ node_template = Template(node_template_s)
 def generate_node_file(group):
     classes = get_classes(group)
 
-    template_dict = {'MENU': group, 'CLASSES': [], 'BASE': bases[group]}
+    template_dict = {'MENU': group, 'node_classes': [], 'BASE': bases[group]}
 
     for class_data in classes:
 
@@ -268,7 +269,7 @@ def generate_node_file(group):
         if class_dict["NP"] > 32:  # blender BoolVector max size is 32
             print(class_dict["NAME"], "has too many properties ({})".format(class_dict["NP"]))
         else:
-            template_dict["CLASSES"].append(class_dict)
+            template_dict["node_classes"].append(class_dict)
 
     text = node_template.render(template_dict)
     f = open(node_filenames[group], "w")
@@ -290,16 +291,16 @@ bases = {
 }
 
 node_filenames = {
-    "Source": "gen_VTKSources.py",
-    "Reader": "gen_VTKReaders.py",
-    "Writer": "gen_VTKWriters.py",
-    "Filter": "gen_VTKFilters.py",
-    "Filter1": "gen_VTKFilters1.py",
-    "Filter2": "gen_VTKFilters2.py",
-    "Transform": "gen_VTKTransform.py",
-    "ImplicitFunc": "gen_VTKImplicitFunc.py",
-    "ParametricFunc": "gen_VTKParametricFunc.py",
-    "Integrator": "gen_VTKIntegrator.py"
+    "Source":         "gen_vtk_sources.py",
+    "Reader":         "gen_vtk_readers.py",
+    "Writer":         "gen_vtk_writers.py",
+    "Filter":         "gen_vtk_filters.py",
+    "Filter1":        "gen_vtk_filters1.py",
+    "Filter2":        "gen_vtk_filters2.py",
+    "Transform":      "gen_vtk_transform.py",
+    "ImplicitFunc":   "gen_vtk_implicit_func.py",
+    "ParametricFunc": "gen_vtk_parametric_func.py",
+    "Integrator":     "gen_vtk_integrator.py"
 }
 
 generate_node_file("Source")
@@ -413,5 +414,3 @@ socket_filenames = {
 # generate_sockets("Getter")
 
 print("Generation complete.")
-
-

@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -29,7 +29,7 @@ class BVTK_NT_ContingencyStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ContingencyStatistics)
-TYPENAMES.append('BVTK_NT_ContingencyStatistics' )
+type_names.append('BVTK_NT_ContingencyStatistics')
 
 
 # --------------------------------------------------------------
@@ -58,7 +58,7 @@ class BVTK_NT_ExtractHierarchicalBins(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractHierarchicalBins)
-TYPENAMES.append('BVTK_NT_ExtractHierarchicalBins' )
+type_names.append('BVTK_NT_ExtractHierarchicalBins')
 
 
 # --------------------------------------------------------------
@@ -91,7 +91,7 @@ class BVTK_NT_PairwiseExtractHistogram2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PairwiseExtractHistogram2D)
-TYPENAMES.append('BVTK_NT_PairwiseExtractHistogram2D' )
+type_names.append('BVTK_NT_PairwiseExtractHistogram2D')
 
 
 # --------------------------------------------------------------
@@ -128,7 +128,7 @@ class BVTK_NT_PExtractHistogram2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PExtractHistogram2D)
-TYPENAMES.append('BVTK_NT_PExtractHistogram2D' )
+type_names.append('BVTK_NT_PExtractHistogram2D')
 
 
 # --------------------------------------------------------------
@@ -159,7 +159,7 @@ class BVTK_NT_ClipVolume(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ClipVolume)
-TYPENAMES.append('BVTK_NT_ClipVolume' )
+type_names.append('BVTK_NT_ClipVolume')
 
 
 # --------------------------------------------------------------
@@ -222,7 +222,7 @@ class BVTK_NT_ImageResample(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageResample)
-TYPENAMES.append('BVTK_NT_ImageResample' )
+type_names.append('BVTK_NT_ImageResample')
 
 
 # --------------------------------------------------------------
@@ -248,7 +248,7 @@ class BVTK_NT_ExtractSelectedRows(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractSelectedRows)
-TYPENAMES.append('BVTK_NT_ExtractSelectedRows' )
+type_names.append('BVTK_NT_ExtractSelectedRows')
 
 
 # --------------------------------------------------------------
@@ -283,7 +283,7 @@ class BVTK_NT_ImageStencil(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageStencil)
-TYPENAMES.append('BVTK_NT_ImageStencil' )
+type_names.append('BVTK_NT_ImageStencil')
 
 
 # --------------------------------------------------------------
@@ -314,7 +314,7 @@ class BVTK_NT_BivariateLinearTableThreshold(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BivariateLinearTableThreshold)
-TYPENAMES.append('BVTK_NT_BivariateLinearTableThreshold' )
+type_names.append('BVTK_NT_BivariateLinearTableThreshold')
 
 
 # --------------------------------------------------------------
@@ -339,7 +339,7 @@ class BVTK_NT_GraphAnnotationLayersFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphAnnotationLayersFilter)
-TYPENAMES.append('BVTK_NT_GraphAnnotationLayersFilter' )
+type_names.append('BVTK_NT_GraphAnnotationLayersFilter')
 
 
 # --------------------------------------------------------------
@@ -370,7 +370,7 @@ class BVTK_NT_SelectPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SelectPolyData)
-TYPENAMES.append('BVTK_NT_SelectPolyData' )
+type_names.append('BVTK_NT_SelectPolyData')
 
 
 # --------------------------------------------------------------
@@ -395,7 +395,7 @@ class BVTK_NT_MergeFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MergeFilter)
-TYPENAMES.append('BVTK_NT_MergeFilter' )
+type_names.append('BVTK_NT_MergeFilter')
 
 
 # --------------------------------------------------------------
@@ -421,7 +421,7 @@ class BVTK_NT_ComputeHistogram2DOutliers(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ComputeHistogram2DOutliers)
-TYPENAMES.append('BVTK_NT_ComputeHistogram2DOutliers' )
+type_names.append('BVTK_NT_ComputeHistogram2DOutliers')
 
 
 # --------------------------------------------------------------
@@ -449,7 +449,7 @@ class BVTK_NT_ExtractPoints(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractPoints)
-TYPENAMES.append('BVTK_NT_ExtractPoints' )
+type_names.append('BVTK_NT_ExtractPoints')
 
 
 # --------------------------------------------------------------
@@ -479,7 +479,7 @@ class BVTK_NT_CorrelativeStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CorrelativeStatistics)
-TYPENAMES.append('BVTK_NT_CorrelativeStatistics' )
+type_names.append('BVTK_NT_CorrelativeStatistics')
 
 
 # --------------------------------------------------------------
@@ -510,7 +510,7 @@ class BVTK_NT_MultiCorrelativeStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MultiCorrelativeStatistics)
-TYPENAMES.append('BVTK_NT_MultiCorrelativeStatistics' )
+type_names.append('BVTK_NT_MultiCorrelativeStatistics')
 
 
 # --------------------------------------------------------------
@@ -538,7 +538,7 @@ class BVTK_NT_MaskPointsFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MaskPointsFilter)
-TYPENAMES.append('BVTK_NT_MaskPointsFilter' )
+type_names.append('BVTK_NT_MaskPointsFilter')
 
 
 # --------------------------------------------------------------
@@ -569,7 +569,7 @@ class BVTK_NT_TableBasedClipDataSet(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TableBasedClipDataSet)
-TYPENAMES.append('BVTK_NT_TableBasedClipDataSet' )
+type_names.append('BVTK_NT_TableBasedClipDataSet')
 
 
 # --------------------------------------------------------------
@@ -599,7 +599,7 @@ class BVTK_NT_HighestDensityRegionsStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HighestDensityRegionsStatistics)
-TYPENAMES.append('BVTK_NT_HighestDensityRegionsStatistics' )
+type_names.append('BVTK_NT_HighestDensityRegionsStatistics')
 
 
 # --------------------------------------------------------------
@@ -628,7 +628,7 @@ class BVTK_NT_ClipPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ClipPolyData)
-TYPENAMES.append('BVTK_NT_ClipPolyData' )
+type_names.append('BVTK_NT_ClipPolyData')
 
 
 # --------------------------------------------------------------
@@ -656,7 +656,7 @@ class BVTK_NT_FitImplicitFunction(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FitImplicitFunction)
-TYPENAMES.append('BVTK_NT_FitImplicitFunction' )
+type_names.append('BVTK_NT_FitImplicitFunction')
 
 
 # --------------------------------------------------------------
@@ -692,7 +692,7 @@ class BVTK_NT_ImageConnectivityFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageConnectivityFilter)
-TYPENAMES.append('BVTK_NT_ImageConnectivityFilter' )
+type_names.append('BVTK_NT_ImageConnectivityFilter')
 
 
 # --------------------------------------------------------------
@@ -718,7 +718,7 @@ class BVTK_NT_ExtractVectorComponents(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractVectorComponents)
-TYPENAMES.append('BVTK_NT_ExtractVectorComponents' )
+type_names.append('BVTK_NT_ExtractVectorComponents')
 
 
 # --------------------------------------------------------------
@@ -746,7 +746,7 @@ class BVTK_NT_ResliceCursorPolyDataAlgorithm(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ResliceCursorPolyDataAlgorithm)
-TYPENAMES.append('BVTK_NT_ResliceCursorPolyDataAlgorithm' )
+type_names.append('BVTK_NT_ResliceCursorPolyDataAlgorithm')
 
 
 # --------------------------------------------------------------
@@ -780,7 +780,7 @@ class BVTK_NT_OrderStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OrderStatistics)
-TYPENAMES.append('BVTK_NT_OrderStatistics' )
+type_names.append('BVTK_NT_OrderStatistics')
 
 
 # --------------------------------------------------------------
@@ -811,7 +811,7 @@ class BVTK_NT_AutoCorrelativeStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AutoCorrelativeStatistics)
-TYPENAMES.append('BVTK_NT_AutoCorrelativeStatistics' )
+type_names.append('BVTK_NT_AutoCorrelativeStatistics')
 
 
 # --------------------------------------------------------------
@@ -836,7 +836,7 @@ class BVTK_NT_ConvertSelectionDomain(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ConvertSelectionDomain)
-TYPENAMES.append('BVTK_NT_ConvertSelectionDomain' )
+type_names.append('BVTK_NT_ConvertSelectionDomain')
 
 
 # --------------------------------------------------------------
@@ -866,7 +866,7 @@ class BVTK_NT_TemporalPathLineFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TemporalPathLineFilter)
-TYPENAMES.append('BVTK_NT_TemporalPathLineFilter' )
+type_names.append('BVTK_NT_TemporalPathLineFilter')
 
 
 # --------------------------------------------------------------
@@ -900,7 +900,7 @@ class BVTK_NT_DescriptiveStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DescriptiveStatistics)
-TYPENAMES.append('BVTK_NT_DescriptiveStatistics' )
+type_names.append('BVTK_NT_DescriptiveStatistics')
 
 
 # --------------------------------------------------------------
@@ -931,7 +931,7 @@ class BVTK_NT_ClipDataSet(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ClipDataSet)
-TYPENAMES.append('BVTK_NT_ClipDataSet' )
+type_names.append('BVTK_NT_ClipDataSet')
 
 
 # --------------------------------------------------------------
@@ -964,7 +964,7 @@ class BVTK_NT_PPairwiseExtractHistogram2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PPairwiseExtractHistogram2D)
-TYPENAMES.append('BVTK_NT_PPairwiseExtractHistogram2D' )
+type_names.append('BVTK_NT_PPairwiseExtractHistogram2D')
 
 
 # --------------------------------------------------------------
@@ -992,7 +992,7 @@ class BVTK_NT_DistancePolyDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DistancePolyDataFilter)
-TYPENAMES.append('BVTK_NT_DistancePolyDataFilter' )
+type_names.append('BVTK_NT_DistancePolyDataFilter')
 
 
 # --------------------------------------------------------------
@@ -1021,7 +1021,7 @@ class BVTK_NT_BooleanOperationPolyDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BooleanOperationPolyDataFilter)
-TYPENAMES.append('BVTK_NT_BooleanOperationPolyDataFilter' )
+type_names.append('BVTK_NT_BooleanOperationPolyDataFilter')
 
 
 # --------------------------------------------------------------
@@ -1052,7 +1052,7 @@ class BVTK_NT_StatisticalOutlierRemoval(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StatisticalOutlierRemoval)
-TYPENAMES.append('BVTK_NT_StatisticalOutlierRemoval' )
+type_names.append('BVTK_NT_StatisticalOutlierRemoval')
 
 
 # --------------------------------------------------------------
@@ -1079,7 +1079,7 @@ class BVTK_NT_GraphToPolyData(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphToPolyData)
-TYPENAMES.append('BVTK_NT_GraphToPolyData' )
+type_names.append('BVTK_NT_GraphToPolyData')
 
 
 # --------------------------------------------------------------
@@ -1111,7 +1111,7 @@ class BVTK_NT_IntersectionPolyDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_IntersectionPolyDataFilter)
-TYPENAMES.append('BVTK_NT_IntersectionPolyDataFilter' )
+type_names.append('BVTK_NT_IntersectionPolyDataFilter')
 
 
 # --------------------------------------------------------------
@@ -1140,7 +1140,7 @@ class BVTK_NT_RadiusOutlierRemoval(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RadiusOutlierRemoval)
-TYPENAMES.append('BVTK_NT_RadiusOutlierRemoval' )
+type_names.append('BVTK_NT_RadiusOutlierRemoval')
 
 
 # --------------------------------------------------------------
@@ -1170,7 +1170,7 @@ class BVTK_NT_GenericClip(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericClip)
-TYPENAMES.append('BVTK_NT_GenericClip' )
+type_names.append('BVTK_NT_GenericClip')
 
 
 # --------------------------------------------------------------
@@ -1195,7 +1195,7 @@ class BVTK_NT_StreamingStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StreamingStatistics)
-TYPENAMES.append('BVTK_NT_StreamingStatistics' )
+type_names.append('BVTK_NT_StreamingStatistics')
 
 
 # --------------------------------------------------------------
@@ -1223,7 +1223,7 @@ class BVTK_NT_BoxClipDataSet(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BoxClipDataSet)
-TYPENAMES.append('BVTK_NT_BoxClipDataSet' )
+type_names.append('BVTK_NT_BoxClipDataSet')
 
 
 # --------------------------------------------------------------
@@ -1257,7 +1257,7 @@ class BVTK_NT_KMeansStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_KMeansStatistics)
-TYPENAMES.append('BVTK_NT_KMeansStatistics' )
+type_names.append('BVTK_NT_KMeansStatistics')
 
 
 # --------------------------------------------------------------
@@ -1294,7 +1294,7 @@ class BVTK_NT_ExtractHistogram2D(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExtractHistogram2D)
-TYPENAMES.append('BVTK_NT_ExtractHistogram2D' )
+type_names.append('BVTK_NT_ExtractHistogram2D')
 
 
 # --------------------------------------------------------------
@@ -1328,7 +1328,7 @@ class BVTK_NT_LagrangianParticleTracker(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LagrangianParticleTracker)
-TYPENAMES.append('BVTK_NT_LagrangianParticleTracker' )
+type_names.append('BVTK_NT_LagrangianParticleTracker')
 
 
 # --------------------------------------------------------------
@@ -1353,7 +1353,7 @@ class BVTK_NT_ProgrammableSource(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ProgrammableSource)
-TYPENAMES.append('BVTK_NT_ProgrammableSource' )
+type_names.append('BVTK_NT_ProgrammableSource')
 
 
 # --------------------------------------------------------------
@@ -1382,7 +1382,7 @@ class BVTK_NT_LoopBooleanPolyDataFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_LoopBooleanPolyDataFilter)
-TYPENAMES.append('BVTK_NT_LoopBooleanPolyDataFilter' )
+type_names.append('BVTK_NT_LoopBooleanPolyDataFilter')
 
 
 # --------------------------------------------------------------
@@ -1407,7 +1407,7 @@ class BVTK_NT_AnnotationLink(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AnnotationLink)
-TYPENAMES.append('BVTK_NT_AnnotationLink' )
+type_names.append('BVTK_NT_AnnotationLink')
 
 
 # --------------------------------------------------------------
@@ -1471,7 +1471,7 @@ class BVTK_NT_ImageResliceToColors(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageResliceToColors)
-TYPENAMES.append('BVTK_NT_ImageResliceToColors' )
+type_names.append('BVTK_NT_ImageResliceToColors')
 
 
 # --------------------------------------------------------------
@@ -1532,7 +1532,7 @@ class BVTK_NT_ImageReslice(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageReslice)
-TYPENAMES.append('BVTK_NT_ImageReslice' )
+type_names.append('BVTK_NT_ImageReslice')
 
 
 # --------------------------------------------------------------
@@ -1594,7 +1594,7 @@ class BVTK_NT_ImagePermute(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImagePermute)
-TYPENAMES.append('BVTK_NT_ImagePermute' )
+type_names.append('BVTK_NT_ImagePermute')
 
 
 # --------------------------------------------------------------
@@ -1626,7 +1626,7 @@ class BVTK_NT_BandedPolyDataContourFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BandedPolyDataContourFilter)
-TYPENAMES.append('BVTK_NT_BandedPolyDataContourFilter' )
+type_names.append('BVTK_NT_BandedPolyDataContourFilter')
 
 
 # --------------------------------------------------------------
@@ -1661,7 +1661,7 @@ class BVTK_NT_PCAStatistics(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PCAStatistics)
-TYPENAMES.append('BVTK_NT_PCAStatistics' )
+type_names.append('BVTK_NT_PCAStatistics')
 
 
 # --------------------------------------------------------------
@@ -1687,11 +1687,11 @@ class BVTK_NT_PComputeHistogram2DOutliers(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PComputeHistogram2DOutliers)
-TYPENAMES.append('BVTK_NT_PComputeHistogram2DOutliers' )
+type_names.append('BVTK_NT_PComputeHistogram2DOutliers')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKFilter', 'Filter', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKFilter', 'Filter', items=menu_items))

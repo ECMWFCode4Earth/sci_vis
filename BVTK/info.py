@@ -86,4 +86,4 @@ add_class(BVTK_NT_Info)
 TYPENAMES.append("BVTK_NT_Info")
 
 menu_items = [NodeItem(x) for x in TYPENAMES]
-CATEGORIES.append(BVTK_NodeCategory("Debug", "Debug", items=menu_items))
+node_categories.append(BVTK_NodeCategory("Debug", "Debug", items=menu_items))

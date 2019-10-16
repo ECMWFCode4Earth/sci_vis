@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -28,7 +28,7 @@ class BVTK_NT_OggTheoraWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_OggTheoraWriter)
-TYPENAMES.append('BVTK_NT_OggTheoraWriter' )
+type_names.append('BVTK_NT_OggTheoraWriter')
 
 
 # --------------------------------------------------------------
@@ -69,7 +69,7 @@ class BVTK_NT_GenericDataObjectWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GenericDataObjectWriter)
-TYPENAMES.append('BVTK_NT_GenericDataObjectWriter' )
+type_names.append('BVTK_NT_GenericDataObjectWriter')
 
 
 # --------------------------------------------------------------
@@ -110,7 +110,7 @@ class BVTK_NT_XMLUnstructuredGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLUnstructuredGridWriter)
-TYPENAMES.append('BVTK_NT_XMLUnstructuredGridWriter' )
+type_names.append('BVTK_NT_XMLUnstructuredGridWriter')
 
 
 # --------------------------------------------------------------
@@ -152,7 +152,7 @@ class BVTK_NT_StructuredGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredGridWriter)
-TYPENAMES.append('BVTK_NT_StructuredGridWriter' )
+type_names.append('BVTK_NT_StructuredGridWriter')
 
 
 # --------------------------------------------------------------
@@ -182,7 +182,7 @@ class BVTK_NT_BMPWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BMPWriter)
-TYPENAMES.append('BVTK_NT_BMPWriter' )
+type_names.append('BVTK_NT_BMPWriter')
 
 
 # --------------------------------------------------------------
@@ -223,7 +223,7 @@ class BVTK_NT_UnstructuredGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_UnstructuredGridWriter)
-TYPENAMES.append('BVTK_NT_UnstructuredGridWriter' )
+type_names.append('BVTK_NT_UnstructuredGridWriter')
 
 
 # --------------------------------------------------------------
@@ -260,7 +260,7 @@ class BVTK_NT_NIFTIImageWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NIFTIImageWriter)
-TYPENAMES.append('BVTK_NT_NIFTIImageWriter' )
+type_names.append('BVTK_NT_NIFTIImageWriter')
 
 
 # --------------------------------------------------------------
@@ -287,7 +287,7 @@ class BVTK_NT_MNITransformWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MNITransformWriter)
-TYPENAMES.append('BVTK_NT_MNITransformWriter' )
+type_names.append('BVTK_NT_MNITransformWriter')
 
 
 # --------------------------------------------------------------
@@ -315,7 +315,7 @@ class BVTK_NT_ArrayDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArrayDataWriter)
-TYPENAMES.append('BVTK_NT_ArrayDataWriter' )
+type_names.append('BVTK_NT_ArrayDataWriter')
 
 
 # --------------------------------------------------------------
@@ -343,7 +343,7 @@ class BVTK_NT_JSONImageWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_JSONImageWriter)
-TYPENAMES.append('BVTK_NT_JSONImageWriter' )
+type_names.append('BVTK_NT_JSONImageWriter')
 
 
 # --------------------------------------------------------------
@@ -381,7 +381,7 @@ class BVTK_NT_XMLDataSetWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLDataSetWriter)
-TYPENAMES.append('BVTK_NT_XMLDataSetWriter' )
+type_names.append('BVTK_NT_XMLDataSetWriter')
 
 
 # --------------------------------------------------------------
@@ -425,7 +425,7 @@ class BVTK_NT_XMLPRectilinearGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPRectilinearGridWriter)
-TYPENAMES.append('BVTK_NT_XMLPRectilinearGridWriter' )
+type_names.append('BVTK_NT_XMLPRectilinearGridWriter')
 
 
 # --------------------------------------------------------------
@@ -465,7 +465,7 @@ class BVTK_NT_XMLMultiBlockDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLMultiBlockDataWriter)
-TYPENAMES.append('BVTK_NT_XMLMultiBlockDataWriter' )
+type_names.append('BVTK_NT_XMLMultiBlockDataWriter')
 
 
 # --------------------------------------------------------------
@@ -505,7 +505,7 @@ class BVTK_NT_XMLPHierarchicalBoxDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPHierarchicalBoxDataWriter)
-TYPENAMES.append('BVTK_NT_XMLPHierarchicalBoxDataWriter' )
+type_names.append('BVTK_NT_XMLPHierarchicalBoxDataWriter')
 
 
 # --------------------------------------------------------------
@@ -537,7 +537,7 @@ class BVTK_NT_JPEGWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_JPEGWriter)
-TYPENAMES.append('BVTK_NT_JPEGWriter' )
+type_names.append('BVTK_NT_JPEGWriter')
 
 
 # --------------------------------------------------------------
@@ -571,7 +571,7 @@ class BVTK_NT_ExodusIIWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ExodusIIWriter)
-TYPENAMES.append('BVTK_NT_ExodusIIWriter' )
+type_names.append('BVTK_NT_ExodusIIWriter')
 
 
 # --------------------------------------------------------------
@@ -602,7 +602,7 @@ class BVTK_NT_MetaImageWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MetaImageWriter)
-TYPENAMES.append('BVTK_NT_MetaImageWriter' )
+type_names.append('BVTK_NT_MetaImageWriter')
 
 
 # --------------------------------------------------------------
@@ -643,7 +643,7 @@ class BVTK_NT_TableWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TableWriter)
-TYPENAMES.append('BVTK_NT_TableWriter' )
+type_names.append('BVTK_NT_TableWriter')
 
 
 # --------------------------------------------------------------
@@ -685,7 +685,7 @@ class BVTK_NT_RectilinearGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RectilinearGridWriter)
-TYPENAMES.append('BVTK_NT_RectilinearGridWriter' )
+type_names.append('BVTK_NT_RectilinearGridWriter')
 
 
 # --------------------------------------------------------------
@@ -725,7 +725,7 @@ class BVTK_NT_PhyloXMLTreeWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PhyloXMLTreeWriter)
-TYPENAMES.append('BVTK_NT_PhyloXMLTreeWriter' )
+type_names.append('BVTK_NT_PhyloXMLTreeWriter')
 
 
 # --------------------------------------------------------------
@@ -765,7 +765,7 @@ class BVTK_NT_XMLUniformGridAMRWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLUniformGridAMRWriter)
-TYPENAMES.append('BVTK_NT_XMLUniformGridAMRWriter' )
+type_names.append('BVTK_NT_XMLUniformGridAMRWriter')
 
 
 # --------------------------------------------------------------
@@ -806,7 +806,7 @@ class BVTK_NT_DIMACSGraphWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DIMACSGraphWriter)
-TYPENAMES.append('BVTK_NT_DIMACSGraphWriter' )
+type_names.append('BVTK_NT_DIMACSGraphWriter')
 
 
 # --------------------------------------------------------------
@@ -850,7 +850,7 @@ class BVTK_NT_XMLPPolyDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPPolyDataWriter)
-TYPENAMES.append('BVTK_NT_XMLPPolyDataWriter' )
+type_names.append('BVTK_NT_XMLPPolyDataWriter')
 
 
 # --------------------------------------------------------------
@@ -880,7 +880,7 @@ class BVTK_NT_DelimitedTextWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DelimitedTextWriter)
-TYPENAMES.append('BVTK_NT_DelimitedTextWriter' )
+type_names.append('BVTK_NT_DelimitedTextWriter')
 
 
 # --------------------------------------------------------------
@@ -905,7 +905,7 @@ class BVTK_NT_TableToSQLiteWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TableToSQLiteWriter)
-TYPENAMES.append('BVTK_NT_TableToSQLiteWriter' )
+type_names.append('BVTK_NT_TableToSQLiteWriter')
 
 
 # --------------------------------------------------------------
@@ -947,7 +947,7 @@ class BVTK_NT_XMLPMultiBlockDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPMultiBlockDataWriter)
-TYPENAMES.append('BVTK_NT_XMLPMultiBlockDataWriter' )
+type_names.append('BVTK_NT_XMLPMultiBlockDataWriter')
 
 
 # --------------------------------------------------------------
@@ -988,7 +988,7 @@ class BVTK_NT_XMLPolyDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPolyDataWriter)
-TYPENAMES.append('BVTK_NT_XMLPolyDataWriter' )
+type_names.append('BVTK_NT_XMLPolyDataWriter')
 
 
 # --------------------------------------------------------------
@@ -1030,7 +1030,7 @@ class BVTK_NT_XMLStructuredGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLStructuredGridWriter)
-TYPENAMES.append('BVTK_NT_XMLStructuredGridWriter' )
+type_names.append('BVTK_NT_XMLStructuredGridWriter')
 
 
 # --------------------------------------------------------------
@@ -1077,7 +1077,7 @@ class BVTK_NT_PDataSetWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PDataSetWriter)
-TYPENAMES.append('BVTK_NT_PDataSetWriter' )
+type_names.append('BVTK_NT_PDataSetWriter')
 
 
 # --------------------------------------------------------------
@@ -1105,7 +1105,7 @@ class BVTK_NT_JavaScriptDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_JavaScriptDataWriter)
-TYPENAMES.append('BVTK_NT_JavaScriptDataWriter' )
+type_names.append('BVTK_NT_JavaScriptDataWriter')
 
 
 # --------------------------------------------------------------
@@ -1148,7 +1148,7 @@ class BVTK_NT_NewickTreeWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_NewickTreeWriter)
-TYPENAMES.append('BVTK_NT_NewickTreeWriter' )
+type_names.append('BVTK_NT_NewickTreeWriter')
 
 
 # --------------------------------------------------------------
@@ -1192,7 +1192,7 @@ class BVTK_NT_XMLPImageDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPImageDataWriter)
-TYPENAMES.append('BVTK_NT_XMLPImageDataWriter' )
+type_names.append('BVTK_NT_XMLPImageDataWriter')
 
 
 # --------------------------------------------------------------
@@ -1236,7 +1236,7 @@ class BVTK_NT_XMLPStructuredGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPStructuredGridWriter)
-TYPENAMES.append('BVTK_NT_XMLPStructuredGridWriter' )
+type_names.append('BVTK_NT_XMLPStructuredGridWriter')
 
 
 # --------------------------------------------------------------
@@ -1280,7 +1280,7 @@ class BVTK_NT_XMLPDataSetWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPDataSetWriter)
-TYPENAMES.append('BVTK_NT_XMLPDataSetWriter' )
+type_names.append('BVTK_NT_XMLPDataSetWriter')
 
 
 # --------------------------------------------------------------
@@ -1321,7 +1321,7 @@ class BVTK_NT_PolyDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PolyDataWriter)
-TYPENAMES.append('BVTK_NT_PolyDataWriter' )
+type_names.append('BVTK_NT_PolyDataWriter')
 
 
 # --------------------------------------------------------------
@@ -1362,7 +1362,7 @@ class BVTK_NT_GraphWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_GraphWriter)
-TYPENAMES.append('BVTK_NT_GraphWriter' )
+type_names.append('BVTK_NT_GraphWriter')
 
 
 # --------------------------------------------------------------
@@ -1391,7 +1391,7 @@ class BVTK_NT_PNMWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PNMWriter)
-TYPENAMES.append('BVTK_NT_PNMWriter' )
+type_names.append('BVTK_NT_PNMWriter')
 
 
 # --------------------------------------------------------------
@@ -1417,7 +1417,7 @@ class BVTK_NT_IVWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_IVWriter)
-TYPENAMES.append('BVTK_NT_IVWriter' )
+type_names.append('BVTK_NT_IVWriter')
 
 
 # --------------------------------------------------------------
@@ -1450,7 +1450,7 @@ class BVTK_NT_MINCImageWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MINCImageWriter)
-TYPENAMES.append('BVTK_NT_MINCImageWriter' )
+type_names.append('BVTK_NT_MINCImageWriter')
 
 
 # --------------------------------------------------------------
@@ -1491,7 +1491,7 @@ class BVTK_NT_TreeWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TreeWriter)
-TYPENAMES.append('BVTK_NT_TreeWriter' )
+type_names.append('BVTK_NT_TreeWriter')
 
 
 # --------------------------------------------------------------
@@ -1533,7 +1533,7 @@ class BVTK_NT_XMLImageDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLImageDataWriter)
-TYPENAMES.append('BVTK_NT_XMLImageDataWriter' )
+type_names.append('BVTK_NT_XMLImageDataWriter')
 
 
 # --------------------------------------------------------------
@@ -1564,7 +1564,7 @@ class BVTK_NT_DataObjectWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataObjectWriter)
-TYPENAMES.append('BVTK_NT_DataObjectWriter' )
+type_names.append('BVTK_NT_DataObjectWriter')
 
 
 # --------------------------------------------------------------
@@ -1593,7 +1593,7 @@ class BVTK_NT_PostScriptWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PostScriptWriter)
-TYPENAMES.append('BVTK_NT_PostScriptWriter' )
+type_names.append('BVTK_NT_PostScriptWriter')
 
 
 # --------------------------------------------------------------
@@ -1635,7 +1635,7 @@ class BVTK_NT_SimplePointsWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_SimplePointsWriter)
-TYPENAMES.append('BVTK_NT_SimplePointsWriter' )
+type_names.append('BVTK_NT_SimplePointsWriter')
 
 
 # --------------------------------------------------------------
@@ -1679,7 +1679,7 @@ class BVTK_NT_XMLPTableWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPTableWriter)
-TYPENAMES.append('BVTK_NT_XMLPTableWriter' )
+type_names.append('BVTK_NT_XMLPTableWriter')
 
 
 # --------------------------------------------------------------
@@ -1708,7 +1708,7 @@ class BVTK_NT_STLWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_STLWriter)
-TYPENAMES.append('BVTK_NT_STLWriter' )
+type_names.append('BVTK_NT_STLWriter')
 
 
 # --------------------------------------------------------------
@@ -1746,7 +1746,7 @@ class BVTK_NT_XMLDataObjectWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLDataObjectWriter)
-TYPENAMES.append('BVTK_NT_XMLDataObjectWriter' )
+type_names.append('BVTK_NT_XMLDataObjectWriter')
 
 
 # --------------------------------------------------------------
@@ -1786,7 +1786,7 @@ class BVTK_NT_XMLTableWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLTableWriter)
-TYPENAMES.append('BVTK_NT_XMLTableWriter' )
+type_names.append('BVTK_NT_XMLTableWriter')
 
 
 # --------------------------------------------------------------
@@ -1815,7 +1815,7 @@ class BVTK_NT_ImageWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ImageWriter)
-TYPENAMES.append('BVTK_NT_ImageWriter' )
+type_names.append('BVTK_NT_ImageWriter')
 
 
 # --------------------------------------------------------------
@@ -1856,7 +1856,7 @@ class BVTK_NT_DataSetWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataSetWriter)
-TYPENAMES.append('BVTK_NT_DataSetWriter' )
+type_names.append('BVTK_NT_DataSetWriter')
 
 
 # --------------------------------------------------------------
@@ -1886,7 +1886,7 @@ class BVTK_NT_PImageWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PImageWriter)
-TYPENAMES.append('BVTK_NT_PImageWriter' )
+type_names.append('BVTK_NT_PImageWriter')
 
 
 # --------------------------------------------------------------
@@ -1913,7 +1913,7 @@ class BVTK_NT_MNITagPointWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MNITagPointWriter)
-TYPENAMES.append('BVTK_NT_MNITagPointWriter' )
+type_names.append('BVTK_NT_MNITagPointWriter')
 
 
 # --------------------------------------------------------------
@@ -1939,7 +1939,7 @@ class BVTK_NT_FacetWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_FacetWriter)
-TYPENAMES.append('BVTK_NT_FacetWriter' )
+type_names.append('BVTK_NT_FacetWriter')
 
 
 # --------------------------------------------------------------
@@ -1965,7 +1965,7 @@ class BVTK_NT_HoudiniPolyDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_HoudiniPolyDataWriter)
-TYPENAMES.append('BVTK_NT_HoudiniPolyDataWriter' )
+type_names.append('BVTK_NT_HoudiniPolyDataWriter')
 
 
 # --------------------------------------------------------------
@@ -2005,7 +2005,7 @@ class BVTK_NT_XMLPUniformGridAMRWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPUniformGridAMRWriter)
-TYPENAMES.append('BVTK_NT_XMLPUniformGridAMRWriter' )
+type_names.append('BVTK_NT_XMLPUniformGridAMRWriter')
 
 
 # --------------------------------------------------------------
@@ -2037,7 +2037,7 @@ class BVTK_NT_BYUWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_BYUWriter)
-TYPENAMES.append('BVTK_NT_BYUWriter' )
+type_names.append('BVTK_NT_BYUWriter')
 
 
 # --------------------------------------------------------------
@@ -2079,7 +2079,7 @@ class BVTK_NT_StructuredPointsWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_StructuredPointsWriter)
-TYPENAMES.append('BVTK_NT_StructuredPointsWriter' )
+type_names.append('BVTK_NT_StructuredPointsWriter')
 
 
 # --------------------------------------------------------------
@@ -2120,7 +2120,7 @@ class BVTK_NT_CompositeDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_CompositeDataWriter)
-TYPENAMES.append('BVTK_NT_CompositeDataWriter' )
+type_names.append('BVTK_NT_CompositeDataWriter')
 
 
 # --------------------------------------------------------------
@@ -2164,7 +2164,7 @@ class BVTK_NT_XMLPUnstructuredGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLPUnstructuredGridWriter)
-TYPENAMES.append('BVTK_NT_XMLPUnstructuredGridWriter' )
+type_names.append('BVTK_NT_XMLPUnstructuredGridWriter')
 
 
 # --------------------------------------------------------------
@@ -2191,7 +2191,7 @@ class BVTK_NT_MCubesWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MCubesWriter)
-TYPENAMES.append('BVTK_NT_MCubesWriter' )
+type_names.append('BVTK_NT_MCubesWriter')
 
 
 # --------------------------------------------------------------
@@ -2232,7 +2232,7 @@ class BVTK_NT_DataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_DataWriter)
-TYPENAMES.append('BVTK_NT_DataWriter' )
+type_names.append('BVTK_NT_DataWriter')
 
 
 # --------------------------------------------------------------
@@ -2263,7 +2263,7 @@ class BVTK_NT_PNGWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PNGWriter)
-TYPENAMES.append('BVTK_NT_PNGWriter' )
+type_names.append('BVTK_NT_PNGWriter')
 
 
 # --------------------------------------------------------------
@@ -2302,7 +2302,7 @@ class BVTK_NT_PLYWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_PLYWriter)
-TYPENAMES.append('BVTK_NT_PLYWriter' )
+type_names.append('BVTK_NT_PLYWriter')
 
 
 # --------------------------------------------------------------
@@ -2335,7 +2335,7 @@ class BVTK_NT_EnSightWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_EnSightWriter)
-TYPENAMES.append('BVTK_NT_EnSightWriter' )
+type_names.append('BVTK_NT_EnSightWriter')
 
 
 # --------------------------------------------------------------
@@ -2377,7 +2377,7 @@ class BVTK_NT_XMLRectilinearGridWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLRectilinearGridWriter)
-TYPENAMES.append('BVTK_NT_XMLRectilinearGridWriter' )
+type_names.append('BVTK_NT_XMLRectilinearGridWriter')
 
 
 # --------------------------------------------------------------
@@ -2417,7 +2417,7 @@ class BVTK_NT_XMLHierarchicalBoxDataWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_XMLHierarchicalBoxDataWriter)
-TYPENAMES.append('BVTK_NT_XMLHierarchicalBoxDataWriter' )
+type_names.append('BVTK_NT_XMLHierarchicalBoxDataWriter')
 
 
 # --------------------------------------------------------------
@@ -2448,7 +2448,7 @@ class BVTK_NT_TIFFWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_TIFFWriter)
-TYPENAMES.append('BVTK_NT_TIFFWriter' )
+type_names.append('BVTK_NT_TIFFWriter')
 
 
 # --------------------------------------------------------------
@@ -2476,7 +2476,7 @@ class BVTK_NT_MNIObjectWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_MNIObjectWriter)
-TYPENAMES.append('BVTK_NT_MNIObjectWriter' )
+type_names.append('BVTK_NT_MNIObjectWriter')
 
 
 # --------------------------------------------------------------
@@ -2504,11 +2504,11 @@ class BVTK_NT_ArrayWriter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ArrayWriter)
-TYPENAMES.append('BVTK_NT_ArrayWriter' )
+type_names.append('BVTK_NT_ArrayWriter')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKWriter', 'Writer', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKWriter', 'Writer', items=menu_items))

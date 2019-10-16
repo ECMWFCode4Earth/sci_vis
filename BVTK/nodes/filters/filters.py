@@ -1,7 +1,7 @@
-from . utils import node_prop_path
-from . gen_VTKFilters1 import *
-from . gen_VTKFilters2 import *
-from . gen_VTKFilters import *
+from ... utils import node_prop_path
+from . gen_vtk_filters import *
+from . gen_vtk_filters1 import *
+from . gen_vtk_filters2 import *
 
 # ---------------------------------------------------------------------------------
 # Contour classes

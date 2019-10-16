@@ -1,8 +1,8 @@
-from . gen_VTKIntegrator import *
-from . gen_VTKTransform import *
-from . gen_VTKImplicitFunc import *
-from . gen_VTKParametricFunc import *
-from . utils import node_path
+from . gen_vtk_integrator import *
+from . gen_vtk_transform import *
+from . gen_vtk_implicit_func import *
+from . gen_vtk_parametric_func import *
+from ... utils import node_path
 import mathutils
 
 

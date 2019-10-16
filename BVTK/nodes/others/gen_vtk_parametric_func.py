@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -39,7 +39,7 @@ class BVTK_NT_ParametricFigure8Klein(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricFigure8Klein)
-TYPENAMES.append('BVTK_NT_ParametricFigure8Klein' )
+type_names.append('BVTK_NT_ParametricFigure8Klein')
 
 
 # --------------------------------------------------------------
@@ -81,7 +81,7 @@ class BVTK_NT_ParametricBohemianDome(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricBohemianDome)
-TYPENAMES.append('BVTK_NT_ParametricBohemianDome' )
+type_names.append('BVTK_NT_ParametricBohemianDome')
 
 
 # --------------------------------------------------------------
@@ -121,7 +121,7 @@ class BVTK_NT_ParametricPluckerConoid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricPluckerConoid)
-TYPENAMES.append('BVTK_NT_ParametricPluckerConoid' )
+type_names.append('BVTK_NT_ParametricPluckerConoid')
 
 
 # --------------------------------------------------------------
@@ -163,7 +163,7 @@ class BVTK_NT_ParametricEllipsoid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricEllipsoid)
-TYPENAMES.append('BVTK_NT_ParametricEllipsoid' )
+type_names.append('BVTK_NT_ParametricEllipsoid')
 
 
 # --------------------------------------------------------------
@@ -202,7 +202,7 @@ class BVTK_NT_ParametricCrossCap(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricCrossCap)
-TYPENAMES.append('BVTK_NT_ParametricCrossCap' )
+type_names.append('BVTK_NT_ParametricCrossCap')
 
 
 # --------------------------------------------------------------
@@ -248,7 +248,7 @@ class BVTK_NT_ParametricSuperToroid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricSuperToroid)
-TYPENAMES.append('BVTK_NT_ParametricSuperToroid' )
+type_names.append('BVTK_NT_ParametricSuperToroid')
 
 
 # --------------------------------------------------------------
@@ -287,7 +287,7 @@ class BVTK_NT_ParametricEnneper(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricEnneper)
-TYPENAMES.append('BVTK_NT_ParametricEnneper' )
+type_names.append('BVTK_NT_ParametricEnneper')
 
 
 # --------------------------------------------------------------
@@ -326,7 +326,7 @@ class BVTK_NT_ParametricHenneberg(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricHenneberg)
-TYPENAMES.append('BVTK_NT_ParametricHenneberg' )
+type_names.append('BVTK_NT_ParametricHenneberg')
 
 
 # --------------------------------------------------------------
@@ -366,7 +366,7 @@ class BVTK_NT_ParametricKuen(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricKuen)
-TYPENAMES.append('BVTK_NT_ParametricKuen' )
+type_names.append('BVTK_NT_ParametricKuen')
 
 
 # --------------------------------------------------------------
@@ -406,7 +406,7 @@ class BVTK_NT_ParametricBoy(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricBoy)
-TYPENAMES.append('BVTK_NT_ParametricBoy' )
+type_names.append('BVTK_NT_ParametricBoy')
 
 
 # --------------------------------------------------------------
@@ -451,7 +451,7 @@ class BVTK_NT_ParametricSpline(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricSpline)
-TYPENAMES.append('BVTK_NT_ParametricSpline' )
+type_names.append('BVTK_NT_ParametricSpline')
 
 
 # --------------------------------------------------------------
@@ -490,7 +490,7 @@ class BVTK_NT_ParametricBour(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricBour)
-TYPENAMES.append('BVTK_NT_ParametricBour' )
+type_names.append('BVTK_NT_ParametricBour')
 
 
 # --------------------------------------------------------------
@@ -534,7 +534,7 @@ class BVTK_NT_ParametricSuperEllipsoid(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricSuperEllipsoid)
-TYPENAMES.append('BVTK_NT_ParametricSuperEllipsoid' )
+type_names.append('BVTK_NT_ParametricSuperEllipsoid')
 
 
 # --------------------------------------------------------------
@@ -573,7 +573,7 @@ class BVTK_NT_ParametricKlein(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricKlein)
-TYPENAMES.append('BVTK_NT_ParametricKlein' )
+type_names.append('BVTK_NT_ParametricKlein')
 
 
 # --------------------------------------------------------------
@@ -613,7 +613,7 @@ class BVTK_NT_ParametricRoman(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricRoman)
-TYPENAMES.append('BVTK_NT_ParametricRoman' )
+type_names.append('BVTK_NT_ParametricRoman')
 
 
 # --------------------------------------------------------------
@@ -652,7 +652,7 @@ class BVTK_NT_ParametricPseudosphere(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricPseudosphere)
-TYPENAMES.append('BVTK_NT_ParametricPseudosphere' )
+type_names.append('BVTK_NT_ParametricPseudosphere')
 
 
 # --------------------------------------------------------------
@@ -700,7 +700,7 @@ class BVTK_NT_ParametricRandomHills(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricRandomHills)
-TYPENAMES.append('BVTK_NT_ParametricRandomHills' )
+type_names.append('BVTK_NT_ParametricRandomHills')
 
 
 # --------------------------------------------------------------
@@ -741,7 +741,7 @@ class BVTK_NT_ParametricTorus(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricTorus)
-TYPENAMES.append('BVTK_NT_ParametricTorus' )
+type_names.append('BVTK_NT_ParametricTorus')
 
 
 # --------------------------------------------------------------
@@ -781,7 +781,7 @@ class BVTK_NT_ParametricMobius(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricMobius)
-TYPENAMES.append('BVTK_NT_ParametricMobius' )
+type_names.append('BVTK_NT_ParametricMobius')
 
 
 # --------------------------------------------------------------
@@ -822,7 +822,7 @@ class BVTK_NT_ParametricDini(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricDini)
-TYPENAMES.append('BVTK_NT_ParametricDini' )
+type_names.append('BVTK_NT_ParametricDini')
 
 
 # --------------------------------------------------------------
@@ -861,7 +861,7 @@ class BVTK_NT_ParametricCatalanMinimal(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricCatalanMinimal)
-TYPENAMES.append('BVTK_NT_ParametricCatalanMinimal' )
+type_names.append('BVTK_NT_ParametricCatalanMinimal')
 
 
 # --------------------------------------------------------------
@@ -904,11 +904,11 @@ class BVTK_NT_ParametricConicSpiral(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_ParametricConicSpiral)
-TYPENAMES.append('BVTK_NT_ParametricConicSpiral' )
+type_names.append('BVTK_NT_ParametricConicSpiral')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKParametricFunc', 'ParametricFunc', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKParametricFunc', 'ParametricFunc', items=menu_items))

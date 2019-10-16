@@ -118,12 +118,11 @@ if not reloading:
     from . import info
     from . import converters
 
-    from . import VTKSources
-    from . import VTKReaders
-    from . import VTKWriters
-    from . import VTKFilters
-
-    from . import VTKOthers
+    from .nodes.filters import filters
+    from .nodes.readers import readers
+    from .nodes.writers import writers
+    from .nodes.others import others
+    from .nodes.sources import sources
 else:
     import importlib
 
@@ -142,26 +141,25 @@ else:
     importlib.reload(favorites_data)
     importlib.reload(favorites)
 
-    importlib.reload(gen_VTKSources)
-    importlib.reload(VTKSources)
+    importlib.reload(nodes.sources.gen_vtk_sources)
+    importlib.reload(nodes.sources.sources)
 
-    importlib.reload(gen_VTKReaders)
-    importlib.reload(VTKReaders)
+    importlib.reload(nodes.readers.gen_vtk_readers)
+    importlib.reload(nodes.readers.readers)
 
-    importlib.reload(gen_VTKWriters)
-    importlib.reload(VTKWriters)
+    importlib.reload(nodes.writers.gen_vtk_writers)
+    importlib.reload(nodes.writers.writers)
 
-    importlib.reload(gen_VTKFilters1)
-    importlib.reload(gen_VTKFilters2)
-    importlib.reload(gen_VTKFilters)
-    importlib.reload(VTKFilters)
+    importlib.reload(nodes.filters.gen_vtk_filters)
+    importlib.reload(nodes.filters.gen_vtk_filters1)
+    importlib.reload(nodes.filters.gen_vtk_filters2)
+    importlib.reload(nodes.filters.filters)
 
-    importlib.reload(gen_VTKTransform)
-    importlib.reload(gen_VTKImplicitFunc)
-    importlib.reload(gen_VTKParametricFunc)
-    importlib.reload(gen_VTKIntegrator)
-
-    importlib.reload(VTKOthers)
+    importlib.reload(nodes.others.gen_vtk_implicit_func)
+    importlib.reload(nodes.others.gen_vtk_integrator)
+    importlib.reload(nodes.others.gen_vtk_parametric_func)
+    importlib.reload(nodes.others.gen_vtk_transform)
+    importlib.reload(nodes.others.others)
 
 if reloading:
     log.debug("Reloaded modules", draw_win=False)
@@ -210,7 +208,7 @@ def custom_register_node_categories():
     """
 
     identifier = "BVTK_NODES"
-    cat_list = core.CATEGORIES
+    cat_list = core.node_categories
 
     if identifier in nodeitems_utils._node_categories:
         raise KeyError("Node categories list '%s' already registered"
@@ -262,20 +260,20 @@ def custom_register_node_categories():
 
 
 def register():
-    """Register function. CLASSES and CATEGORIES are defined in core.py and
+    """Register function. node_classes and node_categories are defined in core.py and
     filled in all the gen_VTK*.py and VTK*.py files
     """
     bpy.app.handlers.load_post.append(on_file_loaded)
     bpy.app.handlers.frame_change_post.append(on_frame_change)
     core.check_b_properties()  # delayed to here to allow class overriding
-    for c in core.UI_CLASSES:
+    for c in core.ui_classes:
         try:
             bpy.utils.register_class(c)
         except Exception as e:
             log.critical('error registering: {} , exception: {}'.format(c, e))
-    for c in sorted(core.CLASSES.keys()):
+    for c in sorted(core.node_classes.keys()):
         try:
-            bpy.utils.register_class(core.CLASSES[c])
+            bpy.utils.register_class(core.node_classes[c])
         except Exception as e:
             log.critical('error registering: {} , exception: {}'.format(c, e))
     custom_register_node_categories()
@@ -283,9 +281,9 @@ def register():
 
 def unregister():
     nodeitems_utils.unregister_node_categories("BVTK_NODES")
-    for c in reversed(sorted(core.CLASSES.keys())):
-        bpy.utils.unregister_class(core.CLASSES[c])
-    for c in reversed(core.UI_CLASSES):
+    for c in reversed(sorted(core.node_classes.keys())):
+        bpy.utils.unregister_class(core.node_classes[c])
+    for c in reversed(core.ui_classes):
         bpy.utils.unregister_class(c)
     for p_c in core.p_collections.values():
         bpy.utils.previews.remove(p_c)

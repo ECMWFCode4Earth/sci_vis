@@ -1,5 +1,5 @@
-from .core import *
-TYPENAMES = []
+from ... core import *
+type_names = []
 
 
 # --------------------------------------------------------------
@@ -24,7 +24,7 @@ class BVTK_NT_RungeKutta2(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RungeKutta2)
-TYPENAMES.append('BVTK_NT_RungeKutta2' )
+type_names.append('BVTK_NT_RungeKutta2')
 
 
 # --------------------------------------------------------------
@@ -49,7 +49,7 @@ class BVTK_NT_RungeKutta45(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RungeKutta45)
-TYPENAMES.append('BVTK_NT_RungeKutta45' )
+type_names.append('BVTK_NT_RungeKutta45')
 
 
 # --------------------------------------------------------------
@@ -74,11 +74,11 @@ class BVTK_NT_RungeKutta4(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_RungeKutta4)
-TYPENAMES.append('BVTK_NT_RungeKutta4' )
+type_names.append('BVTK_NT_RungeKutta4')
 
 
 # --------------------------------------------------------------
 
 
-menu_items = [ NodeItem(x) for x in TYPENAMES ]
-CATEGORIES.append(BVTK_NodeCategory('VTKIntegrator', 'Integrator', items=menu_items))
+menu_items = [NodeItem(x) for x in type_names]
+node_categories.append(BVTK_NodeCategory('VTKIntegrator', 'Integrator', items=menu_items))

@@ -1422,7 +1422,7 @@ TYPENAMES = []
 add_class(BVTK_NT_ToBlender)
 TYPENAMES.append('BVTK_NT_ToBlender')
 menu_items = [NodeItem(x) for x in TYPENAMES]
-CATEGORIES.append(BVTK_NodeCategory("Converter", "Converter", items=menu_items))
+node_categories.append(BVTK_NodeCategory("Converter", "Converter", items=menu_items))
 
 add_class(BVTK_OT_NodeUpdate)
 add_ui_class(BVTK_OT_AutoUpdateScan)
