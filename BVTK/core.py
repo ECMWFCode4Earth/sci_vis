@@ -458,18 +458,18 @@ def print_cls(obj):
     log.debug("------------------------------")
     for m in sorted(dir(obj)):
         if not m.startswith('__'):
-            attr = getattr(obj,m)
+            attr = getattr(obj, m)
             rep = str(attr)
             if len(rep) > 100:
                 rep = rep[:100] + '  [...]'
-            log.debug (m.ljust(30) + "=" + rep)
+            log.debug(m.ljust(30) + "=" + rep)
 
 
 def print_nodes(): 
     log.debug("maxid = " + str(NodesMaxId))
     for nt in bpy.data.node_groups:
         if nt.bl_idname == "BVTK_NodeTree":
-            log.debug( "tree " + nt.name)
+            log.debug("tree " + nt.name)
             for n in nt.nodes:
                 if get_vtkobj(n) is None:
                     x = ""
