@@ -261,9 +261,9 @@ class BVTK_Node:
 
     def get_input_nodes(self, name):
         """Return inputs of a node. Name argument specifies the type of inputs:
-        'self'                 -> input_node.get_vtkobj()
-        'output' or 'output 0' -> get_vtkobj().getOutputPort()
-        'output x'             -> get_vtkobj().getOutputPort(x)
+        'Self'                 -> input_node.get_vtkobj()
+        'Output' or 'Output 0' -> get_vtkobj().getOutputPort()
+        'Output x'             -> get_vtkobj().getOutputPort(x)
         """
         if name not in self.inputs:
             return []

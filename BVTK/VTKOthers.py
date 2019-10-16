@@ -28,24 +28,21 @@ class BVTK_ImplicitFunction:
     see through it.
     """
 
-    # TODO: Seems to contain stuff similar to core.py BVTK_Node, check
-    # if can be inherited.
-
     def set_wire(self, value):
         """Set drawing style to wire mode"""
         if self.object in bpy.data.objects:
             if value:
-                bpy.data.objects[self.object].draw_type = 'WIRE'
+                bpy.data.objects[self.object].draw_type = "WIRE"
             else:
-                bpy.data.objects[self.object].draw_type = 'SOLID'
+                bpy.data.objects[self.object].draw_type = "SOLID"
 
     def is_wire(self):
         """Check if drawing style is wire mode"""
         if self.object in bpy.data.objects:
-            return bpy.data.objects[self.object].draw_type == 'WIRE'
+            return bpy.data.objects[self.object].draw_type == "WIRE"
         return False
 
-    draw_wire = bpy.props.BoolProperty(set = set_wire, get = is_wire)
+    draw_wire = bpy.props.BoolProperty(set=set_wire, get=is_wire)
 
     def unlink_object(self):
         """ called by the operator """
@@ -79,28 +76,28 @@ class BVTK_ImplicitFunction:
         row = layout.row(align=True)
         row2 = row.row(align=True)
         row2.enabled = not self.using_object
-        row2.prop(self, 'object', text='')
-        if self.using_object and hasattr(self, 'use_wire'):
-            row.prop(self, 'draw_wire', text='', icon='WIRE', toggle=True)
-        text = 'unlink' if self.using_object else 'link'
-        row.prop(self, 'using_object', text=text, toggle=True)
+        row2.prop(self, "object", text="")
+        if self.using_object and hasattr(self, "use_wire"):
+            row.prop(self, "draw_wire", text="", icon="WIRE", toggle=True)
+        text = "unlink" if self.using_object else "link"
+        row.prop(self, "using_object", text=text, toggle=True)
 
-    def apply_properties(self,vtkobj):
+    def apply_properties(self, vtkobj):
         if self.using_object and self.object in bpy.data.objects:
             self.properties_from_obj(bpy.data.objects[self.object])
-        m_properties=self.m_properties()
+        m_properties = self.m_properties()
         for x in [m_properties[i] for i in range(len(m_properties)) if self.b_properties[i]]:
             # SetXFileName(Y)
-            if 'FileName' in x:
+            if "FileName" in x:
                 value = os.path.realpath(bpy.path.abspath(getattr(self, x)))
-                cmd = 'vtkobj.Set' + x[2:] + '(value)'
+                cmd = "vtkobj.Set" + x[2:] + "(value)"
             # SetXToY()
-            elif x.startswith('e_'):
+            elif x.startswith("e_"):
                 value = getattr(self, x)
-                cmd = 'vtkobj.Set'+x[2:]+'To'+value+'()'
+                cmd = "vtkobj.Set"+x[2:]+"To"+value+"()"
              # SetX(self.Y)
             else:
-                cmd = 'vtkobj.Set'+x[2:]+'(self.'+x+')'
+                cmd = "vtkobj.Set"+x[2:]+"(self."+x+")"
             exec(cmd, globals(), locals())
 
 
@@ -132,17 +129,17 @@ class BVTK_OT_LinkObject(bpy.types.Operator):
         return self.object.name in bpy.data.objects
 
     def modal(self, context, event):
-        if event.type == 'TIMER':
+        if event.type == "TIMER":
             node_is_valid = self.node_is_valid()
             if self.ob_is_valid():
                 if node_is_valid:
                     self.node.properties_from_obj(self.object)
-                    return {'PASS_THROUGH'}
+                    return {"PASS_THROUGH"}
             else:
                 if node_is_valid:
                     self.node.unlink_object()
             return self.cancel(context)
-        return {'PASS_THROUGH'}
+        return {"PASS_THROUGH"}
 
     def execute(self, context):
         self.object = bpy.data.objects[self.object_name]
@@ -150,12 +147,12 @@ class BVTK_OT_LinkObject(bpy.types.Operator):
         wm = context.window_manager
         self._timer = wm.event_timer_add(1, window=context.window)
         wm.modal_handler_add(self)
-        return {'RUNNING_MODAL'}
+        return {"RUNNING_MODAL"}
 
     def cancel(self, context):
         wm = context.window_manager
         wm.event_timer_remove(self._timer)
-        return {'CANCELLED'}
+        return {"CANCELLED"}
 
 
 add_ui_class(BVTK_OT_LinkObject)
@@ -164,19 +161,19 @@ add_ui_class(BVTK_OT_LinkObject)
 
 
 class BVTK_NT_Plane(BVTK_ImplicitFunction, Node, BVTK_Node):
-    bl_idname = 'BVTK_NT_Plane'
-    bl_label = 'vtkPlane'
+    bl_idname = "BVTK_NT_Plane"
+    bl_label = "vtkPlane"
 
-    m_Normal = bpy.props.FloatVectorProperty(name='Normal', default=[0.0, 0.0, 1.0], size=3)
-    m_Origin = bpy.props.FloatVectorProperty(name='Origin', default=[0.0, 0.0, 0.0], size=3)
+    m_Normal = bpy.props.FloatVectorProperty(name="Normal", default=[0.0, 0.0, 1.0], size=3)
+    m_Origin = bpy.props.FloatVectorProperty(name="Origin", default=[0.0, 0.0, 0.0], size=3)
 
     b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Normal', 'm_Origin', ]
+        return ["m_Normal", "m_Origin", ]
 
     def m_connections(self):
-        return ([], [], ['Transform'], ['self'])
+        return [], [], ["Transform"], ["Self"]
 
     def new_object(self):
         bpy.ops.mesh.primitive_plane_add(radius=5)
@@ -187,14 +184,14 @@ class BVTK_NT_Plane(BVTK_ImplicitFunction, Node, BVTK_Node):
         items = []
         i = 0
         for ob in bpy.data.objects:
-            if ob.type == 'EMPTY':
-                if ob.empty_draw_type == 'IMAGE' or ob.empty_draw_type == 'PLAIN_AXES':
-                    items.append((ob.name, ob.name, ob.name, 'OUTLINER_OB_EMPTY', i))
+            if ob.type == "EMPTY":
+                if ob.empty_draw_type == "IMAGE" or ob.empty_draw_type == "PLAIN_AXES":
+                    items.append((ob.name, ob.name, ob.name, "OUTLINER_OB_EMPTY", i))
                     i += 1
-            elif hasattr(ob.data, 'vertices') and len(ob.data.vertices) == 4:
-                items.append((ob.name, ob.name, ob.name, 'MESH_PLANE', i))
+            elif hasattr(ob.data, "vertices") and len(ob.data.vertices) == 4:
+                items.append((ob.name, ob.name, ob.name, "MESH_PLANE", i))
                 i += 1
-        items.append(('New plane', 'New plane', 'New plane', '', i))
+        items.append(("New plane", "New plane", "New plane", "", i))
         return items
 
     object = bpy.props.EnumProperty(items=objects_list)
@@ -210,7 +207,7 @@ class BVTK_NT_Plane(BVTK_ImplicitFunction, Node, BVTK_Node):
             self.m_Origin = face.center
         else:
             loc, rot, sca = mat.decompose()
-            v = mathutils.Vector((0,0,1))
+            v = mathutils.Vector((0, 0, 1))
             self.m_Normal = rot*v
             self.m_Origin = ob.location
 
@@ -221,22 +218,22 @@ add_class(BVTK_NT_Plane)
 
 
 class BVTK_NT_Sphere(BVTK_ImplicitFunction, Node, BVTK_Node):
-    bl_idname = 'BVTK_NT_Sphere'
-    bl_label = 'vtkSphere'
+    bl_idname = "BVTK_NT_Sphere"
+    bl_label = "vtkSphere"
 
-    m_Radius = bpy.props.FloatProperty(name='Radius', default=0.5)
-    m_Center = bpy.props.FloatVectorProperty(name='Center', default=[0.0, 0.0, 0.0], size=3)
+    m_Radius = bpy.props.FloatProperty(name="Radius", default=0.5)
+    m_Center = bpy.props.FloatVectorProperty(name="Center", default=[0.0, 0.0, 0.0], size=3)
 
     b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Radius', 'm_Center', ]
+        return ["m_Radius", "m_Center", ]
 
     def m_connections(self):
-        return ([], [], ['Transform'], ['self'])
+        return [], [], ["Transform"], ["Self"]
 
     def new_object(self):
-        bpy.ops.object.empty_add(type='SPHERE', radius=2.0)
+        bpy.ops.object.empty_add(type="SPHERE", radius=2.0)
 
     def objects_list(self, context):
         """ Return all sphere empties names """
@@ -244,12 +241,11 @@ class BVTK_NT_Sphere(BVTK_ImplicitFunction, Node, BVTK_Node):
         objects = bpy.data.objects
         i = 0
         for ob in objects:
-            if ob.type == 'EMPTY':
-                if ob.empty_draw_type == 'SPHERE':
-                    items.append((ob.name, ob.name, ob.name, 'OUTLINER_OB_EMPTY', i))
+            if ob.type == "EMPTY":
+                if ob.empty_draw_type == "SPHERE":
+                    items.append((ob.name, ob.name, ob.name, "OUTLINER_OB_EMPTY", i))
                     i += 1
-        items.append(('New sphere', 'New sphere', 'New sphere', '', i))
-        useless_list[self.name] = items
+        items.append(("New sphere", "New sphere", "New sphere", "", i))
         return items
 
     object = bpy.props.EnumProperty(items=objects_list)

@@ -178,4 +178,3 @@ class BVTK_NT_AppendFilter(Node, BVTK_Node):
 
 
 add_class(BVTK_NT_AppendFilter)
-
