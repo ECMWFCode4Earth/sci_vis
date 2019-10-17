@@ -42,7 +42,7 @@ def node_created(node):
             log.error("bad classname " + node.bl_label)
             return
         VTKCache[node.node_id] = vtk_class()  # make an instance of node.vtk_class
-    
+
     log.debug("Node created {} ({})".format(node.bl_label, node.node_id))
 
 
@@ -303,7 +303,7 @@ class BVTK_Node:
         set_vtkobj(self, obj)
 
     def draw_buttons(self, context, layout):
-        m_properties=self.m_properties()
+        m_properties = self.m_properties()
         for i in range(len(m_properties)):
             if self.b_properties[i]:
                 layout.prop(self, m_properties[i])
@@ -322,6 +322,7 @@ class BVTK_Node:
     def apply_properties(self, vtkobj):
         """Sets properties from node to vtkobj based on property name"""
         m_properties = self.m_properties()
+
         for x in [m_properties[i] for i in range(len(m_properties)) if self.b_properties[i]]:
             # SetXFileName(Y)
             if 'FileName' in x:
@@ -335,6 +336,11 @@ class BVTK_Node:
             else:
                 cmd = 'vtkobj.Set'+x[2:]+'(self.'+x+')'
             exec(cmd, globals(), locals())
+
+        if hasattr(self, 'apply_properties_setup'):
+            # some nodes need to set perform special actions
+            # after default properties application
+            self.apply_properties_setup(vtkobj)
 
     def apply_inputs(self, vtkobj):
         """Set node inputs/connections to vtkobj"""

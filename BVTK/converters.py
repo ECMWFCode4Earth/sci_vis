@@ -1334,6 +1334,10 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True, z
         if tex:
             color_ramp = tex.color_ramp
 
+    if data_range[1] - data_range[0] == 0:
+        log.error("Range is constant. Please select a proper range.")
+        return
+
     if dim[2] > 1:
         log.warning("Input data has more than one dimension in the z-axis.\n"
                     "You may try to choose volume as an output type.")
