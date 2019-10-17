@@ -682,7 +682,6 @@ for dir_name in os.listdir(color_ramp_dir):
 class BVTK_MT_ColorRamps(bpy.types.Menu):
     """Color ramps menu"""
     bl_label = "Color ramps"
-    ciao = bpy.props.IntProperty()
 
     def draw(self, context):
         layout = self.layout
