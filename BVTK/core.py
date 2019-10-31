@@ -36,7 +36,7 @@ def node_created(node):
         VTKCache[node.node_id] = None
 
     # Create the node vtk_obj if needed
-    if node.bl_label.startswith('vtk'):
+    if node.bl_label.startswith("vtk"):
         vtk_class = getattr(vtk, node.bl_label, None)
         if vtk_class is None:
             log.error("bad classname " + node.bl_label)
@@ -116,14 +116,14 @@ def check_cache():
     # any previous node_id must be invalidated
     if NodesMaxId == 1:
         for nt in bpy.data.node_groups:
-            if nt.bl_idname == 'BVTK_NodeTree':
+            if nt.bl_idname == "BVTK_NodeTree":
                 for n in nt.nodes:
                     n.node_id = 0
 
     # For each node check if it has a node_id
     # and if it has a vtk_obj associated
     for nt in bpy.data.node_groups:
-        if nt.bl_idname == 'BVTK_NodeTree':
+        if nt.bl_idname == "BVTK_NodeTree":
             for n in nt.nodes:
                 if get_vtkobj(n) is None or n.node_id == 0:
                     node_created(n)
@@ -138,7 +138,7 @@ class BVTK_AddonPreferences(AddonPreferences):
 
     bl_idname = __package__
     output_path = bpy.props.StringProperty(default=os.path.join(addon_path, "tmp"),
-                                           subtype='FILE_PATH')
+                                           subtype="FILE_PATH")
     draw_windows = bpy.props.BoolProperty(default=True)
 
     def get_log_level(self):
@@ -179,9 +179,9 @@ class BVTK_AddonPreferences(AddonPreferences):
 
 class BVTK_NodeTree(NodeTree):
     """BVTK Node Tree"""
-    bl_idname = 'BVTK_NodeTree'
-    bl_label = 'BVTK Node Tree'
-    bl_icon = 'COLOR_RED'
+    bl_idname = "BVTK_NodeTree"
+    bl_label = "BVTK Node Tree"
+    bl_icon = "COLOR_RED"
 
 
 # ---------------------------------------------------------------------------------
@@ -204,8 +204,8 @@ class BVTK_NodeSocket():
 
 class BVTK_NS_Standard(NodeSocket):
     """BVTK Standard Node Socket"""
-    bl_idname = 'BVTK_NS_Standard'
-    bl_label  = 'BVTK Node Socket'
+    bl_idname = "BVTK_NS_Standard"
+    bl_label = "BVTK Node Socket"
     
     def draw(self, context, layout, node, text):
         layout.label(text)
@@ -225,8 +225,8 @@ class BVTK_Node:
     node_id = bpy.props.IntProperty(default=0)
 
     @classmethod
-    def poll(cls, ntree):
-        return ntree.bl_idname == 'BVTK_NodeTree'
+    def poll(cls, node_tree):
+        return node_tree.bl_idname == "BVTK_NodeTree"
 
     def free(self):
         node_deleted(self)
@@ -241,14 +241,14 @@ class BVTK_Node:
             socketname = socket.name
             if not vtkobj:
                 return None
-            if socketname == 'Self':
+            if socketname == "Self":
                 return vtkobj
-            if socketname == 'Output' or socketname == 'Output 0':
+            if socketname == "Output" or socketname == "Output 0":
                 return vtkobj.GetOutputPort()
-            if socketname == 'Output 1':
+            if socketname == "Output 1":
                 return vtkobj.GetOutputPort(1)
             else:
-                log.critical('Bad output link name:', '"' + socketname + '"')
+                log.critical("Bad output link name: '{}'".format(socketname))
                 return None
             # TODO: handle output 2,3,....
         else:
@@ -307,58 +307,70 @@ class BVTK_Node:
         for i in range(len(m_properties)):
             if self.b_properties[i]:
                 layout.prop(self, m_properties[i])
-        if self.bl_idname.endswith('WriterType'):
-            layout.operator('bvtk.node_write').id = self.node_id
+        if self.bl_idname.endswith("Writer"):
+            high_op(layout, "bvtk.node_write").id = self.node_id
 
     def copy(self, node):
         """Copies setup from another node"""
         self.node_id = 0
         check_cache()
+
         if hasattr(self, 'copy_setup'):
             # some nodes need to set properties (such as color ramp elements)
             # after being copied
             self.copy_setup(node)
 
-    def apply_properties(self, vtkobj):
-        """Sets properties from node to vtkobj based on property name"""
+    def apply_properties(self, vtk_obj):
+        """Sets properties from node to vtk object based on property name"""
         m_properties = self.m_properties()
 
         for x in [m_properties[i] for i in range(len(m_properties)) if self.b_properties[i]]:
+
             # SetXFileName(Y)
-            if 'FileName' in x:
+            if "FileName" in x:
                 value = os.path.realpath(bpy.path.abspath(getattr(self, x)))
-                cmd = 'vtkobj.Set' + x[2:] + '(value)'
+                cmd = "vtk_obj.Set{}(value)".format(x[2:])
+
             # SetXToY()
-            elif x.startswith('e_'):
+            elif x.startswith("e_"):
                 value = getattr(self, x)
-                cmd = 'vtkobj.Set'+x[2:]+'To'+value+'()'
+                cmd = "vtk_obj.Set{}To{}()".format(x[2:], value)
+
             # SetX(self.Y)
             else:
-                cmd = 'vtkobj.Set'+x[2:]+'(self.'+x+')'
+                cmd = "vtk_obj.Set{}(self.{})".format(x[2:], x)
+
             exec(cmd, globals(), locals())
 
-        if hasattr(self, 'apply_properties_setup'):
+        if hasattr(self, "apply_properties_setup"):
             # some nodes need to set perform special actions
             # after default properties application
-            self.apply_properties_setup(vtkobj)
+            self.apply_properties_setup(vtk_obj)
 
-    def apply_inputs(self, vtkobj):
-        """Set node inputs/connections to vtkobj"""
+    def apply_inputs(self, vtk_obj):
+        """Set node inputs/connections to vtk object"""
         input_ports, output_ports, extra_input, extra_output = self.m_connections()
+
         for i, name in enumerate(input_ports):
             input_node, input_obj = self.get_input_node(name)
+
             if input_node:
-                if vtkobj:
-                    if input_obj.IsA('vtkAlgorithmOutput'):
-                        vtkobj.SetInputConnection(i, input_obj)
+
+                if vtk_obj:
+
+                    if input_obj.IsA("vtkAlgorithmOutput"):
+                        vtk_obj.SetInputConnection(i, input_obj)
                     else:
                         # needed for custom filter
-                        vtkobj.SetInputData(i, input_obj)
+                        vtk_obj.SetInputData(i, input_obj)
+
         for name in extra_input:
             input_node, input_obj = self.get_input_node(name)
+
             if input_node:
-                if vtkobj:
-                    cmd = 'vtkobj.Set' + name + '( input_obj )'
+
+                if vtk_obj:
+                    cmd = "vtk_obj.Set{}(resolve_algorithm_output(input_obj))".format(name)
                     exec(cmd, globals(), locals())
 
     def init(self, context):
@@ -370,12 +382,15 @@ class BVTK_Node:
         input_ports, output_ports, extra_input, extra_output = self.m_connections()
         input_ports.extend(extra_input)
         output_ports.extend(extra_output)
+
         for x in input_ports:
-            self.inputs.new('BVTK_NS_Standard', x)
+            self.inputs.new("BVTK_NS_Standard", x)
+
         for x in output_ports:
-            self.outputs.new('BVTK_NS_Standard', x)
+            self.outputs.new("BVTK_NS_Standard", x)
+
         # Some nodes need to set properties (such as link limit) after creation
-        if hasattr(self, 'setup'):
+        if hasattr(self, "setup"):
             self.setup()
 
     def get_b(self):
@@ -385,8 +400,8 @@ class BVTK_Node:
     def set_b(self, value):
         """Set boolean property a value and update boolean properties file"""
         b_properties.b[self.bl_idname] = [v for v in value]
-        bpy.ops.node.select_all(action='SELECT')
-        bpy.ops.node.select_all(action='DESELECT')
+        bpy.ops.node.select_all(action="SELECT")
+        bpy.ops.node.select_all(action="DESELECT")
 
         # Write sorted b_properties.b dictionary
         # Note: lambda function used to force sort on dictionary key
@@ -394,7 +409,7 @@ class BVTK_Node:
         for key, value in sorted(b_properties.b.items(), key=lambda s: str.lower(s[0])):
             txt += " '" + key + "': " + str(value) + ",\n"
         txt += "}\n"
-        open(b_path, 'w').write(txt)
+        open(b_path, "w").write(txt)
 
 
 # -----------------------------------------------------------------------------
@@ -420,7 +435,7 @@ def check_b_properties():
     is specified in b_properties
     """
     for obj in node_classes.values():
-        if hasattr(obj, 'm_properties') and hasattr(obj, 'b_properties'):
+        if hasattr(obj, "m_properties") and hasattr(obj, "b_properties"):
             np = len(obj.m_properties(obj))
             name = obj.bl_idname
             b = b_properties.b
@@ -443,7 +458,7 @@ add_class(BVTK_OT_TogglePanel)
 class BVTK_NodeCategory(NodeCategory):
     @classmethod
     def poll(cls, context):
-        return context.space_data.tree_type == 'BVTK_NodeTree'
+        return context.space_data.tree_type == "BVTK_NodeTree"
 
 
 node_categories = []
@@ -455,7 +470,7 @@ node_categories = []
 
 
 def ls(o):
-    log.debug('\n'.join(sorted(dir(o))))
+    log.debug("\n".join(sorted(dir(o))))
 
 
 def print_cls(obj):
@@ -463,11 +478,11 @@ def print_cls(obj):
     log.debug("Class = " + obj.__class__.__name__)
     log.debug("------------------------------")
     for m in sorted(dir(obj)):
-        if not m.startswith('__'):
+        if not m.startswith("__"):
             attr = getattr(obj, m)
             rep = str(attr)
             if len(rep) > 100:
-                rep = rep[:100] + '  [...]'
+                rep = rep[:100] + "  [...]"
             log.debug(m.ljust(30) + "=" + rep)
 
 
@@ -481,4 +496,4 @@ def print_nodes():
                     x = ""
                 else:
                     x = "VTK object"
-                log.debug("node " + str(n.node_id) + ": " + n.name.ljust(30,' ') + x)
+                log.debug("node " + str(n.node_id) + ": " + n.name.ljust(30, " ") + x)

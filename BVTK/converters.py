@@ -1195,7 +1195,7 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
         # Update after probing
         min_r, max_r = data_array.GetRange()
 
-    if max_r == min_r:
+    if max_r - min_r == 0:
         log.error("Can't unwrap: the range is constant ({}, {}). "
                   "Define a valid range and try again.".format(max_r, min_r))
         return
