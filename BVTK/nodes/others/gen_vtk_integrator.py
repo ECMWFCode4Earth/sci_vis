@@ -1,5 +1,5 @@
-from ... core import *
-type_names = []
+from .. core import *
+cat = "Integrators"
 
 
 # --------------------------------------------------------------
@@ -7,8 +7,8 @@ type_names = []
 
 class BVTK_NT_RungeKutta2(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_RungeKutta2'
-    bl_label = 'vtkRungeKutta2'
+    bl_idname = "BVTK_NT_RungeKutta2"
+    bl_label = "vtkRungeKutta2"
     
     
     b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
@@ -23,8 +23,7 @@ class BVTK_NT_RungeKutta2(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_RungeKutta2)
-type_names.append('BVTK_NT_RungeKutta2')
+add_node(BVTK_NT_RungeKutta2, cat)
 
 
 # --------------------------------------------------------------
@@ -32,8 +31,8 @@ type_names.append('BVTK_NT_RungeKutta2')
 
 class BVTK_NT_RungeKutta45(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_RungeKutta45'
-    bl_label = 'vtkRungeKutta45'
+    bl_idname = "BVTK_NT_RungeKutta45"
+    bl_label = "vtkRungeKutta45"
     
     
     b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
@@ -48,8 +47,7 @@ class BVTK_NT_RungeKutta45(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_RungeKutta45)
-type_names.append('BVTK_NT_RungeKutta45')
+add_node(BVTK_NT_RungeKutta45, cat)
 
 
 # --------------------------------------------------------------
@@ -57,8 +55,8 @@ type_names.append('BVTK_NT_RungeKutta45')
 
 class BVTK_NT_RungeKutta4(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_RungeKutta4'
-    bl_label = 'vtkRungeKutta4'
+    bl_idname = "BVTK_NT_RungeKutta4"
+    bl_label = "vtkRungeKutta4"
     
     
     b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
@@ -73,12 +71,7 @@ class BVTK_NT_RungeKutta4(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_RungeKutta4)
-type_names.append('BVTK_NT_RungeKutta4')
+add_node(BVTK_NT_RungeKutta4, cat)
 
 
 # --------------------------------------------------------------
-
-
-menu_items = [NodeItem(x) for x in type_names]
-node_categories.append(BVTK_NodeCategory('VTKIntegrator', 'Integrator', items=menu_items))

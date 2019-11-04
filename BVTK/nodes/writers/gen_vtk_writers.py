@@ -1,5 +1,5 @@
-from ... core import *
-type_names = []
+from .. core import *
+cat = "Writers"
 
 
 # --------------------------------------------------------------
@@ -7,8 +7,8 @@ type_names = []
 
 class BVTK_NT_OggTheoraWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_OggTheoraWriter'
-    bl_label = 'vtkOggTheoraWriter'
+    bl_idname = "BVTK_NT_OggTheoraWriter"
+    bl_label = "vtkOggTheoraWriter"
     
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name of avi file', subtype='FILE_PATH')
     m_Quality = bpy.props.IntProperty(name='Quality', description='Set/Get the compression quality. 0 means worst quality and smallest file size 2 means best quality and largest file siz', default=2)
@@ -18,17 +18,16 @@ class BVTK_NT_OggTheoraWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=4, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileName', 'm_Quality', 'm_Rate', 'm_Subsampling', ]
+        return ["m_FileName", "m_Quality", "m_Rate", "m_Subsampling", ]
     
     def m_connections(self):
-        return ['Input'], ['Output'], [], []
+        return ['Input'], ['Output'], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_OggTheoraWriter)
-type_names.append('BVTK_NT_OggTheoraWriter')
+add_node(BVTK_NT_OggTheoraWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -36,8 +35,8 @@ type_names.append('BVTK_NT_OggTheoraWriter')
 
 class BVTK_NT_GenericDataObjectWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_GenericDataObjectWriter'
-    bl_label = 'vtkGenericDataObjectWriter'
+    bl_idname = "BVTK_NT_GenericDataObjectWriter"
+    bl_label = "vtkGenericDataObjectWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -59,17 +58,16 @@ class BVTK_NT_GenericDataObjectWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_GenericDataObjectWriter)
-type_names.append('BVTK_NT_GenericDataObjectWriter')
+add_node(BVTK_NT_GenericDataObjectWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -77,8 +75,8 @@ type_names.append('BVTK_NT_GenericDataObjectWriter')
 
 class BVTK_NT_XMLUnstructuredGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLUnstructuredGridWriter'
-    bl_label = 'vtkXMLUnstructuredGridWriter'
+    bl_idname = "BVTK_NT_XMLUnstructuredGridWriter"
+    bl_label = "vtkXMLUnstructuredGridWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -100,17 +98,16 @@ class BVTK_NT_XMLUnstructuredGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=12, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_WritePiece', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_WritePiece", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLUnstructuredGridWriter)
-type_names.append('BVTK_NT_XMLUnstructuredGridWriter')
+add_node(BVTK_NT_XMLUnstructuredGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -118,8 +115,8 @@ type_names.append('BVTK_NT_XMLUnstructuredGridWriter')
 
 class BVTK_NT_StructuredGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_StructuredGridWriter'
-    bl_label = 'vtkStructuredGridWriter'
+    bl_idname = "BVTK_NT_StructuredGridWriter"
+    bl_label = "vtkStructuredGridWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -142,17 +139,16 @@ class BVTK_NT_StructuredGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=16, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteExtent', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteExtent", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_StructuredGridWriter)
-type_names.append('BVTK_NT_StructuredGridWriter')
+add_node(BVTK_NT_StructuredGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -160,8 +156,8 @@ type_names.append('BVTK_NT_StructuredGridWriter')
 
 class BVTK_NT_BMPWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_BMPWriter'
-    bl_label = 'vtkBMPWriter'
+    bl_idname = "BVTK_NT_BMPWriter"
+    bl_label = "vtkBMPWriter"
     
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name for the image file. You should specify either a FileName or a FilePrefix. Use FilePrefix if the data is stored in multiple files', subtype='FILE_PATH')
@@ -172,17 +168,16 @@ class BVTK_NT_BMPWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=5, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', 'm_WriteToMemory', ]
+        return ["m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", "m_WriteToMemory", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_BMPWriter)
-type_names.append('BVTK_NT_BMPWriter')
+add_node(BVTK_NT_BMPWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -190,8 +185,8 @@ type_names.append('BVTK_NT_BMPWriter')
 
 class BVTK_NT_UnstructuredGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_UnstructuredGridWriter'
-    bl_label = 'vtkUnstructuredGridWriter'
+    bl_idname = "BVTK_NT_UnstructuredGridWriter"
+    bl_label = "vtkUnstructuredGridWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -213,17 +208,16 @@ class BVTK_NT_UnstructuredGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_UnstructuredGridWriter)
-type_names.append('BVTK_NT_UnstructuredGridWriter')
+add_node(BVTK_NT_UnstructuredGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -231,8 +225,8 @@ type_names.append('BVTK_NT_UnstructuredGridWriter')
 
 class BVTK_NT_NIFTIImageWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_NIFTIImageWriter'
-    bl_label = 'vtkNIFTIImageWriter'
+    bl_idname = "BVTK_NT_NIFTIImageWriter"
+    bl_label = "vtkNIFTIImageWriter"
     
     m_Description = bpy.props.StringProperty(name='Description', description='Set a short description (max 80 chars) of how the file was produced. The default description is "VTKX.Y" where X.Y is the VTK version', default='VTK8.1.2')
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=3)
@@ -250,17 +244,16 @@ class BVTK_NT_NIFTIImageWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=12, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Description', 'm_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', 'm_NIFTIVersion', 'm_PlanarRGB', 'm_QFac', 'm_RescaleIntercept', 'm_RescaleSlope', 'm_TimeDimension', 'm_TimeSpacing', ]
+        return ["m_Description", "m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", "m_NIFTIVersion", "m_PlanarRGB", "m_QFac", "m_RescaleIntercept", "m_RescaleSlope", "m_TimeDimension", "m_TimeSpacing", ]
     
     def m_connections(self):
-        return ['Input'], [], ['NIFTIHeader', 'QFormMatrix', 'SFormMatrix'], []
+        return ['Input'], [], ['NIFTIHeader', 'QFormMatrix', 'SFormMatrix'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_NIFTIImageWriter)
-type_names.append('BVTK_NT_NIFTIImageWriter')
+add_node(BVTK_NT_NIFTIImageWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -268,8 +261,8 @@ type_names.append('BVTK_NT_NIFTIImageWriter')
 
 class BVTK_NT_MNITransformWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_MNITransformWriter'
-    bl_label = 'vtkMNITransformWriter'
+    bl_idname = "BVTK_NT_MNITransformWriter"
+    bl_label = "vtkMNITransformWriter"
     
     m_Comments = bpy.props.StringProperty(name='Comments', description='Set comments to be added to the file')
     m_FileName = bpy.props.StringProperty(name='FileName', description='Set the file name', subtype='FILE_PATH')
@@ -277,17 +270,16 @@ class BVTK_NT_MNITransformWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Comments', 'm_FileName', ]
+        return ["m_Comments", "m_FileName", ]
     
     def m_connections(self):
-        return [], [], ['Transform'], []
+        return [], [], ['Transform'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_MNITransformWriter)
-type_names.append('BVTK_NT_MNITransformWriter')
+add_node(BVTK_NT_MNITransformWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -295,8 +287,8 @@ type_names.append('BVTK_NT_MNITransformWriter')
 
 class BVTK_NT_ArrayDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ArrayDataWriter'
-    bl_label = 'vtkArrayDataWriter'
+    bl_idname = "BVTK_NT_ArrayDataWriter"
+    bl_label = "vtkArrayDataWriter"
     
     m_Binary = bpy.props.BoolProperty(name='Binary', description='Get / set whether data will be written in binary format (when used as a filter)', default=True)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Get / set the filename where data will be stored (when used as a filter)', subtype='FILE_PATH')
@@ -305,17 +297,16 @@ class BVTK_NT_ArrayDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Binary', 'm_FileName', 'm_WriteToOutputString', ]
+        return ["m_Binary", "m_FileName", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_ArrayDataWriter)
-type_names.append('BVTK_NT_ArrayDataWriter')
+add_node(BVTK_NT_ArrayDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -323,8 +314,8 @@ type_names.append('BVTK_NT_ArrayDataWriter')
 
 class BVTK_NT_JSONImageWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_JSONImageWriter'
-    bl_label = 'vtkJSONImageWriter'
+    bl_idname = "BVTK_NT_JSONImageWriter"
+    bl_label = "vtkJSONImageWriter"
     
     m_ArrayName = bpy.props.StringProperty(name='ArrayName', description='Specify ArrayName to export. By default nullptr which will dump ALL arrays')
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name for the image file', subtype='FILE_PATH')
@@ -333,17 +324,16 @@ class BVTK_NT_JSONImageWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ArrayName', 'm_FileName', 'm_Slice', ]
+        return ["m_ArrayName", "m_FileName", "m_Slice", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_JSONImageWriter)
-type_names.append('BVTK_NT_JSONImageWriter')
+add_node(BVTK_NT_JSONImageWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -351,8 +341,8 @@ type_names.append('BVTK_NT_JSONImageWriter')
 
 class BVTK_NT_XMLDataSetWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLDataSetWriter'
-    bl_label = 'vtkXMLDataSetWriter'
+    bl_idname = "BVTK_NT_XMLDataSetWriter"
+    bl_label = "vtkXMLDataSetWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -371,17 +361,16 @@ class BVTK_NT_XMLDataSetWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=9, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'e_HeaderType', 'e_IdType', 'm_NumberOfTimeSteps', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "e_HeaderType", "e_IdType", "m_NumberOfTimeSteps", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLDataSetWriter)
-type_names.append('BVTK_NT_XMLDataSetWriter')
+add_node(BVTK_NT_XMLDataSetWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -389,8 +378,8 @@ type_names.append('BVTK_NT_XMLDataSetWriter')
 
 class BVTK_NT_XMLPRectilinearGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPRectilinearGridWriter'
-    bl_label = 'vtkXMLPRectilinearGridWriter'
+    bl_idname = "BVTK_NT_XMLPRectilinearGridWriter"
+    bl_label = "vtkXMLPRectilinearGridWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -415,17 +404,16 @@ class BVTK_NT_XMLPRectilinearGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_EndPiece', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_StartPiece', 'm_UseSubdirectory', 'm_WriteSummaryFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_EndPiece", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_StartPiece", "m_UseSubdirectory", "m_WriteSummaryFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPRectilinearGridWriter)
-type_names.append('BVTK_NT_XMLPRectilinearGridWriter')
+add_node(BVTK_NT_XMLPRectilinearGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -433,8 +421,8 @@ type_names.append('BVTK_NT_XMLPRectilinearGridWriter')
 
 class BVTK_NT_XMLMultiBlockDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLMultiBlockDataWriter'
-    bl_label = 'vtkXMLMultiBlockDataWriter'
+    bl_idname = "BVTK_NT_XMLMultiBlockDataWriter"
+    bl_label = "vtkXMLMultiBlockDataWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -455,17 +443,16 @@ class BVTK_NT_XMLMultiBlockDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=11, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfTimeSteps', 'm_WriteMetaFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfTimeSteps", "m_WriteMetaFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLMultiBlockDataWriter)
-type_names.append('BVTK_NT_XMLMultiBlockDataWriter')
+add_node(BVTK_NT_XMLMultiBlockDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -473,8 +460,8 @@ type_names.append('BVTK_NT_XMLMultiBlockDataWriter')
 
 class BVTK_NT_XMLPHierarchicalBoxDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPHierarchicalBoxDataWriter'
-    bl_label = 'vtkXMLPHierarchicalBoxDataWriter'
+    bl_idname = "BVTK_NT_XMLPHierarchicalBoxDataWriter"
+    bl_label = "vtkXMLPHierarchicalBoxDataWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -495,17 +482,16 @@ class BVTK_NT_XMLPHierarchicalBoxDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=11, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfTimeSteps', 'm_WriteMetaFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfTimeSteps", "m_WriteMetaFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPHierarchicalBoxDataWriter)
-type_names.append('BVTK_NT_XMLPHierarchicalBoxDataWriter')
+add_node(BVTK_NT_XMLPHierarchicalBoxDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -513,8 +499,8 @@ type_names.append('BVTK_NT_XMLPHierarchicalBoxDataWriter')
 
 class BVTK_NT_JPEGWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_JPEGWriter'
-    bl_label = 'vtkJPEGWriter'
+    bl_idname = "BVTK_NT_JPEGWriter"
+    bl_label = "vtkJPEGWriter"
     
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name for the image file. You should specify either a FileName or a FilePrefix. Use FilePrefix if the data is stored in multiple files', subtype='FILE_PATH')
@@ -527,17 +513,16 @@ class BVTK_NT_JPEGWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=7, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', 'm_Progressive', 'm_Quality', 'm_WriteToMemory', ]
+        return ["m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", "m_Progressive", "m_Quality", "m_WriteToMemory", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_JPEGWriter)
-type_names.append('BVTK_NT_JPEGWriter')
+add_node(BVTK_NT_JPEGWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -545,8 +530,8 @@ type_names.append('BVTK_NT_JPEGWriter')
 
 class BVTK_NT_ExodusIIWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ExodusIIWriter'
-    bl_label = 'vtkExodusIIWriter'
+    bl_idname = "BVTK_NT_ExodusIIWriter"
+    bl_label = "vtkExodusIIWriter"
     
     m_BlockIdArrayName = bpy.props.StringProperty(name='BlockIdArrayName', description='')
     m_FileName = bpy.props.StringProperty(name='FileName', description='Name for the output file. If writing in parallel, the number of processes and the process rank will be appended to the name, so each process is writing out a separate file. If not set, this class will make up a file name', subtype='FILE_PATH')
@@ -561,17 +546,16 @@ class BVTK_NT_ExodusIIWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=9, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockIdArrayName', 'm_FileName', 'm_GhostLevel', 'm_IgnoreMetaDataWarning', 'm_StoreDoubles', 'm_WriteAllTimeSteps', 'm_WriteOutBlockIdArray', 'm_WriteOutGlobalElementIdArray', 'm_WriteOutGlobalNodeIdArray', ]
+        return ["m_BlockIdArrayName", "m_FileName", "m_GhostLevel", "m_IgnoreMetaDataWarning", "m_StoreDoubles", "m_WriteAllTimeSteps", "m_WriteOutBlockIdArray", "m_WriteOutGlobalElementIdArray", "m_WriteOutGlobalNodeIdArray", ]
     
     def m_connections(self):
-        return ['Input'], [], ['ModelMetadata'], []
+        return ['Input'], [], ['ModelMetadata'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_ExodusIIWriter)
-type_names.append('BVTK_NT_ExodusIIWriter')
+add_node(BVTK_NT_ExodusIIWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -579,8 +563,8 @@ type_names.append('BVTK_NT_ExodusIIWriter')
 
 class BVTK_NT_MetaImageWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_MetaImageWriter'
-    bl_label = 'vtkMetaImageWriter'
+    bl_idname = "BVTK_NT_MetaImageWriter"
+    bl_label = "vtkMetaImageWriter"
     
     m_Compression = bpy.props.BoolProperty(name='Compression', description='', default=True)
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
@@ -592,17 +576,16 @@ class BVTK_NT_MetaImageWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=6, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Compression', 'm_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', 'm_RAWFileName', ]
+        return ["m_Compression", "m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", "m_RAWFileName", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_MetaImageWriter)
-type_names.append('BVTK_NT_MetaImageWriter')
+add_node(BVTK_NT_MetaImageWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -610,8 +593,8 @@ type_names.append('BVTK_NT_MetaImageWriter')
 
 class BVTK_NT_TableWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_TableWriter'
-    bl_label = 'vtkTableWriter'
+    bl_idname = "BVTK_NT_TableWriter"
+    bl_label = "vtkTableWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -633,17 +616,16 @@ class BVTK_NT_TableWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_TableWriter)
-type_names.append('BVTK_NT_TableWriter')
+add_node(BVTK_NT_TableWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -651,8 +633,8 @@ type_names.append('BVTK_NT_TableWriter')
 
 class BVTK_NT_RectilinearGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_RectilinearGridWriter'
-    bl_label = 'vtkRectilinearGridWriter'
+    bl_idname = "BVTK_NT_RectilinearGridWriter"
+    bl_label = "vtkRectilinearGridWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -675,17 +657,16 @@ class BVTK_NT_RectilinearGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=16, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteExtent', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteExtent", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_RectilinearGridWriter)
-type_names.append('BVTK_NT_RectilinearGridWriter')
+add_node(BVTK_NT_RectilinearGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -693,8 +674,8 @@ type_names.append('BVTK_NT_RectilinearGridWriter')
 
 class BVTK_NT_PhyloXMLTreeWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_PhyloXMLTreeWriter'
-    bl_label = 'vtkPhyloXMLTreeWriter'
+    bl_idname = "BVTK_NT_PhyloXMLTreeWriter"
+    bl_label = "vtkPhyloXMLTreeWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -715,17 +696,16 @@ class BVTK_NT_PhyloXMLTreeWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=11, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EdgeWeightArrayName', 'm_EncodeAppendedData', 'm_FileName', 'e_HeaderType', 'e_IdType', 'm_NodeNameArrayName', 'm_NumberOfTimeSteps', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EdgeWeightArrayName", "m_EncodeAppendedData", "m_FileName", "e_HeaderType", "e_IdType", "m_NodeNameArrayName", "m_NumberOfTimeSteps", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_PhyloXMLTreeWriter)
-type_names.append('BVTK_NT_PhyloXMLTreeWriter')
+add_node(BVTK_NT_PhyloXMLTreeWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -733,8 +713,8 @@ type_names.append('BVTK_NT_PhyloXMLTreeWriter')
 
 class BVTK_NT_XMLUniformGridAMRWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLUniformGridAMRWriter'
-    bl_label = 'vtkXMLUniformGridAMRWriter'
+    bl_idname = "BVTK_NT_XMLUniformGridAMRWriter"
+    bl_label = "vtkXMLUniformGridAMRWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -755,17 +735,16 @@ class BVTK_NT_XMLUniformGridAMRWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=11, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfTimeSteps', 'm_WriteMetaFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfTimeSteps", "m_WriteMetaFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLUniformGridAMRWriter)
-type_names.append('BVTK_NT_XMLUniformGridAMRWriter')
+add_node(BVTK_NT_XMLUniformGridAMRWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -773,8 +752,8 @@ type_names.append('BVTK_NT_XMLUniformGridAMRWriter')
 
 class BVTK_NT_DIMACSGraphWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_DIMACSGraphWriter'
-    bl_label = 'vtkDIMACSGraphWriter'
+    bl_idname = "BVTK_NT_DIMACSGraphWriter"
+    bl_label = "vtkDIMACSGraphWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -796,17 +775,16 @@ class BVTK_NT_DIMACSGraphWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_DIMACSGraphWriter)
-type_names.append('BVTK_NT_DIMACSGraphWriter')
+add_node(BVTK_NT_DIMACSGraphWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -814,8 +792,8 @@ type_names.append('BVTK_NT_DIMACSGraphWriter')
 
 class BVTK_NT_XMLPPolyDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPPolyDataWriter'
-    bl_label = 'vtkXMLPPolyDataWriter'
+    bl_idname = "BVTK_NT_XMLPPolyDataWriter"
+    bl_label = "vtkXMLPPolyDataWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -840,17 +818,16 @@ class BVTK_NT_XMLPPolyDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_EndPiece', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_StartPiece', 'm_UseSubdirectory', 'm_WriteSummaryFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_EndPiece", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_StartPiece", "m_UseSubdirectory", "m_WriteSummaryFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPPolyDataWriter)
-type_names.append('BVTK_NT_XMLPPolyDataWriter')
+add_node(BVTK_NT_XMLPPolyDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -858,8 +835,8 @@ type_names.append('BVTK_NT_XMLPPolyDataWriter')
 
 class BVTK_NT_DelimitedTextWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_DelimitedTextWriter'
-    bl_label = 'vtkDelimitedTextWriter'
+    bl_idname = "BVTK_NT_DelimitedTextWriter"
+    bl_label = "vtkDelimitedTextWriter"
     
     m_FieldDelimiter = bpy.props.StringProperty(name='FieldDelimiter', description='Get/Set the delimiter use to separate fields ("," by default.', default=',')
     m_FileName = bpy.props.StringProperty(name='FileName', description='Get/Set the filename for the file', subtype='FILE_PATH')
@@ -870,17 +847,16 @@ class BVTK_NT_DelimitedTextWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=5, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FieldDelimiter', 'm_FileName', 'm_StringDelimiter', 'm_UseStringDelimiter', 'm_WriteToOutputString', ]
+        return ["m_FieldDelimiter", "m_FileName", "m_StringDelimiter", "m_UseStringDelimiter", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_DelimitedTextWriter)
-type_names.append('BVTK_NT_DelimitedTextWriter')
+add_node(BVTK_NT_DelimitedTextWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -888,8 +864,8 @@ type_names.append('BVTK_NT_DelimitedTextWriter')
 
 class BVTK_NT_TableToSQLiteWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_TableToSQLiteWriter'
-    bl_label = 'vtkTableToSQLiteWriter'
+    bl_idname = "BVTK_NT_TableToSQLiteWriter"
+    bl_label = "vtkTableToSQLiteWriter"
     
     
     b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
@@ -898,14 +874,13 @@ class BVTK_NT_TableToSQLiteWriter(Node, BVTK_Node):
         return []
     
     def m_connections(self):
-        return ['Input'], [], ['Database'], []
+        return ['Input'], [], ['Database'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_TableToSQLiteWriter)
-type_names.append('BVTK_NT_TableToSQLiteWriter')
+add_node(BVTK_NT_TableToSQLiteWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -913,8 +888,8 @@ type_names.append('BVTK_NT_TableToSQLiteWriter')
 
 class BVTK_NT_XMLPMultiBlockDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPMultiBlockDataWriter'
-    bl_label = 'vtkXMLPMultiBlockDataWriter'
+    bl_idname = "BVTK_NT_XMLPMultiBlockDataWriter"
+    bl_label = "vtkXMLPMultiBlockDataWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -937,17 +912,16 @@ class BVTK_NT_XMLPMultiBlockDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=13, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_StartPiece', 'm_WriteMetaFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_StartPiece", "m_WriteMetaFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPMultiBlockDataWriter)
-type_names.append('BVTK_NT_XMLPMultiBlockDataWriter')
+add_node(BVTK_NT_XMLPMultiBlockDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -955,8 +929,8 @@ type_names.append('BVTK_NT_XMLPMultiBlockDataWriter')
 
 class BVTK_NT_XMLPolyDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPolyDataWriter'
-    bl_label = 'vtkXMLPolyDataWriter'
+    bl_idname = "BVTK_NT_XMLPolyDataWriter"
+    bl_label = "vtkXMLPolyDataWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -978,17 +952,16 @@ class BVTK_NT_XMLPolyDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=12, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_WritePiece', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_WritePiece", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPolyDataWriter)
-type_names.append('BVTK_NT_XMLPolyDataWriter')
+add_node(BVTK_NT_XMLPolyDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -996,8 +969,8 @@ type_names.append('BVTK_NT_XMLPolyDataWriter')
 
 class BVTK_NT_XMLStructuredGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLStructuredGridWriter'
-    bl_label = 'vtkXMLStructuredGridWriter'
+    bl_idname = "BVTK_NT_XMLStructuredGridWriter"
+    bl_label = "vtkXMLStructuredGridWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1020,17 +993,16 @@ class BVTK_NT_XMLStructuredGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=13, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_WriteExtent', 'm_WritePiece', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_WriteExtent", "m_WritePiece", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLStructuredGridWriter)
-type_names.append('BVTK_NT_XMLStructuredGridWriter')
+add_node(BVTK_NT_XMLStructuredGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1038,8 +1010,8 @@ type_names.append('BVTK_NT_XMLStructuredGridWriter')
 
 class BVTK_NT_PDataSetWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_PDataSetWriter'
-    bl_label = 'vtkPDataSetWriter'
+    bl_idname = "BVTK_NT_PDataSetWriter"
+    bl_label = "vtkPDataSetWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -1067,17 +1039,16 @@ class BVTK_NT_PDataSetWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=21, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_EndPiece', 'm_FieldDataName', 'm_FileName', 'm_FilePattern', 'e_FileType', 'm_GhostLevel', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_NumberOfPieces', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_StartPiece', 'm_TCoordsName', 'm_TensorsName', 'm_UseRelativeFileNames', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_EndPiece", "m_FieldDataName", "m_FileName", "m_FilePattern", "e_FileType", "m_GhostLevel", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_NumberOfPieces", "m_PedigreeIdsName", "m_ScalarsName", "m_StartPiece", "m_TCoordsName", "m_TensorsName", "m_UseRelativeFileNames", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_PDataSetWriter)
-type_names.append('BVTK_NT_PDataSetWriter')
+add_node(BVTK_NT_PDataSetWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1085,8 +1056,8 @@ type_names.append('BVTK_NT_PDataSetWriter')
 
 class BVTK_NT_JavaScriptDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_JavaScriptDataWriter'
-    bl_label = 'vtkJavaScriptDataWriter'
+    bl_idname = "BVTK_NT_JavaScriptDataWriter"
+    bl_label = "vtkJavaScriptDataWriter"
     
     m_FileName = bpy.props.StringProperty(name='FileName', description='Get/Set the filename for the file', subtype='FILE_PATH')
     m_IncludeFieldNames = bpy.props.BoolProperty(name='IncludeFieldNames', description='Get/Set the whether or not to include field names When field names are on you will get data output that looks like this: var data=[ {foo:3,time:"2009-11-04 16:09:42",bar:1 }, {foo:5,time:"2009-11-04 16:11:22",bar:0 }, without field names the data will be an array of arrays like this: var data=[ [3,"2009-11-04 16:09:42",1], [5,"2009-11-04 16:11:22",0]', default=True)
@@ -1095,17 +1066,16 @@ class BVTK_NT_JavaScriptDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileName', 'm_IncludeFieldNames', 'm_VariableName', ]
+        return ["m_FileName", "m_IncludeFieldNames", "m_VariableName", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_JavaScriptDataWriter)
-type_names.append('BVTK_NT_JavaScriptDataWriter')
+add_node(BVTK_NT_JavaScriptDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1113,8 +1083,8 @@ type_names.append('BVTK_NT_JavaScriptDataWriter')
 
 class BVTK_NT_NewickTreeWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_NewickTreeWriter'
-    bl_label = 'vtkNewickTreeWriter'
+    bl_idname = "BVTK_NT_NewickTreeWriter"
+    bl_label = "vtkNewickTreeWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -1138,17 +1108,16 @@ class BVTK_NT_NewickTreeWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=17, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_EdgeWeightArrayName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NodeNameArrayName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_EdgeWeightArrayName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NodeNameArrayName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_NewickTreeWriter)
-type_names.append('BVTK_NT_NewickTreeWriter')
+add_node(BVTK_NT_NewickTreeWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1156,8 +1125,8 @@ type_names.append('BVTK_NT_NewickTreeWriter')
 
 class BVTK_NT_XMLPImageDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPImageDataWriter'
-    bl_label = 'vtkXMLPImageDataWriter'
+    bl_idname = "BVTK_NT_XMLPImageDataWriter"
+    bl_label = "vtkXMLPImageDataWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1182,17 +1151,16 @@ class BVTK_NT_XMLPImageDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_EndPiece', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_StartPiece', 'm_UseSubdirectory', 'm_WriteSummaryFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_EndPiece", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_StartPiece", "m_UseSubdirectory", "m_WriteSummaryFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPImageDataWriter)
-type_names.append('BVTK_NT_XMLPImageDataWriter')
+add_node(BVTK_NT_XMLPImageDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1200,8 +1168,8 @@ type_names.append('BVTK_NT_XMLPImageDataWriter')
 
 class BVTK_NT_XMLPStructuredGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPStructuredGridWriter'
-    bl_label = 'vtkXMLPStructuredGridWriter'
+    bl_idname = "BVTK_NT_XMLPStructuredGridWriter"
+    bl_label = "vtkXMLPStructuredGridWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1226,17 +1194,16 @@ class BVTK_NT_XMLPStructuredGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_EndPiece', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_StartPiece', 'm_UseSubdirectory', 'm_WriteSummaryFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_EndPiece", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_StartPiece", "m_UseSubdirectory", "m_WriteSummaryFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPStructuredGridWriter)
-type_names.append('BVTK_NT_XMLPStructuredGridWriter')
+add_node(BVTK_NT_XMLPStructuredGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1244,8 +1211,8 @@ type_names.append('BVTK_NT_XMLPStructuredGridWriter')
 
 class BVTK_NT_XMLPDataSetWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPDataSetWriter'
-    bl_label = 'vtkXMLPDataSetWriter'
+    bl_idname = "BVTK_NT_XMLPDataSetWriter"
+    bl_label = "vtkXMLPDataSetWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1270,17 +1237,16 @@ class BVTK_NT_XMLPDataSetWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_EndPiece', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_StartPiece', 'm_UseSubdirectory', 'm_WriteSummaryFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_EndPiece", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_StartPiece", "m_UseSubdirectory", "m_WriteSummaryFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPDataSetWriter)
-type_names.append('BVTK_NT_XMLPDataSetWriter')
+add_node(BVTK_NT_XMLPDataSetWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1288,8 +1254,8 @@ type_names.append('BVTK_NT_XMLPDataSetWriter')
 
 class BVTK_NT_PolyDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_PolyDataWriter'
-    bl_label = 'vtkPolyDataWriter'
+    bl_idname = "BVTK_NT_PolyDataWriter"
+    bl_label = "vtkPolyDataWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -1311,17 +1277,16 @@ class BVTK_NT_PolyDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_PolyDataWriter)
-type_names.append('BVTK_NT_PolyDataWriter')
+add_node(BVTK_NT_PolyDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1329,8 +1294,8 @@ type_names.append('BVTK_NT_PolyDataWriter')
 
 class BVTK_NT_GraphWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_GraphWriter'
-    bl_label = 'vtkGraphWriter'
+    bl_idname = "BVTK_NT_GraphWriter"
+    bl_label = "vtkGraphWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -1352,17 +1317,16 @@ class BVTK_NT_GraphWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_GraphWriter)
-type_names.append('BVTK_NT_GraphWriter')
+add_node(BVTK_NT_GraphWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1370,8 +1334,8 @@ type_names.append('BVTK_NT_GraphWriter')
 
 class BVTK_NT_PNMWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_PNMWriter'
-    bl_label = 'vtkPNMWriter'
+    bl_idname = "BVTK_NT_PNMWriter"
+    bl_label = "vtkPNMWriter"
     
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name for the image file. You should specify either a FileName or a FilePrefix. Use FilePrefix if the data is stored in multiple files', subtype='FILE_PATH')
@@ -1381,17 +1345,16 @@ class BVTK_NT_PNMWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=4, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', ]
+        return ["m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_PNMWriter)
-type_names.append('BVTK_NT_PNMWriter')
+add_node(BVTK_NT_PNMWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1399,25 +1362,24 @@ type_names.append('BVTK_NT_PNMWriter')
 
 class BVTK_NT_IVWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_IVWriter'
-    bl_label = 'vtkIVWriter'
+    bl_idname = "BVTK_NT_IVWriter"
+    bl_label = "vtkIVWriter"
     
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name of vtk polygon data file to write', subtype='FILE_PATH')
     
     b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileName', ]
+        return ["m_FileName", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_IVWriter)
-type_names.append('BVTK_NT_IVWriter')
+add_node(BVTK_NT_IVWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1425,8 +1387,8 @@ type_names.append('BVTK_NT_IVWriter')
 
 class BVTK_NT_MINCImageWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_MINCImageWriter'
-    bl_label = 'vtkMINCImageWriter'
+    bl_idname = "BVTK_NT_MINCImageWriter"
+    bl_label = "vtkMINCImageWriter"
     
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Set the file name', subtype='FILE_PATH')
@@ -1440,17 +1402,16 @@ class BVTK_NT_MINCImageWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=8, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', 'm_HistoryAddition', 'm_RescaleIntercept', 'm_RescaleSlope', 'm_StrictValidation', ]
+        return ["m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", "m_HistoryAddition", "m_RescaleIntercept", "m_RescaleSlope", "m_StrictValidation", ]
     
     def m_connections(self):
-        return ['Input'], [], ['DirectionCosines', 'ImageAttributes'], []
+        return ['Input'], [], ['DirectionCosines', 'ImageAttributes'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_MINCImageWriter)
-type_names.append('BVTK_NT_MINCImageWriter')
+add_node(BVTK_NT_MINCImageWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1458,8 +1419,8 @@ type_names.append('BVTK_NT_MINCImageWriter')
 
 class BVTK_NT_TreeWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_TreeWriter'
-    bl_label = 'vtkTreeWriter'
+    bl_idname = "BVTK_NT_TreeWriter"
+    bl_label = "vtkTreeWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -1481,17 +1442,16 @@ class BVTK_NT_TreeWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_TreeWriter)
-type_names.append('BVTK_NT_TreeWriter')
+add_node(BVTK_NT_TreeWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1499,8 +1459,8 @@ type_names.append('BVTK_NT_TreeWriter')
 
 class BVTK_NT_XMLImageDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLImageDataWriter'
-    bl_label = 'vtkXMLImageDataWriter'
+    bl_idname = "BVTK_NT_XMLImageDataWriter"
+    bl_label = "vtkXMLImageDataWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1523,17 +1483,16 @@ class BVTK_NT_XMLImageDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=13, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_WriteExtent', 'm_WritePiece', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_WriteExtent", "m_WritePiece", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLImageDataWriter)
-type_names.append('BVTK_NT_XMLImageDataWriter')
+add_node(BVTK_NT_XMLImageDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1541,8 +1500,8 @@ type_names.append('BVTK_NT_XMLImageDataWriter')
 
 class BVTK_NT_DataObjectWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_DataObjectWriter'
-    bl_label = 'vtkDataObjectWriter'
+    bl_idname = "BVTK_NT_DataObjectWriter"
+    bl_label = "vtkDataObjectWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_FieldDataName = bpy.props.StringProperty(name='FieldDataName', description='Methods delegated to vtkDataWriter, see vtkDataWriter', default='FieldData')
@@ -1554,17 +1513,16 @@ class BVTK_NT_DataObjectWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=5, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FieldDataName', 'm_FileName', 'e_FileType', 'm_Header', 'm_WriteToOutputString', ]
+        return ["m_FieldDataName", "m_FileName", "e_FileType", "m_Header", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_DataObjectWriter)
-type_names.append('BVTK_NT_DataObjectWriter')
+add_node(BVTK_NT_DataObjectWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1572,8 +1530,8 @@ type_names.append('BVTK_NT_DataObjectWriter')
 
 class BVTK_NT_PostScriptWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_PostScriptWriter'
-    bl_label = 'vtkPostScriptWriter'
+    bl_idname = "BVTK_NT_PostScriptWriter"
+    bl_label = "vtkPostScriptWriter"
     
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name for the image file. You should specify either a FileName or a FilePrefix. Use FilePrefix if the data is stored in multiple files', subtype='FILE_PATH')
@@ -1583,17 +1541,16 @@ class BVTK_NT_PostScriptWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=4, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', ]
+        return ["m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_PostScriptWriter)
-type_names.append('BVTK_NT_PostScriptWriter')
+add_node(BVTK_NT_PostScriptWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1601,8 +1558,8 @@ type_names.append('BVTK_NT_PostScriptWriter')
 
 class BVTK_NT_SimplePointsWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_SimplePointsWriter'
-    bl_label = 'vtkSimplePointsWriter'
+    bl_idname = "BVTK_NT_SimplePointsWriter"
+    bl_label = "vtkSimplePointsWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_DecimalPrecision = bpy.props.IntProperty(name='DecimalPrecision', description='', default=6)
@@ -1625,17 +1582,16 @@ class BVTK_NT_SimplePointsWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=16, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_DecimalPrecision', 'm_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_DecimalPrecision", "m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_SimplePointsWriter)
-type_names.append('BVTK_NT_SimplePointsWriter')
+add_node(BVTK_NT_SimplePointsWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1643,8 +1599,8 @@ type_names.append('BVTK_NT_SimplePointsWriter')
 
 class BVTK_NT_XMLPTableWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPTableWriter'
-    bl_label = 'vtkXMLPTableWriter'
+    bl_idname = "BVTK_NT_XMLPTableWriter"
+    bl_label = "vtkXMLPTableWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1669,17 +1625,16 @@ class BVTK_NT_XMLPTableWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_EndPiece', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_StartPiece', 'm_UseSubdirectory', 'm_WriteSummaryFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_EndPiece", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_StartPiece", "m_UseSubdirectory", "m_WriteSummaryFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPTableWriter)
-type_names.append('BVTK_NT_XMLPTableWriter')
+add_node(BVTK_NT_XMLPTableWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1687,8 +1642,8 @@ type_names.append('BVTK_NT_XMLPTableWriter')
 
 class BVTK_NT_STLWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_STLWriter'
-    bl_label = 'vtkSTLWriter'
+    bl_idname = "BVTK_NT_STLWriter"
+    bl_label = "vtkSTLWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name of vtk polygon data file to write', subtype='FILE_PATH')
@@ -1698,17 +1653,16 @@ class BVTK_NT_STLWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileName', 'e_FileType', 'm_Header', ]
+        return ["m_FileName", "e_FileType", "m_Header", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_STLWriter)
-type_names.append('BVTK_NT_STLWriter')
+add_node(BVTK_NT_STLWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1716,8 +1670,8 @@ type_names.append('BVTK_NT_STLWriter')
 
 class BVTK_NT_XMLDataObjectWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLDataObjectWriter'
-    bl_label = 'vtkXMLDataObjectWriter'
+    bl_idname = "BVTK_NT_XMLDataObjectWriter"
+    bl_label = "vtkXMLDataObjectWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1736,17 +1690,16 @@ class BVTK_NT_XMLDataObjectWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=9, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'e_HeaderType', 'e_IdType', 'm_NumberOfTimeSteps', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "e_HeaderType", "e_IdType", "m_NumberOfTimeSteps", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLDataObjectWriter)
-type_names.append('BVTK_NT_XMLDataObjectWriter')
+add_node(BVTK_NT_XMLDataObjectWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1754,8 +1707,8 @@ type_names.append('BVTK_NT_XMLDataObjectWriter')
 
 class BVTK_NT_XMLTableWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLTableWriter'
-    bl_label = 'vtkXMLTableWriter'
+    bl_idname = "BVTK_NT_XMLTableWriter"
+    bl_label = "vtkXMLTableWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1776,17 +1729,16 @@ class BVTK_NT_XMLTableWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=11, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_WritePiece', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_WritePiece", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLTableWriter)
-type_names.append('BVTK_NT_XMLTableWriter')
+add_node(BVTK_NT_XMLTableWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1794,8 +1746,8 @@ type_names.append('BVTK_NT_XMLTableWriter')
 
 class BVTK_NT_ImageWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ImageWriter'
-    bl_label = 'vtkImageWriter'
+    bl_idname = "BVTK_NT_ImageWriter"
+    bl_label = "vtkImageWriter"
     
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name for the image file. You should specify either a FileName or a FilePrefix. Use FilePrefix if the data is stored in multiple files', subtype='FILE_PATH')
@@ -1805,17 +1757,16 @@ class BVTK_NT_ImageWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=4, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', ]
+        return ["m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_ImageWriter)
-type_names.append('BVTK_NT_ImageWriter')
+add_node(BVTK_NT_ImageWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1823,8 +1774,8 @@ type_names.append('BVTK_NT_ImageWriter')
 
 class BVTK_NT_DataSetWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_DataSetWriter'
-    bl_label = 'vtkDataSetWriter'
+    bl_idname = "BVTK_NT_DataSetWriter"
+    bl_label = "vtkDataSetWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -1846,17 +1797,16 @@ class BVTK_NT_DataSetWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_DataSetWriter)
-type_names.append('BVTK_NT_DataSetWriter')
+add_node(BVTK_NT_DataSetWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1864,8 +1814,8 @@ type_names.append('BVTK_NT_DataSetWriter')
 
 class BVTK_NT_PImageWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_PImageWriter'
-    bl_label = 'vtkPImageWriter'
+    bl_idname = "BVTK_NT_PImageWriter"
+    bl_label = "vtkPImageWriter"
     
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name for the image file. You should specify either a FileName or a FilePrefix. Use FilePrefix if the data is stored in multiple files', subtype='FILE_PATH')
@@ -1876,17 +1826,16 @@ class BVTK_NT_PImageWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=5, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', 'm_MemoryLimit', ]
+        return ["m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", "m_MemoryLimit", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_PImageWriter)
-type_names.append('BVTK_NT_PImageWriter')
+add_node(BVTK_NT_PImageWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1894,8 +1843,8 @@ type_names.append('BVTK_NT_PImageWriter')
 
 class BVTK_NT_MNITagPointWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_MNITagPointWriter'
-    bl_label = 'vtkMNITagPointWriter'
+    bl_idname = "BVTK_NT_MNITagPointWriter"
+    bl_label = "vtkMNITagPointWriter"
     
     m_Comments = bpy.props.StringProperty(name='Comments', description='Set comments to be added to the file')
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name of vtk polygon data file to write', subtype='FILE_PATH')
@@ -1903,17 +1852,16 @@ class BVTK_NT_MNITagPointWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Comments', 'm_FileName', ]
+        return ["m_Comments", "m_FileName", ]
     
     def m_connections(self):
-        return ['Input 0', 'Input 1'], [], ['LabelText', 'PatientIds', 'Points', 'StructureIds', 'Weights'], []
+        return ['Input 0', 'Input 1'], [], ['LabelText', 'PatientIds', 'Points', 'StructureIds', 'Weights'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_MNITagPointWriter)
-type_names.append('BVTK_NT_MNITagPointWriter')
+add_node(BVTK_NT_MNITagPointWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1921,25 +1869,24 @@ type_names.append('BVTK_NT_MNITagPointWriter')
 
 class BVTK_NT_FacetWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_FacetWriter'
-    bl_label = 'vtkFacetWriter'
+    bl_idname = "BVTK_NT_FacetWriter"
+    bl_label = "vtkFacetWriter"
     
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name of Facet datafile to rea', subtype='FILE_PATH')
     
     b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileName', ]
+        return ["m_FileName", ]
     
     def m_connections(self):
-        return ['Input'], ['Output'], [], []
+        return ['Input'], ['Output'], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_FacetWriter)
-type_names.append('BVTK_NT_FacetWriter')
+add_node(BVTK_NT_FacetWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1947,25 +1894,24 @@ type_names.append('BVTK_NT_FacetWriter')
 
 class BVTK_NT_HoudiniPolyDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_HoudiniPolyDataWriter'
-    bl_label = 'vtkHoudiniPolyDataWriter'
+    bl_idname = "BVTK_NT_HoudiniPolyDataWriter"
+    bl_label = "vtkHoudiniPolyDataWriter"
     
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specifies the delimited text file to be loaded', subtype='FILE_PATH')
     
     b_properties = bpy.props.BoolVectorProperty(name="", size=1, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileName', ]
+        return ["m_FileName", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_HoudiniPolyDataWriter)
-type_names.append('BVTK_NT_HoudiniPolyDataWriter')
+add_node(BVTK_NT_HoudiniPolyDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -1973,8 +1919,8 @@ type_names.append('BVTK_NT_HoudiniPolyDataWriter')
 
 class BVTK_NT_XMLPUniformGridAMRWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPUniformGridAMRWriter'
-    bl_label = 'vtkXMLPUniformGridAMRWriter'
+    bl_idname = "BVTK_NT_XMLPUniformGridAMRWriter"
+    bl_label = "vtkXMLPUniformGridAMRWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -1995,17 +1941,16 @@ class BVTK_NT_XMLPUniformGridAMRWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=11, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfTimeSteps', 'm_WriteMetaFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfTimeSteps", "m_WriteMetaFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPUniformGridAMRWriter)
-type_names.append('BVTK_NT_XMLPUniformGridAMRWriter')
+add_node(BVTK_NT_XMLPUniformGridAMRWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2013,8 +1958,8 @@ type_names.append('BVTK_NT_XMLPUniformGridAMRWriter')
 
 class BVTK_NT_BYUWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_BYUWriter'
-    bl_label = 'vtkBYUWriter'
+    bl_idname = "BVTK_NT_BYUWriter"
+    bl_label = "vtkBYUWriter"
     
     m_DisplacementFileName = bpy.props.StringProperty(name='DisplacementFileName', description='Specify the name of the displacement file to write', subtype='FILE_PATH')
     m_GeometryFileName = bpy.props.StringProperty(name='GeometryFileName', description='Specify the name of the geometry file to write', subtype='FILE_PATH')
@@ -2027,17 +1972,16 @@ class BVTK_NT_BYUWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=7, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_DisplacementFileName', 'm_GeometryFileName', 'm_ScalarFileName', 'm_TextureFileName', 'm_WriteDisplacement', 'm_WriteScalar', 'm_WriteTexture', ]
+        return ["m_DisplacementFileName", "m_GeometryFileName", "m_ScalarFileName", "m_TextureFileName", "m_WriteDisplacement", "m_WriteScalar", "m_WriteTexture", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_BYUWriter)
-type_names.append('BVTK_NT_BYUWriter')
+add_node(BVTK_NT_BYUWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2045,8 +1989,8 @@ type_names.append('BVTK_NT_BYUWriter')
 
 class BVTK_NT_StructuredPointsWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_StructuredPointsWriter'
-    bl_label = 'vtkStructuredPointsWriter'
+    bl_idname = "BVTK_NT_StructuredPointsWriter"
+    bl_label = "vtkStructuredPointsWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -2069,17 +2013,16 @@ class BVTK_NT_StructuredPointsWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=16, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteExtent', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteExtent", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_StructuredPointsWriter)
-type_names.append('BVTK_NT_StructuredPointsWriter')
+add_node(BVTK_NT_StructuredPointsWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2087,8 +2030,8 @@ type_names.append('BVTK_NT_StructuredPointsWriter')
 
 class BVTK_NT_CompositeDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_CompositeDataWriter'
-    bl_label = 'vtkCompositeDataWriter'
+    bl_idname = "BVTK_NT_CompositeDataWriter"
+    bl_label = "vtkCompositeDataWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -2110,17 +2053,16 @@ class BVTK_NT_CompositeDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_CompositeDataWriter)
-type_names.append('BVTK_NT_CompositeDataWriter')
+add_node(BVTK_NT_CompositeDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2128,8 +2070,8 @@ type_names.append('BVTK_NT_CompositeDataWriter')
 
 class BVTK_NT_XMLPUnstructuredGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLPUnstructuredGridWriter'
-    bl_label = 'vtkXMLPUnstructuredGridWriter'
+    bl_idname = "BVTK_NT_XMLPUnstructuredGridWriter"
+    bl_label = "vtkXMLPUnstructuredGridWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -2154,17 +2096,16 @@ class BVTK_NT_XMLPUnstructuredGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_EndPiece', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_StartPiece', 'm_UseSubdirectory', 'm_WriteSummaryFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_EndPiece", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_StartPiece", "m_UseSubdirectory", "m_WriteSummaryFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLPUnstructuredGridWriter)
-type_names.append('BVTK_NT_XMLPUnstructuredGridWriter')
+add_node(BVTK_NT_XMLPUnstructuredGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2172,8 +2113,8 @@ type_names.append('BVTK_NT_XMLPUnstructuredGridWriter')
 
 class BVTK_NT_MCubesWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_MCubesWriter'
-    bl_label = 'vtkMCubesWriter'
+    bl_idname = "BVTK_NT_MCubesWriter"
+    bl_label = "vtkMCubesWriter"
     
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name of vtk polygon data file to write', subtype='FILE_PATH')
     m_LimitsFileName = bpy.props.StringProperty(name='LimitsFileName', description='Set/get file name of marching cubes limits file', subtype='FILE_PATH')
@@ -2181,17 +2122,16 @@ class BVTK_NT_MCubesWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileName', 'm_LimitsFileName', ]
+        return ["m_FileName", "m_LimitsFileName", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_MCubesWriter)
-type_names.append('BVTK_NT_MCubesWriter')
+add_node(BVTK_NT_MCubesWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2199,8 +2139,8 @@ type_names.append('BVTK_NT_MCubesWriter')
 
 class BVTK_NT_DataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_DataWriter'
-    bl_label = 'vtkDataWriter'
+    bl_idname = "BVTK_NT_DataWriter"
+    bl_label = "vtkDataWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_EdgeFlagsName = bpy.props.StringProperty(name='EdgeFlagsName', description='Give a name to the edge flags data. If not specified, uses default name "edge_flags"')
@@ -2222,17 +2162,16 @@ class BVTK_NT_DataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_EdgeFlagsName', 'm_FieldDataName', 'm_FileName', 'e_FileType', 'm_GlobalIdsName', 'm_Header', 'm_LookupTableName', 'm_NormalsName', 'm_PedigreeIdsName', 'm_ScalarsName', 'm_TCoordsName', 'm_TensorsName', 'm_VectorsName', 'm_WriteArrayMetaData', 'm_WriteToOutputString', ]
+        return ["m_EdgeFlagsName", "m_FieldDataName", "m_FileName", "e_FileType", "m_GlobalIdsName", "m_Header", "m_LookupTableName", "m_NormalsName", "m_PedigreeIdsName", "m_ScalarsName", "m_TCoordsName", "m_TensorsName", "m_VectorsName", "m_WriteArrayMetaData", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_DataWriter)
-type_names.append('BVTK_NT_DataWriter')
+add_node(BVTK_NT_DataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2240,8 +2179,8 @@ type_names.append('BVTK_NT_DataWriter')
 
 class BVTK_NT_PNGWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_PNGWriter'
-    bl_label = 'vtkPNGWriter'
+    bl_idname = "BVTK_NT_PNGWriter"
+    bl_label = "vtkPNGWriter"
     
     m_CompressionLevel = bpy.props.IntProperty(name='CompressionLevel', description='Set/Get the zlib compression level. The range is 0-9, with 0 meaning no compression corresponding to the largest file size, and 9 meaning best compression, corresponding to the smallest file size. The default is 5', default=5)
     m_FileDimensionality = bpy.props.IntProperty(name='FileDimensionality', description='What dimension are the files to be written. Usually this is 2, or 3. If it is 2 and the input is a volume then the volume will be written as a series of 2d slices', default=2)
@@ -2253,17 +2192,16 @@ class BVTK_NT_PNGWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=6, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_CompressionLevel', 'm_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', 'm_WriteToMemory', ]
+        return ["m_CompressionLevel", "m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", "m_WriteToMemory", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_PNGWriter)
-type_names.append('BVTK_NT_PNGWriter')
+add_node(BVTK_NT_PNGWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2271,8 +2209,8 @@ type_names.append('BVTK_NT_PNGWriter')
 
 class BVTK_NT_PLYWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_PLYWriter'
-    bl_label = 'vtkPLYWriter'
+    bl_idname = "BVTK_NT_PLYWriter"
+    bl_label = "vtkPLYWriter"
     e_ColorMode_items = [(x, x, x) for x in ['Default', 'Off', 'UniformCellColor', 'UniformColor', 'UniformPointColor']]
     e_DataByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
@@ -2292,17 +2230,16 @@ class BVTK_NT_PLYWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=10, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Alpha', 'm_ArrayName', 'm_Color', 'e_ColorMode', 'm_Component', 'e_DataByteOrder', 'm_EnableAlpha', 'm_FileName', 'e_FileType', 'e_TextureCoordinatesName', ]
+        return ["m_Alpha", "m_ArrayName", "m_Color", "e_ColorMode", "m_Component", "e_DataByteOrder", "m_EnableAlpha", "m_FileName", "e_FileType", "e_TextureCoordinatesName", ]
     
     def m_connections(self):
-        return ['Input'], [], ['LookupTable'], []
+        return ['Input'], [], ['LookupTable'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_PLYWriter)
-type_names.append('BVTK_NT_PLYWriter')
+add_node(BVTK_NT_PLYWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2310,8 +2247,8 @@ type_names.append('BVTK_NT_PLYWriter')
 
 class BVTK_NT_EnSightWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_EnSightWriter'
-    bl_label = 'vtkEnSightWriter'
+    bl_idname = "BVTK_NT_EnSightWriter"
+    bl_label = "vtkEnSightWriter"
     
     m_BaseName = bpy.props.StringProperty(name='BaseName', description='Specify base name of EnSight data files to write')
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify the path and base name of the output files', subtype='FILE_PATH')
@@ -2325,17 +2262,16 @@ class BVTK_NT_EnSightWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=8, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BaseName', 'm_FileName', 'm_GhostLevel', 'm_NumberOfBlocks', 'm_Path', 'm_ProcessNumber', 'm_TimeStep', 'm_TransientGeometry', ]
+        return ["m_BaseName", "m_FileName", "m_GhostLevel", "m_NumberOfBlocks", "m_Path", "m_ProcessNumber", "m_TimeStep", "m_TransientGeometry", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_EnSightWriter)
-type_names.append('BVTK_NT_EnSightWriter')
+add_node(BVTK_NT_EnSightWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2343,8 +2279,8 @@ type_names.append('BVTK_NT_EnSightWriter')
 
 class BVTK_NT_XMLRectilinearGridWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLRectilinearGridWriter'
-    bl_label = 'vtkXMLRectilinearGridWriter'
+    bl_idname = "BVTK_NT_XMLRectilinearGridWriter"
+    bl_label = "vtkXMLRectilinearGridWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -2367,17 +2303,16 @@ class BVTK_NT_XMLRectilinearGridWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=13, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfPieces', 'm_NumberOfTimeSteps', 'm_WriteExtent', 'm_WritePiece', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfPieces", "m_NumberOfTimeSteps", "m_WriteExtent", "m_WritePiece", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLRectilinearGridWriter)
-type_names.append('BVTK_NT_XMLRectilinearGridWriter')
+add_node(BVTK_NT_XMLRectilinearGridWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2385,8 +2320,8 @@ type_names.append('BVTK_NT_XMLRectilinearGridWriter')
 
 class BVTK_NT_XMLHierarchicalBoxDataWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_XMLHierarchicalBoxDataWriter'
-    bl_label = 'vtkXMLHierarchicalBoxDataWriter'
+    bl_idname = "BVTK_NT_XMLHierarchicalBoxDataWriter"
+    bl_label = "vtkXMLHierarchicalBoxDataWriter"
     e_ByteOrder_items = [(x, x, x) for x in ['BigEndian', 'LittleEndian']]
     e_DataMode_items = [(x, x, x) for x in ['Appended', 'Ascii', 'Binary']]
     e_HeaderType_items = [(x, x, x) for x in ['UInt32', 'UInt64']]
@@ -2407,17 +2342,16 @@ class BVTK_NT_XMLHierarchicalBoxDataWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=11, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_BlockSize', 'e_ByteOrder', 'e_DataMode', 'm_EncodeAppendedData', 'm_FileName', 'm_GhostLevel', 'e_HeaderType', 'e_IdType', 'm_NumberOfTimeSteps', 'm_WriteMetaFile', 'm_WriteToOutputString', ]
+        return ["m_BlockSize", "e_ByteOrder", "e_DataMode", "m_EncodeAppendedData", "m_FileName", "m_GhostLevel", "e_HeaderType", "e_IdType", "m_NumberOfTimeSteps", "m_WriteMetaFile", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_XMLHierarchicalBoxDataWriter)
-type_names.append('BVTK_NT_XMLHierarchicalBoxDataWriter')
+add_node(BVTK_NT_XMLHierarchicalBoxDataWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2425,8 +2359,8 @@ type_names.append('BVTK_NT_XMLHierarchicalBoxDataWriter')
 
 class BVTK_NT_TIFFWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_TIFFWriter'
-    bl_label = 'vtkTIFFWriter'
+    bl_idname = "BVTK_NT_TIFFWriter"
+    bl_label = "vtkTIFFWriter"
     e_Compression_items = [(x, x, x) for x in ['Deflate', 'JPEG', 'LZW', 'NoCompression', 'PackBits']]
     
     e_Compression = bpy.props.EnumProperty(name='Compression', description='Set compression type. Sinze LZW compression is patented outside US, the additional work steps have to be taken in order to use that compression', default='PackBits', items=e_Compression_items)
@@ -2438,17 +2372,16 @@ class BVTK_NT_TIFFWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=5, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['e_Compression', 'm_FileDimensionality', 'm_FileName', 'm_FilePattern', 'm_FilePrefix', ]
+        return ["e_Compression", "m_FileDimensionality", "m_FileName", "m_FilePattern", "m_FilePrefix", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_TIFFWriter)
-type_names.append('BVTK_NT_TIFFWriter')
+add_node(BVTK_NT_TIFFWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2456,8 +2389,8 @@ type_names.append('BVTK_NT_TIFFWriter')
 
 class BVTK_NT_MNIObjectWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_MNIObjectWriter'
-    bl_label = 'vtkMNIObjectWriter'
+    bl_idname = "BVTK_NT_MNIObjectWriter"
+    bl_label = "vtkMNIObjectWriter"
     e_FileType_items = [(x, x, x) for x in ['ASCII', 'Binary']]
     
     m_FileName = bpy.props.StringProperty(name='FileName', description='Specify file name of vtk polygon data file to write', subtype='FILE_PATH')
@@ -2466,17 +2399,16 @@ class BVTK_NT_MNIObjectWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=2, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_FileName', 'e_FileType', ]
+        return ["m_FileName", "e_FileType", ]
     
     def m_connections(self):
-        return ['Input'], [], ['LookupTable', 'Mapper', 'Property'], []
+        return ['Input'], [], ['LookupTable', 'Mapper', 'Property'], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_MNIObjectWriter)
-type_names.append('BVTK_NT_MNIObjectWriter')
+add_node(BVTK_NT_MNIObjectWriter, cat)
 
 
 # --------------------------------------------------------------
@@ -2484,8 +2416,8 @@ type_names.append('BVTK_NT_MNIObjectWriter')
 
 class BVTK_NT_ArrayWriter(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ArrayWriter'
-    bl_label = 'vtkArrayWriter'
+    bl_idname = "BVTK_NT_ArrayWriter"
+    bl_label = "vtkArrayWriter"
     
     m_Binary = bpy.props.BoolProperty(name='Binary', description='Get / set whether data will be written in binary format (when used as a filter)', default=True)
     m_FileName = bpy.props.StringProperty(name='FileName', description='Get / set the filename where data will be stored (when used as a filter)', subtype='FILE_PATH')
@@ -2494,21 +2426,16 @@ class BVTK_NT_ArrayWriter(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=3, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_Binary', 'm_FileName', 'm_WriteToOutputString', ]
+        return ["m_Binary", "m_FileName", "m_WriteToOutputString", ]
     
     def m_connections(self):
-        return ['Input'], [], [], []
+        return ['Input'], [], [], ['Self']
     
     def methods(self):
         return []
 
 
-add_class(BVTK_NT_ArrayWriter)
-type_names.append('BVTK_NT_ArrayWriter')
+add_node(BVTK_NT_ArrayWriter, cat)
 
 
 # --------------------------------------------------------------
-
-
-menu_items = [NodeItem(x) for x in type_names]
-node_categories.append(BVTK_NodeCategory('VTKWriter', 'Writer', items=menu_items))

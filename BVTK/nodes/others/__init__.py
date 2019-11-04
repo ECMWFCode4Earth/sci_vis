@@ -1,10 +1,25 @@
+# <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   others/__init__.py
+#
+#   Import and override default generated integrators, transforms,
+#   implicit functions and parametric functions.
+# ---------------------------------------------------------------------------------
+
+
 from . gen_vtk_integrator import *
 from . gen_vtk_transform import *
 from . gen_vtk_implicit_func import *
 from . gen_vtk_parametric_func import *
-from ... utils import node_path
+from ... utilities import node_path
 import mathutils
 
+_modules = [
+    "gen_vtk_integrator",
+    "gen_vtk_transform",
+    "gen_vtk_implicit_func",
+    "gen_vtk_parametric_func"
+]
 
 # --------------------------------------------------------------
 # ImplicitFunctions base class
@@ -155,7 +170,7 @@ class BVTK_OT_LinkObject(bpy.types.Operator):
         return {"CANCELLED"}
 
 
-add_ui_class(BVTK_OT_LinkObject)
+register.add_class(BVTK_OT_LinkObject)
 
 # --------------------------------------------------------------
 
@@ -212,7 +227,7 @@ class BVTK_NT_Plane(BVTK_ImplicitFunction, Node, BVTK_Node):
             self.m_Origin = ob.location
 
 
-add_class(BVTK_NT_Plane)
+add_node(BVTK_NT_Plane)
 
 # --------------------------------------------------------------
 
@@ -255,4 +270,4 @@ class BVTK_NT_Sphere(BVTK_ImplicitFunction, Node, BVTK_Node):
         self.m_Center = ob.location
 
 
-add_class(BVTK_NT_Sphere)
+add_node(BVTK_NT_Sphere)

@@ -1,8 +1,19 @@
-# -----------------------------------------------------------------------------
-# Color map nodes and functions
-# -----------------------------------------------------------------------------
-from . utils import *
-from . core import *
+# <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   color/__init__.py
+#
+#   Define nodes to manage colors (color ramp, color mapper).
+# ---------------------------------------------------------------------------------
+
+
+from .. core import *
+from bpy_extras.io_utils import ExportHelper, ImportHelper
+import bpy.utils.previews
+
+
+# ---------------------------------------------------------------------------------
+#   Color map nodes and functions
+# ---------------------------------------------------------------------------------
 
 
 def get_default_texture(node):
@@ -29,9 +40,9 @@ def get_default_texture(node):
     return tex
 
 
-# -----------------------------------------------------------------------------
-# Color mapper nodes
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Color mapper nodes
+# ---------------------------------------------------------------------------------
 
 
 class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
@@ -96,7 +107,8 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
     cl_height = bpy.props.FloatProperty(default=5.5, name="Height")
     cl_width = bpy.props.FloatProperty(default=0.2, name="Width")
     cl_font = bpy.props.PointerProperty(type=bpy.types.VectorFont, name="Font")
-    cl_font_size = bpy.props.FloatProperty(default=0.3, name="Font size")
+    cl_font_size = bpy.props.FloatProperty(default=0.15, name="Font size")
+    cl_horizontal = bpy.props.BoolProperty(default=False, name="Horizontal")
 
     def m_properties(self):
         return ["color_by", "texture_type", "auto_range",
@@ -212,6 +224,9 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
             row = aside_label(layout, "Font size")
             row.prop(self, "cl_font_size", text="")
 
+            row = aside_label(layout, "Horizontal")
+            row.prop(self, "cl_horizontal", text="")
+
     def draw_options(self, context, layout):
         layout.prop(self, "reset_materials")
 
@@ -227,9 +242,9 @@ class BVTK_NT_ColorMapper(Node, BVTK_NodePanels, BVTK_Node):
     ]
 
 
-# -----------------------------------------------------------------------------
-# Color ramp node
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Color ramp node
+# ---------------------------------------------------------------------------------
 
 
 class BVTK_PG_ColorSettings(bpy.types.PropertyGroup):
@@ -414,9 +429,20 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
         op.factor = self.transparency_factor
         op.node_path = node_path(self)
 
+    def draw_import_export(self, context, layout):
+        op = layout.operator(BVTK_OT_ExportRampToJSON.bl_idname,
+                             text="Export to JSON",
+                             icon="FILE_TEXT")
+        op.node_path = node_path(self)
+        op = layout.operator(BVTK_OT_ImportRampFromJSON.bl_idname,
+                             text="Import from JSON",
+                             icon="FILESEL")
+        op.node_path = node_path(self)
+
     _panels = [
         ("Color Values", draw_color_values),
-        ("Transparency", draw_transparency)
+        ("Transparency", draw_transparency),
+        ("Import Export", draw_import_export)
     ]
 
     def apply_properties(self, vtkobj):
@@ -437,11 +463,13 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
     def export_properties(self):
         """Export colormap properties. Called by export operator"""
         t = self.get_texture()
-        if t:
+
+        if t and t.color_ramp:
             elements = t.color_ramp.elements
             e = [[[x for x in e.color], e.position] for e in elements]
         else:
             e = []
+
         return {"elements": e}
 
     def import_properties(self, dict):
@@ -449,10 +477,14 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
         log.debug("importing colormap " + str(self.name))
         t = self.get_texture()
         new_elements = dict["elements"]
-        if t:
+
+        if t and t.color_ramp:
             elements = t.color_ramp.elements
+
+            # Remove excess elements
             while len(elements) > len(new_elements):
                 elements.remove(elements[0])
+
             for i, new_el in enumerate(new_elements):
                 if i < len(elements):
                     elements[i].color = new_el[0]
@@ -462,7 +494,7 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
                     e.color = new_el[0]
 
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 
 
 class BVTK_OT_UpdateColorSetting(bpy.types.Operator):
@@ -499,7 +531,7 @@ class BVTK_OT_UpdateColorSetting(bpy.types.Operator):
         return {"FINISHED"}
 
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 
 
 class BVTK_OT_ApplyRampPosition(bpy.types.Operator):
@@ -530,6 +562,54 @@ class BVTK_OT_ApplyRampPosition(bpy.types.Operator):
         else:
             el = ramp.elements[el_index]
             color_settings[el_index].value = r_min + el.position * r_delta
+        return {"FINISHED"}
+
+
+# ---------------------------------------------------------------------------------
+
+
+class BVTK_OT_ExportRampToJSON(bpy.types.Operator, ExportHelper):
+    """Export color ramp to a JSON file"""
+    bl_idname = "bvtk.export_ramp_to_json"
+    bl_label = "Export color ramp to a JSON file"
+
+    filename_ext = ".json"
+    export_path = bpy.props.StringProperty()
+    node_path = bpy.props.StringProperty()
+
+    def execute(self, context):
+        node = eval(self.node_path)
+
+        if not node or not hasattr(node, "export_properties"):
+            return {"CANCELLED"}
+
+        elements = node.export_properties()
+        write_JSON(elements, self.filepath)
+
+        return {"FINISHED"}
+
+
+class BVTK_OT_ImportRampFromJSON(Operator, ImportHelper):
+    """This appears in the tooltip of the operator and in the generated docs"""
+    bl_idname = "bvtk.import_ramp_from_json"
+    bl_label = "Import color ramp from a JSON file"
+
+    node_path = bpy.props.StringProperty(options={'HIDDEN'})
+    filename_ext = ".json"
+    filter_glob = bpy.props.StringProperty(
+            default="*.json",
+            options={'HIDDEN'}
+    )
+
+    def execute(self, context):
+        node = eval(self.node_path)
+
+        if not node or not hasattr(node, "import_properties"):
+            return {"CANCELLED"}
+
+        elements = read_JSON(self.filepath)
+        node.import_properties(elements)
+
         return {"FINISHED"}
 
 
@@ -651,10 +731,9 @@ class BVTK_OT_DistributeAlpha(bpy.types.Operator):
         return {"FINISHED"}
 
 
-# -----------------------------------------------------------------------------
-# Cpt color ramps management
-# -----------------------------------------------------------------------------
-
+# ---------------------------------------------------------------------------------
+#   Cpt color ramps management
+# ---------------------------------------------------------------------------------
 # Generate color bar menus based on the directories in the color_ramps folder;
 # a menu is created for each folder; it will contain a button for each .cpt
 # file inside the said folder
@@ -676,7 +755,7 @@ for dir_name in os.listdir(color_ramp_dir):
         })
 
         color_ramp_menus.append(menu_type)
-        add_ui_class(menu_type)
+        register.add_class(menu_type)
 
 
 class BVTK_MT_ColorRamps(bpy.types.Menu):
@@ -692,7 +771,7 @@ class BVTK_MT_ColorRamps(bpy.types.Menu):
         # and stored in the color_ramp_menus array
         for em in color_ramp_menus:
             menu_icon = 0
-            p_coll = get_p_coll(em.dir_path)
+            p_coll = register.get_collection(em.dir_path)
             if p_coll and len(p_coll.keys()):
                 # A random icon from his collection is assigned
                 # to each menu
@@ -711,30 +790,19 @@ class BVTK_MT_ColorRamps(bpy.types.Menu):
 for dir_name in os.listdir(color_ramp_dir):
     if os.path.isdir(os.path.join(color_ramp_dir, dir_name)):
         dir_path = os.path.join(color_ramp_dir, dir_name)
-        p_coll = bpy.utils.previews.new()
-        p_collections[dir_path] = p_coll
+        p_coll = register.retrieve_collection(dir_path)
         for file_name in os.listdir(dir_path):
             if file_name.endswith(".png"):
                 img_path = os.path.join(dir_path, file_name)
                 p_coll.load(file_name, img_path, "IMAGE")
 
 
-def get_p_coll(dir_path):
-    """Given a directory absolute path, return the
-    corresponding preview collection or none.
-    """
-    if dir_path in p_collections:
-        return p_collections[dir_path]
-    return None
-
-
 def get_icon_id(dir_path, img_file_name):
     """Given a directory absolute path and an image
     file name, return the corresponding icon id or 0.
     """
-    p_coll = get_p_coll(dir_path)
+    p_coll = register.get_collection(dir_path)
     if p_coll:
-        p_coll = p_collections[dir_path]
         if img_file_name in p_coll:
             return p_coll[img_file_name].icon_id
         else:
@@ -829,18 +897,16 @@ class BVTK_OT_LoadCPTColorRamp(bpy.types.Operator):
 
 
 # Add classes and menu items
-TYPENAMES = []
-add_class(BVTK_NT_ColorMapper)
-TYPENAMES.append("BVTK_NT_ColorMapper")
-add_class(BVTK_NT_ColorRamp)
-TYPENAMES.append("BVTK_NT_ColorRamp")
-add_ui_class(BVTK_PG_ColorSettings)
-add_ui_class(BVTK_OT_ArrangeColorRamp)
-add_ui_class(BVTK_OT_UpdateColorSetting)
-add_ui_class(BVTK_OT_ApplyRampPosition)
-add_ui_class(BVTK_OT_LoadCPTColorRamp)
-add_ui_class(BVTK_OT_DistributeAlpha)
-add_ui_class(BVTK_MT_ColorRamps)
-
-menu_items = [NodeItem(x) for x in TYPENAMES]
-node_categories.append(BVTK_NodeCategory("Colour", "Colour", items=menu_items))
+cat = "Color"
+register.set_category_icon(cat, "COLOR")
+add_node(BVTK_NT_ColorMapper, cat)
+add_node(BVTK_NT_ColorRamp, cat)
+register.add_class(BVTK_PG_ColorSettings)
+register.add_class(BVTK_OT_ArrangeColorRamp)
+register.add_class(BVTK_OT_UpdateColorSetting)
+register.add_class(BVTK_OT_ApplyRampPosition)
+register.add_class(BVTK_OT_LoadCPTColorRamp)
+register.add_class(BVTK_OT_DistributeAlpha)
+register.add_class(BVTK_MT_ColorRamps)
+register.add_class(BVTK_OT_ImportRampFromJSON)
+register.add_class(BVTK_OT_ExportRampToJSON)

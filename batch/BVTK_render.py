@@ -3,9 +3,9 @@ import os
 import sys
 
 
-# -----------------------------------------------------------------------------
-# Functions
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Functions
+# ---------------------------------------------------------------------------------
 
 
 def clean_path(path):
@@ -205,13 +205,13 @@ def insert_before(node, node_a, k_socket_in,
                        k_socket_out, k_socket_a)
 
 
-# -----------------------------------------------------------------------------
-# Read arguments
-# -----------------------------------------------------------------------------
-
+# ---------------------------------------------------------------------------------
+#   Read arguments
+# ---------------------------------------------------------------------------------
 print()
 args = {}
 separator_found = False
+
 for a in sys.argv:
     if separator_found:
         key, value = a.split(':')
@@ -223,12 +223,13 @@ for a in sys.argv:
             )
     if a == "--":
         separator_found = True
+
 print()
 
 
-# -----------------------------------------------------------------------------
-# Validate arguments
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Validate arguments
+# ---------------------------------------------------------------------------------
 
 
 if "input_data" not in args:
@@ -316,15 +317,19 @@ if "res_y" in args:
         print("Resolution y must be an integer, the provided value is invalid "
               "and will be ignored.")
 
+color_ramp_path = None
+if "color_ramp" in args:
+    color_ramp_path = args["color_ramp"]
 
-# -----------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------
 # Apply arguments
-# -----------------------------------------------------------------------------
-
+# ---------------------------------------------------------------------------------
 # Node bl_idnames
 id_reader = "BVTK_NT_NetCDFCFReader"
 id_time_sel = "BVTK_NT_TimeSelector"
 id_color_mapper = "BVTK_NT_ColorMapper"
+id_color_ramp = "BVTK_NT_ColorRamp"
 id_temporal_int = "BVTK_NT_TemporalInterpolator"
 
 if bpy.ops.wm.addon_enable(module="BVTK") != {'FINISHED'}:
@@ -345,27 +350,31 @@ if not node_tree:
 reader = find_node(node_tree, id_reader)
 time_selector = find_node(node_tree, id_time_sel)
 color_mapper = find_node(node_tree, id_color_mapper)
+color_ramp = find_node(node_tree, id_color_ramp)
 
-if not (reader and time_selector and color_mapper):
+if not (reader and color_mapper):
     quit_msg("A required node is missing in the provided blender preset: "
              "please make sure you are using the correct .blend file. "
              "Aborting.")
 
-if resample_fac is None:
-    # Removing all temporal interpolator nodes
-    for node in find_nodes(node_tree, id_temporal_int):
-        collapse_node(node)
+if not time_selector:
+    print("Time selector node is missing. Ignoring temporal data.")
 else:
-    temporal_int = find_node(node_tree, id_temporal_int)
+    if resample_fac is None:
+        # Removing all temporal interpolator nodes
+        for node in find_nodes(node_tree, id_temporal_int):
+            collapse_node(node)
+    else:
+        temporal_int = find_node(node_tree, id_temporal_int)
 
-    if not temporal_int:
-        print("Temporal interpolator node could not be found. Creating "
-              "a new one before the time selector.")
-        temporal_int = node_tree.nodes.new(id_temporal_int)
-        insert_before(temporal_int, time_selector, "Input", "Output", "Input")
+        if not temporal_int:
+            print("Temporal interpolator node could not be found. Creating "
+                  "a new one before the time selector.")
+            temporal_int = node_tree.nodes.new(id_temporal_int)
+            insert_before(temporal_int, time_selector, "Input", "Output", "Input")
 
-    for node in find_nodes(node_tree, id_temporal_int):
-        temporal_int.m_ResampleFactor = resample_fac
+        for node in find_nodes(node_tree, id_temporal_int):
+            temporal_int.m_ResampleFactor = resample_fac
 
 
 reader.m_FileName = input_data
@@ -375,23 +384,24 @@ print("Updating the pipeline to retrieve initial data. Please wait.")
 bpy.ops.bvtk.node_update(node_path=node_path(color_mapper), use_queue=False)
 print("Update complete.")
 
-if not time_end:
-    time_steps = time_selector.get_time_steps()
-    if not time_steps:
-        quit_msg("Could not retrieve the time steps from the given data: "
-                 "please make sure that the input data file has some time-related "
-                 "information and try again. Aborting.")
-    time_end = len(time_steps) - 1
-    print("{} time steps.".format(time_end+1))
-    print("Last time step: {}.".format(time_end))
+if time_selector:
+    if not time_end:
+        time_steps = time_selector.get_time_steps()
+        if not time_steps:
+            quit_msg("Could not retrieve the time steps from the given data: "
+                     "please make sure that the input data file has some time-related "
+                     "information and try again. Aborting.")
+        time_end = len(time_steps) - 1
+        print("{} time steps.".format(time_end+1))
+        print("Last time step: {}.".format(time_end))
 
-bpy.context.scene.frame_start = time_start
-bpy.context.scene.frame_end = time_end
+    bpy.context.scene.frame_start = time_start
+    bpy.context.scene.frame_end = time_end
 
-time_selector.time_step = time_end
-time_selector.keyframe_insert("time_step", frame=time_end)
-time_selector.time_step = time_start
-time_selector.keyframe_insert("time_step", frame=time_start)
+    time_selector.time_step = time_end
+    time_selector.keyframe_insert("time_step", frame=time_end)
+    time_selector.time_step = time_start
+    time_selector.keyframe_insert("time_step", frame=time_start)
 
 if not data_range:
     color_mapper.auto_range = True
@@ -413,6 +423,13 @@ if color_by:
         quit_msg("Aborting.")
 else:
     print("Coloring using '{}' array.".format(get_color_array_name(color_mapper, color_mapper.color_by)))
+
+if color_ramp_path:
+    if color_ramp:
+        bpy.ops.bvtk.import_ramp_from_json(node_path=node_path(color_ramp), filepath=color_ramp_path)
+    else:
+        print("The color ramp node could not be found, color ramp has not been imported."
+              "Open the preset and add a color ramp node to fix this error.")
 
 if not tile_size:
     # Enabling auto tile size add-on
@@ -436,5 +453,14 @@ else:
     ))
 
 print("Setup complete, starting render.")
-bpy.ops.render.render(animation=True)
+
+if not time_selector:
+    # Render a single image
+    bpy.context.scene.render.filepath = os.path.join(bpy.context.scene.render.filepath,
+                                                     "render.png")
+    bpy.ops.render.render(animation=False, write_still=True)
+else:
+    # Render animation
+    bpy.ops.render.render(animation=True)
+
 print("Render complete.")

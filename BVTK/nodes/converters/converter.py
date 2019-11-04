@@ -1,325 +1,35 @@
-from . utils import *
-from . update import *
-from . progress import ChargingBar
+# <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   converters/converter.py
+#
+#   Define functions to convert VTK data into Blender objects.
+# ---------------------------------------------------------------------------------
+
+
+from . materials import *
+from mathutils import Euler
+import vtk
 import bmesh
 
 
-# -----------------------------------------------------------------------------
-# Converters from VTK to Blender
-# -----------------------------------------------------------------------------
-
-
-class BVTK_NT_ToBlender(Node, BVTK_Node):
-    """Convert output from VTK Node to Blender Mesh Object"""
-    bl_idname = 'BVTK_NT_ToBlender'
-    bl_label = 'ToBlender'
-
-    def start_scan(self, context):
-        if context:
-            if self.auto_update:
-                bpy.ops.bvtk.auto_update_scan(
-                    node_name=self.name,
-                    tree_name=context.space_data.node_tree.name)
-
-    def update_z_level(self, context):
-        data = self.get_input_node("Input")[1]
-        data = resolve_algorithm_output(data)
-
-        if hasattr(data, "GetDimensions"):
-            z = data.GetDimensions()[2]
-            if self.z_level > z:
-                self.z_level = z
-
-    mesh_name = bpy.props.StringProperty(name="Name", default="mesh")
-    auto_update = bpy.props.BoolProperty(default=False, update=start_scan)
-    smooth = bpy.props.BoolProperty(name="Smooth", default=False)
-    output_type = bpy.props.EnumProperty(name="Output", default="MESH", items=[
-        ("MESH", "Mesh", "Generate a mesh as output", "VIEW3D", 0),
-        ("VOLUME", "Volume", "Generate a volume as output. Works only in blender render.", "MOD_CAST", 1),
-        ("IMAGE", "Image", "Generate image as output.", "IMAGE_DATA", 2),
-        ("TEXT", "Text", "Generate a text object as output.", "FONT_DATA", 3)
-    ])
-
-    # Volume output options
-    use_probing = bpy.props.BoolProperty(default=True, name="Probe")
-    probe_resolution = bpy.props.IntVectorProperty(name="Resolution", default=(250, 250, 250))
-    create_box = bpy.props.BoolProperty(default=True, name="Create box",
-                                        description="Create a parallelepiped to display the generated volume")
-
-    # Image output options
-    create_plane = bpy.props.BoolProperty(default=True, name="Create plane",
-                                          description="Create a plane to display the generated image")
-    z_level = bpy.props.IntProperty(default=1, min=1, update=update_z_level)
-
-    # Image output and volume output options
-    shift_x = bpy.props.FloatProperty(default=0, name="Shift x", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
-    shift_y = bpy.props.FloatProperty(default=0, name="Shift y", subtype="PERCENTAGE", min=-100, max=100, soft_min=0)
-
-    def m_properties(self):
-        return ["mesh_name", "smooth",
-                "z_level", "smooth",
-                "output_type", "use_probing",
-                "probe_resolution", "create_box",
-                "create_plane", "shift_x",
-                "shift_y"]
-
-    def m_connections(self):
-        return ["Input"], [], [], []
-
-    def draw_buttons(self, context, layout):
-        enable_update = True
-        layout.prop(self, "mesh_name")
-        layout.prop(self, "auto_update", text="Auto update")
-        layout.prop(self, "smooth", text="Smooth")
-        layout.prop(self, "output_type", text="Output as")
-
-        render_engine = bpy.context.scene.render.engine
-        if self.output_type == "VOLUME":
-            if render_engine == "CYCLES" or render_engine == "BLENDER_EEVEE":
-                enable_update = False
-                error_box(layout, "Volume output is supported only by blender render.")
-
-            layout.prop(self, "use_probing")
-            row = layout.row()
-            row.enabled = self.use_probing
-            row.prop(self, "probe_resolution")
-            layout.prop(self, "create_box")
-
-        if self.output_type == "VOLUME" or self.output_type == "IMAGE":
-            col = layout.column(align=True)
-            col.prop(self, "shift_x")
-            col.prop(self, "shift_y")
-
-        if self.output_type == "IMAGE":
-            data = self.get_input_node("Input")[1]
-            data = resolve_algorithm_output(data)
-
-            if hasattr(data, "GetDimensions"):
-                z = data.GetDimensions()[2]
-                row = layout.split(percentage=0.3)
-                row.prop(self, "z_level", text="")
-                row.label(text="Max: {}".format(z))
-
-            layout.prop(self, "create_plane")
-
-        row = layout.row()
-        row.enabled = enable_update
-        row.operator("bvtk.node_update", text="Update").node_path = node_path(self)
-
-    def update_cb(self):
-        """Update node"""
-        input_node, input_obj = self.get_input_node("Input")
-        color_node = None
-
-        if input_node and input_node.bl_idname == "BVTK_NT_ColorMapper":
-            color_node = input_node
-            color_node.update()  # setting auto range
-            input_node, input_obj = input_node.get_input_node("Input")
-
-        if input_obj is not None:
-            input_obj = resolve_algorithm_output(input_obj)
-            output_type = self.output_type
-            mesh_name = self.mesh_name
-            shift = -self.shift_x/100, self.shift_y/100
-
-            if output_type == "MESH":
-                vtk_data_to_mesh(input_obj, mesh_name, color_node, self.smooth)
-            elif output_type == "VOLUME":
-                vtk_data_to_volume(input_obj, mesh_name, color_node, use_probing=self.use_probing,
-                                   probe_resolution=self.probe_resolution, shift=shift,
-                                   create_box=self.create_box)
-            elif output_type == "IMAGE":
-                vtk_data_to_image(input_obj, mesh_name, color_node, shift, self.create_plane,
-                                  self.z_level-1)
-            elif output_type == "TEXT":
-                vtk_data_to_text(input_obj, mesh_name)
-
-            if color_node and color_node.cl_enable:
-                create_color_legend(mesh_name, color_node, color_node.cl_div,
-                                    color_node.cl_font, color_node.cl_width,
-                                    color_node.cl_height, color_node.cl_font_size)
-
-            update_3d_view()
-
-    def apply_properties(self, vtkobj):
-        pass
-
-    def apply_inputs(self, vtkobj):
-        pass
+# ---------------------------------------------------------------------------------
+#   Naming conventions
+# ---------------------------------------------------------------------------------
+# Prefix for color legend meshes
+color_leg_prefix = "BVTK Color Legend "
+# Prefix for color legend materials
+color_leg_mat_prefix = "Color Legend "
+# Prefix for color legend labels
+label_suffix = " Label "
+# Color legend background suffix
+background_suffix = "Background"
+# Color legend background suffix
+contour_suffix = "Contour"
 
 
 # ---------------------------------------------------------------------------------
-# Operator Update
+#   Polydata conversion
 # ---------------------------------------------------------------------------------
-
-
-class BVTK_OT_NodeUpdate(bpy.types.Operator):
-    bl_idname = "bvtk.node_update"
-    bl_label = "update"
-    node_path = bpy.props.StringProperty()
-    use_queue = bpy.props.BoolProperty(default=True)
-
-    def execute(self, context):
-        check_cache()
-        node = eval(self.node_path)
-        if node:
-            log.info('Updating from {}'.format(node.name))
-            cb = None
-            if hasattr(node, "update_cb"):
-                cb = node.update_cb
-            if self.use_queue:
-                update(node, cb)
-            else:
-                no_queue_update(node, cb)
-        self.use_queue = True
-        return {'FINISHED'}
-
-
-# -----------------------------------------------------------------------------
-# Operator Write
-# -----------------------------------------------------------------------------
-
-
-class BVTK_OT_NodeWrite(Operator):
-    """Operator to call VTK Write() for a node"""
-    bl_idname = "bvtk.node_write"
-    bl_label = "Write"
-
-    id = bpy.props.IntProperty()
-
-    def execute(self, context):
-        check_cache()
-        # TODO: retrieve the node with the path, not with the id.
-        node = get_node(self.id)
-        if node:
-            def cb():
-                node.get_vtkobj().Write()
-            update(node, cb)
-
-        return {'FINISHED'}
-
-
-# ---------------------------------------------------------------------------------
-# Auto Update Scan
-# ---------------------------------------------------------------------------------
-
-
-def map(node, pmap=None):
-    """Creates a map which represent
-    the status (m_properties and inputs) of
-    every node connected to the one given.
-    """
-    # {} map:        node name -> (nodeprops, nodeinputs)
-    # {} nodeprops:  property name -> property value
-    # {} nodeinputs: input name -> connected node name
-
-    if not pmap:
-        pmap = {}
-    props = {}
-    for prop in node.m_properties():
-        val = getattr(node, prop)
-        # Special for arrays. Any other type to include?
-        if val.__class__.__name__ == 'bpy_prop_array':
-            val = [x for x in val]
-        props[prop] = val
-
-    if hasattr(node, 'special_properties'):
-        # you can add to a node a function called special_properties
-        # to make auto update notice differences outside of m_properties
-        props['special_properties'] = node.special_properties()
-
-    links = {}
-    for input in node.inputs:
-        links[input.name] = ''
-        for link in input.links:
-            links[input.name] = link.from_node.name
-            pmap = map(link.from_node, pmap)
-    pmap[node.name] = (props, links)
-    return pmap
-
-
-def differences(map1, map2):
-    """Generate differences in properties and inputs of argument maps."""
-    props = {}   # differences in properties
-    inputs = {}  # differences in inputs
-    for node in map1:
-        nodeprops1, nodeinputs1 = map1[node]
-        if node not in map2:
-            props[node] = nodeprops1.keys()
-            inputs[node] = nodeinputs1.keys()
-        else:
-            nodeprops2, nodeinputs2 = map2[node]
-            props[node] = compare(nodeprops1, nodeprops2)
-            if not props[node]:
-                props.pop(node)
-            inputs[node] = compare(nodeinputs1, nodeinputs2)
-            if not inputs[node]:
-                inputs.pop(node)
-    return props, inputs
-
-
-def compare(dict1, dict2):
-    """Compare two dictionaries. Return a list of mismatching keys."""
-    diff = []
-    for k in dict1:
-        if k not in dict2:
-            diff.append(k)
-        else:
-            val1 = dict1[k]
-            val2 = dict2[k]
-            if val1 != val2:
-                diff.append(k)
-    for k in dict2:
-        if k not in dict1:
-            diff.append(k)
-    return diff
-
-
-class BVTK_OT_AutoUpdateScan(bpy.types.Operator):
-    """BVTK Auto Update Scan"""
-    bl_idname = "bvtk.auto_update_scan"
-    bl_label = "Auto Update"
-
-    _timer = None
-    node_name = bpy.props.StringProperty()
-    tree_name = bpy.props.StringProperty()
-
-    def modal(self, context, event):
-        if event.type == 'TIMER':
-            if self.node_is_valid():
-                actual_map = map(self.node)
-                props, conn = differences(actual_map, self.last_map)
-                if props or conn:
-                    self.last_map = actual_map
-                    check_cache()
-                    try:
-                        no_queue_update(self.node, self.node.update_cb)
-                    except Exception as e:
-                        log.error('ERROR UPDATING ' + str(e))
-            else:
-                self.cancel(context)
-                return {'CANCELLED'}
-        return {'PASS_THROUGH'}
-
-    def node_is_valid(self):
-        """Node validity test. Return false if node has been deleted or auto
-        update has been turned off.
-        """
-        return self.node.name in self.tree and self.node.auto_update
-
-    def execute(self, context):
-        self.tree = bpy.data.node_groups[self.tree_name].nodes
-        self.node = bpy.data.node_groups[self.tree_name].nodes[self.node_name]
-        self.last_map = map(self.node)
-        bpy.ops.bvtk.node_update(node_path=node_path(self.node))
-        wm = context.window_manager
-        self._timer = wm.event_timer_add(0.01, window=context.window)
-        wm.modal_handler_add(self)
-        return {'RUNNING_MODAL'}
-
-    def cancel(self, context):
-        wm = context.window_manager
-        wm.event_timer_remove(self._timer)
 
 
 def cut_excess(original_seq, new_len):
@@ -361,6 +71,26 @@ def apply_geometry_filter(data):
         return None
     geom.Update()
     return geom.GetOutput()
+
+
+def apply_colors(color_node, bm, me, data):
+    if color_node.color_by:
+        texture = color_node.get_texture()
+        uv_map = default_uv_map
+
+        if color_node.texture_type == "IMAGE":
+            img = ramp_to_image(texture.color_ramp, name=texture.name + 'IMAGE')
+            image_material(me, me.name, img, reset=color_node.reset_materials)
+        elif color_node.texture_type == "BLEND":
+            blend_material(me, me.name, texture.color_ramp, texture, reset=color_node.reset_materials)
+
+        s_range = (color_node.range_min, color_node.range_max)
+        array, is_point_data = get_color_array(data, color_node)
+
+        if is_point_data:
+            point_unwrap(bm, array, s_range, uv_map)
+        else:
+            face_unwrap(bm, array, s_range, uv_map)
 
 
 def vtk_data_to_mesh(data, name, color_node=None, smooth=False):
@@ -461,19 +191,20 @@ def vtk_data_to_mesh(data, name, color_node=None, smooth=False):
     log.info("Setting normals.")
     point_normals = data.GetPointData().GetNormals()
     cell_normals = data.GetCellData().GetNormals()
+
     if cell_normals:
         bm.faces.ensure_lookup_table()
         for i in range(len(bm.faces)):
             bm.faces[i].normal = cell_normals.GetTuple(i)
+
     if point_normals:
         for i in range(len(verts)):
             verts[i].normal = point_normals.GetTuple(i)
 
     if color_node:
-        bm = apply_colors(color_node, bm, me, data)
+        apply_colors(color_node, bm, me, data)
 
-    bm.to_mesh(me)  # Store bmesh to mesh
-
+    bm.to_mesh(me)
     log.info('Blender mesh created! {} vertices.'.format(len(verts)), draw_win=True)
 
 
@@ -491,24 +222,6 @@ def curve_and_object(name, curve_type):
     return curve, ob
 
 
-def get_item(data, *args):
-    """Get or create the item with key args[0] from data and return it."""
-    item = data.get(args[0])
-    if not item:
-        item = data.new(*args)
-    return item
-
-
-def seek_item(data, *args):
-    """Get or create the item with key args[0] from data and return it,
-    together with a boolean flag to indicate if it already existed.
-    """
-    item = data.get(args[0])
-    if not item:
-        return data.new(*args), False
-    return item, True
-
-
 def get_image(name, dim):
     """Get/Create an image and make sure it has the correct dimensions."""
     img, existed = seek_item(bpy.data.images, name, dim[0], dim[1])
@@ -517,12 +230,6 @@ def get_image(name, dim):
         img.generated_width = dim[0]
         img.generated_height = dim[1]
     return img
-
-
-def set_link(data, item):
-    """Link item to data if it's not already linked."""
-    if item.name not in data:
-        data.link(item)
 
 
 def get_object(name, data):
@@ -543,7 +250,7 @@ def get_object(name, data):
 
 
 # ---------------------------------------------------------------------------------
-# Colors
+#   Colors
 # ---------------------------------------------------------------------------------
 
 
@@ -575,292 +282,6 @@ def get_color_array(data, color_node):
         is_pd = False
 
     return data_array, is_pd
-
-
-def apply_colors(color_node, bm, me, data):
-    if color_node.color_by:
-        texture = color_node.get_texture()
-        uv_map = default_uv_map
-
-        if color_node.texture_type == "IMAGE":
-            img = ramp_to_image(texture.color_ramp, name=texture.name + 'IMAGE')
-            image_material(me, me.name, img, reset=color_node.reset_materials)
-        elif color_node.texture_type == "BLEND":
-            blend_material(me, me.name, texture.color_ramp, texture, reset=color_node.reset_materials)
-
-        s_range = (color_node.range_min, color_node.range_max)
-        array, is_point_data = get_color_array(data, color_node)
-
-        if is_point_data:
-            bm = point_unwrap(bm, array, s_range, uv_map)
-        else:
-            bm = face_unwrap(bm, array, s_range, uv_map)
-
-    return bm
-
-
-# ---------------------------------------------------------------------------------
-# Materials and textures
-# ---------------------------------------------------------------------------------
-
-# User interface names, prefixes and suffixes
-# Prefix for blend materials
-blend_material_prefix = "BVTK Blend "
-# Prefix for image materials
-image_material_prefix = "BVTK Image "
-# Prefix for volume materials
-volume_material_prefix = "BVTK Volume "
-# Prefix for color legend meshes
-color_leg_prefix = "BVTK Color Legend "
-# Prefix for color legend materials
-color_leg_mat_prefix = "Color Legend "
-# Prefix for color legend labels
-label_suffix = " Label "
-# Default uv layer name for BVTK unwraps
-default_uv_map = "BVTK UV"
-# Name for the customized image texture node
-image_node_name = "BVTK Image Texture"
-# Name for the customized color ramp node
-ramp_node_name = "BVTK Color Ramp"
-
-
-def blend_material(mesh, name, ramp, texture, reset=True):
-    """Create a blend material and apply it to the given mesh."""
-    name = blend_material_prefix + name
-    mat, flag = material(mesh, name, reset)
-    render_engine = bpy.context.scene.render.engine
-
-    if render_engine == "CYCLES" or render_engine == "BLENDER_EEVEE":
-        if not flag or not mat.use_nodes:
-            setup_blend_tree(mat, ramp)
-        else:
-            nodes = mat.node_tree.nodes
-            if not update_ramp_nodes(nodes, ramp):
-                new_ramp_node(nodes, ramp)
-    else:
-        if not flag or mat.use_nodes:
-            mat.use_nodes = False
-            tex, ts = setup_texture(mat, texture, "BLEND")
-            ts.texture_coords = "UV"
-            ts.uv_layer = default_uv_map
-        else:
-            add_texture(mat, texture)
-
-    return mat
-
-
-def image_material(mesh, name, img, reset=True):
-    """Create an image material and apply it to the given mesh."""
-    name = image_material_prefix + name
-    mat, flag = material(mesh, name, reset)
-    render_engine = bpy.context.scene.render.engine
-
-    if render_engine == "CYCLES" or render_engine == "BLENDER_EEVEE":
-        if not flag or not mat.use_nodes:
-            setup_image_tree(mat, img)
-        else:
-            nodes = mat.node_tree.nodes
-            if not update_image_nodes(nodes, img):
-                new_image_node(nodes, img)
-    else:
-        texture = get_item(bpy.data.textures, name, "IMAGE")
-        if not flag or mat.use_nodes:
-            mat.use_nodes = False
-            tex, ts = setup_texture(mat, texture, "IMAGE")
-            ts.texture_coords = "UV"
-            ts.uv_layer = default_uv_map
-        else:
-            add_texture(mat, texture)
-        texture.image = img
-
-    return mat
-
-
-def voxel_material(mesh, name, file_path, texture=None, reset=True):
-    """Create a voxel material and apply it to the given mesh.
-    Works only with blender render engine."""
-    name = volume_material_prefix + name
-    mat, flag = material(mesh, name, reset, type="VOLUME")
-    render_engine = bpy.context.scene.render.engine
-    if render_engine == "CYCLES" or render_engine == "BLENDER_EEVEE":
-        log.warning("Volumetric rendering is not supported in cycles, use blender render instead.")
-        return None
-    else:
-        if not texture:
-            texture = get_item(bpy.data.textures, name, "VOXEL_DATA")
-        if not flag or texture.type != "VOXEL_DATA":
-            texture, ts = setup_texture(mat, texture, "VOXEL_DATA")
-            mat.volume.density = 0
-            texture.voxel_data.file_format = "BLENDER_VOXEL"
-            texture.voxel_data.filepath = file_path
-            ts.texture_coords = "ORCO"
-            ts.use_map_density = True
-            ts.use_map_emission = True
-            ts.use_map_color_emission = True
-            mat.type = "VOLUME"
-            mat.volume.density = 0
-        else:
-            add_texture(mat, texture)
-            texture.voxel_data.filepath = file_path
-    return mat
-
-
-def material(mesh, name, reset_previous=True, **material_settings):
-    """Get or create a material with the given name and
-    return a tuple containing the material and a
-    boolean set to true if the material already
-    existed."""
-    if reset_previous:
-        # Remove all other materials from the mesh
-        mesh.materials.clear()
-
-    mat, existed = seek_item(bpy.data.materials, name)
-
-    for key, value in material_settings.items():
-        setattr(mat, key, value)
-
-    apply_material(mesh, mat)
-
-    return mat, existed
-
-
-def apply_material(mesh, mat):
-    if mat.name not in mesh.materials:
-        mesh.materials.append(mat)
-
-
-def get_by_attribute(objects, attribute_name, attribute_value):
-    for obj in objects:
-        if obj.bl_idname:
-            if getattr(obj, attribute_name) == attribute_value:
-                return obj
-    return objects.new(attribute_value)
-
-
-def get_node_by_idname(nodes, idname):
-    return get_by_attribute(nodes, "bl_idname", idname)
-
-
-def link_nodes(node_a, output_name, node_b, input_name, links):
-    from_socket = node_a.outputs[output_name]
-    to_socket = node_b.inputs[input_name]
-    links.new(to_socket, from_socket)
-
-
-def setup_blend_tree(mat, ramp):
-    mat.use_nodes = True
-    nodes = mat.node_tree.nodes
-    out_node = get_node_by_idname(nodes, "ShaderNodeOutputMaterial")
-    uv_node = get_node_by_idname(nodes, "ShaderNodeUVMap")
-    ramp_node = get_node_by_idname(nodes, "ShaderNodeValToRGB")
-    customize_ramp_node(ramp_node)
-    shader_node = get_node_by_idname(nodes, "ShaderNodeBsdfDiffuse")
-    gradient_node = get_node_by_idname(nodes, "ShaderNodeTexGradient")
-    links = mat.node_tree.links
-    link_nodes(ramp_node, "Color", shader_node, "Color", links)
-    link_nodes(gradient_node, "Fac", ramp_node, "Fac", links)
-    link_nodes(shader_node, "BSDF", out_node, "Surface", links)
-    link_nodes(uv_node, "UV", gradient_node, "Vector", links)
-    copy_color_ramp(ramp, ramp_node.color_ramp)
-    uv_node.uv_map = default_uv_map
-
-
-def setup_image_tree(mat, image):
-    mat.use_nodes = True
-    nodes = mat.node_tree.nodes
-    img_node = get_node_by_idname(nodes, "ShaderNodeTexImage")
-    customize_image_node(img_node)
-    shader_node = get_node_by_idname(nodes, "ShaderNodeBsdfDiffuse")
-    out_node = get_node_by_idname(nodes, "ShaderNodeOutputMaterial")
-    uv_node = get_node_by_idname(nodes, "ShaderNodeUVMap")
-    links = mat.node_tree.links
-    link_nodes(img_node, "Color", shader_node, "Color", links)
-    link_nodes(shader_node, "BSDF", out_node, "Surface", links)
-    link_nodes(uv_node, "UV", img_node, "Vector", links)
-    img_node.image = image
-    uv_node.uv_map = default_uv_map
-
-
-def new_image_node(nodes, img):
-    img_node = nodes.new("ShaderNodeTexImage")
-    img_node.image = img
-    customize_image_node(img_node)
-
-
-def new_ramp_node(nodes, ramp):
-    ramp_node = nodes.new("ShaderNodeValToRGB")
-    copy_color_ramp(ramp, ramp_node.color_ramp)
-    customize_ramp_node(ramp_node)
-
-
-def customize_node(node, node_name):
-    node.use_custom_color = True
-    node.color = 0.3, 0.4, 0.5
-    node.name = node_name
-    node.label = node_name
-
-
-def get_customized_nodes(nodes, node_name):
-    c_nodes = []
-    for node in nodes:
-        if node.name == node_name:
-            c_nodes.append(node)
-    return c_nodes
-
-
-def customize_image_node(node):
-    customize_node(node, image_node_name)
-
-
-def update_image_nodes(nodes, img):
-    img_nodes = get_customized_nodes(nodes, image_node_name)
-    for node in img_nodes:
-        node.image = img
-    return img_nodes
-
-
-def customize_ramp_node(node):
-    customize_node(node, ramp_node_name)
-
-
-def update_ramp_nodes(nodes, ramp):
-    ramp_nodes = get_customized_nodes(nodes, ramp_node_name)
-    for node in ramp_nodes:
-        copy_color_ramp(ramp, node.color_ramp)
-    return ramp_nodes
-
-
-def setup_texture(mat, texture, texture_type, **texture_settings):
-    texture.type = texture_type
-    texture = bpy.data.textures[texture.name]
-    for key, value in texture_settings.items():
-        setattr(texture, key, value)
-
-    ts = set_active_texture(mat, texture)
-
-    return texture, ts
-
-
-def add_texture(mat, texture):
-    if texture.name not in mat.texture_slots:
-        ts = mat.texture_slots.add()
-        ts.texture = texture
-    else:
-        ts = mat.texture_slots[texture.name]
-    return ts
-
-
-def set_active_texture(mat, texture):
-    for ts in mat.texture_slots:
-        if ts:
-            ts.use = False
-    ts = add_texture(mat, texture)
-    ts.use = True
-    return ts
-
-
-def set_active_material():
-    pass
 
 
 def ramp_to_image(ramp, name=None, image=None, w=2000, h=100):
@@ -903,7 +324,6 @@ def face_unwrap(bm, array, s_range, uv_layer_key=default_uv_map):
                 # Force value inside range.
                 v = min(0.999, max(0.001, v))
                 loop[uv_layer].uv = (v, 0.5)
-    return bm
 
 
 def point_unwrap(bm, array, s_range, uv_layer_key=default_uv_map):
@@ -920,21 +340,23 @@ def point_unwrap(bm, array, s_range, uv_layer_key=default_uv_map):
                 # Force value inside range.
                 v = min(0.999, max(0.001, v))
                 loop[uv_layer].uv = (v, 0.5)
-    return bm
 
 
-# -----------------------------------------------------------------------------
-# Color legend
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Color legend
+# ---------------------------------------------------------------------------------
 
 
-def text(name, body):
+def text(name, body, font_size=None):
     """Get/create a text data block"""
     font = get_item(bpy.data.curves, name, 'FONT')
-    ob = get_object(name, font)
     font.body = body
 
-    return ob
+    if font_size:
+        font.size = font_size
+
+    ob = get_object(name, font)
+    return font, ob
 
 
 def delete_texts(name):
@@ -946,21 +368,59 @@ def delete_texts(name):
             bpy.data.curves.remove(curve)
 
 
+def rounded_rectangle(name, w, h, rad=0.1, x=0.0, y=0.0):
+    curve = get_item(bpy.data.curves, name, "CURVE")
+    curve.splines.clear()
+    spline = curve.splines.new("NURBS")
+
+    points = [
+        (x+w, y-rad/2, 0),
+        (x+w+rad, y-rad/2, 0),
+        (x+w+rad, y+rad/2, 0),
+        (x+w+rad, y+h-rad/2, 0),
+        (x+w+rad, y+h+rad/2, 0),
+        (x+w, y+h+rad/2, 0),
+        (x+rad, y+h+rad/2, 0),
+        (x, y+h+rad/2, 0),
+        (x, y+h-rad/2, 0),
+        (x, y+rad/2, 0),
+        (x, y-rad/2, 0),
+        (x+rad, y-rad/2, 0)
+    ]
+
+    spline.points.add(len(points)-len(spline.points))
+    spline.use_cyclic_u = True
+
+    for i, p in enumerate(spline.points):
+        p.co = points[i] + (1, )
+
+    ob = get_object(name, curve)
+
+    return curve, ob
+
+
 def create_color_legend(name, color_node, n_div, font="", w=0.5, h=5.5, fontsize=0.35):
     """Create value labels and color legends and add to current scene."""
     # Todo: rewrite and optimize this function
+
     cl_name = color_leg_prefix + name
     delete_texts(cl_name+label_suffix)  # Delete old labels
     # Create plane and unwrap it
     plane = plane_bmesh((w, h))
     uv_layer = get_item(plane.loops.layers.uv, default_uv_map)
     plane.faces.ensure_lookup_table()
-    plane.faces[0].loops[0][uv_layer].uv = (0, 1)
-    plane.faces[0].loops[1][uv_layer].uv = (0, 0)
-    plane.faces[0].loops[2][uv_layer].uv = (1, 0)
-    plane.faces[0].loops[3][uv_layer].uv = (1, 1)
+    plane.faces[0].loops[0][uv_layer].uv = (0.005, 0.995)
+    plane.faces[0].loops[1][uv_layer].uv = (0.005, 0.005)
+    plane.faces[0].loops[2][uv_layer].uv = (0.995, 0.005)
+    plane.faces[0].loops[3][uv_layer].uv = (0.995, 0.995)
     me, ob = mesh_and_object(cl_name)
     plane.to_mesh(me)
+
+    if not color_node:
+        log.error("Could not retrieve the color node to create the "
+                  "color legend.")
+        return
+
     tex = color_node.get_texture()
 
     if not tex:
@@ -997,26 +457,63 @@ def create_color_legend(name, color_node, n_div, font="", w=0.5, h=5.5, fontsize
     start_h = (h*(start-r_min))/delta
     step_h = (h*step)/delta
     x_offset = 0.1
+    padding = 0.1
+    text_w = None  # Maximum text width
     z_offset = None
 
     # Add labels as texts
     for i in range(int(math.floor((r_max-start)/step))+1):
-        t = text(cl_name+label_suffix+str(i), '{:.15}'.format(float(start+i*step)))
-        t.data.size = fontsize
+        t_me, t_ob = text(cl_name+label_suffix+str(i), '{:.15}'.format(float(start+i*step)),
+                          fontsize)
+
+        solid_material(t_me, color_leg_mat_prefix+name+label_suffix, (0.9, 0.9, 0.9))
+        y_axis_i = 1
+        x_axis_i = 0
+        mesh_offset = 0
+
         if font:
-            t.data.font = font
+            t_me.font = font
+
+        bpy.context.scene.update()
+
+        if color_node.cl_horizontal:
+            # Horizontal color table, rotate labels
+            t_ob.rotation_euler = Euler((0.0, -0.0, 1.570796251296997), 'XYZ')
+            y_axis_i = 0
+            x_axis_i = 1
+            mesh_offset = t_ob.dimensions[x_axis_i]
 
         if z_offset is None:
-            bpy.context.scene.update()
-            z_offset = -t.dimensions[1]/2
+            z_offset = -t_ob.dimensions[y_axis_i]/2
 
-        t.location = w + x_offset, start_h + step_h * i + z_offset, 0
-        t.parent = ob
+        if text_w is None or t_ob.dimensions[x_axis_i] > text_w:
+            text_w = t_ob.dimensions[x_axis_i]
+
+        t_ob.location = mesh_offset + w + x_offset, start_h + step_h * i + z_offset, 0
+        t_ob.parent = ob
+
+    # Color legend background
+    rect_curve, rect_ob = rounded_rectangle(cl_name+" "+background_suffix,
+                                            w + text_w + x_offset + padding * 2,
+                                            h, x=-padding, rad=0.05)
+    rect_ob.location[2] = -0.01
+    rect_ob.parent = ob
+    # Background border
+    rect_c_curve, rect_c_ob = rounded_rectangle(cl_name+" "+contour_suffix,
+                                                w + text_w + x_offset + padding * 2,
+                                                h, x=-padding, rad=0.05)
+    rect_c_curve.fill_mode = "NONE"
+    rect_c_curve.bevel_resolution = 10
+    rect_c_curve.bevel_depth = 0.008
+    rect_c_ob.parent = ob
+    # Materials
+    solid_material(rect_curve, color_leg_mat_prefix+name+" "+background_suffix, (0, 0, 0))
+    solid_material(rect_c_curve, color_leg_mat_prefix+name+" "+contour_suffix, (0.013, 0.013, 0.013))
 
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 #  Text data conversion
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 
 
 def vtk_data_to_text(data, name):
@@ -1031,9 +528,9 @@ def vtk_data_to_text(data, name):
     log.info("Text created: '{}'.".format(data), draw_win=True)
 
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 #  Volume data conversion
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 
 
 def check_append(dict, key, element):
@@ -1265,9 +762,9 @@ def vtk_data_to_volume(data, name, color_node, use_probing=False, probe_resoluti
     voxel_material(me, name, file_path, texture, color_node.reset_materials)
 
 
-# -----------------------------------------------------------------------------
-#  Image data conversion
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Image data conversion
+# ---------------------------------------------------------------------------------
 
 
 def plane_bmesh(dim, pos=(0, 0, 0)):
@@ -1326,9 +823,11 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True, z
         return
 
     data_range = data_array.GetRange()
+    reset_materials = False
     color_ramp = None
 
     if color_node:
+        reset_materials = color_node.reset_materials
         data_range = color_node.range_min, color_node.range_max
         tex = color_node.get_texture()
         if tex:
@@ -1418,16 +917,4 @@ def vtk_data_to_image(data, name, color_node, shift=(0, 0), create_plane=True, z
         ob.location = data.GetOrigin()
 
     plane.to_mesh(me)
-    image_material(me, name, img, color_node.reset_materials)
-
-
-# Add classes and menu items
-TYPENAMES = []
-add_class(BVTK_NT_ToBlender)
-TYPENAMES.append('BVTK_NT_ToBlender')
-menu_items = [NodeItem(x) for x in TYPENAMES]
-node_categories.append(BVTK_NodeCategory("Converter", "Converter", items=menu_items))
-
-add_class(BVTK_OT_NodeUpdate)
-add_ui_class(BVTK_OT_AutoUpdateScan)
-add_ui_class(BVTK_OT_NodeWrite)
+    image_material(me, name, img, reset_materials)

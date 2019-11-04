@@ -1,10 +1,10 @@
-from . core import *
+import bpy
 from . import favorites_data
+from .. utilities import register
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Favorites panel
-# -----------------------------------------------------------------------------
-
+# ---------------------------------------------------------------------------------
 # Favorites must be an array of (node.bl_idname, node.bl_label) tuples
 favorites = favorites_data.favorites
 favorites_file = favorites_data.__file__
@@ -68,5 +68,5 @@ class BVTK_OT_UpdateFavorites(bpy.types.Operator):
         return {'FINISHED'}
 
 
-add_ui_class(BVTK_PT_Favorites)
-add_ui_class(BVTK_OT_UpdateFavorites)
+register.add_class(BVTK_PT_Favorites)
+register.add_class(BVTK_OT_UpdateFavorites)

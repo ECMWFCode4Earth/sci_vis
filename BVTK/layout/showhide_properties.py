@@ -1,5 +1,5 @@
-from . import core
 import bpy
+from .. utilities import register
 
 
 class BVTK_PT_ShowHideProperties(bpy.types.Panel):
@@ -27,4 +27,4 @@ class BVTK_PT_ShowHideProperties(bpy.types.Panel):
 
 # ----------------------------------------------------------------
 
-core.add_ui_class(BVTK_PT_ShowHideProperties)
+register.add_class(BVTK_PT_ShowHideProperties)

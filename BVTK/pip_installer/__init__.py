@@ -1,8 +1,16 @@
+# <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   pip_installer/__init__.py
+#
+#   Functions to automatically install pip packages on Blender's python.
+# ---------------------------------------------------------------------------------
+
+
 import socket
 import importlib
 import bpy
 import subprocess
-from . utils import *
+from .. utilities import *
 
 
 def is_connected():
@@ -22,7 +30,7 @@ def pip_update():
         return
     log.info("Updating pip.")
     try:
-        get_pip = os.path.join(addon_path, "get-pip.py")
+        get_pip = os.path.join(addon_path, "pip_installer/get-pip.py")
         log.info(subprocess.run([bpy.app.binary_path_python, get_pip], check=True,
                                 stderr=subprocess.PIPE, stdout=subprocess.PIPE))
         log.info("Pip updated.")

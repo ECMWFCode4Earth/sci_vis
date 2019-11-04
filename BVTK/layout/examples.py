@@ -1,24 +1,20 @@
 import bpy
 from mathutils import *
 from math import *
-from . import core
-from . utils import log
+from .. utilities import *
 from bpy_extras.io_utils import ExportHelper
 import json
 import os
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Node tree JSON import/export, node arranging operator and node tree examples
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+examples_dir = os.path.join(addon_path, "examples/")
+examples_data_dir = os.path.join(addon_path, "examples_data/")
 
-examples_dir = os.path.realpath(__file__).replace('examples.py', 'examples/')
-examples_data_dir = os.path.realpath(__file__).replace('examples.py', 'examples_data/')
-
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Functions to save node state into a dictionary
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
 class BVTK_PT_TreeIE(bpy.types.Panel):
     """Import and export VTK node tree as json"""
     bl_label = 'Import/Export Tree'
@@ -43,7 +39,7 @@ class BVTK_PT_TreeIE(bpy.types.Panel):
         row.operator('bvtk.tree_import', text='Import JSON', icon='FILE')
 
 
-core.add_ui_class(BVTK_PT_TreeIE)
+register.add_class(BVTK_PT_TreeIE)
 
 
 class BVTK_PT_ArrangeTree(bpy.types.Panel):
@@ -78,7 +74,7 @@ bpy.types.Scene.bvtk_arrange_x_spacing = bpy.props.IntProperty(default=10, updat
 bpy.types.Scene.bvtk_arrange_y_spacing = bpy.props.IntProperty(default=10, update=arrange)
 bpy.types.Scene.bvtk_arrange_collapse_x = bpy.props.BoolProperty(default=False, update=arrange)
 
-core.add_ui_class(BVTK_PT_ArrangeTree)
+register.add_class(BVTK_PT_ArrangeTree)
 
 
 class BVTK_PT_Examples(bpy.types.Panel):
@@ -99,7 +95,7 @@ class BVTK_PT_Examples(bpy.types.Panel):
         layout.menu('BVTK_MT_Examples')
 
 
-core.add_ui_class(BVTK_PT_Examples)
+register.add_class(BVTK_PT_Examples)
 
 
 class BVTK_MT_Examples(bpy.types.Menu):
@@ -118,7 +114,7 @@ class BVTK_MT_Examples(bpy.types.Menu):
             layout.menu(em.bl_idname)
 
 
-core.add_ui_class(BVTK_MT_Examples)
+register.add_class(BVTK_MT_Examples)
 
 
 # Populate examples from example directory to Examples menu
@@ -141,13 +137,12 @@ for name in [name for name in os.listdir(examples_dir)
     })
 
     ExamplesMenus.append(menu_type)
-    core.add_ui_class(menu_type)
+    register.add_class(menu_type)
 
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Import export functions
-# -----------------------------------------------------------------------------
-
+# ---------------------------------------------------------------------------------
 def gisbi(node, identifier):
     """Get input socket by identifier"""
     inputs = node.inputs
@@ -292,9 +287,9 @@ def node_to_dict(node):
     return dict
 
 
-# -----------------------------------------------------------------------------
-# Import export operators
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Import export node tree operators
+# ---------------------------------------------------------------------------------
 
 
 class BVTK_OT_TreeImport(bpy.types.Operator):
@@ -329,20 +324,16 @@ class BVTK_OT_TreeImport(bpy.types.Operator):
         return self.execute(context)
 
     def execute(self, context):
-        f = open(self.filepath, 'r', encoding='utf-8')
-        text = f.read()
-        f.close()
         bpy.ops.node.select_all(action='SELECT')
         bpy.ops.node.delete()
-
-        dic =  json.loads( text )      
-        node_tree_from_dict( context, dic )
+        dic = read_JSON(self.filepath)
+        node_tree_from_dict(context, dic)
         bpy.ops.node.select_all(action='DESELECT')
         self.filepath = ''
         return {'FINISHED'}
 
 
-core.add_ui_class(BVTK_OT_TreeImport)
+register.add_class(BVTK_OT_TreeImport)
 
 
 class BVTK_OT_TreeExport(bpy.types.Operator, ExportHelper):
@@ -357,14 +348,11 @@ class BVTK_OT_TreeExport(bpy.types.Operator, ExportHelper):
             self.report({'ERROR'}, 'Select a node tree')
             return {'CANCELLED'}
         dic = node_tree_to_dict(node_tree)
-        text = json.dumps(dic, indent=4, sort_keys=True)
-        f = open(self.filepath, 'w', encoding='utf-8')
-        f.write(text)
-        f.close()
+        write_JSON(dic, self.filepath)
         return {'FINISHED'}
 
 
-core.add_ui_class(BVTK_OT_TreeExport)
+register.add_class(BVTK_OT_TreeExport)
 
 
 class BVTK_OT_TreeImportFromPy(bpy.types.Operator):
@@ -485,7 +473,7 @@ def node_tree_from_py(context, py):
     links.new(tb.inputs[0], linked[len(linked) - 1].outputs[0])
 
 # ---------------------------------------------------------------------------------
-# Arrange tree operator
+#   Arrange tree operator
 # ---------------------------------------------------------------------------------
 
 
@@ -717,4 +705,4 @@ class BVTK_OT_ArrangeTree(bpy.types.Operator):
         return {'FINISHED'}
 
 
-core.add_ui_class(BVTK_OT_ArrangeTree)
+register.add_class(BVTK_OT_ArrangeTree)

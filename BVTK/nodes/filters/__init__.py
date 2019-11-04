@@ -1,20 +1,30 @@
-from ... utils import node_prop_path
+# <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   filters/__init__.py
+#
+#   Import and override default generated filters.
+# ---------------------------------------------------------------------------------
+
+
+from ... utilities import node_prop_path
 from . gen_vtk_filters import *
 from . gen_vtk_filters1 import *
 from . gen_vtk_filters2 import *
 
+_modules = [
+    "gen_vtk_filters",
+    "gen_vtk_filters1",
+    "gen_vtk_filters2"
+]
 
 # ---------------------------------------------------------------------------------
-# Contour classes
+#   Contour classes
 # ---------------------------------------------------------------------------------
 
 
 class BVTK_PG_ValueSettings(bpy.types.PropertyGroup):
     """ Actually a float array of variable size """
     value = bpy.props.FloatProperty(default=0)
-
-
-add_ui_class(BVTK_PG_ValueSettings)
 
 
 class BVTK_ContourHelper:
@@ -95,9 +105,6 @@ class BVTK_OT_UpdateCollection(bpy.types.Operator):
         return {'FINISHED'}
 
 
-add_ui_class(BVTK_OT_UpdateCollection)
-
-
 class BVTK_NT_ContourFilter(BVTK_ContourHelper, Node, BVTK_Node):
     bl_idname = 'BVTK_NT_ContourFilter'
     bl_label = 'vtkContourFilter'
@@ -119,7 +126,7 @@ class BVTK_NT_ContourFilter(BVTK_ContourHelper, Node, BVTK_Node):
         return (['input'], ['output'], [], [])
 
 
-add_class(BVTK_NT_ContourFilter)
+add_node(BVTK_NT_ContourFilter)
 
 
 # --------------------------------------------------------------
@@ -144,7 +151,7 @@ class BVTK_NT_MarchingCubes(BVTK_ContourHelper, Node, BVTK_Node):
         return (['input'], ['output'], [], [])
 
 
-add_class(BVTK_NT_MarchingCubes)
+add_node(BVTK_NT_MarchingCubes)
 
 
 # --------------------------------------------------------------
@@ -180,11 +187,11 @@ class BVTK_NT_AppendFilter(Node, BVTK_Node):
                 vtkobj.RemoveInputConnection(0, obj)
 
 
-add_class(BVTK_NT_AppendFilter)
+add_node(BVTK_NT_AppendFilter)
 
 
 # ---------------------------------------------------------------------------------
-# Array calculator
+#   Array calculator
 # ---------------------------------------------------------------------------------
 
 
@@ -419,8 +426,10 @@ class BVTK_NT_ArrayCalculator(Node, BVTK_NodePanels, BVTK_Node):
         return []
 
 
-add_ui_class(BVTK_PG_ArrayCalculatorVariable)
-add_ui_class(BVTK_OT_UpdateCalculatorVariables)
-add_ui_class(BVTK_OT_RemoveCalculatorVariable)
-add_ui_class(BVTK_OT_AddCalculatorVariable)
-add_class(BVTK_NT_ArrayCalculator)
+register.add_class(BVTK_PG_ValueSettings)
+register.add_class(BVTK_OT_UpdateCollection)
+register.add_class(BVTK_PG_ArrayCalculatorVariable)
+register.add_class(BVTK_OT_UpdateCalculatorVariables)
+register.add_class(BVTK_OT_RemoveCalculatorVariable)
+register.add_class(BVTK_OT_AddCalculatorVariable)
+add_node(BVTK_NT_ArrayCalculator)

@@ -1,5 +1,5 @@
-from ... core import *
-type_names = []
+from .. core import *
+cat = "Parametric Functions"
 
 
 # --------------------------------------------------------------
@@ -7,8 +7,8 @@ type_names = []
 
 class BVTK_NT_ParametricFigure8Klein(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricFigure8Klein'
-    bl_label = 'vtkParametricFigure8Klein'
+    bl_idname = "BVTK_NT_ParametricFigure8Klein"
+    bl_label = "vtkParametricFigure8Klein"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -29,7 +29,7 @@ class BVTK_NT_ParametricFigure8Klein(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_Radius', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_Radius", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -38,8 +38,7 @@ class BVTK_NT_ParametricFigure8Klein(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricFigure8Klein)
-type_names.append('BVTK_NT_ParametricFigure8Klein')
+add_node(BVTK_NT_ParametricFigure8Klein, cat)
 
 
 # --------------------------------------------------------------
@@ -47,8 +46,8 @@ type_names.append('BVTK_NT_ParametricFigure8Klein')
 
 class BVTK_NT_ParametricBohemianDome(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricBohemianDome'
-    bl_label = 'vtkParametricBohemianDome'
+    bl_idname = "BVTK_NT_ParametricBohemianDome"
+    bl_label = "vtkParametricBohemianDome"
     
     m_A = bpy.props.FloatProperty(name='A', description='Construct a Bohemian dome surface with the following parameters', default=0.5)
     m_B = bpy.props.FloatProperty(name='B', description='', default=1.5)
@@ -71,7 +70,7 @@ class BVTK_NT_ParametricBohemianDome(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=17, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_A', 'm_B', 'm_C', 'm_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_A", "m_B", "m_C", "m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -80,8 +79,7 @@ class BVTK_NT_ParametricBohemianDome(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricBohemianDome)
-type_names.append('BVTK_NT_ParametricBohemianDome')
+add_node(BVTK_NT_ParametricBohemianDome, cat)
 
 
 # --------------------------------------------------------------
@@ -89,8 +87,8 @@ type_names.append('BVTK_NT_ParametricBohemianDome')
 
 class BVTK_NT_ParametricPluckerConoid(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricPluckerConoid'
-    bl_label = 'vtkParametricPluckerConoid'
+    bl_idname = "BVTK_NT_ParametricPluckerConoid"
+    bl_label = "vtkParametricPluckerConoid"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -111,7 +109,7 @@ class BVTK_NT_ParametricPluckerConoid(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_N", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -120,8 +118,7 @@ class BVTK_NT_ParametricPluckerConoid(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricPluckerConoid)
-type_names.append('BVTK_NT_ParametricPluckerConoid')
+add_node(BVTK_NT_ParametricPluckerConoid, cat)
 
 
 # --------------------------------------------------------------
@@ -129,8 +126,8 @@ type_names.append('BVTK_NT_ParametricPluckerConoid')
 
 class BVTK_NT_ParametricEllipsoid(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricEllipsoid'
-    bl_label = 'vtkParametricEllipsoid'
+    bl_idname = "BVTK_NT_ParametricEllipsoid"
+    bl_label = "vtkParametricEllipsoid"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -153,7 +150,7 @@ class BVTK_NT_ParametricEllipsoid(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=17, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_XRadius', 'm_YRadius', 'm_ZRadius', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", "m_XRadius", "m_YRadius", "m_ZRadius", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -162,8 +159,7 @@ class BVTK_NT_ParametricEllipsoid(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricEllipsoid)
-type_names.append('BVTK_NT_ParametricEllipsoid')
+add_node(BVTK_NT_ParametricEllipsoid, cat)
 
 
 # --------------------------------------------------------------
@@ -171,8 +167,8 @@ type_names.append('BVTK_NT_ParametricEllipsoid')
 
 class BVTK_NT_ParametricCrossCap(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricCrossCap'
-    bl_label = 'vtkParametricCrossCap'
+    bl_idname = "BVTK_NT_ParametricCrossCap"
+    bl_label = "vtkParametricCrossCap"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -192,7 +188,7 @@ class BVTK_NT_ParametricCrossCap(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -201,8 +197,7 @@ class BVTK_NT_ParametricCrossCap(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricCrossCap)
-type_names.append('BVTK_NT_ParametricCrossCap')
+add_node(BVTK_NT_ParametricCrossCap, cat)
 
 
 # --------------------------------------------------------------
@@ -210,8 +205,8 @@ type_names.append('BVTK_NT_ParametricCrossCap')
 
 class BVTK_NT_ParametricSuperToroid(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricSuperToroid'
-    bl_label = 'vtkParametricSuperToroid'
+    bl_idname = "BVTK_NT_ParametricSuperToroid"
+    bl_label = "vtkParametricSuperToroid"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_CrossSectionRadius = bpy.props.FloatProperty(name='CrossSectionRadius', description='Set/Get the radius of the cross section of ring of the supertoroid. Default = 0.5', default=0.5)
@@ -238,7 +233,7 @@ class BVTK_NT_ParametricSuperToroid(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=21, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_CrossSectionRadius', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N1', 'm_N2', 'm_RingRadius', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_XRadius', 'm_YRadius', 'm_ZRadius', ]
+        return ["m_ClockwiseOrdering", "m_CrossSectionRadius", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_N1", "m_N2", "m_RingRadius", "m_TwistU", "m_TwistV", "m_TwistW", "m_XRadius", "m_YRadius", "m_ZRadius", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -247,8 +242,7 @@ class BVTK_NT_ParametricSuperToroid(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricSuperToroid)
-type_names.append('BVTK_NT_ParametricSuperToroid')
+add_node(BVTK_NT_ParametricSuperToroid, cat)
 
 
 # --------------------------------------------------------------
@@ -256,8 +250,8 @@ type_names.append('BVTK_NT_ParametricSuperToroid')
 
 class BVTK_NT_ParametricEnneper(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricEnneper'
-    bl_label = 'vtkParametricEnneper'
+    bl_idname = "BVTK_NT_ParametricEnneper"
+    bl_label = "vtkParametricEnneper"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -277,7 +271,7 @@ class BVTK_NT_ParametricEnneper(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -286,8 +280,7 @@ class BVTK_NT_ParametricEnneper(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricEnneper)
-type_names.append('BVTK_NT_ParametricEnneper')
+add_node(BVTK_NT_ParametricEnneper, cat)
 
 
 # --------------------------------------------------------------
@@ -295,8 +288,8 @@ type_names.append('BVTK_NT_ParametricEnneper')
 
 class BVTK_NT_ParametricHenneberg(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricHenneberg'
-    bl_label = 'vtkParametricHenneberg'
+    bl_idname = "BVTK_NT_ParametricHenneberg"
+    bl_label = "vtkParametricHenneberg"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -316,7 +309,7 @@ class BVTK_NT_ParametricHenneberg(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -325,8 +318,7 @@ class BVTK_NT_ParametricHenneberg(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricHenneberg)
-type_names.append('BVTK_NT_ParametricHenneberg')
+add_node(BVTK_NT_ParametricHenneberg, cat)
 
 
 # --------------------------------------------------------------
@@ -334,8 +326,8 @@ type_names.append('BVTK_NT_ParametricHenneberg')
 
 class BVTK_NT_ParametricKuen(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricKuen'
-    bl_label = 'vtkParametricKuen'
+    bl_idname = "BVTK_NT_ParametricKuen"
+    bl_label = "vtkParametricKuen"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DeltaV0 = bpy.props.FloatProperty(name='DeltaV0', description='Set/Get the value to use when V == 0. Default is 0.05, giving the best appearance with the default settings. Setting it to a value less than 0.05 extrapolates the surface towards a pole in the -z direction. Setting it to 0 retains the pole whose z-value is -inf', default=0.05)
@@ -356,7 +348,7 @@ class BVTK_NT_ParametricKuen(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DeltaV0', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DeltaV0", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -365,8 +357,7 @@ class BVTK_NT_ParametricKuen(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricKuen)
-type_names.append('BVTK_NT_ParametricKuen')
+add_node(BVTK_NT_ParametricKuen, cat)
 
 
 # --------------------------------------------------------------
@@ -374,8 +365,8 @@ type_names.append('BVTK_NT_ParametricKuen')
 
 class BVTK_NT_ParametricBoy(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricBoy'
-    bl_label = 'vtkParametricBoy'
+    bl_idname = "BVTK_NT_ParametricBoy"
+    bl_label = "vtkParametricBoy"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -396,7 +387,7 @@ class BVTK_NT_ParametricBoy(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_ZScale', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", "m_ZScale", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -405,8 +396,7 @@ class BVTK_NT_ParametricBoy(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricBoy)
-type_names.append('BVTK_NT_ParametricBoy')
+add_node(BVTK_NT_ParametricBoy, cat)
 
 
 # --------------------------------------------------------------
@@ -414,8 +404,8 @@ type_names.append('BVTK_NT_ParametricBoy')
 
 class BVTK_NT_ParametricSpline(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricSpline'
-    bl_label = 'vtkParametricSpline'
+    bl_idname = "BVTK_NT_ParametricSpline"
+    bl_label = "vtkParametricSpline"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_Closed = bpy.props.BoolProperty(name='Closed', description='Control whether the spline is open or closed. A closed spline forms a continuous loop: the first and last points are the same, and derivatives are continuous', default=True)
@@ -441,7 +431,7 @@ class BVTK_NT_ParametricSpline(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=20, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_Closed', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_LeftConstraint', 'm_LeftValue', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_ParameterizeByLength', 'm_RightConstraint', 'm_RightValue', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_Closed", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_LeftConstraint", "m_LeftValue", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_ParameterizeByLength", "m_RightConstraint", "m_RightValue", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], ['Points', 'XSpline', 'YSpline', 'ZSpline'], ['Self']
@@ -450,8 +440,7 @@ class BVTK_NT_ParametricSpline(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricSpline)
-type_names.append('BVTK_NT_ParametricSpline')
+add_node(BVTK_NT_ParametricSpline, cat)
 
 
 # --------------------------------------------------------------
@@ -459,8 +448,8 @@ type_names.append('BVTK_NT_ParametricSpline')
 
 class BVTK_NT_ParametricBour(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricBour'
-    bl_label = 'vtkParametricBour'
+    bl_idname = "BVTK_NT_ParametricBour"
+    bl_label = "vtkParametricBour"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -480,7 +469,7 @@ class BVTK_NT_ParametricBour(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -489,8 +478,7 @@ class BVTK_NT_ParametricBour(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricBour)
-type_names.append('BVTK_NT_ParametricBour')
+add_node(BVTK_NT_ParametricBour, cat)
 
 
 # --------------------------------------------------------------
@@ -498,8 +486,8 @@ type_names.append('BVTK_NT_ParametricBour')
 
 class BVTK_NT_ParametricSuperEllipsoid(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricSuperEllipsoid'
-    bl_label = 'vtkParametricSuperEllipsoid'
+    bl_idname = "BVTK_NT_ParametricSuperEllipsoid"
+    bl_label = "vtkParametricSuperEllipsoid"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -524,7 +512,7 @@ class BVTK_NT_ParametricSuperEllipsoid(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=19, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N1', 'm_N2', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_XRadius', 'm_YRadius', 'm_ZRadius', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_N1", "m_N2", "m_TwistU", "m_TwistV", "m_TwistW", "m_XRadius", "m_YRadius", "m_ZRadius", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -533,8 +521,7 @@ class BVTK_NT_ParametricSuperEllipsoid(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricSuperEllipsoid)
-type_names.append('BVTK_NT_ParametricSuperEllipsoid')
+add_node(BVTK_NT_ParametricSuperEllipsoid, cat)
 
 
 # --------------------------------------------------------------
@@ -542,8 +529,8 @@ type_names.append('BVTK_NT_ParametricSuperEllipsoid')
 
 class BVTK_NT_ParametricKlein(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricKlein'
-    bl_label = 'vtkParametricKlein'
+    bl_idname = "BVTK_NT_ParametricKlein"
+    bl_label = "vtkParametricKlein"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -563,7 +550,7 @@ class BVTK_NT_ParametricKlein(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -572,8 +559,7 @@ class BVTK_NT_ParametricKlein(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricKlein)
-type_names.append('BVTK_NT_ParametricKlein')
+add_node(BVTK_NT_ParametricKlein, cat)
 
 
 # --------------------------------------------------------------
@@ -581,8 +567,8 @@ type_names.append('BVTK_NT_ParametricKlein')
 
 class BVTK_NT_ParametricRoman(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricRoman'
-    bl_label = 'vtkParametricRoman'
+    bl_idname = "BVTK_NT_ParametricRoman"
+    bl_label = "vtkParametricRoman"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -603,7 +589,7 @@ class BVTK_NT_ParametricRoman(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_Radius', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_Radius", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -612,8 +598,7 @@ class BVTK_NT_ParametricRoman(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricRoman)
-type_names.append('BVTK_NT_ParametricRoman')
+add_node(BVTK_NT_ParametricRoman, cat)
 
 
 # --------------------------------------------------------------
@@ -621,8 +606,8 @@ type_names.append('BVTK_NT_ParametricRoman')
 
 class BVTK_NT_ParametricPseudosphere(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricPseudosphere'
-    bl_label = 'vtkParametricPseudosphere'
+    bl_idname = "BVTK_NT_ParametricPseudosphere"
+    bl_label = "vtkParametricPseudosphere"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -642,7 +627,7 @@ class BVTK_NT_ParametricPseudosphere(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -651,8 +636,7 @@ class BVTK_NT_ParametricPseudosphere(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricPseudosphere)
-type_names.append('BVTK_NT_ParametricPseudosphere')
+add_node(BVTK_NT_ParametricPseudosphere, cat)
 
 
 # --------------------------------------------------------------
@@ -660,8 +644,8 @@ type_names.append('BVTK_NT_ParametricPseudosphere')
 
 class BVTK_NT_ParametricRandomHills(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricRandomHills'
-    bl_label = 'vtkParametricRandomHills'
+    bl_idname = "BVTK_NT_ParametricRandomHills"
+    bl_label = "vtkParametricRandomHills"
     
     m_AllowRandomGeneration = bpy.props.BoolProperty(name='AllowRandomGeneration', description='Set/Get the random generation flag. A value of 0 will disable the generation of random hills on the surface allowing a reproducible number of identically shaped hills to be generated. If zero, then the number of hills used will be the nearest perfect square less than or equal to the number of hills. For example, selecting 30 hills will result in a 5 X 5 array of hills being generated. Thus a square array of hills will be generated', default=True)
     m_AmplitudeScaleFactor = bpy.props.FloatProperty(name='AmplitudeScaleFactor', description='Set/Get the scaling factor for the amplitude. Default is 1/3', default=0.3333333333333333)
@@ -690,7 +674,7 @@ class BVTK_NT_ParametricRandomHills(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=23, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_AllowRandomGeneration', 'm_AmplitudeScaleFactor', 'm_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_HillAmplitude', 'm_HillXVariance', 'm_HillYVariance', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_NumberOfHills', 'm_RandomSeed', 'm_TwistU', 'm_TwistV', 'm_TwistW', 'm_XVarianceScaleFactor', 'm_YVarianceScaleFactor', ]
+        return ["m_AllowRandomGeneration", "m_AmplitudeScaleFactor", "m_ClockwiseOrdering", "m_DerivativesAvailable", "m_HillAmplitude", "m_HillXVariance", "m_HillYVariance", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_NumberOfHills", "m_RandomSeed", "m_TwistU", "m_TwistV", "m_TwistW", "m_XVarianceScaleFactor", "m_YVarianceScaleFactor", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -699,8 +683,7 @@ class BVTK_NT_ParametricRandomHills(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricRandomHills)
-type_names.append('BVTK_NT_ParametricRandomHills')
+add_node(BVTK_NT_ParametricRandomHills, cat)
 
 
 # --------------------------------------------------------------
@@ -708,8 +691,8 @@ type_names.append('BVTK_NT_ParametricRandomHills')
 
 class BVTK_NT_ParametricTorus(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricTorus'
-    bl_label = 'vtkParametricTorus'
+    bl_idname = "BVTK_NT_ParametricTorus"
+    bl_label = "vtkParametricTorus"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_CrossSectionRadius = bpy.props.FloatProperty(name='CrossSectionRadius', description='Set/Get the radius of the cross section of ring of the torus. Default is 0.5', default=0.5)
@@ -731,7 +714,7 @@ class BVTK_NT_ParametricTorus(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=16, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_CrossSectionRadius', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_RingRadius', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_CrossSectionRadius", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_RingRadius", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -740,8 +723,7 @@ class BVTK_NT_ParametricTorus(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricTorus)
-type_names.append('BVTK_NT_ParametricTorus')
+add_node(BVTK_NT_ParametricTorus, cat)
 
 
 # --------------------------------------------------------------
@@ -749,8 +731,8 @@ type_names.append('BVTK_NT_ParametricTorus')
 
 class BVTK_NT_ParametricMobius(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricMobius'
-    bl_label = 'vtkParametricMobius'
+    bl_idname = "BVTK_NT_ParametricMobius"
+    bl_label = "vtkParametricMobius"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -771,7 +753,7 @@ class BVTK_NT_ParametricMobius(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=15, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_Radius', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_Radius", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -780,8 +762,7 @@ class BVTK_NT_ParametricMobius(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricMobius)
-type_names.append('BVTK_NT_ParametricMobius')
+add_node(BVTK_NT_ParametricMobius, cat)
 
 
 # --------------------------------------------------------------
@@ -789,8 +770,8 @@ type_names.append('BVTK_NT_ParametricMobius')
 
 class BVTK_NT_ParametricDini(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricDini'
-    bl_label = 'vtkParametricDini'
+    bl_idname = "BVTK_NT_ParametricDini"
+    bl_label = "vtkParametricDini"
     
     m_A = bpy.props.FloatProperty(name='A', description='Set/Get the scale factor. See the definition in Parametric surfaces referred to above. Default is 1', default=1.0)
     m_B = bpy.props.FloatProperty(name='B', description='Set/Get the scale factor. See the definition in Parametric surfaces referred to above. Default is 0.', default=0.2)
@@ -812,7 +793,7 @@ class BVTK_NT_ParametricDini(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=16, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_A', 'm_B', 'm_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_A", "m_B", "m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -821,8 +802,7 @@ class BVTK_NT_ParametricDini(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricDini)
-type_names.append('BVTK_NT_ParametricDini')
+add_node(BVTK_NT_ParametricDini, cat)
 
 
 # --------------------------------------------------------------
@@ -830,8 +810,8 @@ type_names.append('BVTK_NT_ParametricDini')
 
 class BVTK_NT_ParametricCatalanMinimal(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricCatalanMinimal'
-    bl_label = 'vtkParametricCatalanMinimal'
+    bl_idname = "BVTK_NT_ParametricCatalanMinimal"
+    bl_label = "vtkParametricCatalanMinimal"
     
     m_ClockwiseOrdering = bpy.props.BoolProperty(name='ClockwiseOrdering', description='Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering)', default=True)
     m_DerivativesAvailable = bpy.props.BoolProperty(name='DerivativesAvailable', description='Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives)', default=True)
@@ -851,7 +831,7 @@ class BVTK_NT_ParametricCatalanMinimal(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=14, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -860,8 +840,7 @@ class BVTK_NT_ParametricCatalanMinimal(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricCatalanMinimal)
-type_names.append('BVTK_NT_ParametricCatalanMinimal')
+add_node(BVTK_NT_ParametricCatalanMinimal, cat)
 
 
 # --------------------------------------------------------------
@@ -869,8 +848,8 @@ type_names.append('BVTK_NT_ParametricCatalanMinimal')
 
 class BVTK_NT_ParametricConicSpiral(Node, BVTK_Node):
 
-    bl_idname = 'BVTK_NT_ParametricConicSpiral'
-    bl_label = 'vtkParametricConicSpiral'
+    bl_idname = "BVTK_NT_ParametricConicSpiral"
+    bl_label = "vtkParametricConicSpiral"
     
     m_A = bpy.props.FloatProperty(name='A', description='Set/Get the scale factor. Default = 0.', default=0.2)
     m_B = bpy.props.FloatProperty(name='B', description='Set/Get the A function coefficient. See the definition in Parametric surfaces referred to above. Default is 1', default=1.0)
@@ -894,7 +873,7 @@ class BVTK_NT_ParametricConicSpiral(Node, BVTK_Node):
     b_properties = bpy.props.BoolVectorProperty(name="", size=18, get=BVTK_Node.get_b, set=BVTK_Node.set_b)
 
     def m_properties(self):
-        return ['m_A', 'm_B', 'm_C', 'm_ClockwiseOrdering', 'm_DerivativesAvailable', 'm_JoinU', 'm_JoinV', 'm_JoinW', 'm_MaximumU', 'm_MaximumV', 'm_MaximumW', 'm_MinimumU', 'm_MinimumV', 'm_MinimumW', 'm_N', 'm_TwistU', 'm_TwistV', 'm_TwistW', ]
+        return ["m_A", "m_B", "m_C", "m_ClockwiseOrdering", "m_DerivativesAvailable", "m_JoinU", "m_JoinV", "m_JoinW", "m_MaximumU", "m_MaximumV", "m_MaximumW", "m_MinimumU", "m_MinimumV", "m_MinimumW", "m_N", "m_TwistU", "m_TwistV", "m_TwistW", ]
     
     def m_connections(self):
         return [], [], [], ['Self']
@@ -903,12 +882,7 @@ class BVTK_NT_ParametricConicSpiral(Node, BVTK_Node):
         return []
 
 
-add_class(BVTK_NT_ParametricConicSpiral)
-type_names.append('BVTK_NT_ParametricConicSpiral')
+add_node(BVTK_NT_ParametricConicSpiral, cat)
 
 
 # --------------------------------------------------------------
-
-
-menu_items = [NodeItem(x) for x in type_names]
-node_categories.append(BVTK_NodeCategory('VTKParametricFunc', 'ParametricFunc', items=menu_items))

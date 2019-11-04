@@ -1,9 +1,12 @@
+# <pep8 compliant>
 # ---------------------------------------------------------------------------------
-# | generate_icons.py |
-# Scan (not recursively) the directories in the current folder for any
-# .cpt file and create a .png equivalent with the same name. Requires the pillow
-# library (https://pillow.readthedocs.io/en/stable/)
+#   generate_icons.py
+#
+#   Scan (not recursively) the directories in the current folder for any
+#   .cpt file and create a .png equivalent with the same name. Requires the pillow
+#   library (https://pillow.readthedocs.io/en/stable/)
 # ---------------------------------------------------------------------------------
+
 
 from PIL import Image
 import os
@@ -11,7 +14,7 @@ import colorsys
 
 
 # ---------------------------------------------------------------------------------
-# CTP READER
+#   Cpt reader
 # ---------------------------------------------------------------------------------
 
 
@@ -75,7 +78,7 @@ def read_cpt(file_path=None):
 
 
 # ---------------------------------------------------------------------------------
-# ICONS GENERATION
+#   ICONS GENERATION
 # ---------------------------------------------------------------------------------
 
 

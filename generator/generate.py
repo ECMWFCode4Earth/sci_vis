@@ -141,8 +141,8 @@ def get_methods(group):
 # -------------------------------------
 # Node file template
 # -------------------------------------
-node_template_s = """from ... core import *
-type_names = []
+node_template_s = """from .. core import *
+cat = "{{MENU}}"
 {% for C in node_classes %}
 
 # --------------------------------------------------------------
@@ -150,8 +150,8 @@ type_names = []
 
 class BVTK_NT_{{C.NAME}}(Node, {{BASE}}):
 
-    bl_idname = 'BVTK_NT_{{C.NAME}}'
-    bl_label = 'vtk{{C.NAME}}'
+    bl_idname = "BVTK_NT_{{C.NAME}}"
+    bl_label = "vtk{{C.NAME}}"
     {% for x in C.ENUM_ITEMS %}{{x}}
     {% endfor %}
     {% for x in C.PROPS  %}{{x.definition}}
@@ -159,7 +159,7 @@ class BVTK_NT_{{C.NAME}}(Node, {{BASE}}):
     b_properties = bpy.props.BoolVectorProperty(name="", size={{C.NP}}, get={{BASE}}.get_b, set={{BASE}}.set_b)
 
     def m_properties(self):
-        return [{% for x in C.PROPS %}'{{x.prefix}}{{x.name}}', {% endfor %}]
+        return [{% for x in C.PROPS %}"{{x.prefix}}{{x.name}}", {% endfor %}]
     
     def m_connections(self):
         return {{C.CONNECTIONS}}
@@ -168,15 +168,10 @@ class BVTK_NT_{{C.NAME}}(Node, {{BASE}}):
         return {{C.METHODS}}
 
 
-add_class(BVTK_NT_{{C.NAME}})
-type_names.append('BVTK_NT_{{C.NAME}}')
+add_node(BVTK_NT_{{C.NAME}}, cat)
 {% endfor %}
 
 # --------------------------------------------------------------
-
-
-menu_items = [NodeItem(x) for x in type_names]
-node_categories.append(BVTK_NodeCategory('VTK{{MENU}}', '{{MENU}}', items=menu_items))
 
 """
 node_template = Template(node_template_s)
@@ -187,7 +182,7 @@ node_template = Template(node_template_s)
 # -------------------------------------
 
 def generate_node_file(group):
-    classes = get_classes(group)
+    classes = get_classes(db_tables[group])
 
     template_dict = {'MENU': group, 'node_classes': [], 'BASE': bases[group]}
 
@@ -278,41 +273,54 @@ def generate_node_file(group):
 
 
 bases = {
-    "Source": "BVTK_Node",
-    "Reader": "BVTK_Node",
-    "Writer": "BVTK_Node",
-    "Filter": "BVTK_Node",
-    "Filter1": "BVTK_Node",
-    "Filter2": "BVTK_Node",
+    "Sources": "BVTK_Node",
+    "Readers": "BVTK_Node",
+    "Writers": "BVTK_Node",
+    "Filters": "BVTK_Node",
+    "Filters 1": "BVTK_Node",
+    "Filters 2": "BVTK_Node",
     "Transform": "BVTK_Node",
-    "ImplicitFunc": "BVTK_Node",
-    "ParametricFunc": "BVTK_Node",
-    "Integrator": "BVTK_Node"
+    "Implicit Functions": "BVTK_Node",
+    "Parametric Functions": "BVTK_Node",
+    "Integrators": "BVTK_Node"
 }
 
 node_filenames = {
-    "Source":         "gen_vtk_sources.py",
-    "Reader":         "gen_vtk_readers.py",
-    "Writer":         "gen_vtk_writers.py",
-    "Filter":         "gen_vtk_filters.py",
-    "Filter1":        "gen_vtk_filters1.py",
-    "Filter2":        "gen_vtk_filters2.py",
-    "Transform":      "gen_vtk_transform.py",
-    "ImplicitFunc":   "gen_vtk_implicit_func.py",
-    "ParametricFunc": "gen_vtk_parametric_func.py",
-    "Integrator":     "gen_vtk_integrator.py"
+    "Sources":         "output/gen_vtk_sources.py",
+    "Readers":         "output/gen_vtk_readers.py",
+    "Writers":         "output/gen_vtk_writers.py",
+    "Filters":         "output/gen_vtk_filters.py",
+    "Filters 1":        "output/gen_vtk_filters1.py",
+    "Filters 2":        "output/gen_vtk_filters2.py",
+    "Transform":      "output/gen_vtk_transform.py",
+    "Implicit Functions":   "output/gen_vtk_implicit_func.py",
+    "Parametric Functions": "output/gen_vtk_parametric_func.py",
+    "Integrators":     "output/gen_vtk_integrator.py"
 }
 
-generate_node_file("Source")
-generate_node_file("Reader")
-generate_node_file("Writer")
-generate_node_file("Filter1")
-generate_node_file("Filter2")
-generate_node_file("Filter")
+db_tables = {
+    "Sources"             : "Source",
+    "Readers"             : "Reader",
+    "Writers"             : "Writer",
+    "Filters"             : "Filter",
+    "Filters 1"           : "Filter1",
+    "Filters 2"           : "Filter2",
+    "Transform"           : "Transform",
+    "Implicit Functions"  : "ImplicitFunc",
+    "Parametric Functions": "ParametricFunc",
+    "Integrators"         : "Integrator",
+}
+
+generate_node_file("Sources")
+generate_node_file("Readers")
+generate_node_file("Writers")
+generate_node_file("Filters 1")
+generate_node_file("Filters 2")
+generate_node_file("Filters")
 generate_node_file("Transform")
-generate_node_file("ImplicitFunc")
-generate_node_file("ParametricFunc")
-generate_node_file("Integrator")
+generate_node_file("Implicit Functions")
+generate_node_file("Parametric Functions")
+generate_node_file("Integrators")
 
 # -------------------------------------
 # Socket file template

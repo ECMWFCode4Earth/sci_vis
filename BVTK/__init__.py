@@ -1,13 +1,21 @@
 # <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   __init__.py
+#
+#   Check if VTK is installed, and if it's not try to install it via pip.
+#   Then load (or reload) all the necessary modules and finally require
+#   the utilities/register.py module to perform class registration.
+# ---------------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------------
-# ADD-ON HEADER SECTION
+#   Add-on header section
 # ---------------------------------------------------------------------------------
 
 import sys
-from . utils import log, node_path
+import importlib
+from . utilities import log, node_path
 from . import pip_installer
-# Crashes debugging
+# Crash debugging
 import faulthandler
 faulthandler.enable()
 
@@ -22,7 +30,7 @@ bl_info = {
     "tracker_url": "https://github.com/esowc/sci_vis/issues",
     "support": 'COMMUNITY',
     "category": "Node",
-    }
+}
 
 # Note: See core.py on how to set up Python Logging to see debug messages
 
@@ -100,66 +108,30 @@ if not pip_installer.is_loaded("vtk"):
 
 reloading = "bpy" in locals()
 
+_modules = [
+    "utilities",
+    "nodes",
+    "layout"
+]
+
+
+def load_modules(module_names, reload=False, recursive=True, prefix=""):
+    for mod_name in module_names:
+        log.debug("Importing: {}".format("BVTK"+prefix+"."+mod_name))
+        mod = importlib.import_module(prefix+"."+mod_name, "BVTK")
+        if recursive:
+            if hasattr(mod, "_modules"):
+                load_modules(mod._modules, reload, recursive, prefix+"."+mod_name)
+        if reload:
+            log.debug("Reloading: {}".format("BVTK" + prefix + "." + mod_name))
+            importlib.reload(mod)
+
+
+load_modules(_modules, reloading, True)
+
 if not reloading:
     import bpy
     from bpy.app.handlers import persistent
-    import nodeitems_utils
-
-    from . import utils
-    from . import progress
-    from . import core
-    from . import b_properties
-    from . import showhide_properties
-    from . import inspect_panel
-    from . import favorites
-    from . import examples
-    from . import colormap
-    from . import customfilter
-    from . import info
-    from . import converters
-
-    from .nodes.filters import filters
-    from .nodes.readers import readers
-    from .nodes.writers import writers
-    from .nodes.others import others
-    from .nodes.sources import sources
-else:
-    import importlib
-
-    importlib.reload(utils)
-    importlib.reload(progress)
-    importlib.reload(core)
-    importlib.reload(update)
-    importlib.reload(converters)
-    importlib.reload(b_properties)
-    importlib.reload(showhide_properties)
-    importlib.reload(examples)
-    importlib.reload(inspect_panel)
-    importlib.reload(colormap)
-    importlib.reload(customfilter)
-    importlib.reload(info)
-    importlib.reload(favorites_data)
-    importlib.reload(favorites)
-
-    importlib.reload(nodes.sources.gen_vtk_sources)
-    importlib.reload(nodes.sources.sources)
-
-    importlib.reload(nodes.readers.gen_vtk_readers)
-    importlib.reload(nodes.readers.readers)
-
-    importlib.reload(nodes.writers.gen_vtk_writers)
-    importlib.reload(nodes.writers.writers)
-
-    importlib.reload(nodes.filters.gen_vtk_filters)
-    importlib.reload(nodes.filters.gen_vtk_filters1)
-    importlib.reload(nodes.filters.gen_vtk_filters2)
-    importlib.reload(nodes.filters.filters)
-
-    importlib.reload(nodes.others.gen_vtk_implicit_func)
-    importlib.reload(nodes.others.gen_vtk_integrator)
-    importlib.reload(nodes.others.gen_vtk_parametric_func)
-    importlib.reload(nodes.others.gen_vtk_transform)
-    importlib.reload(nodes.others.others)
 
 if reloading:
     log.debug("Reloaded modules", draw_win=False)
@@ -173,6 +145,7 @@ log.info("Loaded VTK version: {}\n"
 @persistent
 def on_file_loaded(scene):
     """Initialize cache after a blender file open"""
+    from .nodes import core
     core.init_cache()
 
 
@@ -189,104 +162,18 @@ def on_frame_change(scene):
                 )
 
 
-# -----------------------------------------------------------------------------
-# Custom categories
-# -----------------------------------------------------------------------------
-
-
-custom_categories_icons = {
-    "Colour": "COLOR",
-    "Custom": "SCRIPTWIN",
-    "Converter": "APPEND_BLEND",
-    "Debug": "VIEWZOOM"
-}
-
-
-def custom_register_node_categories():
-    """Custom registering of node categories to prevent node categories to
-    be shown on the tool-shelf
-    """
-
-    identifier = "BVTK_NODES"
-    cat_list = core.node_categories
-
-    if identifier in nodeitems_utils._node_categories:
-        raise KeyError("Node categories list '%s' already registered"
-                       % identifier)
-
-    def draw_node_item(self, context):
-        layout = self.layout
-        col = layout.column()
-        for item in self.category.items(context):
-            item.draw(item, col, context)
-
-    def layout_menu(layout, cat_identifier):
-        icon = "NONE" if cat_identifier not in custom_categories_icons \
-            else custom_categories_icons[cat_identifier]
-        layout.menu("NODE_MT_category_%s" % cat_identifier, icon=icon)
-
-    def draw_add_menu(self, context):
-        layout = self.layout
-        layout.separator()
-        vtk_categories = []
-        for cat in cat_list:
-            if cat.poll(context):
-                if cat.identifier.startswith("VTK"):
-                    vtk_categories.append(cat.identifier)
-                else:
-                    layout_menu(layout, cat.identifier)
-        layout.separator()
-        for cat_id in vtk_categories:
-            layout_menu(layout, cat_id)
-
-    menu_types = []
-    for cat in cat_list:
-        menu_type = type(
-            "NODE_MT_category_" + cat.identifier, (bpy.types.Menu,), {
-                "bl_space_type": 'NODE_EDITOR',
-                "bl_label": cat.name,
-                "category": cat,
-                "poll": cat.poll,
-                "draw": draw_node_item,
-            })
-        menu_types.append(menu_type)
-        bpy.utils.register_class(menu_type)
-
-    nodeitems_utils._node_categories[identifier] = \
-        (cat_list, draw_add_menu, menu_types, [])
-
-
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 
 
 def register():
-    """Register function. node_classes and node_categories are defined in core.py and
-    filled in all the gen_VTK*.py and VTK*.py files
-    """
-    bpy.app.handlers.load_post.append(on_file_loaded)
-    bpy.app.handlers.frame_change_post.append(on_frame_change)
-    core.check_b_properties()  # delayed to here to allow class overriding
-    for c in core.ui_classes:
-        try:
-            bpy.utils.register_class(c)
-        except Exception as e:
-            log.critical('error registering: {} , exception: {}'.format(c, e))
-    for c in sorted(core.node_classes.keys()):
-        try:
-            bpy.utils.register_class(core.node_classes[c])
-        except Exception as e:
-            log.critical('error registering: {} , exception: {}'.format(c, e))
-    custom_register_node_categories()
+    # Register is managed by utilities/register.py
+    from . utilities import register as r_
+    r_.add_handler(bpy.app.handlers.load_post, on_file_loaded)
+    r_.add_handler(bpy.app.handlers.frame_change_post, on_frame_change)
+    r_.register()
 
 
 def unregister():
-    nodeitems_utils.unregister_node_categories("BVTK_NODES")
-    for c in reversed(sorted(core.node_classes.keys())):
-        bpy.utils.unregister_class(core.node_classes[c])
-    for c in reversed(core.ui_classes):
-        bpy.utils.unregister_class(c)
-    for p_c in core.p_collections.values():
-        bpy.utils.previews.remove(p_c)
-    core.p_collections.clear()
-    bpy.app.handlers.load_post.remove(on_file_loaded)
-    bpy.app.handlers.frame_change_post.remove(on_frame_change)
+    # Unregister is managed by utilities/register.py
+    from .utilities import register as r_
+    r_.unregister()

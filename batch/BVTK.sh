@@ -31,6 +31,7 @@ print_sintax () {
     echo "                             set and interpolation is disabled."
     echo "    -rx,  --res-x:           set the x resolution of the image."
     echo "    -ry,  --res-y:           set the y resolution of the image."
+    echo "    -cr,  --color-ramp:      path of a color ramp JSON file to import."
     echo ""
 }
 
@@ -72,6 +73,7 @@ tile_size=""
 resample_fac=""
 res_x=""
 res_y=""
+color_ramp=""
 
 while :; do
     case $1 in
@@ -79,7 +81,7 @@ while :; do
             print_sintax
             exit
             ;;
-        -o|--output-folder)
+                -o|--output-folder)
               if [ "$2" ]; then
                   output_folder=$2
                   shift
@@ -219,6 +221,20 @@ while :; do
         -ry=|--res-y=)
             die "Error: '--res-y' requires a non-empty option argument."
             ;;
+        -cr|--color-ramp)
+              if [ "$2" ]; then
+                  color_ramp=$2
+                  shift
+              else
+                  die "Error: '--color-ramp' requires a non-empty option argument."
+              fi
+              ;;
+        -cr=?*|--color-ramp=?*)
+            color_ramp=${1#*=}
+            ;;
+        -cr=|--color-ramp=)
+            die "Error: '--color-ramp' requires a non-empty option argument."
+            ;;
         *)
             break
     esac
@@ -232,4 +248,4 @@ echo "Input data: $input_data"
 echo "Preset .blend: $preset"
 echo ""
 
-$blender_ex -b "$preset" -P "$F"/BVTK_render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size" resample_fac:"$resample_fac" res_x:"$res_x" res_y:"$res_y"
+$blender_ex -b "$preset" -P "$F"/BVTK_render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size" resample_fac:"$resample_fac" res_x:"$res_x" res_y:"$res_y" color_ramp:"$color_ramp"

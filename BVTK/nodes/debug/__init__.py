@@ -1,5 +1,13 @@
-from . utils import resolve_algorithm_output, node_path, log
-from . core import *
+# <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   debug/__init__.py
+#
+#   Define nodes used for debugging.
+# ---------------------------------------------------------------------------------
+
+
+from ... utilities import *
+from .. core import *
 
 
 class BVTK_NT_Info(Node, BVTK_Node):
@@ -60,16 +68,7 @@ class BVTK_NT_Info(Node, BVTK_Node):
                                   + fs.format(r[0]) + " - " + fs.format(r[1]))
 
         layout.separator()
-        row = layout.row()
-        row.separator()
-        row.separator()
-        row.separator()
-        row.separator()
-        row.operator("bvtk.node_update", text="update").node_path = node_path(self)
-        row.separator()
-        row.separator()
-        row.separator()
-        row.separator()
+        high_op(layout, "bvtk.node_update", text="update").node_path = node_path(self)
 
     def apply_properties(self, vtkobj):
         pass
@@ -81,9 +80,6 @@ class BVTK_NT_Info(Node, BVTK_Node):
         return self.get_input_node("Input")[1]
 
 
-TYPENAMES = []
-add_class(BVTK_NT_Info)
-TYPENAMES.append("BVTK_NT_Info")
-
-menu_items = [NodeItem(x) for x in TYPENAMES]
-node_categories.append(BVTK_NodeCategory("Debug", "Debug", items=menu_items))
+cat = "Debug"
+register.set_category_icon(cat, "VIEWZOOM")
+add_node(BVTK_NT_Info, cat)

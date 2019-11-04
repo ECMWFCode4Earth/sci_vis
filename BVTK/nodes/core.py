@@ -1,20 +1,27 @@
 # <pep8 compliant>
-# -----------------------------------------------------------------------------
-# MODULES IMPORT 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   nodes/core.py
+#
+#   Contain the base classes for all the nodes, sockets and node categories.
+#   Manage the vtk objects cache.
+# ---------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------
+#   Modules import
+# ---------------------------------------------------------------------------------
 import bpy
 import vtk
-from bpy.types import NodeTree, Node, NodeSocket, Operator, AddonPreferences
-from nodeitems_utils import NodeCategory, NodeItem
 import os
-from . utils import *
+from bpy.types import NodeTree, Node, NodeSocket, Operator, AddonPreferences
+from nodeitems_utils import NodeCategory
+from .. utilities import *
 from . import b_properties  # Boolean properties
-b_path = b_properties.__file__  # Boolean properties config file path
+b_path = os.path.realpath(b_properties.__file__)  # Boolean properties config file path
 
 
-# -----------------------------------------------------------------------------
-# Node Cache and related functions
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Node Cache and related functions
+# ---------------------------------------------------------------------------------
 NodesMaxId = 1   # Maximum node id number. 0 means invalid
 NodesMap = {}  # node_id -> node
 VTKCache = {}  # node_id -> vtkobj
@@ -128,15 +135,16 @@ def check_cache():
                 if get_vtkobj(n) is None or n.node_id == 0:
                     node_created(n)
 
+
 # ---------------------------------------------------------------------------------
-# Add-on preferences
+#   Add-on preferences
 # ---------------------------------------------------------------------------------
 
 
 class BVTK_AddonPreferences(AddonPreferences):
     """BVTK add-on preferences"""
 
-    bl_idname = __package__
+    bl_idname = "BVTK"
     output_path = bpy.props.StringProperty(default=os.path.join(addon_path, "tmp"),
                                            subtype="FILE_PATH")
     draw_windows = bpy.props.BoolProperty(default=True)
@@ -173,7 +181,7 @@ class BVTK_AddonPreferences(AddonPreferences):
 
 
 # ---------------------------------------------------------------------------------
-# NodeTree
+#   NodeTree
 # ---------------------------------------------------------------------------------
 
 
@@ -185,11 +193,11 @@ class BVTK_NodeTree(NodeTree):
 
 
 # ---------------------------------------------------------------------------------
-# Custom socket types
+#   Custom socket types
 # ---------------------------------------------------------------------------------
 
 
-class BVTK_NodeSocket():
+class BVTK_NodeSocket:
     """Base class for all generated node sockets, for future use."""
 
     def draw(self, context, layout, node, text):
@@ -214,11 +222,9 @@ class BVTK_NS_Standard(NodeSocket):
         return 1.0, 0.4, 0.216, 0.5
 
 
-# -----------------------------------------------------------------------------
-# Base class for all BVTK_Nodes
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
+#   Base class for all BVTK_Nodes
+# ---------------------------------------------------------------------------------
 class BVTK_Node:
     """Base class for VTK Nodes"""
 
@@ -412,47 +418,39 @@ class BVTK_Node:
         open(b_path, "w").write(txt)
 
 
-# -----------------------------------------------------------------------------
-# Registering
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Registering
+# ---------------------------------------------------------------------------------
 
 
-node_classes = {}  # dictionary of classes, used to allow class overriding
-ui_classes = []
-p_collections = {}  # preview collections for custom icons (see colormap.py)
-
-
-def add_class(obj):
-    node_classes[obj.bl_idname] = obj
-
-
-def add_ui_class(obj):
-    ui_classes.append(obj)
-
-
-def check_b_properties():
-    """Sets all boolean properties to True, unless correct number of properties
-    is specified in b_properties
+def add_node(obj, category=""):
+    """Register a node class and check if the number of b_properties is correct
+    and matches the number of m_properties. If it's not, fix it.
     """
-    for obj in node_classes.values():
-        if hasattr(obj, "m_properties") and hasattr(obj, "b_properties"):
-            np = len(obj.m_properties(obj))
-            name = obj.bl_idname
-            b = b_properties.b
-            if (not name in b) or (name in b and len(b[name]) != np):
-                b[name] = [True for i in range(np)]
+    if hasattr(obj, "m_properties") and hasattr(obj, "b_properties"):
+        np = len(obj.m_properties(obj))
+        name = obj.bl_idname
+        b = b_properties.b
+
+        if (not name in b) or (name in b and len(b[name]) != np):
+            b[name] = [True for i in range(np)]
+
+    register.add_class(obj, obj.bl_idname)
+
+    if category:
+        register.node_to_category(category, obj)
 
 
 # Register classes
-add_class(BVTK_NodeTree)
-add_class(BVTK_AddonPreferences)
-add_class(BVTK_NS_Standard)
-add_class(BVTK_OT_TogglePanel)
+register.add_class(BVTK_NodeTree)
+register.add_class(BVTK_AddonPreferences)
+register.add_class(BVTK_NS_Standard)
+register.add_class(BVTK_OT_TogglePanel)
 
 
-# -----------------------------------------------------------------------------
-# VTK Node Category
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   BVTK Node Category
+# ---------------------------------------------------------------------------------
 
 
 class BVTK_NodeCategory(NodeCategory):
@@ -461,12 +459,12 @@ class BVTK_NodeCategory(NodeCategory):
         return context.space_data.tree_type == "BVTK_NodeTree"
 
 
-node_categories = []
+register.set_node_category(BVTK_NodeCategory)
 
 
-# -----------------------------------------------------------------------------
-# Debug utilities
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Debug utilities
+# ---------------------------------------------------------------------------------
 
 
 def ls(o):

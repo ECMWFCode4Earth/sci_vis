@@ -1,9 +1,10 @@
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Progress
 #
 # From https://pypi.org/project/progress/)
 # Copyright (c) 2012 Giorgos Verigakis <verigak@gmail.com>
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+
 
 from __future__ import division, print_function
 from collections import deque
@@ -135,7 +136,8 @@ class Infinite(object):
 
 class Progress(Infinite):
     def __init__(self, *args, **kwargs):
-        super(Progress, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
+        # super(Progress, self).__init__(*args, **kwargs)
         # self.max = kwargs.get('max', 100)
 
     @property

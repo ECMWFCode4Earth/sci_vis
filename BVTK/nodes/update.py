@@ -1,13 +1,11 @@
 import time
 from . core import *
-from . utils import log, node_path, set_addon_pref
+from .. utilities import log, node_path, set_addon_pref, register
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 #  Functions and classes for running BVTK_Nodes internal function queue and
 #  other updates
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
 def set_color(node, color):
     """Set color of node to color"""
     node.color = color
@@ -98,11 +96,9 @@ def no_queue_update(node, cb, x=True):
                 vtkobj.Update()
 
 
-# -----------------------------------------------------------------------------
-#  function queue
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
+#  Function queue
+# ---------------------------------------------------------------------------------
 class BVTK_FunctionsQueue:
     """Class for Functions Queue. Used for running a queue system for
     BVTK_Nodes functions.
@@ -166,11 +162,9 @@ class BVTK_OT_FunctionQueue(bpy.types.Operator):
         wm.event_timer_remove(self._timer)
 
 
-# -----------------------------------------------------------------------------
-# Vtk logs
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
+#   Vtk logs
+# ---------------------------------------------------------------------------------
 out = vtk.vtkFileOutputWindow()
 logfile = os.path.join(addon_path, "vtklog.txt")
 open(logfile, 'w').write("")
@@ -204,4 +198,4 @@ def log_show():
         bpy.context.window_manager.popup_menu(draw, 'vtk:', 'INFO')
 
 
-add_ui_class(BVTK_OT_FunctionQueue)
+register.add_class(BVTK_OT_FunctionQueue)

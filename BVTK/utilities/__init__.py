@@ -1,12 +1,28 @@
+# <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   utilities/__init__.py
+#
+#   Define useful functions and classes.
+# ---------------------------------------------------------------------------------
+
+
 import bpy
 import os
+from pathlib import Path
 import logging
 import json
+from . import register
+from . progress import ChargingBar
 from math import gcd, log10, pow
 
-# -----------------------------------------------------------------------------
+_modules = [
+    "register",
+    "progress"
+]
+
+# ---------------------------------------------------------------------------------
 # Logging
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Set up logging of messages using Python logging
 # Logging is nicely explained in:
 # https://code.blender.org/2016/05/logging-from-python-code-in-blender/
@@ -117,17 +133,15 @@ class BlenderLog:
 log = BlenderLog(__name__)
 
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Useful variables
-# -----------------------------------------------------------------------------
-addon_path = os.path.realpath(__file__).replace('utils.py', '')
+# ---------------------------------------------------------------------------------
+addon_path = str(Path(os.path.realpath(__file__)).parent.parent)
 
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Useful functions
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
 def resolve_algorithm_output(vtkobj):
     """Return vtkobj from vtkAlgorithmOutput"""
     if hasattr(vtkobj, "IsA"):
@@ -203,13 +217,13 @@ def decode_node_path(encoded_node):
 
 
 def set_addon_pref(pref_name, value):
-    pref = bpy.context.user_preferences.addons[__package__].preferences
+    pref = bpy.context.user_preferences.addons["BVTK"].preferences
     if hasattr(pref, pref_name):
         return setattr(pref, pref_name, value)
 
 
 def get_addon_pref(pref_name):
-    pref = bpy.context.user_preferences.addons[__package__].preferences
+    pref = bpy.context.user_preferences.addons["BVTK"].preferences
     if hasattr(pref, pref_name):
         return getattr(pref, pref_name)
     return None
@@ -349,9 +363,76 @@ def reverse_index(n, i, reverse=True):
     return n - 1 - i
 
 
-# -----------------------------------------------------------------------------
-# Layout elements
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#   Blender data
+# ---------------------------------------------------------------------------------
+
+
+def get_item(data, *args):
+    """Get or create the item with key args[0] from data and return it."""
+    item = data.get(args[0])
+    if not item:
+        item = data.new(*args)
+    return item
+
+
+def seek_item(data, *args):
+    """Get or create the item with key args[0] from data and return it,
+    together with a boolean flag to indicate if it already existed.
+    """
+    item = data.get(args[0])
+    if not item:
+        return data.new(*args), False
+    return item, True
+
+
+def set_link(data, item):
+    """Link item to data if it's not already linked."""
+    if item.name not in data:
+        data.link(item)
+
+
+# ---------------------------------------------------------------------------------
+#   JSON read from file / write to file
+# ---------------------------------------------------------------------------------
+
+
+def write_JSON(dictionary, file_path):
+    """Write JSON dictionary to file."""
+    file_path = os.path.realpath(file_path)
+    text = json.dumps(dictionary, indent=4, sort_keys=True)
+
+    try:
+        f = open(file_path, "w", encoding="utf-8")
+    except FileNotFoundError:
+        log.error("File not found: '{}'\n"
+                  "Can't export JSON.")
+        return False
+
+    f.write(text)
+    f.close()
+    return True
+
+
+def read_JSON(file_path):
+    """Read JSON dictionary from file."""
+
+    try:
+        f = open(file_path, "r", encoding="utf-8")
+    except FileNotFoundError:
+        log.error("File not found: '{}'\n"
+                  "Can't import JSON.")
+        return None
+
+    text = f.read()
+    f.close()
+    dic = json.loads(text)
+    return dic
+
+
+# ---------------------------------------------------------------------------------
+#   Layout elements
+# ---------------------------------------------------------------------------------
 
 
 def split_labels(layout, text, scale=1.0, initial_scale=0.0):
@@ -529,11 +610,9 @@ class BVTK_OT_TogglePanel(bpy.types.Operator):
         return {'FINISHED'}
 
 
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Cpt file reader
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
 def read_cpt(file_path=None):
     # Adapted from James Boyle's script
     # https://scipy-cookbook.readthedocs.io/items/Matplotlib_Loading_a_colormap_dynamically.html

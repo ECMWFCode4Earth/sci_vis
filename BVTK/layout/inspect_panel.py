@@ -1,11 +1,13 @@
 import bpy
 import bpy.utils.previews
-from . update import *
+from .. nodes.update import *
+from .. utilities import register
 
-# -----------------------------------------------------------------------------
-# Dubug panel and node documentation panel (information about
-# active node's vtk object)
-# -----------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------
+#   Dubug panel and node documentation panel (information about
+#   active node's vtk object)
+# ---------------------------------------------------------------------------------
 
 
 class BVTK_PT_Inspect(bpy.types.Panel):
@@ -42,11 +44,9 @@ class BVTK_PT_Inspect(bpy.types.Panel):
             layout.label(text='Not a VTK node')
 
 
-# -----------------------------------------------------------------------------
-# Add button to console header
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
+#   Add button to console header
+# ---------------------------------------------------------------------------------
 class BVTK_HT_Console(bpy.types.Header):
     """BVTK Header Buttons in Python Console"""
     bl_space_type = 'CONSOLE'
@@ -71,11 +71,9 @@ class BVTK_HT_Console(bpy.types.Header):
             o.text = "x=bpy.data.node_groups['" + node_tree + "'].nodes.active.get_vtkobj().GetOutput()"
 
 
-# -----------------------------------------------------------------------------
-# Operators
-# -----------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------------
+#   Operators
+# ---------------------------------------------------------------------------------
 class BVTK_OT_SetTextEditor(bpy.types.Operator):
     """Add node info to the text editor"""
     bl_idname = "bvtk.set_text_editor"
@@ -167,8 +165,8 @@ class BVTK_OT_UpdateObj(bpy.types.Operator):
 
 
 # Register classes
-add_ui_class(BVTK_PT_Inspect)
-add_ui_class(BVTK_HT_Console)
-add_ui_class(BVTK_OT_SetTextEditor)
-add_ui_class(BVTK_OT_OpenWebsite)
-add_ui_class(BVTK_OT_UpdateObj)
+register.add_class(BVTK_PT_Inspect)
+register.add_class(BVTK_HT_Console)
+register.add_class(BVTK_OT_SetTextEditor)
+register.add_class(BVTK_OT_OpenWebsite)
+register.add_class(BVTK_OT_UpdateObj)
