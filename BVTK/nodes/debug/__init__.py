@@ -40,7 +40,8 @@ class BVTK_NT_Info(Node, BVTK_Node):
             if vtkobj:
                 layout.label(text="Type: " + vtkobj.__class__.__name__)
 
-                layout.label(text="Points: " + str(vtkobj.GetNumberOfPoints()))
+                if hasattr(vtkobj, "GetNumberOfPoints"):
+                    layout.label(text="Points: " + str(vtkobj.GetNumberOfPoints()))
                 if hasattr(vtkobj, "GetNumberOfCells"):
                     layout.label(text="Cells: " + str(vtkobj.GetNumberOfCells()))
                 if hasattr(vtkobj, "GetBounds"):

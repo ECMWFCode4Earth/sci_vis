@@ -1,18 +1,29 @@
+# <pep8 compliant>
+# ---------------------------------------------------------------------------------
+#   nodes/update.py
+#
+#   Functions and classes to run the function queue and update
+#   the pipeline.
+# ---------------------------------------------------------------------------------
+
+
 import time
 from . core import *
 from .. utilities import log, node_path, set_addon_pref, register
 
+
 # ---------------------------------------------------------------------------------
-#  Functions and classes for running BVTK_Nodes internal function queue and
-#  other updates
+#   Recursive update
 # ---------------------------------------------------------------------------------
+
+
 def set_color(node, color):
     """Set color of node to color"""
     node.color = color
 
 
 def update_obj(node, vtkobj):
-    """Update node corresponding to vtkobj by applying properties, inputs
+    """Update node corresponding to vtk obj by applying properties, inputs
     and call to VTK Update()
     """
     #time.sleep(1)
@@ -25,13 +36,13 @@ def update_obj(node, vtkobj):
 
 
 def set_input_connection(vtkobj, i, input_obj):
-    """Set input connection i of vtkobj to input object"""
+    """Set input connection i of vtk obj to input object"""
     #time.sleep(1)
     vtkobj.SetInputConnection(i, input_obj)
 
 
 def set_input_obj(vtkobj, name, input_obj):
-    """Run a named Set function on vtkobj with argument input_obj"""
+    """Run a named Set function on vtk obj with argument input_obj"""
     #time.sleep(1)
     cmd = 'vtkobj.Set' + name + '( input_obj )'
     exec(cmd, globals(), locals())
@@ -82,23 +93,21 @@ def no_queue_update(node, cb, x=True):
     """
     if x:
         log.disable_draw_win()
-    vtkobj = node.get_vtkobj()
+    vtk_obj = node.get_vtkobj()
     for input_node in node.input_nodes():
         no_queue_update(input_node, None, False)
     if x and cb:
         cb()
         log.enable_draw_win()
     else:
-        if vtkobj:
-            node.apply_properties(vtkobj)
-            node.apply_inputs(vtkobj)
-            if hasattr(vtkobj, "Update"):
-                vtkobj.Update()
+        update_obj(node, vtk_obj)
 
 
 # ---------------------------------------------------------------------------------
-#  Function queue
+#   Function queue
 # ---------------------------------------------------------------------------------
+
+
 class BVTK_FunctionsQueue:
     """Class for Functions Queue. Used for running a queue system for
     BVTK_Nodes functions.
