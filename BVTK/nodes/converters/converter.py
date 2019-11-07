@@ -457,7 +457,8 @@ def create_color_legend(name, color_node, n_div, font="", w=0.5, h=5.5, fontsize
     start_h = (h*(start-r_min))/delta
     step_h = (h*step)/delta
     x_offset = 0.1
-    padding = 0.1
+    padding_x = 0.1  # X and Y padding
+    padding_y = 0
     text_w = None  # Maximum text width
     z_offset = None
 
@@ -483,6 +484,9 @@ def create_color_legend(name, color_node, n_div, font="", w=0.5, h=5.5, fontsize
             x_axis_i = 1
             mesh_offset = t_ob.dimensions[x_axis_i]
 
+        if t_ob.dimensions[0] / 2 > padding_y:
+            padding_y = t_ob.dimensions[0] / 2
+
         if z_offset is None:
             z_offset = -t_ob.dimensions[y_axis_i]/2
 
@@ -493,15 +497,19 @@ def create_color_legend(name, color_node, n_div, font="", w=0.5, h=5.5, fontsize
         t_ob.parent = ob
 
     # Color legend background
+    padding_y += 0.1
+    width = w + text_w + x_offset + padding_x * 2
+    height = h + padding_y * 2
+    loc = (-padding_x, -padding_y)
     rect_curve, rect_ob = rounded_rectangle(cl_name+" "+background_suffix,
-                                            w + text_w + x_offset + padding * 2,
-                                            h, x=-padding, rad=0.05)
+                                            width, height, 0.05, loc[0],
+                                            loc[1])
     rect_ob.location[2] = -0.01
     rect_ob.parent = ob
     # Background border
     rect_c_curve, rect_c_ob = rounded_rectangle(cl_name+" "+contour_suffix,
-                                                w + text_w + x_offset + padding * 2,
-                                                h, x=-padding, rad=0.05)
+                                                width, height, 0.05, loc[0],
+                                                loc[1])
     rect_c_curve.fill_mode = "NONE"
     rect_c_curve.bevel_resolution = 10
     rect_c_curve.bevel_depth = 0.008

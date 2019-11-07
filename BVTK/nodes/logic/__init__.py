@@ -299,7 +299,7 @@ class BVTK_NT_Switch(Node, BVTK_Node):
 
             try:
                 return float(val)
-            except ValueError:
+            except (TypeError, ValueError):
                 pass
 
             return str(val)
@@ -313,7 +313,7 @@ class BVTK_NT_Switch(Node, BVTK_Node):
 
         try:
             return func(val)
-        except ValueError:
+        except (TypeError, ValueError):
             log.error("Error while converting the input\n" 
                       "variable to compare.")
         return val

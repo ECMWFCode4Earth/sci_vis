@@ -368,6 +368,7 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
 
         prod = out_port.GetProducer()
         time_steps = self.get_time_steps()
+
         if time_steps:
             if 0 <= self.time_step < len(time_steps):
                 time_value = time_steps[self.time_step]
@@ -382,9 +383,9 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
                     prod.UpdateTimeStep(time_value)
                 else:
                     log.warning("ERROR: {} does not have 'UpdateTimeStep' method."
-                                .format(prod.__class__.__name__))
+                                .format(prod.__class__.__name__), draw_win=False)
             else:
-                log.warning("ERROR: Index out of time steps range")
+                log.warning("ERROR: Index out of time steps range", draw_win=False)
         return resolve_algorithm_output(out_port)
 
 
