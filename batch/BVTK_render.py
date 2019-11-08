@@ -1,12 +1,12 @@
 import bpy
 import os
 import sys
+from bpy.app.handlers import persistent
 
 
 # ---------------------------------------------------------------------------------
 #   Functions
 # ---------------------------------------------------------------------------------
-
 
 def clean_path(path):
     return os.path.abspath(os.path.realpath(path))
@@ -321,6 +321,10 @@ color_ramp_path = None
 if "color_ramp" in args:
     color_ramp_path = args["color_ramp"]
 
+file_prefix = None
+if "file_prefix" in args:
+    file_prefix = args["file_prefix"]
+
 
 # ---------------------------------------------------------------------------------
 # Apply arguments
@@ -422,7 +426,30 @@ if color_by:
             print("- {}".format(arr_name))
         quit_msg("Aborting.")
 else:
-    print("Coloring using '{}' array.".format(get_color_array_name(color_mapper, color_mapper.color_by)))
+    color_by = get_color_array_name(color_mapper, color_mapper.color_by)
+    print("Coloring using '{}' array.".format(color_by))
+
+
+@persistent
+def on_frame_change(scene):
+    """Update the blender render output path suffix"""
+    fp = file_prefix
+    date = time_selector.get_date()
+
+    if date:
+        try:
+            fp = date.strftime(fp)
+        except ValueError as err:
+            print("Error while converting date to string "
+                  "for the file prefix: {}".format(err))
+
+    fp = fp.replace("{cb}", color_by)
+    scene.render.filepath = output_folder + fp
+
+
+if file_prefix:
+    bpy.app.handlers.frame_change_post.append(on_frame_change)
+
 
 if color_ramp_path:
     if color_ramp:

@@ -232,6 +232,29 @@ class BVTK_NT_TimeSelector(Node, BVTK_Node):
     def setup(self):
         self.outputs.new(BVTK_NS_Date.bl_idname, "")
 
+    def get_date(self):
+        # Please note: this method is used by the batch scripts,
+        # renaming or editing it may compromise them.
+        time_steps = self.get_time_steps()
+
+        if not time_steps:
+            return None
+
+        size = len(time_steps)
+
+        if not 0 <= self.time_step < size:
+            return None
+
+        t_val = time_steps[self.time_step]
+        time_reader = self.get_time_reader(self)
+
+        if not time_reader:
+            return None
+
+        t_units = time_reader.GetTimeUnits()
+        calendar = time_reader.GetCalendar()
+        return cftime.num2date(t_val, t_units, calendar)
+
     def draw_buttons(self, context, layout):
         in_node, out_port = self.get_input_node("Input")
         if not in_node:

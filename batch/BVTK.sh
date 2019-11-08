@@ -12,7 +12,7 @@ print_sintax () {
     echo "    Possible options"
     echo ""
     echo "    -o,   --output-folder:   path of the folder where the frame images will be stored,"
-    echo "                             default is /tmp/"
+    echo "                             default is ./ (current folder)."
     echo "    -ts,  --time-start:      index of the first time step to visualize, by default 0"
     echo "    -te,  --time-end:        index of the last time step to visualize, by default the"
     echo "                             last one available"
@@ -32,6 +32,17 @@ print_sintax () {
     echo "    -rx,  --res-x:           set the x resolution of the image."
     echo "    -ry,  --res-y:           set the y resolution of the image."
     echo "    -cr,  --color-ramp:      path of a color ramp JSON file to import."
+    echo "    -fp,  --file-prefix      prefix to add before the file number. You can insert"
+    echo "                             special characters to include the current date in the"
+    echo "                             prefix using python standard formatting, for example"
+    echo "                             %Y : four digits year"
+    echo "                             %M : two digits month"
+    echo "                             %d : two digits day"
+    echo "                             the full list can be found here: strftime.org. You can"
+    echo "                             also use these special characters (including brackets):"
+    echo "                             {cb} : color by array name"
+    echo "                             consider adding a character at the end (for example an"
+    echo "                             underscore) to separate the prefix from the file number."
     echo ""
 }
 
@@ -63,7 +74,7 @@ preset=$2
 shift 2
 
 # Options
-output_folder="/tmp/"
+output_folder="./"
 time_start=""
 time_end=""
 color_by=""
@@ -74,6 +85,7 @@ resample_fac=""
 res_x=""
 res_y=""
 color_ramp=""
+file_prefix=""
 
 while :; do
     case $1 in
@@ -81,7 +93,7 @@ while :; do
             print_sintax
             exit
             ;;
-                -o|--output-folder)
+        -o|--output-folder)
               if [ "$2" ]; then
                   output_folder=$2
                   shift
@@ -235,6 +247,21 @@ while :; do
         -cr=|--color-ramp=)
             die "Error: '--color-ramp' requires a non-empty option argument."
             ;;
+        -fp|--file-prefix)
+              if [ "$2" ]; then
+                  file_prefix=$2
+                  shift
+              else
+                  die "Error: '--file-prefix' requires a non-empty option argument."
+              fi
+              ;;
+        -fp=?*|--file-prefix=?*)
+            file_prefix=${1#*=}
+            ;;
+        -fp=|--file-prefix=)
+            die "Error: '--file-prefix' requires a non-empty option argument."
+            ;;
+
         *)
             break
     esac
@@ -248,4 +275,4 @@ echo "Input data: $input_data"
 echo "Preset .blend: $preset"
 echo ""
 
-$blender_ex -b "$preset" -P "$F"/BVTK_render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size" resample_fac:"$resample_fac" res_x:"$res_x" res_y:"$res_y" color_ramp:"$color_ramp"
+$blender_ex -b "$preset" -P "$F"/BVTK_render.py -- input_data:"$input_data" output_folder:"$output_folder" time_start:"$time_start" time_end:"$time_end" color_by:"$color_by" range_min:"$range_min" range_max:"$range_max" tile_size:"$tile_size" resample_fac:"$resample_fac" res_x:"$res_x" res_y:"$res_y" color_ramp:"$color_ramp" file_prefix:"$file_prefix"
