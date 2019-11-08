@@ -10,11 +10,19 @@ import socket
 import importlib
 import bpy
 import subprocess
+from urllib.request import urlopen
 from .. utilities import *
 
 
 def is_connected():
-    remote_server = "www.google.com"
+    remote_server = "216.58.192.142"
+
+    try:
+        urlopen("http://"+remote_server, timeout=1)
+        return True
+    except:
+        pass
+
     try:
         host = socket.gethostbyname(remote_server)
         s = socket.create_connection((host, 80), 2)
@@ -22,6 +30,7 @@ def is_connected():
         return True
     except:
         pass
+
     return False
 
 
