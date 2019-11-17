@@ -277,7 +277,8 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
     # Transparency options
     transparency_mode = bpy.props.EnumProperty(items=[
         ("Sequential", "Sequential", "Sequential"),
-        ("Divergent", "Divergent", "Divergent")
+        ("Divergent", "Divergent", "Divergent"),
+        ("Constant", "Constant", "Constant")
     ], default="Sequential", name="Mode", update=distribute_transparency)
     transparency_factor = bpy.props.FloatProperty(default=1, name="Factor",
                                                   update=distribute_transparency)
@@ -423,7 +424,7 @@ class BVTK_NT_ColorRamp(Node, BVTK_NodePanels, BVTK_Node):
         row = aside_label(layout, "Factor")
         row.prop(self, "transparency_factor")
         small_separator(layout)
-        op = high_op(layout, "bvtk.distribute_alpha",
+        op = high_op(layout, BVTK_OT_DistributeAlpha.bl_idname,
                      text="Distribute transparency")
         op.mode = self.transparency_mode
         op.factor = self.transparency_factor
@@ -644,22 +645,27 @@ class BVTK_OT_ArrangeColorRamp(bpy.types.Operator):
 
     def execute(self, context):
         node = eval(self.node_path)
+
         if not node:
             return {"CANCELLED"}
+
         texture = node.get_texture()
+
         if not texture:
             return {"CANCELLED"}
         r = node.get_range()
+
         if not r:
             return {"CANCELLED"}
+
         r_min, r_max = r
         r_delta = r_max-r_min  # Range delta
         ramp = texture.color_ramp
         color_settings = node.color_settings
-
         # Find the values defined by the user
         subsets = [ColorRampSubset(r_min)]
         subset_i = 0
+
         for i, el in enumerate(ramp.elements):
             if i < len(color_settings):
                 subset = subsets[subset_i]
@@ -669,6 +675,7 @@ class BVTK_OT_ArrangeColorRamp(bpy.types.Operator):
                     subset_i += 1
                 else:
                     subset.append(el)
+
         subsets[subset_i].close(None, r_max)
 
         # Arrange the elements
@@ -680,6 +687,7 @@ class BVTK_OT_ArrangeColorRamp(bpy.types.Operator):
                 el.position = abs_start+abs_step*(i+1)
             if subset.last_element:
                 subset.last_element.position = (subset.last_value - r_min)/r_delta
+
         return {"FINISHED"}
 
 
@@ -694,24 +702,28 @@ class BVTK_OT_DistributeAlpha(bpy.types.Operator):
     node_path = bpy.props.StringProperty()
     mode = bpy.props.EnumProperty(items=[
         ("Sequential", "Sequential", "Sequential"),
-        ("Divergent", "Divergent", "Divergent")
+        ("Divergent", "Divergent", "Divergent"),
+        ("Constant", "Constant", "Constant")
     ], default="Sequential", name="Mode")
     factor = bpy.props.FloatProperty(default=1, name="Factor")
 
     def execute(self, context):
         node = eval(self.node_path)
+
         if not node:
             return {"CANCELLED"}
+
         texture = node.get_texture()
+
         if not texture:
             return {"CANCELLED"}
 
         r = texture.color_ramp
         l_el = len(r.elements) - 1  # Last element index
 
-        if self.factor == 0:
+        if self.mode == "Constant" or self.factor == 0:
             for el in r.elements:
-                el.alpha = 0
+                el.alpha = self.factor
             return {"FINISHED"}
 
         if self.mode == "Sequential":
